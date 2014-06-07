@@ -19,7 +19,7 @@ http://css-tricks.com/examples/FullPageBackgroundImage/jquery.php
 		.bgheight { height: 100%; }
 		
 		#page-wrap { 
-			position: relative; width: 500px; margin: 60px auto 50px 100px; padding: 20px; background: white; -moz-box-shadow: 0 0 20px black; -webkit-box-shadow: 0 0 20px black; box-shadow: 0 0 20px black;
+			position: relative; width: 500px; margin: 80px auto 50px 100px; padding: 20px; background: white; -moz-box-shadow: 0 0 20px black; -webkit-box-shadow: 0 0 20px black; box-shadow: 0 0 20px black;
 		
 			/* http://stackoverflow.com/questions/806000/transparent-background-but-not-the-content-text-images-inside-it-in-css-on */
 	
@@ -43,11 +43,13 @@ http://css-tricks.com/examples/FullPageBackgroundImage/jquery.php
  		    text-align:center;
 		}	
  		h2.email{
- 		    font-family: 'Arvo';
+			font-family: 'Arvo';
  		    font-size: 20px;
- 		    font-style:normal;
+
  		    text-align:center;
 		    text-decoration: none;
+			font-weight:normal;
+			margin-bottom:50px;
  		}	
  		h2.email a{
   		   color:rgb(50, 50, 50) ;
@@ -57,15 +59,23 @@ http://css-tricks.com/examples/FullPageBackgroundImage/jquery.php
  		   color:rgb(0, 0, 0) ;
    		}
 		
+		a.icon{
+			font-family:'Droid Sans';
+			text-decoration: none;
+			background-position:0px;
+
+   		   color:rgb(50, 50, 50) ;
+			font-size:20px;display:table-cell; 
+			vertical-align:middle;
+		}
 		p { font: 15px/2 , Serif; margin: 0 0 30px 0; text-indent: 40px; color:rgb(50, 50, 50) ;}
 		
 
 		div.services{
-			height:auto;
+			height:100px;
 			width:auto;
-			padding:0 20px 10px 20px;
+			margin-left:70px;
 			background:transparent;
-			margin-left:120px;
 			border-bottom-left-radius:3px;
 			border-bottom-right-radius:3px;
 			-moz-border-radius-bottomleft:3px;
@@ -82,14 +92,14 @@ http://css-tricks.com/examples/FullPageBackgroundImage/jquery.php
 		}
 
 		 ul.services>li{
-			float:none;
+			float:left;
 			list-style-type:none;
-			margin:0 8px 8px 0;
+			margin:0 8px 20px 0;
 			height:32px
 		}
 
 		 ul.services li.service-icon{
-			width:32px;
+			width:200px;
 		}
 
 		 ul.services li .button{
@@ -176,9 +186,7 @@ http://css-tricks.com/examples/FullPageBackgroundImage/jquery.php
 
 		
 		
-		a.icon{font-family:'Droid Sans';text-decoration: none;
-			background-position:0px;color:black;font-size:20px;display:table-cell; vertical-align:middle;
-		}
+		
 	</style>
 	
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
@@ -219,19 +227,19 @@ http://css-tricks.com/examples/FullPageBackgroundImage/jquery.php
 <div id="page-wrap" class="profile">
 	<h1  class="name" itemprop="name">Christian Kündig</h1>
 	<h2  class="email" itemprop="email"><a href="mailto:christian@kuendig.info">christian@kuendig.info</a></h1>
-	<p></p>
-	
+
 	<div class="services">
 		<ul id="service-icons" class="services clearfix servicelinklist">
 			<li class="service-icon">
 				<a href="http://facebook.com/aboutme" class="icon facebook">/aboutme<span class="service-icon-overlay">&nbsp;</span></a>
 			</li>
 			<li class="service-icon">
-				<a href="http://twitter.com/chkuendig" class="icon twitter">/chkuendig<span class="service-icon-overlay">&nbsp;</span></a>
-			</li>
-			<li class="service-icon">
 				<a href="http://www.linkedin.com/in/chkuendig/" class="icon linkedin">/in/chkuendig<span class="service-icon-overlay">&nbsp;</span></a>
 			</li>
+			<li class="service-icon">
+				<a href="http://twitter.com/chkuendig" class="icon twitter">/chkuendig<span class="service-icon-overlay">&nbsp;</span></a>
+			</li>
+			
 			<li class="service-icon">
 				<a href="https://github.com/chkuendig" class="icon github">/chkuendig<span class="service-icon-overlay">&nbsp;</span></a>
 			</li>
