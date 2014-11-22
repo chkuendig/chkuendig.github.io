@@ -1,0 +1,3 @@
+[submodule "browsepass"]
+	path = browsepass
+	url = https://chkuendig@github.com/chkuendig/browsepass.git
