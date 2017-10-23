@@ -1,272 +1,95 @@
-<!DOCTYPE html>
-<html>
-<!-- 
-http://css-tricks.com/examples/FullPageBackgroundImage/jquery.php
+<!DOCTYPE HTML>
+<!--
+	Identity by Pixelarity
+	pixelarity.com | hello@pixelarity.com
+	License: pixelarity.com/license
 -->
-<head>
-	<meta charset="utf-8">
-	
-	<title>Christian Kündig</title>
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Droid+Sans">
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Arvo">
-	<link rel='stylesheet' type="text/css" href="icons.css">
-	<style>
-		* { margin: 0; padding: 0; ;}
-	
-	
-		#bg { position: fixed; top: 0; right: 0; }
-		.bgwidth { width: 100%; }
-		.bgheight { height: 100%; }
-		
-		#page-wrap { 
-			position: relative; width: 500px; margin: 80px auto 50px 100px; padding: 20px; background: white; -moz-box-shadow: 0 0 20px black; -webkit-box-shadow: 0 0 20px black; box-shadow: 0 0 20px black;
-		
-			/* http://stackoverflow.com/questions/806000/transparent-background-but-not-the-content-text-images-inside-it-in-css-on */
-	
-			/* Fallback for web browsers that doesn't support RGBa */
-			background: rgb(255, 255, 255) transparent;
-			/* RGBa with 0.6 opacity */
-			background: rgba(255, 255, 255, 0.4);
-			/* For IE 5.5 - 7*/
-			filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
-			/* For IE 8*/
-			-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
-		
-		 }
-		 
-	
- 		h1.name {
-			font-family: 'Arvo';
- 		    font-size: 40px;
- 		    color: #000;
- 		    font-style:bold;
- 		    text-align:center;
-		}	
- 		h2.email{
-			font-family: 'Arvo';
- 		    font-size: 20px;
+<html>
+	<head>
+		<title>Untitled</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-loading">
 
- 		    text-align:center;
-		    text-decoration: none;
-			font-weight:normal;
-			margin-bottom:50px;
- 		}	
- 		h2.email a{
-  		   color:rgb(50, 50, 50) ;
- 		   text-decoration: none;
-	    }
-		h2.email a:hover{
- 		   color:rgb(0, 0, 0) ;
-   		}
-		
-		a.icon{
-			font-family:'Droid Sans';
-			text-decoration: none;
-			background-position:0px;
+		<!-- Wrapper -->
+			<div id="wrapper">
 
-   		   color:rgb(50, 50, 50) ;
-			font-size:20px;display:table-cell; 
-			vertical-align:middle;
-		}
-		p { font: 15px/2 , Serif; margin: 0 0 30px 0; text-indent: 40px; color:rgb(50, 50, 50) ;}
-		
+				<!-- Main -->
+					<section id="main">
+						<header>
+							<span class="avatar"><img src="images/avatar.jpg" alt="" /></span>
+							<h1>Jane Doe</h1>
+							<p>Congue Pellentesque Eleifend</p>
+						</header>
+						<!--
+						<hr />
+						<h2>Extra Stuff!</h2>
+						<form method="post" action="#">
+							<div class="field">
+								<input type="text" name="name" id="name" placeholder="Name" />
+							</div>
+							<div class="field">
+								<input type="email" name="email" id="email" placeholder="Email" />
+							</div>
+							<div class="field">
+								<div class="select-wrapper">
+									<select name="department" id="department">
+										<option value="">Department</option>
+										<option value="sales">Sales</option>
+										<option value="tech">Tech Support</option>
+										<option value="null">/dev/null</option>
+									</select>
+								</div>
+							</div>
+							<div class="field">
+								<textarea name="message" id="message" placeholder="Message" rows="4"></textarea>
+							</div>
+							<div class="field">
+								<input type="checkbox" id="human" name="human" /><label for="human">I'm a human</label>
+							</div>
+							<div class="field">
+								<label>But are you a robot?</label>
+								<input type="radio" id="robot_yes" name="robot" /><label for="robot_yes">Yes</label>
+								<input type="radio" id="robot_no" name="robot" /><label for="robot_no">No</label>
+							</div>
+							<ul class="actions">
+								<li><a href="#" class="button">Get Started</a></li>
+							</ul>
+						</form>
+						<hr />
+						-->
+						<footer>
+							<ul class="icons">
+								<li><a href="#" class="fa-twitter">Twitter</a></li>
+								<li><a href="#" class="fa-instagram">Instagram</a></li>
+								<li><a href="#" class="fa-facebook">Facebook</a></li>
+							</ul>
+						</footer>
+					</section>
 
-		div.services{
-			height:100px;
-			width:auto;
-			margin-left:70px;
-			background:transparent;
-			border-bottom-left-radius:3px;
-			border-bottom-right-radius:3px;
-			-moz-border-radius-bottomleft:3px;
-			-moz-border-radius-bottomright:3px;
-			-webkit-border-bottom-left-radius:3px;
-			-webkit-border-bottom-right-radius:3px
-		}
+				<!-- Footer -->
+					<footer id="footer">
+						<ul class="copyright">
+							<li>&copy; Jane Doe</li>
+						</ul>
+					</footer>
 
-		
+			</div>
 
-		 ul.services{
-			float:none;
-			margin-bottom:7px
-		}
-
-		 ul.services>li{
-			float:left;
-			list-style-type:none;
-			margin:0 8px 20px 0;
-			height:32px
-		}
-
-		 ul.services li.service-icon{
-			width:200px;
-		}
-
-		 ul.services li .button{
-			line-height:30px
-		}
-
-		 ul.services li.nm{
-			margin-right:0
-		}
-
-		 ul.services li.edit{
-			width:auto;
-			margin-bottom:15px
-		}
-
-		 ul.services li.service-icon>.icon{
-			padding-left:38px;
-			vertical-align:middle;
-			font-style:normal;
-			font-weight:normal;
-			height:32px;
-			width:32px;
-		display: table-cell;
-			background-repeat:no-repeat;
-			background-position:0px 0px;
-			position:relative
-		}
-
-		 ul.services li.service-icon .service-icon-overlay{
-			display:none;
-			width:32px;
-			height:32px;
-			line-height:32px;
-			position:absolute;
-			top:-1px;
-			left:-1px;
-			background-color:rgba(0,0,0,0.5);
-			-ms-filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#7f000000,endColorstr=#7f000000);
-			border:1px solid #fff;
-			border:1px solid rgba(255,255,255,0.7);
-			border-radius:4px;
-			color:#fff;
-			font-size:16px
-		}
-
-		.no-touch  ul.services li.service-icon>.icon:hover .service-icon-overlay, ul.services li.service-icon.menu.active .service-icon-overlay{
-			display:block
-		}
-
-		 ul.services li.service-icon .service-icon-overlay:before{
-			opacity:.9;
-			top:1px
-		}
-
-		 ul.services li.service-icon.menu .menu-content{
-			margin-top:3px;
-			-webkit-border-radius:3px;
-			-moz-border-radius:3px;
-			border-radius:3px
-		}
-		
-
-
-		.profile ul.services li.service-icon .service-icon-overlay{
-			display:none;
-			width:32px;
-			height:32px;
-			line-height:32px;
-			position:absolute;
-			top:-1px;
-			left:-1px;
-			background-color:rgba(0,0,0,0.5);
-			-ms-filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#7f000000,endColorstr=#7f000000);
-			border:1px solid #fff;
-			border:1px solid rgba(255,255,255,0.7);
-			border-radius:4px;
-			color:#fff;
-			font-size:16px
-		}
-
-		 ul.services li.service-icon>.icon:hover .service-icon-overlay,ul.services li.service-icon.menu.active .service-icon-overlay{
-			display:block
-		}
-
-		
-		
-		
-	</style>
-	
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-	<script>
-		$(function() {   
-		
-			var theWindow        = $(window),
-			    $bg              = $("#bg"),
-			    aspectRatio      = $bg.width() / $bg.height();
-			    			    		
-			function resizeBg() {
-				
-				if ( (theWindow.width() / theWindow.height()) < aspectRatio ) {
-				    $bg
-				    	.removeClass()
-				    	.addClass('bgheight');
-				} else {
-				    $bg
-				    	.removeClass()
-				    	.addClass('bgwidth');
+		<!-- Scripts -->
+			<!--[if lte IE 8]><script src="assets/js/respond.min.js"></script><![endif]-->
+			<script>
+				if ('addEventListener' in window) {
+					window.addEventListener('load', function() { document.body.className = document.body.className.replace(/\bis-loading\b/, ''); });
+					document.body.className += (navigator.userAgent.match(/(MSIE|rv:11\.0)/) ? ' is-ie' : '');
 				}
-							
-			}
-			                   			
-			theWindow.resize(function() {
-				resizeBg();
-			}).trigger("resize");
-		
-		});
-	</script>
+			</script>
 
-</head>
-
-<body>
-
-<img src="selfie.jpg" id="bg" alt="">
-	
-<div id="page-wrap" class="profile">
-	<h1  class="name" itemprop="name">Christian Kündig</h1>
-	<h2  class="email" itemprop="email"><a href="mailto:christian@kuendig.info">christian@kuendig.info</a></h1>
-
-	<div class="services">
-		<ul id="service-icons" class="services clearfix servicelinklist">
-			<li class="service-icon">
-				<a href="https://www.facebook.com/aboutme" class="icon facebook">/aboutme<span class="service-icon-overlay">&nbsp;</span></a>
-			</li>
-			<li class="service-icon">
-				<a href="https://www.linkedin.com/in/chkuendig/" class="icon linkedin">/in/chkuendig<span class="service-icon-overlay">&nbsp;</span></a>
-			</li>
-			<li class="service-icon">
-				<a href="https://twitter.com/chkuendig" class="icon twitter">/chkuendig<span class="service-icon-overlay">&nbsp;</span></a>
-			</li>
-			
-			<li class="service-icon">
-				<a href="https://github.com/chkuendig" class="icon github">/chkuendig<span class="service-icon-overlay">&nbsp;</span></a>
-			</li>
-		</ul>
-	</div>
-	
-</div>
-	
- <style type="text/css" style="display: none !important;">
-	* {
-		margin: 0;
-		padding: 0;
-	}
-	body {
-		overflow-x: hidden;
-	}
-
-</style>
-</body>
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-2165123-9', 'kuendig.info');
-  ga('send', 'pageview');
-
-</script>
+	</body>
 </html>
