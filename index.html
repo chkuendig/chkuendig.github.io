@@ -15,7 +15,71 @@
 	<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 	<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 	<noscript>
-		<link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<link rel="stylesheet" href="assets/css/noscript.css" />
+	</noscript>
+	<style>
+		.card {
+			width: 100%;
+			height: 100%;
+			transition: transform 1s;
+			transform-style: preserve-3d;
+			position: relative;
+
+		}
+
+		.card.is-flipped {
+			transform: rotateY(180deg);
+		}
+
+		.card__face {
+			width: 100%;
+			height: 100%;
+			-webkit-backface-visibility: hidden;
+			backface-visibility: hidden;
+			padding: 4.5em 3em 3em 3em;
+			background: #ffffff;
+			border-radius: 4px;
+			cursor: default;
+			opacity: 0.95;
+			text-align: center;
+		}
+
+		.card__face--back {
+			position: absolute;
+			top: 0px;
+			transform: rotateY(180deg);
+			padding: 1.5em 1.5em 1.5em 1.5em;
+		}
+
+		@media screen and (max-width: 480px) {
+			.card__face--back {
+				padding: 1.0em 1.0em 1.0em 1.0em;
+			}
+		}
+
+		.project__desc {
+			text-align: left;
+			text-transform: none;
+			letter-spacing: 0.05em;
+			font-size: 0.8em;
+			margin-bottom: 0.2em;
+			line-height: normal;
+		}
+
+		.project__desc a {
+			text-decoration: underline;
+		}
+
+		.project__desc div.project__title {
+			text-transform: uppercase;
+			font-weight: bold;
+			line-height: 160%;
+		}
+
+		.copyright {
+			text-align: right;
+		}
+	</style>
 </head>
 
 <body class="is-loading">
@@ -25,25 +89,97 @@
 
 		<!-- Main -->
 		<section id="main">
-			<header>
-				<span class="avatar"><img src="images/avatar.png" alt="" /></span>
-				<h1>Christian K&uuml;ndig</h1>
-				<p>Product Manager</p>
-			</header>
+			<div class="card">
+				<div class="card__face card__face--front">
+					<header>
+						<span class="avatar"><img src="images/avatar.png" width="122px"
+								srcset="images/avatar.png 1x,images/avatar-449.jpg 2x" alt="" /></span>
+						<h1>Christian K&uuml;ndig</h1>
+						<p>Product Manager</p>
+					</header>
 
-			<footer>
-				<ul class="icons">
-					<li><a href="https://www.linkedin.com/in/chkuendig/" class="fa-linkedin">LinkedIn</a></li>
-					<li><a href="https://github.com/chkuendig" class="fa-github">GitHub</a></li>
-					<li><a href="https://www.facebook.com/About.Me" class="fa-facebook">Facebook</a></li>
-				</ul>
-			</footer>
+					<footer>
+						<ul class="icons">
+							<li><a href="https://www.linkedin.com/in/chkuendig/" class="fa-linkedin">LinkedIn</a></li>
+							<li><a href="https://github.com/chkuendig" class="fa-github">GitHub</a></li>
+							<li><a href="https://www.facebook.com/About.Me" class="fa-facebook">Facebook</a></li>
+						</ul>
+						<a href="#" onClick="javascipt:document.querySelector('.card').classList.toggle('is-flipped')"
+							style="text-decoration: underline;">Personal Projects</a>
+					</footer>
+				</div>
+
+				<div class="card__face card__face--back">
+					<h1>Projects</h1>
+					<div class="project__desc">
+						<div class="project__title">2021 - ScummVM Webassembly</div>
+						Run classic adventures games on the web:
+						<a href="https://github.com/scummvm/scummvm/pull/3046">
+							<span style="font-family: FontAwesome;">&#xf09b</span> code</a>,
+						<a href="http://scummvm.kuendig.io/scummvm.html">demo</a>.
+					</div>
+					<div class="project__desc">
+						<div class="project__title">2020 - tvhProxy</div>
+						Use tvheadend as a source in Plex DVR:
+						<a href="https://github.com/chkuendig/tvhProxy">
+							<span style="font-family: FontAwesome;">&#xf09b</span> code</a>.
+					</div>
+					<div class="project__desc">
+						<div class="project__title">2020 - TV7 EPG Parser</div>
+						Extract XMLTV EPG from the init7 IPTV backend:
+						<a href="https://github.com/chkuendig/tv7-epg-parser/"><span
+								style="font-family: FontAwesome;">&#xf09b</span> code</a>.
+					</div>
+					<div class="project__desc">
+						<div class="project__title">2019 - Scandit3D</div>
+						Simulated barcode scanning on the web:
+						<a href="https://github.com/chkuendig/scandit3d">
+							<span style="font-family: FontAwesome;">&#xf09b</span> code</a>,
+						<a href="http://scandit3d.kuendig.io/">demo</a>.
+					</div>
+					<div class="project__desc">
+						<div class="project__title">2019 - DK&CK</div>
+						Wedding invitation:
+						<a href="http://www.dkandck.com">dkandck.com</a>.
+					</div>
+					<div class="project__desc">
+						<div class="project__title">2015 - QuizMafia</div>
+						Real-time multiplayer trivia game for iOS & Android. <i>Coming soon</i>
+					</div>
+					<div class="project__desc">
+						<div class="project__title">2014 - Browsepass with Dropbox</div>
+						Fork of Browsepass with included Dropbox client:
+						<a href="https://github.com/chkuendig/browsepass">
+							<span style="font-family: FontAwesome;">&#xf09b</span> code</a>,
+						<a href="http://christian.kuendig.info/browsepass/">demo</a>.
+					</div>
+					<div class="project__desc">
+						<div class="project__title">2010 - Master Thesis</div>
+						Building an adapting Poker Agent:
+						<a href="https://github.com/chkuendig/uzholdem">
+							<span style="font-family: FontAwesome;">&#xf09b</span> code</a>,
+						<a href="https://github.com/chkuendig/uzholdem-paper">paper</a>.
+					</div>
+					<div class="project__desc">
+						<div class="project__title">
+							2009 - Die Endstation</div>
+						Winning entry for the 2010 Zurich Journalism Award:
+						<a href="files/ZJP_10.pdf">article</a>.
+					</div>
+
+					<footer>
+						<a href="#" onClick="javascipt:document.querySelector('.card').classList.toggle('is-flipped')"
+							style="text-decoration: underline;">back</a>
+
+					</footer>
+				</div>
+			</div>
 		</section>
 
 		<!-- Footer -->
 		<footer id="footer">
 			<ul class="copyright">
-				<li>&copy; Christian K&uuml;ndig</li>
+				<li>&copy; Christian K&uuml;ndig, Hanoi 2013</li>
 			</ul>
 		</footer>
 
