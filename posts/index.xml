@@ -16,7 +16,7 @@
       <description>I finally found some time  over the holidays to wrap up some improvements I was working on for ScummVM last year.</description>
     </item>
     <item>
-      <title>HDHomerun server emulation in Tvheadend</title>
+      <title>HDHomerun Server Emulation in Tvheadend</title>
       <link>/posts/2023-11-tvheadend-hdhomerun/</link>
       <pubDate>Sun, 26 Nov 2023 23:15:29 +0100</pubDate>
       <guid>/posts/2023-11-tvheadend-hdhomerun/</guid>
@@ -30,14 +30,14 @@
       <description>I link a lot to various GitHub items, so I built some Hugo shortcodes for it.</description>
     </item>
     <item>
-      <title>Reverse Engineering the 1995 FMV game Silent Steel</title>
+      <title>Reverse Engineering the 1995 FMV Game Silent Steel</title>
       <link>/posts/2023-03-silentsteel/</link>
       <pubDate>Tue, 14 Mar 2023 11:41:01 +0100</pubDate>
       <guid>/posts/2023-03-silentsteel/</guid>
       <description>Silent Steel is a submarine-themed FMV  game released in 1995. This is the summary of it&amp;rsquo;s file formats, including a prototype re-implementation.</description>
     </item>
     <item>
-      <title>How to add the Amphiro Hand Shower to Home Assistant</title>
+      <title>How to Add the Amphiro Hand Shower to Home Assistant</title>
       <link>/posts/2023-01-hass-amphiro/</link>
       <pubDate>Sat, 14 Jan 2023 11:45:13 +0100</pubDate>
       <guid>/posts/2023-01-hass-amphiro/</guid>
@@ -55,9 +55,7 @@
       <link>/posts/2022-05-scummvm-part2/</link>
       <pubDate>Mon, 21 Mar 2022 11:39:21 +0100</pubDate>
       <guid>/posts/2022-05-scummvm-part2/</guid>
-      <description>💡 This is part 2 of my work on porting ScummVM. Please also check out part 1 and part 3 of this project.
-Since merging the initial Webassembly port of ScummVM, I have added a few critical improvements which moves the project forward torwards an eventual official release:
-Dynamic Plugins: It&amp;rsquo;s now possible to dynamically load plugins, making it possible to bundle all engines without the binary growing into unreasonable sizes.</description>
+      <description>Since merging the initial Webassembly port of ScummVM, I have added a few critical improvements</description>
     </item>
     <item>
       <title>HP iLO Integration for Home Assistant</title>

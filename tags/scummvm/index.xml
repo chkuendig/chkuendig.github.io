@@ -20,9 +20,7 @@
       <link>/posts/2022-05-scummvm-part2/</link>
       <pubDate>Mon, 21 Mar 2022 11:39:21 +0100</pubDate>
       <guid>/posts/2022-05-scummvm-part2/</guid>
-      <description>💡 This is part 2 of my work on porting ScummVM. Please also check out part 1 and part 3 of this project.
-Since merging the initial Webassembly port of ScummVM, I have added a few critical improvements which moves the project forward torwards an eventual official release:
-Dynamic Plugins: It&amp;rsquo;s now possible to dynamically load plugins, making it possible to bundle all engines without the binary growing into unreasonable sizes.</description>
+      <description>Since merging the initial Webassembly port of ScummVM, I have added a few critical improvements</description>
     </item>
     <item>
       <title>Porting ScummVM to Webassembly</title>

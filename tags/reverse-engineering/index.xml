@@ -9,14 +9,14 @@
     <lastBuildDate>Tue, 14 Mar 2023 11:41:01 +0100</lastBuildDate>
     <atom:link href="/tags/reverse-engineering/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Reverse Engineering the 1995 FMV game Silent Steel</title>
+      <title>Reverse Engineering the 1995 FMV Game Silent Steel</title>
       <link>/posts/2023-03-silentsteel/</link>
       <pubDate>Tue, 14 Mar 2023 11:41:01 +0100</pubDate>
       <guid>/posts/2023-03-silentsteel/</guid>
       <description>Silent Steel is a submarine-themed FMV  game released in 1995. This is the summary of it&amp;rsquo;s file formats, including a prototype re-implementation.</description>
     </item>
     <item>
-      <title>How to add the Amphiro Hand Shower to Home Assistant</title>
+      <title>How to Add the Amphiro Hand Shower to Home Assistant</title>
       <link>/posts/2023-01-hass-amphiro/</link>
       <pubDate>Sat, 14 Jan 2023 11:45:13 +0100</pubDate>
       <guid>/posts/2023-01-hass-amphiro/</guid>
