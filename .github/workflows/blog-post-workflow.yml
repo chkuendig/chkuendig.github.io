@@ -1,0 +1,26 @@
+name: Update README with latest posts
+on:
+  workflow_dispatch: # Run workflow manually (without waiting for the cron to be called), through the GitHub Actions Workflow page directly
+  deployment_status:
+  
+jobs:
+  update-readme-with-posts:
+    if: github.event.deployment_status.state == 'success' || github.event_name == 'workflow_dispatch'
+    name: Update README with latest posts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+        with:
+          repository: 'chkuendig/chkuendig'
+          token: ${{ secrets.ACCESS_TOKEN }}
+      - uses: gautamkrishnar/blog-post-workflow@1.8.5
+        with:
+          feed_list: "https://christian.kuendig.info/posts/index.xml"
+          readme_path: ./README.md
+          skip_commit: true
+          template: "$newline- $date: [$title](https://christian.kuendig.info$url)"
+          date_format: mediumDate
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with: 
+          commit_message: "Updating list of recent posts"
