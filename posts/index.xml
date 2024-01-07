@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Personal Projects on Christian Kündig</title>
+    <link>/posts/</link>
+    <description>Recent content in Personal Projects on Christian Kündig</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 16 Mar 2023 15:24:59 +0100</lastBuildDate>
+    <atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Porting ScummVM to Webassembly, Part 3</title>
+      <link>/posts/2024-01-scummvm-part3/</link>
+      <pubDate>Fri, 05 Jan 2024 00:00:24 +0100</pubDate>
+      <guid>/posts/2024-01-scummvm-part3/</guid>
+      <description>I finally found some time  over the holidays to wrap up some improvements I was working on for ScummVM last year.</description>
+    </item>
+    <item>
+      <title>HDHomerun server emulation in Tvheadend</title>
+      <link>/posts/2023-11-tvheadend-hdhomerun/</link>
+      <pubDate>Sun, 26 Nov 2023 23:15:29 +0100</pubDate>
+      <guid>/posts/2023-11-tvheadend-hdhomerun/</guid>
+      <description>Time to retire tvhProxy by adding HDHomerun emulation to Tvheadend.</description>
+    </item>
+    <item>
+      <title>Github Shortcodes for the Hugo Static Page Generator</title>
+      <link>/posts/2023-11-github-shortcode/</link>
+      <pubDate>Thu, 02 Nov 2023 00:00:35 +0100</pubDate>
+      <guid>/posts/2023-11-github-shortcode/</guid>
+      <description>I link a lot to various GitHub items, so I built some Hugo shortcodes for it.</description>
+    </item>
+    <item>
+      <title>Reverse Engineering the 1995 FMV game Silent Steel</title>
+      <link>/posts/2023-03-silentsteel/</link>
+      <pubDate>Tue, 14 Mar 2023 11:41:01 +0100</pubDate>
+      <guid>/posts/2023-03-silentsteel/</guid>
+      <description>Silent Steel is a submarine-themed FMV  game released in 1995. This is the summary of it&amp;rsquo;s file formats, including a prototype re-implementation.</description>
+    </item>
+    <item>
+      <title>How to add the Amphiro Hand Shower to Home Assistant</title>
+      <link>/posts/2023-01-hass-amphiro/</link>
+      <pubDate>Sat, 14 Jan 2023 11:45:13 +0100</pubDate>
+      <guid>/posts/2023-01-hass-amphiro/</guid>
+      <description>Looking into how to reverse engineer a funky christmas present and building out a new Home Assistant integration for it.</description>
+    </item>
+    <item>
+      <title>Forwarding Bluetooth with the AB BLE Gateway</title>
+      <link>/posts/2022-12-hass-ab_ble/</link>
+      <pubDate>Fri, 09 Dec 2022 11:46:04 +0100</pubDate>
+      <guid>/posts/2022-12-hass-ab_ble/</guid>
+      <description>We recently moved and I decided to buy a BLE-IP gateway off AliExpress. Turns out this needed some hacking to get it to work with Home Assistant.</description>
+    </item>
+    <item>
+      <title>Porting ScummVM to Webassembly, Part 2</title>
+      <link>/posts/2022-05-scummvm-part2/</link>
+      <pubDate>Mon, 21 Mar 2022 11:39:21 +0100</pubDate>
+      <guid>/posts/2022-05-scummvm-part2/</guid>
+      <description>💡 This is part 2 of my work on porting ScummVM. Please also check out part 1 and part 3 of this project.
+Since merging the initial Webassembly port of ScummVM, I have added a few critical improvements which moves the project forward torwards an eventual official release:
+Dynamic Plugins: It&amp;rsquo;s now possible to dynamically load plugins, making it possible to bundle all engines without the binary growing into unreasonable sizes.</description>
+    </item>
+    <item>
+      <title>HP iLO Integration for Home Assistant</title>
+      <link>/posts/2022-03-hass-hpilo/</link>
+      <pubDate>Tue, 08 Feb 2022 11:42:13 +0100</pubDate>
+      <guid>/posts/2022-03-hass-hpilo/</guid>
+      <description>I have been using a HP Microserver for a few years as my home lab and quite enjoy it. Unfortunately Home Assistant&amp;rsquo;s existing HP Integrated Lights-Out (ILO) integration is very limited and does not have any configuration integration. I have started working on an updated version of this integration. For the initial release, I focused on three things:
+Auto-Discovery with config flow so no configuration.yaml editing will be required. Support for as many sensor types automatically out of the box.</description>
+    </item>
+    <item>
+      <title>Sensirion SCD4x CO₂ Home Assistant Integration</title>
+      <link>/posts/2022-02-sensirion-co2/</link>
+      <pubDate>Wed, 02 Feb 2022 11:48:32 +0100</pubDate>
+      <guid>/posts/2022-02-sensirion-co2/</guid>
+      <description>I recently added support support for the Sensirion SCD4x CO₂ Gadget to the Passive BLE Monitor integration for Home Assistant.</description>
+    </item>
+    <item>
+      <title>Porting ScummVM to Webassembly</title>
+      <link>/posts/2021-08-scummvm-wasm/</link>
+      <pubDate>Fri, 20 Aug 2021 11:38:45 +0100</pubDate>
+      <guid>/posts/2021-08-scummvm-wasm/</guid>
+      <description>Making old adventure (and other) games available on the web.</description>
+    </item>
+    <item>
+      <title>Does Steam Remote Play support NvFBC on Linux?</title>
+      <link>/posts/2020-12-steam-nvfbc/</link>
+      <pubDate>Fri, 11 Dec 2020 11:52:50 +0100</pubDate>
+      <guid>/posts/2020-12-steam-nvfbc/</guid>
+      <description>Trying to get Steam Remote Play working from my Linux home lab, I noticed that while Steam offers capturing the frame data with NvFBC, the setting doesn&amp;rsquo;t seem have any impact. Why is that?</description>
+    </item>
+    <item>
+      <title>Why WebVTT subtitles in Plex don&#39;t work</title>
+      <link>/posts/2020-09-plex-subtitles-issue/</link>
+      <pubDate>Sun, 20 Sep 2020 22:41:33 +0200</pubDate>
+      <guid>/posts/2020-09-plex-subtitles-issue/</guid>
+      <description>For some reason video files downloaded from the web won&amp;rsquo;t play in Plex if they have subtitles.</description>
+    </item>
+    <item>
+      <title>tvhProxy: Streaming TVHeadend into Plex DVR</title>
+      <link>/posts/2020-02-tvhproxy/</link>
+      <pubDate>Thu, 20 Feb 2020 11:38:19 +0100</pubDate>
+      <guid>/posts/2020-02-tvhproxy/</guid>
+      <description>Plex launched it&amp;rsquo;s DVR feature in 2016. Unfortunately, it only supports either DVR tuners connected to the server directly or HDHomeRun devices. tvhProxy fixes that.</description>
+    </item>
+    <item>
+      <title>Extracting EPG data from the TV7 IPTV service</title>
+      <link>/posts/2020-02-tv7-epg/</link>
+      <pubDate>Thu, 06 Feb 2020 11:37:54 +0100</pubDate>
+      <guid>/posts/2020-02-tv7-epg/</guid>
+      <description>Init7, my FTTH provider has a great IPTV offering called TV7 Unfortunately there&amp;rsquo;s no way to fetch the EPG data.</description>
+    </item>
+    <item>
+      <title>Simulating barcode scanning on the web</title>
+      <link>/posts/2019-12-scandit3d/</link>
+      <pubDate>Wed, 18 Dec 2019 11:37:11 +0100</pubDate>
+      <guid>/posts/2019-12-scandit3d/</guid>
+      <description>The yearly hackathon at work is always a great time to pursue new ideas or play around in fun ways with existing technology. My entry in 2019 was a humorous take on using simulations when developing computer vision software. I long wondered to see if we could use modern game engines or other simulation technology to augment some of our real world testing at scale.
+For the hackathon, I decided to apply my (as you will see quite limited) skills and implement a prototype of such a system.</description>
+    </item>
+    <item>
+      <title>Compiling Zork from Scratch</title>
+      <link>/posts/2019-04-zork/</link>
+      <pubDate>Wed, 17 Apr 2019 11:41:01 +0100</pubDate>
+      <guid>/posts/2019-04-zork/</guid>
+      <description>Today, the source code of many old Infocom Text Adventures has been uploaded to Github. Let&amp;rsquo;s see if we can compile Zork.</description>
+    </item>
+    <item>
+      <title>Product Management Night</title>
+      <link>/posts/2017-11-pm-night/</link>
+      <pubDate>Fri, 03 Nov 2017 11:42:13 +0100</pubDate>
+      <guid>/posts/2017-11-pm-night/</guid>
+      <description>On November 3rd I had the pleasure to present at the Product Management Night series of the Product Management Festival in Zurich.
+This time it was held held at the beautiful NZZ foyer next to the opera house. My presentation focused on how we build deep-tech products a Scandit and how PMs connect technological capabilities and customer value.
+I really enjoyed sharing my experiences and connecting with other product managers in my city.</description>
+    </item>
+    <item>
+      <title>BrowsePass fork with Dropbox support</title>
+      <link>/posts/2014-11-browsepass-dropbox/</link>
+      <pubDate>Sat, 22 Nov 2014 11:36:12 +0100</pubDate>
+      <guid>/posts/2014-11-browsepass-dropbox/</guid>
+      <description>Living and traveling overseas for more than a year, I want a way to access some of my more secure credentials in case of device loss.
+BrowsePass is a static web application to read KDBX files as produced by KeePass. This allows me to securely access my passwords and logins from everywhere - all I need is a computer with a web browser.
+As Google isn&amp;rsquo;t available in all the countries I&amp;rsquo;m traveling to (👋🇨🇳), I added support for Dropbox to it.</description>
+    </item>
+    <item>
+      <title>Zürcher Journalistenpreis 2010</title>
+      <link>/posts/2010-05-zjp/</link>
+      <pubDate>Fri, 28 May 2010 11:34:07 +0100</pubDate>
+      <guid>/posts/2010-05-zjp/</guid>
+      <description>Im Mai 2010 gewannen Lukas Messmer und ich den Zürcher Journalistenpreis für unsere Reportage &amp;ldquo;&lt;a href=&#34;2009-10-die-endstation.md&#34;&gt;Die Endstation&lt;/a&gt;&amp;rdquo; in der Zürcher Studierendenzeitung (ZS).</description>
+    </item>
+    <item>
+      <title>Master Thesis: Building an adapting Poker Agent</title>
+      <link>/posts/2010-03-master-thesis/</link>
+      <pubDate>Sun, 14 Mar 2010 11:34:58 +0100</pubDate>
+      <guid>/posts/2010-03-master-thesis/</guid>
+      <description>I wrote a learning poker bot for my master thesis. This was just at the cusp of the deep learning breakthroughs to come soon after.</description>
+    </item>
+    <item>
+      <title>Die Endstation</title>
+      <link>/posts/2009-10-die-endstation/</link>
+      <pubDate>Wed, 25 Nov 2009 21:41:32 +0100</pubDate>
+      <guid>/posts/2009-10-die-endstation/</guid>
+      <description>Manch lange Nacht endet in der Gräbli-Bar. Für viele ist die Bar eine Art Zuhause. Auch für uns, zumindest für 24 Stunden.</description>
+    </item>
+    <item>
+      <title>Gesellschaftsspiel: Dominion</title>
+      <link>/posts/2009-09-dominion/</link>
+      <pubDate>Mon, 14 Sep 2009 21:49:46 +0100</pubDate>
+      <guid>/posts/2009-09-dominion/</guid>
+      <description>Auch als adliger Grundherr fängt die Karriere hier ganz unten an. Bei Dominion beginnt jeder trotz Titel mit läppischen sieben Kupfermünzen und drei Schrebergärten, genannt «Anwesen». Das Spiel erinnert an Magic, welches uns aus den Jugendjahren noch bekannt sein dürfte.</description>
+    </item>
+    <item>
+      <title>Mit karibischen Beats durch den Schnee</title>
+      <link>/posts/2009-03-alaska/</link>
+      <pubDate>Wed, 25 Mar 2009 21:50:11 +0100</pubDate>
+      <guid>/posts/2009-03-alaska/</guid>
+      <description>Newcastle, das Pub rappelvoll mit alternden Skinheads, auf der Bühne hats kaum Platz für das Schlagzeug, geschweige denn die ganze Band. Alaska, das sind neun Jungs, grösstenteils Studenten, aus dem Zürcher Oberland und Umgebung. Gestartet 2004, sind sie von der Maturarbeit des Schlagzeugers zu einer der erfolgreichsten Schweizer Skaband gewachsen und haben diesen Januar ihr drittes Album getauft.</description>
+    </item>
+    <item>
+      <title>Wirtschaft: Seitensprünge</title>
+      <link>/posts/2008-11-seitenspruenge/</link>
+      <pubDate>Mon, 24 Nov 2008 21:50:38 +0100</pubDate>
+      <guid>/posts/2008-11-seitenspruenge/</guid>
+      <description>Wie immer an ungeraden Montagen nach einer Vollmondnacht war ich gestern wieder einmal in einer Vorlesung. Da der Stoff seit Semesterbeginn leider weder einfacher noch interessanter geworden ist, entwickelte sich Zeitunglesen erneut zur Hauptbeschäftigung.</description>
+    </item>
+    <item>
+      <title>Wirtschaft: Kondome</title>
+      <link>/posts/2008-10-kondome/</link>
+      <pubDate>Mon, 27 Oct 2008 21:46:58 +0100</pubDate>
+      <guid>/posts/2008-10-kondome/</guid>
+      <description>Leider habe ich im EM- und Sommerferien-Trubel mein in den letzten Semestern von exzessivem Wertverlust geplagtes Investmentgame-Spielkonto komplett aus den Augen verloren – wahrscheinlich wäre ich aber sowieso unterdessen ein Rettungsfall.</description>
+    </item>
+    <item>
+      <title>Erfolglose Abwartetaktik</title>
+      <link>/posts/2008-04-erfolglose-abwartetaktik/</link>
+      <pubDate>Thu, 10 Apr 2008 21:51:12 +0100</pubDate>
+      <guid>/posts/2008-04-erfolglose-abwartetaktik/</guid>
+      <description>Nach den Verlusten mit den UBS-Papieren sind auch die Dollars unseres Wirtschaftskolumnisten nichts mehr wert. Er setzt nun auf den Frühling</description>
+    </item>
+    <item>
+      <title>Danke, Marcel!</title>
+      <link>/posts/2008-02-danke-marcel/</link>
+      <pubDate>Fri, 22 Feb 2008 21:47:28 +0100</pubDate>
+      <guid>/posts/2008-02-danke-marcel/</guid>
+      <description>In der Hoffnung, mit der UBS ein Schnäppchen zu machen, verbrennt sich unser Wirtschaftskolumnist wiedermal die Finger. Im Börsenspiel belegt er nun Rang 2262.</description>
+    </item>
+    <item>
+      <title>Profitieren vom Leid der Bauarbeiter</title>
+      <link>/posts/2007-12-profitieren/</link>
+      <pubDate>Fri, 07 Dec 2007 21:39:19 +0100</pubDate>
+      <guid>/posts/2007-12-profitieren/</guid>
+      <description>Abrupter Kurswechsel: Unser Autor spekuliert ab sofort auf Verluste statt auf Gewinne. Das Opfer: Die Bauindustrie. Doch er hat die Rechnung ohne den Dollar gemacht.</description>
+    </item>
+    <item>
+      <title>Investment Banking im Selbstversuch</title>
+      <link>/posts/2007-11-investment-banking-selbstversuch/</link>
+      <pubDate>Fri, 02 Nov 2007 22:06:30 +0100</pubDate>
+      <guid>/posts/2007-11-investment-banking-selbstversuch/</guid>
+      <description>Der Tages-Anzeiger zahlt dem Sieger ihres Investment-Wettbewerbs 50’000 Franken. Für die «ZS» berichtet ein Wirtschaftsinformatik-Student regelmässig über seine Performance.</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Reverse Engineering on Christian Kündig</title>
+    <link>/tags/reverse-engineering/</link>
+    <description>Recent content in Reverse Engineering on Christian Kündig</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 14 Mar 2023 11:41:01 +0100</lastBuildDate>
+    <atom:link href="/tags/reverse-engineering/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Reverse Engineering the 1995 FMV game Silent Steel</title>
+      <link>/posts/2023-03-silentsteel/</link>
+      <pubDate>Tue, 14 Mar 2023 11:41:01 +0100</pubDate>
+      <guid>/posts/2023-03-silentsteel/</guid>
+      <description>Silent Steel is a submarine-themed FMV  game released in 1995. This is the summary of it&amp;rsquo;s file formats, including a prototype re-implementation.</description>
+    </item>
+    <item>
+      <title>How to add the Amphiro Hand Shower to Home Assistant</title>
+      <link>/posts/2023-01-hass-amphiro/</link>
+      <pubDate>Sat, 14 Jan 2023 11:45:13 +0100</pubDate>
+      <guid>/posts/2023-01-hass-amphiro/</guid>
+      <description>Looking into how to reverse engineer a funky christmas present and building out a new Home Assistant integration for it.</description>
+    </item>
+    <item>
+      <title>Forwarding Bluetooth with the AB BLE Gateway</title>
+      <link>/posts/2022-12-hass-ab_ble/</link>
+      <pubDate>Fri, 09 Dec 2022 11:46:04 +0100</pubDate>
+      <guid>/posts/2022-12-hass-ab_ble/</guid>
+      <description>We recently moved and I decided to buy a BLE-IP gateway off AliExpress. Turns out this needed some hacking to get it to work with Home Assistant.</description>
+    </item>
+    <item>
+      <title>Sensirion SCD4x CO₂ Home Assistant Integration</title>
+      <link>/posts/2022-02-sensirion-co2/</link>
+      <pubDate>Wed, 02 Feb 2022 11:48:32 +0100</pubDate>
+      <guid>/posts/2022-02-sensirion-co2/</guid>
+      <description>I recently added support support for the Sensirion SCD4x CO₂ Gadget to the Passive BLE Monitor integration for Home Assistant.</description>
+    </item>
+    <item>
+      <title>Does Steam Remote Play support NvFBC on Linux?</title>
+      <link>/posts/2020-12-steam-nvfbc/</link>
+      <pubDate>Fri, 11 Dec 2020 11:52:50 +0100</pubDate>
+      <guid>/posts/2020-12-steam-nvfbc/</guid>
+      <description>Trying to get Steam Remote Play working from my Linux home lab, I noticed that while Steam offers capturing the frame data with NvFBC, the setting doesn&amp;rsquo;t seem have any impact. Why is that?</description>
+    </item>
+    <item>
+      <title>Extracting EPG data from the TV7 IPTV service</title>
+      <link>/posts/2020-02-tv7-epg/</link>
+      <pubDate>Thu, 06 Feb 2020 11:37:54 +0100</pubDate>
+      <guid>/posts/2020-02-tv7-epg/</guid>
+      <description>Init7, my FTTH provider has a great IPTV offering called TV7 Unfortunately there&amp;rsquo;s no way to fetch the EPG data.</description>
+    </item>
+    <item>
+      <title>Master Thesis: Building an adapting Poker Agent</title>
+      <link>/posts/2010-03-master-thesis/</link>
+      <pubDate>Sun, 14 Mar 2010 11:34:58 +0100</pubDate>
+      <guid>/posts/2010-03-master-thesis/</guid>
+      <description>I wrote a learning poker bot for my master thesis. This was just at the cusp of the deep learning breakthroughs to come soon after.</description>
+    </item>
+  </channel>
+</rss>

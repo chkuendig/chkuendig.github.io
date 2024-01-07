@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>tvhProxy: Streaming TVHeadend into Plex DVR | Christian Kündig</title>
+<meta name="keywords" content="Plex Media Server">
+<meta name="description" content="Plex launched it&rsquo;s DVR feature in 2016. Unfortunately, it only supports either DVR tuners connected to the server directly or HDHomeRun devices. tvhProxy fixes that.">
+<meta name="author" content="">
+<link rel="canonical" href="/posts/2020-02-tvhproxy/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.6fd580221dec0f8dcd9f498891425172cd130e7dd90c642a7e6ca23f89685978.css" integrity="sha256-b9WAIh3sD43Nn0mIkUJRcs0TDn3ZDGQqfmyiP4loWXg=" rel="preload stylesheet" as="style">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="mask-icon" href="/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
+<link href='//fonts.googleapis.com/css?family=Mulish' rel='stylesheet' type='text/css'>
+
+<script src="/js/github-buttons.min.js" data-no-instant
+></script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L4NRERPTCT"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-L4NRERPTCT', { 'anonymize_ip': false });
+}
+</script>
+<meta property="og:title" content="tvhProxy: Streaming TVHeadend into Plex DVR" />
+<meta property="og:description" content="Plex launched it&rsquo;s DVR feature in 2016. Unfortunately, it only supports either DVR tuners connected to the server directly or HDHomeRun devices. tvhProxy fixes that." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/2020-02-tvhproxy/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-02-20T11:38:19+01:00" />
+<meta property="article:modified_time" content="2020-02-20T11:38:19+01:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="tvhProxy: Streaming TVHeadend into Plex DVR"/>
+<meta name="twitter:description" content="Plex launched it&rsquo;s DVR feature in 2016. Unfortunately, it only supports either DVR tuners connected to the server directly or HDHomeRun devices. tvhProxy fixes that."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Personal Projects",
+      "item": "/posts/"
+    }
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "tvhProxy: Streaming TVHeadend into Plex DVR",
+      "item": "/posts/2020-02-tvhproxy/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "tvhProxy: Streaming TVHeadend into Plex DVR",
+  "name": "tvhProxy: Streaming TVHeadend into Plex DVR",
+  "description": "Plex launched it\u0026rsquo;s DVR feature in 2016. Unfortunately, it only supports either DVR tuners connected to the server directly or HDHomeRun devices. tvhProxy fixes that.",
+  "keywords": [
+    "Plex Media Server"
+  ],
+  "articleBody": "Plex launched its DVR feature in 2016. Using Plex’s TV DVR feature, it’s possible to watch live TV as well as schedule recordings remotely and stream them to your devices either within your home or over the internet. It’s the most polished DVR server I have seen so far.\nUnfortunately, it only supports either DVR tuners connected to the server directly or HDHomeRun devices. This is quite a limit, as this means CAM modules can’t be used, IPTV channels can’t be added and neither can satellite dishes.\nI already had set up TVHeadend with Multicast IPTV and , so I was looking into a way of feeding my TVHeadend channels into Plex.\ntvhProxy 💡 Update Jun 16, 2020: There’s now an effort to include HDHomeRun emulation in TVHeadend itself - this eventually might replace the need for tvhProxy: .\ntvhProxy is a small tool which helps bridging these two services. A small flask app to proxy requests between Plex Media Server and TVHeadend. The [original version of tvhProxy ( ) has been archived on GitHub by its maintainer and is out of date and does not work with recent versions of Plex Media Server.\nI have decided to revive the project and add a few critical improvements compared to the archived upstream version:\nSSDP Discovery. Fixes the issue of Plex randomly dropping the device - - by simulating the SSDP announcements a real HDHomerun is sending. Otherwise you the tuner is dropped and “Device not found. Ensure your device is powered on and connected to your network.” is shown in the settings\nDEBUG - DVR:Device: Device device://tv.plex.grabbers.hdhomerun/12345678 died DEBUG - DVR:Grabber: Plexserver discovered 0 compatible devices.` XMLTV EPG EPG export, including adding dummy programme entries for channels without EPG so you can still use these channels in Plex (see below for Plex configuration URL).\nConfiguration of variables via dotenv file for easier testing\nAdding a dockerfile for easier deployment.\nPlex configuration Enter the IP of the host running tvhProxy, including port 5004, e.g., 192.168.1.50:5004. Use http://192.168.1.50:5004/epg.xml for the EPG (see Using XMLTV for guide data for full instructions).\nShould the proxy keep disappearing or you can’t add it, it’s worth trying to delete the existing configuration from the database:\nSee https://support.plex.tv/articles/201100678-repair-a-corrupt-database/ on how to access the plex config database and run delete from media_provider_resources; to remove any leftover config. Docker Setup I’m using docker-compose with the following docker-compose.yml file:\nversion: \"2.1\" services: tvhproxy: build: https://github.com/chkuendig/tvhProxy.git container_name: tvhproxy environment: - TVH_PROXY_HOST=192.168.178.24 - TVH_URL=http://parklife:9981 - DEVICE_ID=2020-02-Q5YH-U5PIK8 #this is random but needs to stay fixed volumes: - \"/etc/localtime:/etc/localtime:ro\" # we need to have the same timezone as the host tvheadend to build the EPG correctly network_mode: \"host\" Since this isn’t a pre-built container, you run docker-compose build tvhproxy instead of docker-compose pull tvhproxy and that’s it.\nDiscussion Let me know what you think at https://forums.plex.tv/t/tvhproxy-update/544037.\n",
+  "wordCount" : "472",
+  "inLanguage": "en",
+  "datePublished": "2020-02-20T11:38:19+01:00",
+  "dateModified": "2020-02-20T11:38:19+01:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/posts/2020-02-tvhproxy/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Christian Kündig",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="/" accesskey="h" title="Christian Kündig (Alt + H)">Christian Kündig</a>
+            <div class="logo-switches">
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="/posts/" title="Personal Projects">
+                    <span>Personal Projects</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      tvhProxy: Streaming TVHeadend into Plex DVR
+    </h1>
+    <div class="post-meta"><span title='2020-02-20 11:38:19 +0100 +0100'>February 20, 2020</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>Plex launched its DVR feature in 2016. Using Plex’s TV DVR feature, it&rsquo;s possible to watch live TV as well as schedule recordings remotely and stream them to your devices either within your home or over the internet. It&rsquo;s the most polished DVR server I have seen so far.</p>
+<figure class="centered">
+    <img loading="lazy" src="/posts/2020-02-tvhproxy/plex-dvr.png  "
+         alt="Plex DVR Screenshot"/> 
+</figure>
+
+<p>Unfortunately, it only supports either DVR tuners connected to the server directly or HDHomeRun devices. This is quite a limit, as this means CAM modules can&rsquo;t be used, IPTV channels can&rsquo;t be added and neither can satellite dishes.</p>
+<p>I already had set up TVHeadend with <a href="/posts/2020-02-tv7-epg/">Multicast IPTV</a> and 
+    
+<a class="github-button" href="https://github.com/oscam-emu/oscam-emu" data-icon="octicon-repo" data-size="small" data-text='oscam-emu/oscam-emu'></a>, so I was looking into a way of feeding my TVHeadend channels into Plex.</p>
+<h2 id="tvhproxy">tvhProxy</h2>
+<aside>
+    <span>💡</span>
+    <p><strong>Update Jun 16, 2020:</strong> There&rsquo;s now an effort to include HDHomeRun emulation in TVHeadend itself - this eventually might replace the need for tvhProxy:  <a class="github-button" href="https://github.com/tvheadend/tvheadend/pull/1348" data-icon="octicon-git-pull-request-closed" data-size="small" data-text='tvheadend#1348: <span style="font-weight:normal">hdhomerun: Add HDHomeRun server emulation support for LiveTV only (#4461)</span>'></a>  .</p>
+</aside>
+<p>tvhProxy is a small tool which helps bridging these two services. A small flask app to proxy requests between Plex Media Server and TVHeadend. The [original version of tvhProxy ( 
+    
+<a class="github-button" href="https://github.com/jkaberg/tvhProxy" data-icon="octicon-repo" data-size="small" data-text='jkaberg/tvhProxy'></a> )  has been archived on GitHub by its maintainer and is out of date and does not work with recent versions of Plex Media Server.</p>
+<p>I have decided to revive the project and add a few critical improvements compared to the archived upstream version:</p>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Simple_Service_Discovery_Protocol">SSDP</a> Discovery. Fixes the issue of Plex randomly dropping the device - <a class="github-button" href="https://github.com/jkaberg/tvhProxy/issues/21" data-icon="octicon-issue-opened" data-size="small" data-text='tvhProxy#21: <span style="font-weight:normal">still Device not found. Ensure your device is powered on and connected to your network.</span>'></a> - by simulating the SSDP announcements a real HDHomerun is sending. Otherwise you the tuner is dropped and &ldquo;Device not found. Ensure your device is powered on and connected to your network.&rdquo; is shown in the settings</p>
+<pre tabindex="0"><code class="language-DEBUG" data-lang="DEBUG">DEBUG - DVR:Device: Device device://tv.plex.grabbers.hdhomerun/12345678 died
+DEBUG - DVR:Grabber: Plexserver discovered 0 compatible devices.`
+</code></pre></li>
+<li>
+<p><a href="https://support.plex.tv/articles/using-an-xmltv-guide/">XMLTV EPG</a> EPG export, including adding dummy programme entries for channels without EPG so you can still use these channels in Plex (see below for Plex configuration URL).</p>
+</li>
+<li>
+<p>Configuration of variables via <a href="https://pypi.org/project/python-dotenv/">dotenv</a> file for easier testing</p>
+</li>
+<li>
+<p>Adding a dockerfile for easier deployment.</p>
+</li>
+</ul>
+<p><a href="https://github.com/chkuendig/tvhProxy" class="github-card"><img src="/posts/2020-02-tvhproxy/tvhProxy_12286267695077292038.png"></a></p>
+<h4 id="plex-configuration">Plex configuration</h4>
+<p>Enter the IP of the host running tvhProxy, including port 5004, e.g., <code>192.168.1.50:5004</code>. Use <code>http://192.168.1.50:5004/epg.xml</code> for the EPG (see <a href="https://support.plex.tv/articles/using-an-xmltv-guide/">Using XMLTV for guide data</a> for full instructions).</p>
+<p>Should the proxy keep disappearing or you can&rsquo;t add it, it&rsquo;s worth trying to delete the existing configuration from the database:</p>
+<ul>
+<li>See <a href="https://support.plex.tv/articles/201100678-repair-a-corrupt-database/">https://support.plex.tv/articles/201100678-repair-a-corrupt-database/</a> on how to access the plex config database and</li>
+<li>run <code>delete from media_provider_resources;</code> to remove any leftover config.</li>
+</ul>
+<h3 id="docker-setup">Docker Setup</h3>
+<p>I&rsquo;m using docker-compose with the following <code>docker-compose.yml</code> file:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;2.1&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">tvhproxy</span>:
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">build</span>: <span style="color:#ae81ff">https://github.com/chkuendig/tvhProxy.git</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">tvhproxy</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">environment</span>:
+</span></span><span style="display:flex;"><span>     - <span style="color:#ae81ff">TVH_PROXY_HOST=192.168.178.24</span>
+</span></span><span style="display:flex;"><span>     - <span style="color:#ae81ff">TVH_URL=http://parklife:9981</span>
+</span></span><span style="display:flex;"><span>     - <span style="color:#ae81ff">DEVICE_ID=2020-02-Q5YH-U5PIK8</span> <span style="color:#75715e">#this is random but needs to stay fixed</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>     - <span style="color:#e6db74">&#34;/etc/localtime:/etc/localtime:ro&#34;</span> <span style="color:#75715e"># we need to have the same timezone as the host tvheadend to build the EPG correctly</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">network_mode</span>: <span style="color:#e6db74">&#34;host&#34;</span>
+</span></span></code></pre></div><p>Since this isn&rsquo;t a pre-built container, you run <code>docker-compose build tvhproxy</code> instead of <code>docker-compose pull tvhproxy</code> and that&rsquo;s it.</p>
+<h2 id="discussion">Discussion</h2>
+<p>Let me know what you think at <a href="https://forums.plex.tv/t/tvhproxy-update/544037">https://forums.plex.tv/t/tvhproxy-update/544037</a>.</p>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="/tags/plex-media-server/">Plex Media Server</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="/posts/2020-09-plex-subtitles-issue/">
+    <span class="title">« Prev | <span>September 20, 2020</span></span>
+    <br>
+    <span>Why WebVTT subtitles in Plex don&#39;t work</span>
+  </a>
+  <a class="next" href="/posts/2020-02-tv7-epg/">
+    <span class="title"><span>February 6, 2020</span> | Next »</span>
+    <br>
+    <span>Extracting EPG data from the TV7 IPTV service</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="/">Christian Kündig</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<script src="/js/quicklink.umd.min.js" data-no-instant
+></script>
+<script data-no-instant>
+  
+window.addEventListener('load', () => {
+  quicklink.listen();
+});
+</script>
+
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+</body>
+
+</html>

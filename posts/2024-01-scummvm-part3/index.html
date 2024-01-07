@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Porting ScummVM to Webassembly, Part 3 | Christian Kündig</title>
+<meta name="keywords" content="ScummVM, Gaming, Web Development">
+<meta name="description" content="I finally found some time  over the holidays to wrap up some improvements I was working on for ScummVM last year.">
+<meta name="author" content="">
+<link rel="canonical" href="/posts/2024-01-scummvm-part3/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.6fd580221dec0f8dcd9f498891425172cd130e7dd90c642a7e6ca23f89685978.css" integrity="sha256-b9WAIh3sD43Nn0mIkUJRcs0TDn3ZDGQqfmyiP4loWXg=" rel="preload stylesheet" as="style">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="mask-icon" href="/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
+<link href='//fonts.googleapis.com/css?family=Mulish' rel='stylesheet' type='text/css'>
+
+<script src="/js/github-buttons.min.js" data-no-instant
+></script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L4NRERPTCT"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-L4NRERPTCT', { 'anonymize_ip': false });
+}
+</script>
+<meta property="og:title" content="Porting ScummVM to Webassembly, Part 3" />
+<meta property="og:description" content="I finally found some time  over the holidays to wrap up some improvements I was working on for ScummVM last year." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/2024-01-scummvm-part3/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-01-05T00:00:24+01:00" />
+<meta property="article:modified_time" content="2024-01-05T00:00:24+01:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Porting ScummVM to Webassembly, Part 3"/>
+<meta name="twitter:description" content="I finally found some time  over the holidays to wrap up some improvements I was working on for ScummVM last year."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Personal Projects",
+      "item": "/posts/"
+    }
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Porting ScummVM to Webassembly, Part 3",
+      "item": "/posts/2024-01-scummvm-part3/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Porting ScummVM to Webassembly, Part 3",
+  "name": "Porting ScummVM to Webassembly, Part 3",
+  "description": "I finally found some time  over the holidays to wrap up some improvements I was working on for ScummVM last year.",
+  "keywords": [
+    "ScummVM", "Gaming", "Web Development"
+  ],
+  "articleBody": "I finally found some time over the holidays to wrap up some improvements I was working on for ScummVM last year. There’s still a few unfinished features waiting, but I thought it was a good moment to actually collect some improvements into a pull request - it’s been more than 18 months since the last one (see also part 1 and part 2 of this project).\nAs always, you can try out all the changes at scummvm.kuendig.io\nLog File Download The ScummVM log file can now be opened (as a download in the browser) from the integrated console. The majority of this is adding the capability download files. As the file system in Emscripten isn’t user-accessible, there’s not much point in saving data to it unless the app also provides a way to access it. To overcome this, I save the files in a temporary directory and then pass them over to the browser’s Javascript context where we can trigger a download with URL.createObjectURL1.\nYour browser doesn't support embedded videos, but don't worry, you can download it and watch it with your favorite video player! Screenshots Fixes Once there was a method in place for downloading files, a natural next step was adding support for screenshots. This was using the same method as for the log file, but initially there were only images with black pixels exported as soon as rendering was not happening in software (i.e. in OpenGL).\nThere were two WebGL-specific fixes required for that:\nWe can’t access pixels on the screen after compositing happens.\nBy default, after compositing the contents of the drawing buffer shall be cleared to their default values […] Techniques like synchronous drawing buffer access (e.g., calling readPixels or toDataURL in the same function that renders to the drawing buffer) can be used to get the contents of the drawing buffer.\nWebGL Specification: 2.1 Context Creation\nThis means we need to capture the screenshot right after rendering (before yielding back to the browser), which is not the time when the keystroke event to capture a screenshot is triggered (right after yielding). I had to hack this a bit so a screenshot is queued on this event and taken when the next frame is rendered. Not great, but it works nicely in practice.\nWebGL doesn’t support GL_RGB, but ScummVM unfortunately switched to capturing GL_RGB screenshots recently2.\nOnly two combinations of format and type are accepted. The first is format RGBA and type UNSIGNED_BYTE. The second is an implementation-chosen format.\nWebGL Specification: 5.14.12 Read Operations\nAs it turns out, the implementation-chosen formats are buggy (), so I switched back to GL_RGBA for Emscripten.\nOnce that was fixed, when pressing alt+s, screenshots are opened the same way as log files:\nYour browser doesn't support embedded videos, but don't worry, you can download it and watch it with your favorite video player! Fixing an OpenGL performance regression For some reason new builds were running Grim Fandango only at 3-5 FPS instead of 50-60fps - which wasn’t the case in 2022 when I submitted my last PR. Finding the root cause of this was quite some work to track down.\nI initially ignored the fact that this was a regression and tried debugging it with the profiler - but couldn’t figure it out since all time was spent in WebGLRenderingContext function. As it later turned out, the root cause was super obvious from the profile alone…3 So I went on figuring out which of the over 18'000 commits between my last PR in June 2022 and the end of December 2023 was causing this regression. For this I manually went picking random commits in between to check the performance trying to slowly narrow down where the issue might have been caused: This was so frustrating that I actually decided to stop banging my head against a wall and figure out how to troubleshoot such issues properly. Turns out there’s git-bisect which made things much much easier 😊 and eventually I could track it down to a specific commit: .\nAt this point it became clear that I should not have given up on the profiler, the bug was indeed that since adding the debugging wrapper in that commit, every frame was calling an expensive GL function as not everything worked properly on WebGL (so errors are caught on every frame).\nEventually this was a super easy fix, I just decided to skip this debug wrapper for Emscripten as the browser anyway pushes out the same debugging messages in the console.\nShaders Adding shaders actually required no adjustments - since ScummVM 2.7.0 users can select shader-based scalers to simulate a CRT. It was very satisfying to see this work without any changes (and I teased this already earlier on discord).\nIt’s not super ergonomic to set up s only a subset of the available shaders work in WebGL, so ideally in a future update these will be filtered out from the settings. Screenshot taken within the browser with the above mentioned fix\nEngines not compiling with OpenGL ES When building ScummVM with all engines enabled I encountered problems in two engines that used OpenGL symbols that aren’t part of OpenGL ES:\nFreescape does not wrap its gfx_opengl.cpp with #ifdef USE_OPENGL_GAME as other engines, as well as calls glDisable(GL_LIGHTING) in it’s gfx_opengl_shaders.cpp which isn’t something that is done in OpenGL ES (which doesn’t have fixed pipeline lighting). Fixing this was easy by adding the relevant #ifdefs. Unfortunately this doesn’t yet make the Shader-based OpenGL renderer work, as the shaders themselves aren’t compatible with WebGL/GLSL, so now this fails at runtime: Shader: createCompatShader(): Could not compile shader freescape_triangle.fragment: ERROR: 0:33: '[]' : Index expression must be constant. This is something that has to be fixed in the relevant shaders4. But it at least compiles now, and given TinyGL works just fine for this super old engine, I didn’t add any other workarounds. HPL1 fails compiling in CGProgram.cpp: engines/hpl1/engine/impl/CGProgram.cpp:149:14: error: use of undeclared identifier 'GL_PROJECTION_MATRIX' 149 | glGetFloatv(GL_PROJECTION_MATRIX, projection.getData()); | ^ engines/hpl1/engine/impl/CGProgram.cpp:150:14: error: use of undeclared identifier 'GL_MODELVIEW_MATRIX' 150 | glGetFloatv(GL_MODELVIEW_MATRIX, modelView.getData()); | ^ I didn’t find any workaround and given that I found many other references to classic OpenGL in this engine, I decided to flag HPL1 as requiring class OpenGL in it’s configure.engine so the engine is automatically disabled when building against OpenGL ES.\nOther Improvements There were a bunch of improvements that aren’t related to user visible features or minor bugfixes:\nDisabled GLAD and fixed a build issue related to that - GLAD is not needed on Emscripten as we target Emscripten’s emulated OpenGL ES built on top of WebGL which is a stable and static environment without any need for adjustments at runtime. Also, the current GLAD implementation is slow (see ). Updated the build.sh and configure scripts for better handling of libraries. Third-Party libraries not auto-detected anymore, don’t require external patches and we use emscripten-ports now also for giflib (which needed a small fix in emscripten: ) and libvorbis. Adjusted game downloader to the new ScummVM data spreadsheet. Removed workarounds in scummvm.ini and launch parameters by making OpenGL the default backend and adjusting the user settings path to use the home directory. Remove gamepad API workaround which isn’t needed anymore since ",
+  "wordCount" : "1408",
+  "inLanguage": "en",
+  "datePublished": "2024-01-05T00:00:24+01:00",
+  "dateModified": "2024-01-05T00:00:24+01:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/posts/2024-01-scummvm-part3/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Christian Kündig",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="/" accesskey="h" title="Christian Kündig (Alt + H)">Christian Kündig</a>
+            <div class="logo-switches">
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="/posts/" title="Personal Projects">
+                    <span>Personal Projects</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Porting ScummVM to Webassembly, Part 3
+    </h1>
+    <div class="post-meta"><span title='2024-01-05 00:00:24 +0100 +0100'>January 5, 2024</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>I finally found some time  over the holidays to wrap up some improvements I was working on for ScummVM last year. There&rsquo;s still a few unfinished features waiting, but I thought it was a good moment to actually collect some improvements into a pull request - it&rsquo;s been more than 18 months since the last one (see also <a href="/posts/2021-08-scummvm-wasm/">part 1</a> and <a href="/posts/2022-05-scummvm-part2/">part 2</a> of this project).</p>
+<a href="https://github.com/scummvm/scummvm/pull/5587" class="github-card"><img src="/posts/2024-01-scummvm-part3/5587_5225584662365030603.png"></a>
+
+<p>As always, you can try out all the changes at <a href="http://scummvm.kuendig.io/">scummvm.kuendig.io</a></p>
+<h2 id="log-file-download">Log File Download</h2>
+<p>The ScummVM log file can now be opened (as a download in the browser) from the integrated console.
+The majority of this is adding the capability download files. As the file system in Emscripten isn&rsquo;t user-accessible, there&rsquo;s not much point in saving data to it unless the app also provides a way to access it. To overcome this, I save the files in a temporary directory and then pass them over to the browser&rsquo;s Javascript context where we can trigger a download with <a href="https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL_static">URL.createObjectURL</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
+<video controls preload="auto" width="100%"  playsinline class="html-video">
+    <source src="/posts/2024-01-scummvm-part3/openlog.mp4" type="video/mp4">
+  <span>Your browser doesn't support embedded videos, but don't worry, you can <a href="/posts/2024-01-scummvm-part3/openlog.mp4">download it</a> and watch it with your favorite video player!</span>
+</video>
+<h2 id="screenshots-fixes">Screenshots Fixes</h2>
+<p>Once there was a method in place for downloading files, a natural next step was adding support for screenshots. This was using the same method as for the log file, but initially there were only images with black pixels exported as soon as rendering was not happening in software (i.e. in OpenGL).</p>
+<p>There were two WebGL-specific fixes required for that:</p>
+<ul>
+<li>
+<p>We can&rsquo;t access pixels on the screen after compositing happens.</p>
+<blockquote>
+<p>By default, after compositing the contents of the drawing buffer shall be cleared to their default values [&hellip;] Techniques like synchronous drawing buffer access (e.g., calling readPixels or toDataURL in the same function that renders to the drawing buffer) can be used to get the contents of the drawing buffer.</p>
+<p><em><a href="https://registry.khronos.org/webgl/specs/latest/1.0/#2">WebGL Specification: 2.1 Context Creation</a></em></p>
+</blockquote>
+<p>This means we need to capture the screenshot right after rendering (before yielding back to the browser), which is not the time when the keystroke event to capture a screenshot is triggered (right after yielding). I had to hack this a bit so a screenshot is queued on this event and taken when the next frame is rendered. Not great, but it works nicely in practice.</p>
+</li>
+<li>
+<p>WebGL doesn&rsquo;t support <code>GL_RGB</code>, but ScummVM unfortunately switched to capturing <code>GL_RGB</code> screenshots recently<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>.</p>
+<blockquote>
+<p>Only two combinations of format and type are accepted. The first is format RGBA and type UNSIGNED_BYTE. The second is an implementation-chosen format.</p>
+<p><em><a href="https://registry.khronos.org/webgl/specs/latest/1.0/#5.14.12">WebGL Specification: 5.14.12 Read Operations</a></em></p>
+</blockquote>
+<p>As it turns out, the implementation-chosen formats are buggy (<a class="github-button" href="https://github.com/KhronosGroup/WebGL/issues/2747" data-icon="octicon-issue-closed" data-size="small" data-text='WebGL#2747: <span style="font-weight:normal">readPixels issue </span>'></a>), so I switched back to <code>GL_RGBA</code> for Emscripten.</p>
+</li>
+</ul>
+<p>Once that was fixed, when pressing <code>alt+s</code>, screenshots are  opened the same way as log files:</p>
+<video controls preload="auto" width="100%"  playsinline class="html-video">
+    <source src="/posts/2024-01-scummvm-part3/screenshots.mp4" type="video/mp4">
+  <span>Your browser doesn't support embedded videos, but don't worry, you can <a href="/posts/2024-01-scummvm-part3/screenshots.mp4">download it</a> and watch it with your favorite video player!</span>
+</video>
+<h2 id="fixing-an-opengl-performance-regression">Fixing an OpenGL performance regression</h2>
+<p>For some reason new builds were running Grim Fandango only at 3-5 FPS instead of 50-60fps - which wasn&rsquo;t the case in 2022 when I submitted my last PR. Finding the root cause of this was quite some work to track down.</p>
+<p>I initially ignored the fact that this was a regression and tried debugging it with the profiler - but couldn&rsquo;t figure it out since all time was spent in WebGLRenderingContext function. As it later turned out, the root cause was super obvious from the profile alone&hellip;<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>
+<img loading="lazy" src="/posts/2024-01-scummvm-part3/profiler.png" type="" alt="Firefox Profiler of Grim Fandango running with 3-5 fps"  /></p>
+<p>So I went on figuring out which of the over 18'000 commits between my last PR in June 2022 and the end of December 2023 was causing this regression. For this I manually went picking random commits in between to check the performance trying to slowly narrow down where the issue might have been caused:
+<figure class="centered">
+    <img loading="lazy" src="/posts/2024-01-scummvm-part3/manual-bisect.png  "
+         alt="List of commits used to manually bisect commit"/> 
+</figure>
+</p>
+<p>This was so frustrating that I actually decided to stop banging my head against a wall and figure out how to troubleshoot such issues properly. Turns out there&rsquo;s <a href="https://git-scm.com/docs/git-bisect">git-bisect</a> which made things much much easier 😊 and eventually I could track it down to a specific commit: <a class="github-button" href="https://github.com/scummvm/scummvm/commit/863988fee4c0c9d70a2d0ac7919ab6d8ab0fdbd3" data-icon="octicon-git-commit" data-size="small" data-text='scummvm@863988f: <span style="font-weight:normal">OPENGL: Add proper error checking to the Shader class</span>'></a>.</p>
+<p>At this point it became clear that I should not have given up on the profiler, the bug was indeed that since adding the debugging wrapper in that commit, every frame was calling an expensive GL function as not everything worked properly on WebGL (so errors are caught on every frame).</p>
+<p>Eventually this was a super easy fix, I just decided to skip this debug wrapper for Emscripten as the browser anyway pushes out the same debugging messages in the console.</p>
+<h2 id="shaders">Shaders</h2>
+<p>Adding shaders actually required no adjustments - since <a href="https://www.scummvm.org/news/20230226/">ScummVM 2.7.0</a> users can select shader-based scalers to simulate a CRT.
+It was very satisfying to see this work without any changes (<a href="https://discord.com/channels/581224060529148060/581224061091446795/1080640189254344824">and I teased this already earlier on discord</a>).</p>
+<p>It&rsquo;s not super ergonomic to set up  s only a subset of the available shaders work in WebGL, so ideally in a future update these will be filtered out from the settings.
+<figure class="centered"><a href="scummvm-ft-demo-00003.png">
+    <img loading="lazy" src="/posts/2024-01-scummvm-part3/scummvm-ft-demo-00003.png  "
+         alt="Screenshot of Full Throttle with simulated CRT scanlines."/> </a><figcaption>
+            <p>Screenshot taken within the browser with the above mentioned fix</p>
+        </figcaption>
+</figure>
+</p>
+<h2 id="engines-not-compiling-with-opengl-es">Engines not compiling with OpenGL ES</h2>
+<p>When building ScummVM with all engines enabled I encountered problems in two engines that used OpenGL symbols that aren&rsquo;t part of OpenGL ES:</p>
+<ul>
+<li><strong>Freescape</strong> does not wrap its <code>gfx_opengl.cpp</code> with <code>#ifdef USE_OPENGL_GAME</code> as other engines, as well as calls 	<code>glDisable(GL_LIGHTING) </code>in it&rsquo;s <code>gfx_opengl_shaders.cpp</code> which isn&rsquo;t something that is done in OpenGL ES (which doesn&rsquo;t have fixed pipeline lighting). Fixing this was easy by adding the relevant <code>#ifdefs</code>. Unfortunately this doesn&rsquo;t yet make the Shader-based OpenGL renderer work, as the shaders themselves aren&rsquo;t compatible with WebGL/GLSL, so now this fails at runtime:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>Shader: createCompatShader(): Could not compile shader freescape_triangle.fragment: ERROR: 0:33: &#39;[]&#39; : Index expression must be constant.
+</span></span></code></pre></div>This is something that has to be fixed in the relevant shaders<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>. But it at least compiles now, and given TinyGL works just fine for this super old engine, I didn&rsquo;t add any other workarounds.</li>
+</ul>
+<ul>
+<li><strong>HPL1</strong> fails compiling in <code>CGProgram.cpp</code>:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>engines/hpl1/engine/impl/CGProgram.cpp:149:14: error: use of undeclared identifier &#39;GL_PROJECTION_MATRIX&#39;
+</span></span><span style="display:flex;"><span>  149 |         glGetFloatv(GL_PROJECTION_MATRIX, projection.getData());
+</span></span><span style="display:flex;"><span>      |                     ^
+</span></span><span style="display:flex;"><span>engines/hpl1/engine/impl/CGProgram.cpp:150:14: error: use of undeclared identifier &#39;GL_MODELVIEW_MATRIX&#39;
+</span></span><span style="display:flex;"><span>  150 |         glGetFloatv(GL_MODELVIEW_MATRIX, modelView.getData());
+</span></span><span style="display:flex;"><span>      |                     ^
+</span></span></code></pre></div></li>
+</ul>
+<p>I didn&rsquo;t find any workaround and given that I found many other references to classic OpenGL in this engine, I decided to flag HPL1 as requiring class OpenGL  in it&rsquo;s <code>configure.engine</code> so the engine is automatically disabled when building against OpenGL ES.</p>
+<h2 id="other-improvements">Other Improvements</h2>
+<p>There were a bunch of improvements that aren&rsquo;t related to user visible features or minor bugfixes:</p>
+<ul>
+<li><strong>Disabled GLAD and fixed a build issue related to that</strong> - GLAD is not needed on Emscripten as we target Emscripten&rsquo;s emulated OpenGL ES built on top of WebGL which is a stable and static environment without any need for adjustments at runtime. Also, the current GLAD implementation is slow (see <a class="github-button" href="https://github.com/Dav1dde/glad-web/issues/12" data-icon="octicon-issue-closed" data-size="small" data-text='glad-web#12: <span style="font-weight:normal">add emscripten support to the loader</span>'></a> ).</li>
+<li><strong>Updated the <code>build.sh</code> and <code>configure</code> scripts</strong> for better handling of libraries. Third-Party libraries not auto-detected anymore, don&rsquo;t require external patches and we use <em>emscripten-ports</em> now also for <em>giflib</em> (which needed a small fix in emscripten: <a class="github-button" href="https://github.com/emscripten-core/emscripten/issues/18537" data-icon="octicon-issue-closed" data-size="small" data-text='emscripten#18537: <span style="font-weight:normal">using libgif port leads to duplicate symbol error when linking as main module</span>'></a>) and <em>libvorbis</em>.</li>
+<li><strong>Adjusted game downloader to the new <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQamumX0p-DYQa5Umi3RxX-pHM6RZhAj1qvUP0jTmaqutN9FwzyriRSXlO9rq6kR60pGIuPvCDzZL3s/pub">ScummVM data</a></strong>  spreadsheet.</li>
+<li><strong>Removed workarounds in <code>scummvm.ini</code> and launch parameters</strong> by making OpenGL the default backend and adjusting the user settings path to use the home directory.</li>
+<li><strong>Remove gamepad API workaround</strong> which isn&rsquo;t needed anymore since <a class="github-button" href="https://github.com/scummvm/scummvm/commit/3a3da1b41e87cec8c86ca217fe50565faaf553fd" data-icon="octicon-git-commit" data-size="small" data-text='scummvm@3a3da1b: <span style="font-weight:normal">SDL: Allow joystick init to fail
+
+It&#39;s not critical so can be skipped</span>'></a>.</li>
+<li><strong>Loading Icons directly</strong> without having to fetch a large ZIP file to simplify things.</li>
+</ul>
+<h2 id="conclusion">Conclusion</h2>
+<p>It took me a long time to get this out, much longer then intended initially (I aimed at pushing something at least once a year). This was mostly because I decided to fix too many things and add new features at the same time.</p>
+<p>There&rsquo;s quite a bit of (half-working) code for proper filesystem handling in C++ and cloud synchronization still waiting to be wrapped up and I look forward to release that later this year.</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Trevor Sundberg&rsquo;s tutorial at motley-coder.com had a super useful sample for this (since taken offline, but available via the <a href="https://web.archive.org/web/20230208155942/https://motley-coder.com/2019/04/01/download-files-emscripten/">Internet Archive</a>).&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Apparently to fix some other issues - see <a class="github-button" href="https://github.com/scummvm/scummvm/pull/4854" data-icon="octicon-git-merge" data-size="small" data-text='scummvm#4854: <span style="font-weight:normal">GRAPHICS: Remove alpha channel for screenshots (OPENGL)</span>'></a> - hopefully this won&rsquo;t be an issue in Emscripten. Otherwise the PR has some discarded code that works by capturing RGBA and converting it later (<a class="github-button" href="https://github.com/scummvm/scummvm/commit/6b6c57e9fde54773876e765217f9d02a781fac9b" data-icon="octicon-git-commit" data-size="small" data-text='scummvm@6b6c57e: <span style="font-weight:normal">GRAPHICS: Preventively remove alpha channel for screenshots
+
+Preserving the alpha channel for screenshots
+is not really needed and causes problems in
+the AGS engine (and possibily other engines)</span>'></a>).&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>You can inspect the profile yourself at <a href="https://share.firefox.dev/3RGTBd4">https://share.firefox.dev/3RGTBd4</a> - I just saw that all time seems to be spent in GL functions (namely <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/getErrorGL_Error">WebGLRenderingContext.getError()</a> which didn&rsquo;t make any sense to me as the regression was in our code not in the browser.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>This issue is well documented on Stack Overflow: <a href="https://stackoverflow.com/questions/19529690/index-expression-must-be-constant-webgl-glsl-error">Index expression must be constant - WebGL/GLSL error</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="/tags/scummvm/">ScummVM</a></li>
+      <li><a href="/tags/gaming/">Gaming</a></li>
+      <li><a href="/tags/web-development/">Web Development</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="next" href="/posts/2023-11-tvheadend-hdhomerun/">
+    <span class="title"><span>November 26, 2023</span> | Next »</span>
+    <br>
+    <span>HDHomerun server emulation in Tvheadend</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="/">Christian Kündig</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<script src="/js/quicklink.umd.min.js" data-no-instant
+></script>
+<script data-no-instant>
+  
+window.addEventListener('load', () => {
+  quicklink.listen();
+});
+</script>
+
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+</body>
+
+</html>

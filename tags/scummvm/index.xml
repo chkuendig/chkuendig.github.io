@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ScummVM on Christian Kündig</title>
+    <link>/tags/scummvm/</link>
+    <description>Recent content in ScummVM on Christian Kündig</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 05 Jan 2024 00:00:24 +0100</lastBuildDate>
+    <atom:link href="/tags/scummvm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Porting ScummVM to Webassembly, Part 3</title>
+      <link>/posts/2024-01-scummvm-part3/</link>
+      <pubDate>Fri, 05 Jan 2024 00:00:24 +0100</pubDate>
+      <guid>/posts/2024-01-scummvm-part3/</guid>
+      <description>I finally found some time  over the holidays to wrap up some improvements I was working on for ScummVM last year.</description>
+    </item>
+    <item>
+      <title>Porting ScummVM to Webassembly, Part 2</title>
+      <link>/posts/2022-05-scummvm-part2/</link>
+      <pubDate>Mon, 21 Mar 2022 11:39:21 +0100</pubDate>
+      <guid>/posts/2022-05-scummvm-part2/</guid>
+      <description>💡 This is part 2 of my work on porting ScummVM. Please also check out part 1 and part 3 of this project.
+Since merging the initial Webassembly port of ScummVM, I have added a few critical improvements which moves the project forward torwards an eventual official release:
+Dynamic Plugins: It&amp;rsquo;s now possible to dynamically load plugins, making it possible to bundle all engines without the binary growing into unreasonable sizes.</description>
+    </item>
+    <item>
+      <title>Porting ScummVM to Webassembly</title>
+      <link>/posts/2021-08-scummvm-wasm/</link>
+      <pubDate>Fri, 20 Aug 2021 11:38:45 +0100</pubDate>
+      <guid>/posts/2021-08-scummvm-wasm/</guid>
+      <description>Making old adventure (and other) games available on the web.</description>
+    </item>
+  </channel>
+</rss>

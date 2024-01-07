@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Writing &amp; Talking on Christian Kündig</title>
+    <link>/tags/writing-talking/</link>
+    <description>Recent content in Writing &amp; Talking on Christian Kündig</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 03 Nov 2017 11:42:13 +0100</lastBuildDate>
+    <atom:link href="/tags/writing-talking/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Product Management Night</title>
+      <link>/posts/2017-11-pm-night/</link>
+      <pubDate>Fri, 03 Nov 2017 11:42:13 +0100</pubDate>
+      <guid>/posts/2017-11-pm-night/</guid>
+      <description>On November 3rd I had the pleasure to present at the Product Management Night series of the Product Management Festival in Zurich.
+This time it was held held at the beautiful NZZ foyer next to the opera house. My presentation focused on how we build deep-tech products a Scandit and how PMs connect technological capabilities and customer value.
+I really enjoyed sharing my experiences and connecting with other product managers in my city.</description>
+    </item>
+    <item>
+      <title>Zürcher Journalistenpreis 2010</title>
+      <link>/posts/2010-05-zjp/</link>
+      <pubDate>Fri, 28 May 2010 11:34:07 +0100</pubDate>
+      <guid>/posts/2010-05-zjp/</guid>
+      <description>Im Mai 2010 gewannen Lukas Messmer und ich den Zürcher Journalistenpreis für unsere Reportage &amp;ldquo;&lt;a href=&#34;2009-10-die-endstation.md&#34;&gt;Die Endstation&lt;/a&gt;&amp;rdquo; in der Zürcher Studierendenzeitung (ZS).</description>
+    </item>
+    <item>
+      <title>Master Thesis: Building an adapting Poker Agent</title>
+      <link>/posts/2010-03-master-thesis/</link>
+      <pubDate>Sun, 14 Mar 2010 11:34:58 +0100</pubDate>
+      <guid>/posts/2010-03-master-thesis/</guid>
+      <description>I wrote a learning poker bot for my master thesis. This was just at the cusp of the deep learning breakthroughs to come soon after.</description>
+    </item>
+  </channel>
+</rss>

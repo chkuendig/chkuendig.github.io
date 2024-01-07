@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Master Thesis: Building an adapting Poker Agent | Christian Kündig</title>
+<meta name="keywords" content="Reverse Engineering, Writing &amp; Talking">
+<meta name="description" content="I wrote a learning poker bot for my master thesis. This was just at the cusp of the deep learning breakthroughs to come soon after.">
+<meta name="author" content="">
+<link rel="canonical" href="/posts/2010-03-master-thesis/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.6fd580221dec0f8dcd9f498891425172cd130e7dd90c642a7e6ca23f89685978.css" integrity="sha256-b9WAIh3sD43Nn0mIkUJRcs0TDn3ZDGQqfmyiP4loWXg=" rel="preload stylesheet" as="style">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="mask-icon" href="/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
+<link href='//fonts.googleapis.com/css?family=Mulish' rel='stylesheet' type='text/css'>
+
+<script src="/js/github-buttons.min.js" data-no-instant
+></script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L4NRERPTCT"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-L4NRERPTCT', { 'anonymize_ip': false });
+}
+</script>
+<meta property="og:title" content="Master Thesis: Building an adapting Poker Agent" />
+<meta property="og:description" content="I wrote a learning poker bot for my master thesis. This was just at the cusp of the deep learning breakthroughs to come soon after." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/2010-03-master-thesis/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2010-03-14T11:34:58+01:00" />
+<meta property="article:modified_time" content="2010-03-14T11:34:58+01:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Master Thesis: Building an adapting Poker Agent"/>
+<meta name="twitter:description" content="I wrote a learning poker bot for my master thesis. This was just at the cusp of the deep learning breakthroughs to come soon after."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Personal Projects",
+      "item": "/posts/"
+    }
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Master Thesis: Building an adapting Poker Agent",
+      "item": "/posts/2010-03-master-thesis/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Master Thesis: Building an adapting Poker Agent",
+  "name": "Master Thesis: Building an adapting Poker Agent",
+  "description": "I wrote a learning poker bot for my master thesis. This was just at the cusp of the deep learning breakthroughs to come soon after.",
+  "keywords": [
+    "Reverse Engineering", "Writing \u0026 Talking"
+  ],
+  "articleBody": " 🎓 I wrote a learning poker bot for my master thesis. This was just at the cusp of the deep learning breakthroughs to come soon after. Unfortunately at the time for a master student without a research budget, I was limited to experimenting with networks with a few layers, and responses were too slow to allow fluent poker play (and train iteratively) so I decided for some simpler algorithms (decision trees).\nBuilding an adapting Poker Agent\nChristian Kündig, 2010\nMaster Thesis, University of Zürich\nPoker offers an interesting domain to investigate some fundamental problems in artificial intelligence. The properties of stochasticity and imperfect information pose new challenging questions, not present in other typical game research subjects like chess; traditional methods for computer game-playing as alpha-beta search are incapable of handling these challenges.\nThis thesis presents the necessary algorithms to tackle these problems with the use of modified game tree search and opponent modeling. A proof-of-concept implementation for the game of No-Limit Texas Hold’em is provided (and benchmarked), based on the Miximax algorithm and an opponent model implemented as a Hoeffding tree.\nPublication Details on merlin.uzh.ch Source Code: PDF Download1 Reverse Engineering Side Project There was an interesting mini-reverse engineering challenge hidden in this project: As I needed a way to benchmark against other algorithms, I had to find bots to play against. State of the art research bots weren’t available to play around, so I decided to extract them from a commercial poker training tool called Poker Academy - which luckily also was implemented in Java (it was the 2000s after all).\nUnfortunately the class files were all encrypted and could not be reused easily. The application used a third party tool (“Vastmind Loader”) which extended the Java Class Loader to support encrypted class files.\nJava is great as I could still run the whole app in a JVM with activated debugging protocol to access and extract all the class files and look for the encryption key, allowing me to use the same files outside of Poker Academy in my own benchmark and using my own Class Loader which automatically decrypted these classes.\nLaTeX Sources: ↩︎\n",
+  "wordCount" : "356",
+  "inLanguage": "en",
+  "datePublished": "2010-03-14T11:34:58+01:00",
+  "dateModified": "2010-03-14T11:34:58+01:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/posts/2010-03-master-thesis/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Christian Kündig",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="/" accesskey="h" title="Christian Kündig (Alt + H)">Christian Kündig</a>
+            <div class="logo-switches">
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="/posts/" title="Personal Projects">
+                    <span>Personal Projects</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Master Thesis: Building an adapting Poker Agent
+    </h1>
+    <div class="post-meta"><span title='2010-03-14 11:34:58 +0100 +0100'>March 14, 2010</span>
+
+</div>
+  </header> 
+  <div class="post-content"><aside>
+    <span>🎓</span>
+    <p>I wrote a learning poker bot for my master thesis. This was just at the cusp of the deep learning breakthroughs to come soon after. Unfortunately at the time for a master student without a research budget, I was limited to experimenting with networks with a few layers, and responses were too slow to allow fluent poker play (and train iteratively) so I decided for some simpler algorithms (decision trees).</p>
+</aside>
+<blockquote>
+<p><figure class="float-right"><a href="master-thesis.pdf">
+    <img loading="lazy" src="/posts/2010-03-master-thesis/2010-03-master-thesis.jpg  "
+         alt="Building an adapting Poker Agent, Christian Kündig, 2010, University of Zürich"/> </a>
+</figure>
+
+<strong>Building an adapting Poker Agent</strong></p>
+<p>Christian Kündig, 2010</p>
+<p>Master Thesis, University of Zürich</p>
+<p>Poker offers an interesting domain to investigate some fundamental problems in artificial intelligence. The properties of stochasticity and imperfect information pose new challenging questions, not present in other typical game research subjects like chess; traditional methods for computer game-playing as alpha-beta search are incapable of handling these challenges.</p>
+<p>This thesis presents the necessary algorithms to tackle these problems with the use of modified game tree search and opponent modeling. A proof-of-concept implementation for the game of No-Limit Texas Hold’em is provided (and benchmarked), based on the Miximax algorithm and an opponent model implemented as a Hoeffding tree.</p>
+</blockquote>
+<ul>
+<li><a href="http://www.merlin.uzh.ch/publication/show/2428">Publication Details</a> on merlin.uzh.ch</li>
+<li>Source Code: 
+    
+<a class="github-button" href="https://github.com/chkuendig/uzholdem" data-icon="octicon-repo" data-size="small" data-text='chkuendig/uzholdem'></a></li>
+<li><a href="master-thesis.pdf">PDF Download</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></li>
+</ul>
+<h3 id="reverse-engineering-side-project">Reverse Engineering Side Project</h3>
+<p>There was an interesting mini-reverse engineering challenge hidden in this project: As I needed a way to benchmark against other algorithms, I had to find bots to play against. State of the art research bots weren&rsquo;t available to play around, so I decided to extract them from a commercial poker training tool called <a href="http://www.poker-academy.com/">Poker Academy</a> - which luckily also was implemented in Java (it was the 2000s after all).</p>
+<p>Unfortunately the class files were all encrypted and could not be reused easily. The application used a third party tool (&ldquo;Vastmind Loader&rdquo;) which extended the Java Class Loader to support encrypted class files.</p>
+<p>Java is great as I could still run the whole app in a JVM with activated debugging protocol to access and extract all the class files and look for the <a href="https://github.com/chkuendig/uzholdem/blob/6ef317ee7f86b791f6012eca8b50cbe39be90c8a/eclipse/uzholdem/src-thirdparty/com/biotools/poker/PokerAppLauncher.java">encryption key</a>, allowing me to use the same files outside of Poker Academy in my own <a href="https://github.com/chkuendig/uzholdem/blob/6ef317ee7f86b791f6012eca8b50cbe39be90c8a/eclipse/uzholdem/src-thirdparty/com/vastmind/loader/Launcher.java">benchmark</a> and using my own <a href="https://github.com/chkuendig/uzholdem/blob/6ef317ee7f86b791f6012eca8b50cbe39be90c8a/eclipse/uzholdem/src-thirdparty/ca/ualberta/cs/poker/free/academy25/PokerAcademyLoader.java#L14">Class Loader</a> which automatically decrypted these classes.</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>LaTeX Sources: 
+    
+<a class="github-button" href="https://github.com/chkuendig/uzholdem-paper" data-icon="octicon-repo" data-size="small" data-text='chkuendig/uzholdem-paper'></a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="/tags/reverse-engineering/">Reverse Engineering</a></li>
+      <li><a href="/tags/writing-talking/">Writing &amp; Talking</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="/posts/2010-05-zjp/">
+    <span class="title">« Prev | <span>May 28, 2010</span></span>
+    <br>
+    <span>Zürcher Journalistenpreis 2010</span>
+  </a>
+  <a class="next" href="/posts/2009-10-die-endstation/">
+    <span class="title"><span>November 25, 2009</span> | Next »</span>
+    <br>
+    <span>Die Endstation</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="/">Christian Kündig</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<script src="/js/quicklink.umd.min.js" data-no-instant
+></script>
+<script data-no-instant>
+  
+window.addEventListener('load', () => {
+  quicklink.listen();
+});
+</script>
+
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+</body>
+
+</html>

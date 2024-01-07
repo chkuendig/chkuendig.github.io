@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Gaming on Christian Kündig</title>
+    <link>/tags/gaming/</link>
+    <description>Recent content in Gaming on Christian Kündig</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 05 Jan 2024 00:00:24 +0100</lastBuildDate>
+    <atom:link href="/tags/gaming/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Porting ScummVM to Webassembly, Part 3</title>
+      <link>/posts/2024-01-scummvm-part3/</link>
+      <pubDate>Fri, 05 Jan 2024 00:00:24 +0100</pubDate>
+      <guid>/posts/2024-01-scummvm-part3/</guid>
+      <description>I finally found some time  over the holidays to wrap up some improvements I was working on for ScummVM last year.</description>
+    </item>
+    <item>
+      <title>Reverse Engineering the 1995 FMV game Silent Steel</title>
+      <link>/posts/2023-03-silentsteel/</link>
+      <pubDate>Tue, 14 Mar 2023 11:41:01 +0100</pubDate>
+      <guid>/posts/2023-03-silentsteel/</guid>
+      <description>Silent Steel is a submarine-themed FMV  game released in 1995. This is the summary of it&amp;rsquo;s file formats, including a prototype re-implementation.</description>
+    </item>
+    <item>
+      <title>Porting ScummVM to Webassembly, Part 2</title>
+      <link>/posts/2022-05-scummvm-part2/</link>
+      <pubDate>Mon, 21 Mar 2022 11:39:21 +0100</pubDate>
+      <guid>/posts/2022-05-scummvm-part2/</guid>
+      <description>💡 This is part 2 of my work on porting ScummVM. Please also check out part 1 and part 3 of this project.
+Since merging the initial Webassembly port of ScummVM, I have added a few critical improvements which moves the project forward torwards an eventual official release:
+Dynamic Plugins: It&amp;rsquo;s now possible to dynamically load plugins, making it possible to bundle all engines without the binary growing into unreasonable sizes.</description>
+    </item>
+    <item>
+      <title>Porting ScummVM to Webassembly</title>
+      <link>/posts/2021-08-scummvm-wasm/</link>
+      <pubDate>Fri, 20 Aug 2021 11:38:45 +0100</pubDate>
+      <guid>/posts/2021-08-scummvm-wasm/</guid>
+      <description>Making old adventure (and other) games available on the web.</description>
+    </item>
+    <item>
+      <title>Does Steam Remote Play support NvFBC on Linux?</title>
+      <link>/posts/2020-12-steam-nvfbc/</link>
+      <pubDate>Fri, 11 Dec 2020 11:52:50 +0100</pubDate>
+      <guid>/posts/2020-12-steam-nvfbc/</guid>
+      <description>Trying to get Steam Remote Play working from my Linux home lab, I noticed that while Steam offers capturing the frame data with NvFBC, the setting doesn&amp;rsquo;t seem have any impact. Why is that?</description>
+    </item>
+    <item>
+      <title>Compiling Zork from Scratch</title>
+      <link>/posts/2019-04-zork/</link>
+      <pubDate>Wed, 17 Apr 2019 11:41:01 +0100</pubDate>
+      <guid>/posts/2019-04-zork/</guid>
+      <description>Today, the source code of many old Infocom Text Adventures has been uploaded to Github. Let&amp;rsquo;s see if we can compile Zork.</description>
+    </item>
+  </channel>
+</rss>

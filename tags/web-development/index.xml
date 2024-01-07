@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Web Development on Christian Kündig</title>
+    <link>/tags/web-development/</link>
+    <description>Recent content in Web Development on Christian Kündig</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 05 Jan 2024 00:00:24 +0100</lastBuildDate>
+    <atom:link href="/tags/web-development/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Porting ScummVM to Webassembly, Part 3</title>
+      <link>/posts/2024-01-scummvm-part3/</link>
+      <pubDate>Fri, 05 Jan 2024 00:00:24 +0100</pubDate>
+      <guid>/posts/2024-01-scummvm-part3/</guid>
+      <description>I finally found some time  over the holidays to wrap up some improvements I was working on for ScummVM last year.</description>
+    </item>
+    <item>
+      <title>Github Shortcodes for the Hugo Static Page Generator</title>
+      <link>/posts/2023-11-github-shortcode/</link>
+      <pubDate>Thu, 02 Nov 2023 00:00:35 +0100</pubDate>
+      <guid>/posts/2023-11-github-shortcode/</guid>
+      <description>I link a lot to various GitHub items, so I built some Hugo shortcodes for it.</description>
+    </item>
+    <item>
+      <title>Porting ScummVM to Webassembly, Part 2</title>
+      <link>/posts/2022-05-scummvm-part2/</link>
+      <pubDate>Mon, 21 Mar 2022 11:39:21 +0100</pubDate>
+      <guid>/posts/2022-05-scummvm-part2/</guid>
+      <description>💡 This is part 2 of my work on porting ScummVM. Please also check out part 1 and part 3 of this project.
+Since merging the initial Webassembly port of ScummVM, I have added a few critical improvements which moves the project forward torwards an eventual official release:
+Dynamic Plugins: It&amp;rsquo;s now possible to dynamically load plugins, making it possible to bundle all engines without the binary growing into unreasonable sizes.</description>
+    </item>
+    <item>
+      <title>Porting ScummVM to Webassembly</title>
+      <link>/posts/2021-08-scummvm-wasm/</link>
+      <pubDate>Fri, 20 Aug 2021 11:38:45 +0100</pubDate>
+      <guid>/posts/2021-08-scummvm-wasm/</guid>
+      <description>Making old adventure (and other) games available on the web.</description>
+    </item>
+    <item>
+      <title>Simulating barcode scanning on the web</title>
+      <link>/posts/2019-12-scandit3d/</link>
+      <pubDate>Wed, 18 Dec 2019 11:37:11 +0100</pubDate>
+      <guid>/posts/2019-12-scandit3d/</guid>
+      <description>The yearly hackathon at work is always a great time to pursue new ideas or play around in fun ways with existing technology. My entry in 2019 was a humorous take on using simulations when developing computer vision software. I long wondered to see if we could use modern game engines or other simulation technology to augment some of our real world testing at scale.
+For the hackathon, I decided to apply my (as you will see quite limited) skills and implement a prototype of such a system.</description>
+    </item>
+    <item>
+      <title>BrowsePass fork with Dropbox support</title>
+      <link>/posts/2014-11-browsepass-dropbox/</link>
+      <pubDate>Sat, 22 Nov 2014 11:36:12 +0100</pubDate>
+      <guid>/posts/2014-11-browsepass-dropbox/</guid>
+      <description>Living and traveling overseas for more than a year, I want a way to access some of my more secure credentials in case of device loss.
+BrowsePass is a static web application to read KDBX files as produced by KeePass. This allows me to securely access my passwords and logins from everywhere - all I need is a computer with a web browser.
+As Google isn&amp;rsquo;t available in all the countries I&amp;rsquo;m traveling to (👋🇨🇳), I added support for Dropbox to it.</description>
+    </item>
+  </channel>
+</rss>

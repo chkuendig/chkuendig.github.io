@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Simulating barcode scanning on the web | Christian Kündig</title>
+<meta name="keywords" content="Web Development">
+<meta name="description" content="The yearly hackathon at work is always a great time to pursue new ideas or play around in fun ways with existing technology. My entry in 2019 was a humorous take on using simulations when developing computer vision software. I long wondered to see if we could use modern game engines or other simulation technology to augment some of our real world testing at scale.
+For the hackathon, I decided to apply my (as you will see quite limited) skills and implement a prototype of such a system.">
+<meta name="author" content="">
+<link rel="canonical" href="/posts/2019-12-scandit3d/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.6fd580221dec0f8dcd9f498891425172cd130e7dd90c642a7e6ca23f89685978.css" integrity="sha256-b9WAIh3sD43Nn0mIkUJRcs0TDn3ZDGQqfmyiP4loWXg=" rel="preload stylesheet" as="style">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="mask-icon" href="/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
+<link href='//fonts.googleapis.com/css?family=Mulish' rel='stylesheet' type='text/css'>
+
+<script src="/js/github-buttons.min.js" data-no-instant
+></script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L4NRERPTCT"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-L4NRERPTCT', { 'anonymize_ip': false });
+}
+</script>
+<meta property="og:title" content="Simulating barcode scanning on the web" />
+<meta property="og:description" content="The yearly hackathon at work is always a great time to pursue new ideas or play around in fun ways with existing technology. My entry in 2019 was a humorous take on using simulations when developing computer vision software. I long wondered to see if we could use modern game engines or other simulation technology to augment some of our real world testing at scale.
+For the hackathon, I decided to apply my (as you will see quite limited) skills and implement a prototype of such a system." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/2019-12-scandit3d/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2019-12-18T11:37:11+01:00" />
+<meta property="article:modified_time" content="2019-12-18T11:37:11+01:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Simulating barcode scanning on the web"/>
+<meta name="twitter:description" content="The yearly hackathon at work is always a great time to pursue new ideas or play around in fun ways with existing technology. My entry in 2019 was a humorous take on using simulations when developing computer vision software. I long wondered to see if we could use modern game engines or other simulation technology to augment some of our real world testing at scale.
+For the hackathon, I decided to apply my (as you will see quite limited) skills and implement a prototype of such a system."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Personal Projects",
+      "item": "/posts/"
+    }
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Simulating barcode scanning on the web",
+      "item": "/posts/2019-12-scandit3d/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Simulating barcode scanning on the web",
+  "name": "Simulating barcode scanning on the web",
+  "description": "The yearly hackathon at work is always a great time to pursue new ideas or play around in fun ways with existing technology. My entry in 2019 was a humorous take on using simulations when developing computer vision software. I long wondered to see if we could use modern game engines or other simulation technology to augment some of our real world testing at scale.\nFor the hackathon, I decided to apply my (as you will see quite limited) skills and implement a prototype of such a system.",
+  "keywords": [
+    "Web Development"
+  ],
+  "articleBody": "The yearly hackathon at work is always a great time to pursue new ideas or play around in fun ways with existing technology. My entry in 2019 was a humorous take on using simulations when developing computer vision software. I long wondered to see if we could use modern game engines or other simulation technology to augment some of our real world testing at scale.\nFor the hackathon, I decided to apply my (as you will see quite limited) skills and implement a prototype of such a system.\nScandit3D The result was Scandit3D, it’s a pseudo-3D environment full of barcode textures and a camera which automatically scans any barcodes it sees.\nTry it out You can try it out at http://scandit3d.kuendig.io/ or click on the image below to run it on this site.\nClick once in the main area to start it (click a second time to go into fullscreen). Once the game runs, you can add barcodes via the barcode generator. Selecting a new symbology or pressing enter automatically regenerates the barcode Bugs \u0026 Improvements There were a few things I didn’t get to implement in the 36 hours available:\nGraphics Full screen 🐞no message on lauch (“click to start”) start screen / animation blood animation / overlay take screenshots (ctrl/cmd+c) Add screensaver mode (autostart with rotating barcodes) Sound effects 🐞 gun sound doesn’t play (commented out) Background Music 3D Maze better textures (not from Win95) default enable lightening (only on space currently) automatically loop barcodes (press 1-9 to set scans per symbology, 0 to disable) Status bar 🐞aspect ratio of status bar (Doom used non-square pixels) 🐞using AmazDooMLeft for whole logo (instead of just left side) Source Quality code cleanup use npm / web bundler to build References Being a single dev and having barely more than a workday, I had to stich together what I could. So no, this isn’t using Unreal Engine with custom bindings for the barcode scanner. Instead:\nThe barcode scanner is the amazing Scandit Barcode Scanner for the Web.\nThe barcode generator used is which is a translation to native JavaScript of .\nThe 3D maze is based on the WebGL-port of the 3D Maze screensaver from Windows 95 available at .\nThe matrix libraries it uses are from (deeplink) Thee maze generator can be found at (Tutorial). The status bar uses the UI elements from and the font is Press Start 2P. The background is a modified version of STBAR from the DOOM1.WAD.\nThe Scandit3D logo uses the AmazDooM font.\nThe gun sound is SPISTOL from the DOOM1.WAD.\n",
+  "wordCount" : "426",
+  "inLanguage": "en",
+  "datePublished": "2019-12-18T11:37:11+01:00",
+  "dateModified": "2019-12-18T11:37:11+01:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/posts/2019-12-scandit3d/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Christian Kündig",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="/" accesskey="h" title="Christian Kündig (Alt + H)">Christian Kündig</a>
+            <div class="logo-switches">
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="/posts/" title="Personal Projects">
+                    <span>Personal Projects</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Simulating barcode scanning on the web
+    </h1>
+    <div class="post-meta"><span title='2019-12-18 11:37:11 +0100 +0100'>December 18, 2019</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>The yearly hackathon at work is always a great time to pursue new ideas or play around in fun ways with existing technology. My entry in 2019 was a humorous take on using simulations when developing computer vision software. I long wondered to see if we could use modern game engines or other simulation technology to augment some of our real world testing at scale.</p>
+<p>For the hackathon, I decided to apply my (as you will see quite limited) skills and implement a prototype of such a system.</p>
+<h2 id="scandit3d">Scandit3D</h2>
+<p>The result was Scandit3D, it&rsquo;s a pseudo-3D environment full of barcode textures and a camera which automatically scans any barcodes it sees.</p>
+<p><a href="https://github.com/chkuendig/scandit3d" class="github-card"><img src="/posts/2019-12-scandit3d/scandit3d_1683743576630469099.png"></a></p>
+<h3 id="try-it-out">Try it out</h3>
+<p>You can try it out at <a href="http://scandit3d.kuendig.io/">http://scandit3d.kuendig.io/</a> or click on the image below to run it on this site.</p>
+<style>
+.iframe-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding-top: 62.5%; /* 16:10 Aspect Ratio */
+}
+
+.iframe-img img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 100%;
+  cursor: pointer;
+}
+
+/* Then style the iframe to fit in the container div with full height and width */
+.responsive-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display:none;
+  /* some ugly hacks as the demo isn't responsive */
+  width: 400%;
+  height: 400%;
+  overflow:hidden;
+  -ms-zoom: 0.75;
+  -moz-transform: scale(0.25);
+  -moz-transform-origin: 0 0;
+  -o-transform: scale(0.25);
+  -o-transform-origin: 0 0;
+  -webkit-transform: scale(0.25);
+  -webkit-transform-origin: 0 0;
+}
+</style>
+<script>
+function load_iframe(imgDiv) {
+  imgDiv.style.display = "none";
+  iframe = imgDiv.parentElement.getElementsByTagName("iframe")[0]
+  iframe.style.display = "block";
+  iframe.src = "http://scandit3d.kuendig.io/maze.html?screensaver=true";
+}
+</script>
+<div class="iframe-container">
+    <div class="iframe-img" onclick="load_iframe(this)">
+<p><img loading="lazy" src="/posts/2019-12-scandit3d/screenshot.png" type="" alt="Screenshot"  />
+</div></p>
+  <iframe class="responsive-iframe" style="max-width:400%;"></iframe>
+</div>
+<ul>
+<li>Click once in the main area to start it (click a second time to go into fullscreen).</li>
+<li>Once the game runs, you can add barcodes via the barcode generator. Selecting a new symbology or pressing enter automatically regenerates the barcode</li>
+</ul>
+<h3 id="bugs--improvements">Bugs &amp; Improvements</h3>
+<p>There were a few things I didn&rsquo;t get to implement in the 36 hours available:</p>
+<ul>
+<li><input disabled="" type="checkbox"> Graphics
+<ul>
+<li><input checked="" disabled="" type="checkbox"> Full screen</li>
+<li><input disabled="" type="checkbox"> 🐞no message on lauch (&ldquo;click to start&rdquo;)</li>
+<li><input disabled="" type="checkbox"> start screen / animation</li>
+<li><input disabled="" type="checkbox"> blood animation / overlay</li>
+<li><input checked="" disabled="" type="checkbox"> take screenshots (ctrl/cmd+c)</li>
+<li><input checked="" disabled="" type="checkbox"> Add screensaver mode (autostart with rotating barcodes)</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> Sound effects
+<ul>
+<li><input disabled="" type="checkbox"> 🐞 gun sound doesn&rsquo;t play (commented out)</li>
+<li><input disabled="" type="checkbox"> Background Music</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> 3D Maze
+<ul>
+<li><input disabled="" type="checkbox"> better textures (not from Win95)</li>
+<li><input checked="" disabled="" type="checkbox"> default enable lightening (only on space currently)</li>
+<li><input checked="" disabled="" type="checkbox"> automatically loop barcodes (press 1-9 to set scans per symbology, 0 to disable)</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> Status bar
+<ul>
+<li><input checked="" disabled="" type="checkbox"> 🐞aspect ratio of status bar (Doom used <a href="https://doom.fandom.com/wiki/Aspect_ratio">non-square pixels</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> 🐞using AmazDooMLeft for whole logo (instead of just left side)</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> Source Quality
+<ul>
+<li><input disabled="" type="checkbox"> code cleanup</li>
+<li><input disabled="" type="checkbox"> use npm / web bundler to build</li>
+</ul>
+</li>
+</ul>
+<h2 id="references">References</h2>
+<p>Being a single dev and having barely more than a workday, I had to stich together what I could. So no, this isn&rsquo;t using Unreal Engine with custom bindings for the barcode scanner. Instead:</p>
+<ul>
+<li>
+<p>The <strong>barcode scanner</strong> is the amazing <a href="https://www.npmjs.com/package/scandit-sdk">Scandit Barcode Scanner for the Web</a>.</p>
+</li>
+<li>
+<p>The <strong>barcode generator</strong> used is  
+    
+<a class="github-button" href="https://github.com/metafloor/bwip-js" data-icon="octicon-repo" data-size="small" data-text='metafloor/bwip-js'></a> which is a translation to native JavaScript of 
+    
+<a class="github-button" href="https://github.com/bwipp/postscriptbarcode" data-icon="octicon-repo" data-size="small" data-text='bwipp/postscriptbarcode'></a>.</p>
+</li>
+<li>
+<p>The <strong>3D maze</strong> is based on the WebGL-port of the 3D Maze screensaver from Windows 95 available at  
+    
+<a class="github-button" href="https://github.com/ibid-11962/Windows-95-3D-Maze-Screensaver" data-icon="octicon-repo" data-size="small" data-text='ibid-11962/Windows-95-3D-Maze-Screensaver'></a>.</p>
+<ul>
+<li>The matrix libraries it uses are from 
+    
+<a class="github-button" href="https://github.com/esangel/WebGL" data-icon="octicon-repo" data-size="small" data-text='esangel/WebGL'></a>(<a href="https://github.com/esangel/WebGL/tree/master/Common">deeplink</a>)</li>
+<li>Thee maze generator can be found at 
+    
+<a class="github-button" href="https://github.com/dstromberg2/maze-generator" data-icon="octicon-repo" data-size="small" data-text='dstromberg2/maze-generator'></a> (<a href="https://www.dstromberg.com/2013/07/tutorial-random-maze-generation-algorithm-in-javascript/">Tutorial</a>).</li>
+</ul>
+</li>
+<li>
+<p>The <strong>status bar</strong> uses the UI elements from 
+    
+<a class="github-button" href="https://github.com/nostalgic-css/NES.css" data-icon="octicon-repo" data-size="small" data-text='nostalgic-css/NES.css'></a> and the font is <a href="https://fonts.google.com/specimen/Press+Start+2P?selection.family=Press+Start+2P">Press Start 2P</a>. The background is a modified version of <code>STBAR</code> from the <a href="https://doomwiki.org/wiki/DOOM1.WAD">DOOM1.WAD</a>.</p>
+</li>
+<li>
+<p>The <strong>Scandit3D logo</strong> uses the <a href="https://www.dafont.com/amazdoom.font">AmazDooM font</a>.</p>
+</li>
+<li>
+<p>The <strong>gun sound</strong> is <code>SPISTOL</code> from the <a href="https://doomwiki.org/wiki/DOOM1.WAD">DOOM1.WAD</a>.</p>
+</li>
+</ul>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="/tags/web-development/">Web Development</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="/posts/2020-02-tv7-epg/">
+    <span class="title">« Prev | <span>February 6, 2020</span></span>
+    <br>
+    <span>Extracting EPG data from the TV7 IPTV service</span>
+  </a>
+  <a class="next" href="/posts/2019-04-zork/">
+    <span class="title"><span>April 17, 2019</span> | Next »</span>
+    <br>
+    <span>Compiling Zork from Scratch</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="/">Christian Kündig</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<script src="/js/quicklink.umd.min.js" data-no-instant
+></script>
+<script data-no-instant>
+  
+window.addEventListener('load', () => {
+  quicklink.listen();
+});
+</script>
+
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+</body>
+
+</html>

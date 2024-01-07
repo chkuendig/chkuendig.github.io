@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Reverse Engineering the 1995 FMV game Silent Steel | Christian Kündig</title>
+<meta name="keywords" content="Gaming, Reverse Engineering">
+<meta name="description" content="Silent Steel is a submarine-themed FMV  game released in 1995. This is the summary of it&rsquo;s file formats, including a prototype re-implementation.">
+<meta name="author" content="">
+<link rel="canonical" href="/posts/2023-03-silentsteel/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.6fd580221dec0f8dcd9f498891425172cd130e7dd90c642a7e6ca23f89685978.css" integrity="sha256-b9WAIh3sD43Nn0mIkUJRcs0TDn3ZDGQqfmyiP4loWXg=" rel="preload stylesheet" as="style">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="mask-icon" href="/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
+<link href='//fonts.googleapis.com/css?family=Mulish' rel='stylesheet' type='text/css'>
+
+<script src="/js/github-buttons.min.js" data-no-instant
+></script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L4NRERPTCT"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-L4NRERPTCT', { 'anonymize_ip': false });
+}
+</script>
+<meta property="og:title" content="Reverse Engineering the 1995 FMV game Silent Steel" />
+<meta property="og:description" content="Silent Steel is a submarine-themed FMV  game released in 1995. This is the summary of it&rsquo;s file formats, including a prototype re-implementation." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/2023-03-silentsteel/" /><meta property="og:image" content="/posts/2023-03-silentsteel/cover.jpg"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-03-14T11:41:01+01:00" />
+<meta property="article:modified_time" content="2023-03-14T11:41:01+01:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="/posts/2023-03-silentsteel/cover.jpg"/>
+<meta name="twitter:title" content="Reverse Engineering the 1995 FMV game Silent Steel"/>
+<meta name="twitter:description" content="Silent Steel is a submarine-themed FMV  game released in 1995. This is the summary of it&rsquo;s file formats, including a prototype re-implementation."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Personal Projects",
+      "item": "/posts/"
+    }
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Reverse Engineering the 1995 FMV game Silent Steel",
+      "item": "/posts/2023-03-silentsteel/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Reverse Engineering the 1995 FMV game Silent Steel",
+  "name": "Reverse Engineering the 1995 FMV game Silent Steel",
+  "description": "Silent Steel is a submarine-themed FMV  game released in 1995. This is the summary of it\u0026rsquo;s file formats, including a prototype re-implementation.",
+  "keywords": [
+    "Gaming", "Reverse Engineering"
+  ],
+  "articleBody": "My first computer I ever had access to was a Toshiba Laptop shared by the whole family. It must have been the late 90ies, CD-ROM was pretty new as when we got it, so it came with external CD-ROM drive and a separate PCMCIA MPEG1 accelerator card.1\nOne of the neat things about is was that it came with this crazy interactive movie game that let you play a story similar to Hunt for Red October or Crimson Tide - which were blockbuster movies at the time. I recently rediscovered the promotional disc Sigma Design bundled with the card on the Internet Archive and decided to have another look at it 25 years later!\nSilent Steel is a submarine-themed full-motion video game released in 1995 by Tsunami Games. It was created during the influx of interactive movies during the 1990s. The game is composed almost entirely of live-action full motion video, with sparse computer-generated graphics depicting external shots of the boat during torpedo attacks and atmospheric fly-bys.2\nI’ve been trying recently to reverse engineer the game and implement a prototype interpreter in Python to play the game on modern machines (it was originally released as a 16bit executable for Win 3.11). I thought I’ll put together some documentation for a potential re-implementation of the game (e.g. as a ScummVM engine).\nThere were many releases of this game, it’s not clear whether the later releases (AVI CD-ROM, DVD-ROM and DVD Video) were implemented the same way. 3\nGame Executable STEEL.EXE is the main game executable in 16 bit New Executable format and contains all scripts as resources. This format is very well documented and there’s multiple portable parsers for it. I used the source of (speficially their NE parser) and OSDEV.org Wiki for my research.4\nThankfully, the format is not too complicated, so it’s pretty straightforward to get to the scripts and the identifiers we need:\nThe first 0x80 (128) bytes are the DOS Stub, we can ignore this, but have to remember to add this count to some offsets later. The position of the resources table is encoded at byte 35 in the header (see OSDEV link above) - byte 163 in the file. In our case, this byte is ‘00x60’ or 96 in decimal. Adding this to the start of the header at 128 bytes means we now jump to byte 224. I’ll skim over the details of the resource table, but the resources we are looking for (type F4 04 in Ghidra, though that’s actually the address of the string id - which is “DATA”) start at byte 410 and theres 85 (\\x54 in the 3rd byte) of them. The first two resources look as follows: (2nd line parsed) Offset Size Attributes Resource Type ID Raw: CE 2D 06 00 20 10 E9 83 Parsed: 01 6E 70 00 30 1020 (Pure) 83E9 -\u003e 03E9 -\u003e ID: 1001 Raw: D4 2D 83 02 20 10 EA 83 Parsed: 01 6E A0 14 18 1020 (Pure) 83EA -\u003e 03EA -\u003e ID: 1002 Size and Offset need to be left shifted according to the exponent encoded at the start of the resource table. (byte 224 which is x03 in our case). FYI: the offset is relative to the start of the file, not the Windows header like most of the other offsets. Example: Size 1: 06 00 (Little Endian/LE) 0000 0110 0000 0000, Big Endian/BE: 0000 0000 0000 0110, lshift by 3 -\u003e 0011 0000 -\u003e size is 00 30 Offset 1: CE 2D (LE) 1100 1110 0010 1101, BE: 0010 1101 1100 1110, shift by 3: 1 0110 1110 0111 0000 -\u003e offset is 01 6E 70 Size 2: 83 02 (LE), BE: x02x83, 0000 0010 1000 0011, by 3: 0001 0100 0001 1000 _\u003e size is 14 18 Offset 2: D4 2D (LE),BE: x2DxD4, 0010 1101 1101 0100, by 3: 1 0110 1110 1010 0000 -\u003e offset is 01 6E A0 Resource Type ID: This is an integer type if the high-order bit is set (8000h); otherwise, it is an offset to the type string. In our case these are always integers for the resource types we care about. In the end and way too late, I discoverd the amazing which does this all for us, and which is what I ended up using for the player. (check out in case you try to run it yourself)\nGame Scripts Once extracted, the game scripts follow a simple syntax. To explain, lets go through the start of the promo disc:\nResource 1001:\n{ sequence \u003e ?v18 \u003e ?r$1001; \u003e ?j1002 } This means that in sequence, three things will happen:\n?v18: Unknown meaning ?r$1001;: Play video 1001 (if there’s text after ; print it out as subtitles). ?j1002: Jump to resource 1002 Resource 1002:\n{ sequence \u003e ?\u00269999 \u003e ?r$1002; } ?\u00269999: Unknown meaning (video maybe a marker for savegames/checkpoint?) ?r$1002;: Play video 1002, again no subtitles 1 EXCHANGE { + !0001This is the Captain. { \u003e ?r$1003;Captain, sorry to wake you. We just received an urgent message from COMSUBLANT. } [...] = !0002It can't be 0630 yet. XO, what's up? { \u003e ?r$1004;Morning, Skipper. We just received an urgent message from COMSUBLANT. } [...] - !0003This better be important. { \u003e ?r$1005;Good morning, Sir. We just received urgent traffic from COMSUBLANT. } [...] } This is the first time the player gets to make a decision:\n1 EXCHANGE marks the start of an exchange (player controlled dialogue). Exchanges are played sequentially, but can be skipped with a jump instruction (see below). The player always has three dialogue lines to choose from, encoded as strings starting with +,= or - follow by an exclamation mark and a four digit number indicating the index of the segment for the voice track followed by the dialogue line as text. After each dialogue line, three possible consequences are lined up. Encoding is the same as the sequence discussed initially. In this case it’s a video (r$1003,r$1004 or r$1003) with subtitles, but it can also be multiple segments (separated by \u003e) and include jumps (in which case the exchange is over). Often all three consequences are the same (which is why i removed them from the snippet above), but sometimes there’s different ones which presumably get picked randomly. 2 EXCHANGE { + !0004I'll be right down. { \u003e ?r$1012;Morning, Captain. Morning, Skipper... \u003e ?j2001 } [...] } This consequence has a jump (`?j2001) meaning that this choice ends the exchange and the game continues at resource 2001. Other instructions Later in the script, a few more unknown instructions are used, it’s unclear what the following instructions mean:\n?v - this actually only appears once right at the beginning of the game (?v18 see above) ?s0100 - actually no other ?s instruction is used in the promo disc. appears 15 times. ?\u0026 - appears many (61) times in the promo disc, nothing actually seems to happen in the original game at these points in the game - maybe it’s a savegame state? ?* - appears 45 times, could also be an alternative video play or jump instruction? it has multiple comma-separate numbers following it (instead of a single number for the previously discussed instructions). maybe a sequence of videos or a random jump? ?g - appears 50 times, could also be an alternative video play or jump instruction? it has multiple comma-separate numbers following it. maybe a sequence of videos or a random jump? Media Files VIDEO1.MPG contains all the video shown in the game. It’s a concatenation of many MPEG-PS streams, each with their own MPEG-PS header (easily identifiable in the file by their sync bytes 00 00 01 BA). For our purposes we don’t care about the header content as we directly pass the streams cut to the offset of the selected index we found in the index file to ffplay.\nSOUNDS1.WAV contains all audio lines from the protagonist (usually played based on the choice by the player). It’s a simple https://en.wikipedia.org/wiki/WAV File with a single PCM encoded audio stream. As the offsets in the index file are are byte based, we convert the offsets into a timestamp (easily done based on bitrate as there is no compression) before passing the full file to ffplay.\nVIDEO1.IDX and SOUNDS1.IDX are indexes for the above two files. They contain a list of indexes used in the game scripts and file offsets for each media segment. From what I can tell, the media segments are not overlapping (although there’s a lot of duplicated content) and the offsets mark both start of an segment as well as the end of the previous segment.\nFormat of .IDX files Both audio and video index files are formatted the same way, they start with a 16 byte header and then 6 byte fields for each segment index and offset.\nHeader Format: (16 bytes) Start Length Description 0 4 bytes Media Format in ASCII. Either WAVZ or MPEG. 4 8 unknown 12 2 last index as little endian integer 14 2 unknown Segment Format: (6 bytes) Start Length Description 0 2 bytes Index as little endian integer 2 4 File offset for index as little endian integer Python Implementation As a proof of concept I wrote a very minimal player for the files documented above.\nAt the moment this only supports the promotional disc available at the Internet Archive which is based on the Windows 3.1 MPEG release.\nYou can now play Silent Steel on the command line! I flawlessly plays through the whole demo. 🎉\nAll of the demo is playable, but some parts of the game scripts are still not 100% understood or implemented (see above).\nPretty sure it was a REALmagic Explorer from Sigma Designs, the mobile version of their RealMagic cards. ↩︎\nSee Wikipedia, MobyGames and the ScummVM Wiki for more details. ↩︎\nThe DVD Video version certainly wasn’t. For more information on how Tsunami built these games, I found the Kostya Shishkov blog post Looking at Tsunami games and the excellent Retro Hour Podcast Episode with Ken Allen (who used to work at Tsunami Media) super interesting. ↩︎\nOther Tools that helped: to browse the resources and poke around a bit - but I didn’t really need to decompile anything and to emulate a PC from the era and run Windows 98 (couldn’t get Windows 95 running).\n↩︎\n",
+  "wordCount" : "1720",
+  "inLanguage": "en",
+  "datePublished": "2023-03-14T11:41:01+01:00",
+  "dateModified": "2023-03-14T11:41:01+01:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/posts/2023-03-silentsteel/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Christian Kündig",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="/" accesskey="h" title="Christian Kündig (Alt + H)">Christian Kündig</a>
+            <div class="logo-switches">
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="/posts/" title="Personal Projects">
+                    <span>Personal Projects</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Reverse Engineering the 1995 FMV game Silent Steel
+    </h1>
+    <div class="post-meta"><span title='2023-03-14 11:41:01 +0100 +0100'>March 14, 2023</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>My first computer I ever had access to was a Toshiba Laptop shared by the whole family. It must have been the late 90ies, CD-ROM was pretty new as when we got it, so it came with external CD-ROM drive and a separate PCMCIA MPEG1 accelerator card.<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+<p>One of the neat things about is was that it came with this crazy interactive movie game that let you play a story similar to Hunt for Red October or Crimson Tide - which were blockbuster movies at the time. I recently rediscovered the promotional disc Sigma Design bundled with the card on the Internet Archive and decided to have another look at it 25 years later!</p>
+<figure class="float-right">
+    <img loading="lazy" src="/posts/2023-03-silentsteel/cover.jpg  "
+         alt="Silent Steel Promotional Disc Cover"/> 
+</figure>
+
+<p>Silent Steel is a submarine-themed full-motion video game released in 1995 by Tsunami Games. It was created during the influx of interactive movies during the 1990s. The game is composed almost entirely of live-action full motion video, with sparse computer-generated graphics depicting external shots of the boat during torpedo attacks and atmospheric fly-bys.<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<p>I&rsquo;ve been trying recently to reverse engineer the game and implement a prototype interpreter in Python to play the game on modern machines (it was originally released as a 16bit executable for Win 3.11). I thought I&rsquo;ll put together some  documentation for a potential re-implementation of the game (e.g. as a ScummVM engine).</p>
+<p>There were many releases of this game, it&rsquo;s not clear whether the later releases (AVI CD-ROM, DVD-ROM and DVD Video) were implemented the same way. <sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
+<h3 id="game-executable">Game Executable</h3>
+<p><code>STEEL.EXE</code> is the main game executable in 16 bit <a href="https://en.wikipedia.org/wiki/New_Executable">New Executable</a> format and contains all scripts as resources. This format is very well documented and there&rsquo;s multiple portable parsers for it. I used the source of 
+    
+<a class="github-button" href="https://github.com/radareorg/radare2" data-icon="octicon-repo" data-size="small" data-text='radareorg/radare2'></a> (speficially their <a href="https://github.com/radareorg/radare2/blob/master/libr/bin/format/ne">NE parser</a>) and <a href="https://wiki.osdev.org/NE">OSDEV.org Wiki</a> for my research.<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></p>
+<p>Thankfully, the format is not too complicated, so it&rsquo;s pretty straightforward to get to the scripts and the identifiers we need:</p>
+<ul>
+<li>The first <code>0x80</code> (128) bytes are the DOS Stub, we can ignore this, but have to remember to add this count to some offsets later.</li>
+<li>The position of the resources table is encoded at byte 35 in the header (see OSDEV link above) - byte 163 in the file.</li>
+<li>In our case, this byte is &lsquo;00x60&rsquo; or 96 in decimal. Adding this to the start of the header at 128 bytes means we now jump to byte 224.</li>
+<li>I&rsquo;ll skim over the details of the resource table, but the resources we are looking for (type <code>F4 04</code> in Ghidra, though that&rsquo;s actually the address of the string id - which is &ldquo;DATA&rdquo;) start at byte 410 and theres 85 (<code>\x54</code> in the 3rd byte) of them. The first two resources look as follows: (2nd line parsed)
+<img loading="lazy" src="/posts/2023-03-silentsteel/steel_exe-resource-table.png" type="" alt="Resource Table"  /></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Offset</strong></th>
+<th><strong>Size</strong></th>
+<th><strong>Attributes</strong></th>
+<th><em>Resource Type ID</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Raw:</strong></td>
+<td>CE 2D</td>
+<td>06 00</td>
+<td>20 10</td>
+<td>E9 83</td>
+</tr>
+<tr>
+<td><strong>Parsed:</strong></td>
+<td>01 6E 70</td>
+<td>00 30</td>
+<td>1020 (Pure)</td>
+<td><em>83E9 -&gt; 03E9 -&gt;</em> ID: 1001</td>
+</tr>
+<tr>
+<td><strong>Raw:</strong></td>
+<td>D4 2D</td>
+<td>83 02</td>
+<td>20 10</td>
+<td>EA 83</td>
+</tr>
+<tr>
+<td><strong>Parsed:</strong></td>
+<td>01 6E A0</td>
+<td>14 18</td>
+<td>1020 (Pure)</td>
+<td><em>83EA -&gt; 03EA -&gt;</em> ID: 1002</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Size and Offset</strong> need to be left shifted according to the exponent encoded at the start of the resource table. (byte 224 which is x03 in our case). FYI: the offset is relative to the start of the file, not the Windows header like most of the other offsets. Example:
+<ul>
+<li><em>Size 1:</em> <code>06 00</code> (Little Endian/LE) 0000 0110 0000 0000, Big Endian/BE: 0000 0000 0000 0110, lshift by 3 -&gt; 0011 0000 -&gt; size is <code>00 30</code></li>
+<li><em>Offset 1:</em> <code>CE 2D</code> (LE) 1100 1110 0010 1101, BE: 0010 1101 1100 1110, shift by 3: 1 0110 1110 0111 0000 -&gt; offset is <code>01 6E 70</code></li>
+<li><em>Size 2:</em> <code>83 02</code> (LE), BE: x02x83, 0000 0010 1000 0011, by 3: 0001 0100 0001 1000 _&gt; size is <code>14 18</code></li>
+<li><em>Offset 2:</em> <code>D4 2D</code> (LE),BE: x2DxD4, 0010 1101 1101 0100, by 3: 1 0110 1110 1010 0000 -&gt; offset is <code>01 6E A0</code></li>
+</ul>
+</li>
+<li><strong>Resource Type ID</strong>: This is an integer type if the high-order bit is set (8000h); otherwise, it is an offset to the type string. In our case these are always integers for the resource types we care about.</li>
+</ul>
+<p>In the end and way too late, I discoverd the amazing 
+    
+<a class="github-button" href="https://github.com/npjg/nefile" data-icon="octicon-repo" data-size="small" data-text='npjg/nefile'></a> which does this all for us, and which is what I ended up using for the player. (check out <a class="github-button" href="https://github.com/npjg/nefile/pull/1" data-icon="octicon-git-merge" data-size="small" data-text='nefile#1: <span style="font-weight:normal">Fix build error in icon.py</span>'></a> in case you try to run it yourself)</p>
+<h4 id="game-scripts">Game Scripts</h4>
+<p>Once extracted, the game scripts follow a simple syntax. To explain, lets go through the start of the promo disc:</p>
+<p><strong>Resource 1001:</strong></p>
+<pre tabindex="0"><code>{
+    sequence &gt; ?v18 &gt; ?r$1001; &gt; ?j1002
+}
+</code></pre><p>This means that in sequence, three things will happen:</p>
+<ul>
+<li><code>?v18</code>: Unknown meaning</li>
+<li><code>?r$1001;</code>: Play video 1001 (if there&rsquo;s text after <code>;</code> print it out as subtitles).</li>
+<li><code>?j1002</code>: Jump to resource 1002</li>
+</ul>
+<p><strong>Resource 1002:</strong></p>
+<pre tabindex="0"><code>{
+    sequence &gt; ?&amp;9999 &gt; ?r$1002;
+}
+</code></pre><ul>
+<li><code>?&amp;9999</code>: Unknown meaning (video maybe a marker for savegames/checkpoint?)</li>
+<li><code>?r$1002;</code>: Play video 1002, again no subtitles</li>
+</ul>
+<pre tabindex="0"><code> 1 EXCHANGE {
+    + !0001This is the Captain. {
+       &gt; ?r$1003;Captain, sorry to wake you. We just received an urgent message from COMSUBLANT.
+   }
+   [...]
+    = !0002It can&#39;t be 0630 yet. XO, what&#39;s up? {
+       &gt; ?r$1004;Morning, Skipper. We just received an urgent message from COMSUBLANT.
+   }
+   [...]
+    - !0003This better be important. {
+       &gt; ?r$1005;Good morning, Sir. We just received urgent traffic from COMSUBLANT.
+   }
+   [...]
+}
+</code></pre><p>This is the first time the player gets to make a decision:</p>
+<ul>
+<li><code>1 EXCHANGE</code> marks the start of an exchange (player controlled dialogue).
+<ul>
+<li>Exchanges are played sequentially, but can be skipped with a jump instruction (see below).</li>
+<li>The player always has three dialogue lines to choose from, encoded as strings starting with <code>+</code>,<code>=</code> or <code>-</code> follow by an exclamation mark and a four digit number indicating the index of the segment for the voice track followed by the dialogue line as text.</li>
+<li>After each dialogue line, three possible consequences are lined up. Encoding is the same as the sequence discussed initially. In this case it&rsquo;s a video (<code>r$1003</code>,<code>r$1004</code> or <code>r$1003</code>) with subtitles, but it can also be multiple segments (separated by <code>&gt;</code>) and include jumps (in which case the exchange is over).</li>
+<li>Often all three consequences are the same (which is why i removed them from the snippet above), but sometimes there&rsquo;s different ones which presumably get picked randomly.</li>
+</ul>
+</li>
+</ul>
+<pre tabindex="0"><code> 2 EXCHANGE {
+    + !0004I&#39;ll be right down. {
+       &gt; ?r$1012;Morning, Captain. Morning, Skipper... &gt; ?j2001
+   }
+   [...]
+}
+</code></pre><ul>
+<li>This consequence has a jump (`?j2001) meaning that this choice ends the exchange and the game continues at resource 2001.</li>
+</ul>
+<h4 id="other-instructions">Other instructions</h4>
+<p>Later in the script, a few more unknown instructions are used, it&rsquo;s unclear what the following instructions mean:</p>
+<ul>
+<li><code>?v</code> - this actually only appears once right at the beginning of the game (<code>?v18</code> see above)</li>
+<li><code>?s0100</code> - actually no other <code>?s</code> instruction is used in the promo disc. appears 15 times.</li>
+<li><code>?&amp;</code> - appears many (61) times in the promo disc, nothing actually seems to happen in the original game at these points in the game - maybe it&rsquo;s a savegame state?</li>
+<li><code>?*</code> - appears 45 times, could also be an alternative video play or jump instruction? it has multiple comma-separate numbers following it (instead of a single number for the previously discussed instructions). maybe a sequence of videos or a random jump?</li>
+<li><code>?g</code> - appears 50 times, could also be an alternative video play or jump instruction? it has multiple comma-separate numbers following it. maybe a sequence of videos or a random jump?</li>
+</ul>
+<h3 id="media-files">Media Files</h3>
+<p><code>VIDEO1.MPG</code> contains all the video shown in the game. It&rsquo;s a concatenation of many <a href="https://en.wikipedia.org/wiki/MPEG_program_stream">MPEG-PS</a> streams, each with their own MPEG-PS header (easily identifiable in the file by their sync bytes <code>00 00 01 BA</code>). For our purposes we don&rsquo;t care about the header content as we directly pass the streams cut to the offset of the selected index we found in the index file to <code>ffplay</code>.</p>
+<p><code>SOUNDS1.WAV</code> contains all audio lines from the protagonist (usually played based on the choice by the player). It&rsquo;s a simple <a href="https://en.wikipedia.org/wiki/WAV">https://en.wikipedia.org/wiki/WAV</a> File with a single PCM encoded audio stream. As the offsets in the index file are are byte based, we convert the offsets into a timestamp (easily done based on bitrate as there is no compression) before passing the full file to <code>ffplay</code>.</p>
+<p><code>VIDEO1.IDX</code> and <code>SOUNDS1.IDX</code> are indexes for the above two files. They contain a list of indexes used in the game scripts and file offsets for each media segment. From what I can tell, the media segments are not overlapping (although there&rsquo;s a lot of duplicated content) and the offsets mark both start of an segment as well as the end of the previous segment.</p>
+<h3 id="format-of-idx-files">Format of <code>.IDX</code> files</h3>
+<p>Both audio and video index files are formatted the same way, they start with a 16 byte header and then 6 byte fields for each segment index and offset.</p>
+<ul>
+<li>Header Format: (16 bytes)
+<table>
+<thead>
+<tr>
+<th><strong>Start</strong></th>
+<th><strong>Length</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>4 bytes</td>
+<td>Media Format in ASCII. Either <code>WAVZ</code> or <code>MPEG</code>.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>8</td>
+<td><em>unknown</em></td>
+</tr>
+<tr>
+<td>12</td>
+<td>2</td>
+<td>last index as little endian integer</td>
+</tr>
+<tr>
+<td>14</td>
+<td>2</td>
+<td><em>unknown</em></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>Segment Format: (6 bytes)
+<table>
+<thead>
+<tr>
+<th><strong>Start</strong></th>
+<th><strong>Length</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>2 bytes</td>
+<td>Index as little endian integer</td>
+</tr>
+<tr>
+<td>2</td>
+<td>4</td>
+<td>File offset for index as little endian integer</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<h3 id="python-implementation">Python Implementation</h3>
+<p>As a proof of concept I wrote a very minimal player for the files documented above.</p>
+<p><a href="https://github.com/chkuendig/silentsteel-re" class="github-card"><img src="/posts/2023-03-silentsteel/silentsteel-re_18406277673970330660.png"></a></p>
+<p>At the moment this only supports the promotional disc available at the <a href="https://archive.org/details/silentsteeldisconepromotional">Internet Archive</a> which is based on the Windows 3.1 MPEG release.</p>
+<center><iframe src="https://archive.org/embed/silentsteelpromodisc" width="300" height="300" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe></center>
+<p>You can now play Silent Steel on the command line! I flawlessly plays through the whole demo. 🎉</p>
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube.com/embed/tYT6yM3C5GM" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+<p>All of the demo is playable, but some parts of the game scripts are still not 100% understood or implemented (see above).</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Pretty sure it was a <a href="https://wiki.preterhuman.net/REALmagic_Explorer">REALmagic Explorer</a> from Sigma Designs, the mobile version of their <a href="https://en.wikipedia.org/wiki/RealMagic">RealMagic cards</a>.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>See <a href="https://en.wikipedia.org/wiki/Silent_Steel">Wikipedia</a>, <a href="https://www.mobygames.com/game/7993/silent-steel/">MobyGames</a> and the <a href="https://wiki.scummvm.org/index.php/Silent_Steel">ScummVM Wiki</a> for more details.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>The DVD Video version certainly wasn&rsquo;t. For more information on how Tsunami built these games, I found the  Kostya Shishkov blog post <a href="https://codecs.multimedia.cx/2021/08/looking-at-tsunami-games/">Looking at Tsunami games</a> and the excellent <a href="https://www.youtube.com/watch?v=_UevXzybqFM">Retro Hour Podcast Episode with Ken Allen</a> (who used to work at Tsunami Media) super interesting.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>Other Tools that helped: 
+    
+<a class="github-button" href="https://github.com/NationalSecurityAgency/ghidra" data-icon="octicon-repo" data-size="small" data-text='NationalSecurityAgency/ghidra'></a> to browse the resources and poke around a bit - but I didn&rsquo;t really need to decompile anything and 
+    
+<a class="github-button" href="https://github.com/utmapp/UTM" data-icon="octicon-repo" data-size="small" data-text='utmapp/UTM'></a> to emulate a PC from the era and run Windows 98 (couldn&rsquo;t get Windows 95 running).</p>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="/tags/gaming/">Gaming</a></li>
+      <li><a href="/tags/reverse-engineering/">Reverse Engineering</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="/posts/2023-11-github-shortcode/">
+    <span class="title">« Prev | <span>November 2, 2023</span></span>
+    <br>
+    <span>Github Shortcodes for the Hugo Static Page Generator</span>
+  </a>
+  <a class="next" href="/posts/2023-01-hass-amphiro/">
+    <span class="title"><span>January 14, 2023</span> | Next »</span>
+    <br>
+    <span>How to add the Amphiro Hand Shower to Home Assistant</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="/">Christian Kündig</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<script src="/js/quicklink.umd.min.js" data-no-instant
+></script>
+<script data-no-instant>
+  
+window.addEventListener('load', () => {
+  quicklink.listen();
+});
+</script>
+
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+</body>
+
+</html>
