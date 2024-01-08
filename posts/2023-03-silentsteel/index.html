@@ -10,7 +10,7 @@
 <meta name="description" content="Silent Steel is a submarine-themed FMV  game released in 1995. This is the summary of it&rsquo;s file formats, including a prototype re-implementation.">
 <meta name="author" content="">
 <link rel="canonical" href="/posts/2023-03-silentsteel/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.3066b30d63cbcb5fe33f49048724971e05adcc5783abc553bfed2d7f618ee15c.css" integrity="sha256-MGazDWPLy1/jP0kEhySXHgWtzFeDq8VTv&#43;0tf2GO4Vw=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3b344c5ca36ddfb3c402187b775c86630470008cfe9ee494feba187afc9f4c89.css" integrity="sha256-OzRMXKNt37PEAhh7d1yGYwRwAIz&#43;nuSU/roYevyfTIk=" rel="preload stylesheet" as="style">
 <link rel="icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -186,7 +186,7 @@ if (!doNotTrack) {
 <h3 id="game-executable">Game Executable</h3>
 <p><code>STEEL.EXE</code> is the main game executable in 16 bit <a href="https://en.wikipedia.org/wiki/New_Executable">New Executable</a> format and contains all scripts as resources. This format is very well documented and there&rsquo;s multiple portable parsers for it. I used the source of 
     
-<a class="github-button" href="https://github.com/radareorg/radare2" data-icon="octicon-repo" data-size="small" data-text='radareorg/radare2'></a> (speficially their <a href="https://github.com/radareorg/radare2/blob/master/libr/bin/format/ne">NE parser</a>) and <a href="https://wiki.osdev.org/NE">OSDEV.org Wiki</a> for my research.<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></p>
+<a class="github-button" data-color-scheme="" href="https://github.com/radareorg/radare2" data-icon="octicon-repo" data-size="small" data-text='<b>radareorg/radare2</b>'></a> (speficially their <a href="https://github.com/radareorg/radare2/blob/master/libr/bin/format/ne">NE parser</a>) and <a href="https://wiki.osdev.org/NE">OSDEV.org Wiki</a> for my research.<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></p>
 <p>Thankfully, the format is not too complicated, so it&rsquo;s pretty straightforward to get to the scripts and the identifiers we need:</p>
 <ul>
 <li>The first <code>0x80</code> (128) bytes are the DOS Stub, we can ignore this, but have to remember to add this count to some offsets later.</li>
@@ -249,7 +249,7 @@ if (!doNotTrack) {
 </ul>
 <p>In the end and way too late, I discoverd the amazing 
     
-<a class="github-button" href="https://github.com/npjg/nefile" data-icon="octicon-repo" data-size="small" data-text='npjg/nefile'></a> which does this all for us, and which is what I ended up using for the player. (check out <a class="github-button" href="https://github.com/npjg/nefile/pull/1" data-icon="octicon-git-merge" data-size="small" data-text='nefile#1: <span style="font-weight:normal">Fix build error in icon.py</span>'></a> in case you try to run it yourself)</p>
+<a class="github-button" data-color-scheme="" href="https://github.com/npjg/nefile" data-icon="octicon-repo" data-size="small" data-text='<b>npjg/nefile</b>'></a> which does this all for us, and which is what I ended up using for the player. (check out <a class="github-button" data-color-scheme="" href="https://github.com/npjg/nefile/pull/1" data-icon="octicon-git-merge" data-size="small" data-text='<b>nefile#1:</b>&nbsp;Fix build error in icon.py'></a> in case you try to run it yourself)</p>
 <h4 id="game-scripts">Game Scripts</h4>
 <p>Once extracted, the game scripts follow a simple syntax. To explain, lets go through the start of the promo disc:</p>
 <p><strong>Resource 1001:</strong></p>
@@ -404,9 +404,9 @@ if (!doNotTrack) {
 <li id="fn:4">
 <p>Other Tools that helped: 
     
-<a class="github-button" href="https://github.com/NationalSecurityAgency/ghidra" data-icon="octicon-repo" data-size="small" data-text='NationalSecurityAgency/ghidra'></a> to browse the resources and poke around a bit - but I didn&rsquo;t really need to decompile anything and 
+<a class="github-button" data-color-scheme="" href="https://github.com/NationalSecurityAgency/ghidra" data-icon="octicon-repo" data-size="small" data-text='<b>NationalSecurityAgency/ghidra</b>'></a> to browse the resources and poke around a bit - but I didn&rsquo;t really need to decompile anything and 
     
-<a class="github-button" href="https://github.com/utmapp/UTM" data-icon="octicon-repo" data-size="small" data-text='utmapp/UTM'></a> to emulate a PC from the era and run Windows 98 (couldn&rsquo;t get Windows 95 running).</p>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<a class="github-button" data-color-scheme="" href="https://github.com/utmapp/UTM" data-icon="octicon-repo" data-size="small" data-text='<b>utmapp/UTM</b>'></a> to emulate a PC from the era and run Windows 98 (couldn&rsquo;t get Windows 95 running).</p>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </div>

@@ -11,7 +11,7 @@
 Auto-Discovery with config flow so no configuration.yaml editing will be required. Support for as many sensor types automatically out of the box.">
 <meta name="author" content="">
 <link rel="canonical" href="/posts/2022-03-hass-hpilo/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.3066b30d63cbcb5fe33f49048724971e05adcc5783abc553bfed2d7f618ee15c.css" integrity="sha256-MGazDWPLy1/jP0kEhySXHgWtzFeDq8VTv&#43;0tf2GO4Vw=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3b344c5ca36ddfb3c402187b775c86630470008cfe9ee494feba187afc9f4c89.css" integrity="sha256-OzRMXKNt37PEAhh7d1yGYwRwAIz&#43;nuSU/roYevyfTIk=" rel="preload stylesheet" as="style">
 <link rel="icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -243,7 +243,7 @@ Basic:1.0 Device Definition</a> standard ). Luckily Home Assistant already imple
 <li>Switches for Power on/Off</li>
 <li>Fan entities for fans</li>
 </ul>
-<p>There&rsquo;s already two PRs to improve on this:   <a class="github-button" href="https://github.com/home-assistant/core/pull/65900" data-icon="octicon-git-pull-request-closed" data-size="small" data-text='core#65900: <span style="font-weight:normal">Add statistics capabilities to hp_ilo integration</span>'></a> and   <a class="github-button" href="https://github.com/home-assistant/core/pull/32209" data-icon="octicon-git-pull-request-closed" data-size="small" data-text='core#32209: <span style="font-weight:normal">Add switch platform for hp ilo integration</span>'></a> so I&rsquo;ll see where these go as well and then update the integration.</p>
+<p>There&rsquo;s already two PRs to improve on this:   <a class="github-button" data-color-scheme="" href="https://github.com/home-assistant/core/pull/65900" data-icon="octicon-git-pull-request-closed" data-size="small" data-text='<b>core#65900:</b>&nbsp;Add statistics capabilities to hp_ilo integration'></a> and   <a class="github-button" data-color-scheme="" href="https://github.com/home-assistant/core/pull/32209" data-icon="octicon-git-pull-request-closed" data-size="small" data-text='<b>core#32209:</b>&nbsp;Add switch platform for hp ilo integration'></a> so I&rsquo;ll see where these go as well and then update the integration.</p>
 <h3 id="caching">Caching</h3>
 <p>Startup and refresh is currently not optimized, slowing this integration down quite a bit. It also seems that data isn&rsquo;t shared between sensors, meaning the rate limiting is resulting in very coarse grained data once there&rsquo;s more then a handful of sensors active.</p>
 <h3 id="tests">Tests</h3>

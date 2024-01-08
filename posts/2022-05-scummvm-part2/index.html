@@ -10,7 +10,7 @@
 <meta name="description" content="Since merging the initial Webassembly port of ScummVM, I have added a few critical improvements">
 <meta name="author" content="">
 <link rel="canonical" href="/posts/2022-05-scummvm-part2/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.3066b30d63cbcb5fe33f49048724971e05adcc5783abc553bfed2d7f618ee15c.css" integrity="sha256-MGazDWPLy1/jP0kEhySXHgWtzFeDq8VTv&#43;0tf2GO4Vw=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3b344c5ca36ddfb3c402187b775c86630470008cfe9ee494feba187afc9f4c89.css" integrity="sha256-OzRMXKNt37PEAhh7d1yGYwRwAIz&#43;nuSU/roYevyfTIk=" rel="preload stylesheet" as="style">
 <link rel="icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -178,19 +178,19 @@ if (!doNotTrack) {
 </aside>
 <p>Since merging the initial Webassembly port of ScummVM, I have added a few critical improvements which moves the project forward torwards an eventual official release:</p>
 <ul>
-<li>Dynamic Plugins: It&rsquo;s now possible to dynamically load plugins, making it possible to bundle all engines without the binary growing into unreasonable sizes. This involved a few fixes in Emscripten to get working (<a class="github-button" href="https://github.com/emscripten-core/emscripten/pull/15893" data-icon="octicon-git-merge" data-size="small" data-text='emscripten#15893: <span style="font-weight:normal">import mutable globals used in Asyncify pass</span>'></a>) - which haven&rsquo;t been merged, so it&rsquo;s manually patched in during the setup of the build environment.</li>
+<li>Dynamic Plugins: It&rsquo;s now possible to dynamically load plugins, making it possible to bundle all engines without the binary growing into unreasonable sizes. This involved a few fixes in Emscripten to get working (<a class="github-button" data-color-scheme="" href="https://github.com/emscripten-core/emscripten/pull/15893" data-icon="octicon-git-merge" data-size="small" data-text='<b>emscripten#15893:</b>&nbsp;import mutable globals used in Asyncify pass'></a>) - which haven&rsquo;t been merged, so it&rsquo;s manually patched in during the setup of the build environment.</li>
 <li>General Build Improvements: The build script is now fully self-contained and can be run with Github actions, this includes automatic download of games/demos as well as generating the default scummvm.ini for a demo page. See 
     
-<a class="github-button" href="https://github.com/chkuendig/scummvm-demo" data-icon="octicon-repo" data-size="small" data-text='chkuendig/scummvm-demo'></a> on how a self-contained ScummVM demo is built (incl. bundled games).</li>
+<a class="github-button" data-color-scheme="" href="https://github.com/chkuendig/scummvm-demo" data-icon="octicon-repo" data-size="small" data-text='<b>chkuendig/scummvm-demo</b>'></a> on how a self-contained ScummVM demo is built (incl. bundled games).</li>
 <li>ScummvmFS: I added a custom filesystem layer which in the future can be extended to support range requests and persisting downloaded data for offline usage - hopefully this can eventually replace 
     
-<a class="github-button" href="https://github.com/jvilk/BrowserFS" data-icon="octicon-repo" data-size="small" data-text='jvilk/BrowserFS'></a> which hasn&rsquo;t seen any commits in 12+ months.</li>
+<a class="github-button" data-color-scheme="" href="https://github.com/jvilk/BrowserFS" data-icon="octicon-repo" data-size="small" data-text='<b>jvilk/BrowserFS</b>'></a> which hasn&rsquo;t seen any commits in 12+ months.</li>
 </ul>
 <p>Additionally, a few minor quality of life improvements also made it in:</p>
 <ul>
 <li>CLI arguments: It&rsquo;s now possible to pass CLI arguments as a anchor link. In the build script this is used to bootstrap the initial <code>scummvm.ini</code> file by opening <code>http://localhost:8080/scummvm.html#--add --path=/games --recursive</code> in a headless browser.</li>
 <li>HiDPI fix: SDL_GetDisplayDPI has been added to SDL for Emscripten - but this hasn&rsquo;t been released yet so I switched to using an unreleased version of SDL during the setup of the build environment. Without it the all the UI fonts are broken/too small.</li>
-<li>Parts of the rejected  <a class="github-button" href="https://github.com/scummvm/scummvm/pull/3686" data-icon="octicon-git-pull-request-closed" data-size="small" data-text='scummvm#3686: <span style="font-weight:normal">EMSCRIPTEN: Add backend and fix full screen support</span>'></a> are added to the SDL backend for fullscreen support, no exit buttons and proper URL opening in this port.</li>
+<li>Parts of the rejected  <a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/pull/3686" data-icon="octicon-git-pull-request-closed" data-size="small" data-text='<b>scummvm#3686:</b>&nbsp;EMSCRIPTEN: Add backend and fix full screen support'></a> are added to the SDL backend for fullscreen support, no exit buttons and proper URL opening in this port.</li>
 <li>Various Bugfixes:
 <ul>
 <li>DIRECTOR: Engine freezes as it doesn&rsquo;t yield back to the browser.</li>
@@ -205,20 +205,20 @@ if (!doNotTrack) {
 
 <p>This was a major piece of work for me as it also depended on multiple upstream fixes in SDL and Emscripten:</p>
 <ul>
-<li><a class="github-button" href="https://github.com/libsdl-org/SDL/pull/5419" data-icon="octicon-git-merge" data-size="small" data-text='SDL#5419: <span style="font-weight:normal">Fix &#34;SDL_TRUE is not defined&#34; runtime error for emscripten.</span>'></a></li>
-<li><a class="github-button" href="https://github.com/libsdl-org/SDL/pull/5383" data-icon="octicon-git-merge" data-size="small" data-text='SDL#5383: <span style="font-weight:normal">Add SDL_GetDisplayDPI implementation on Emscripten</span>'></a></li>
-<li><a class="github-button" href="https://github.com/emscripten-core/emscripten/pull/15893" data-icon="octicon-git-merge" data-size="small" data-text='emscripten#15893: <span style="font-weight:normal">import mutable globals used in Asyncify pass</span>'></a></li>
-<li><a class="github-button" href="https://github.com/emscripten-core/emscripten/pull/16687" data-icon="octicon-git-merge" data-size="small" data-text='emscripten#16687: <span style="font-weight:normal">SDL2: Fix SDL_OpenURL</span>'></a></li>
+<li><a class="github-button" data-color-scheme="" href="https://github.com/libsdl-org/SDL/pull/5419" data-icon="octicon-git-merge" data-size="small" data-text='<b>SDL#5419:</b>&nbsp;Fix &#34;SDL_TRUE is not defined&#34; runtime error for emscripten.'></a></li>
+<li><a class="github-button" data-color-scheme="" href="https://github.com/libsdl-org/SDL/pull/5383" data-icon="octicon-git-merge" data-size="small" data-text='<b>SDL#5383:</b>&nbsp;Add SDL_GetDisplayDPI implementation on Emscripten'></a></li>
+<li><a class="github-button" data-color-scheme="" href="https://github.com/emscripten-core/emscripten/pull/15893" data-icon="octicon-git-merge" data-size="small" data-text='<b>emscripten#15893:</b>&nbsp;import mutable globals used in Asyncify pass'></a></li>
+<li><a class="github-button" data-color-scheme="" href="https://github.com/emscripten-core/emscripten/pull/16687" data-icon="octicon-git-merge" data-size="small" data-text='<b>emscripten#16687:</b>&nbsp;SDL2: Fix SDL_OpenURL'></a></li>
 </ul>
 <p>As mentioned not all of them are merged yet so I the build script patches them manually.</p>
 <p>As before, the latest version is running at <a href="http://scummvm.kuendig.io/">scummvm.kuendig.io</a> (now automatically built with Github Actions, see the above mentioned 
     
-<a class="github-button" href="https://github.com/chkuendig/scummvm-demo" data-icon="octicon-repo" data-size="small" data-text='chkuendig/scummvm-demo'></a>.</p>
+<a class="github-button" data-color-scheme="" href="https://github.com/chkuendig/scummvm-demo" data-icon="octicon-repo" data-size="small" data-text='<b>chkuendig/scummvm-demo</b>'></a>.</p>
 <p>With this contribution I now also officially joined the ScummVM Development team as the Webassembly / Emscripten maintainer - so you find my name now in the <a href="https://www.scummvm.org/credits/">credits</a> 😊.</p>
 <h2 id="next-steps">Next steps</h2>
 <p>I think we&rsquo;re really getting closer to making this official. I think there are two main roadblocks:</p>
 <ul>
-<li>Replace BrowserFS with something better suited to our use case - preferably implemented in C++ and using the new Emscripten Filesystem backend (<a class="github-button" href="https://github.com/emscripten-core/emscripten/issues/15041" data-icon="octicon-issue-closed" data-size="small" data-text='emscripten#15041: <span style="font-weight:normal">New File System Implementation</span>'></a> )</li>
+<li>Replace BrowserFS with something better suited to our use case - preferably implemented in C++ and using the new Emscripten Filesystem backend (<a class="github-button" data-color-scheme="" href="https://github.com/emscripten-core/emscripten/issues/15041" data-icon="octicon-issue-closed" data-size="small" data-text='<b>emscripten#15041:</b>&nbsp;New File System Implementation'></a> )</li>
 <li>Add support for cloud storage so users can import/export savegames.</li>
 </ul>
 <p>And a few minor optimizations around asyncify/dynamic loading and random QoL improvements such as screenshot, logfile support. Maybe better error handling and loading animations would be nice as well.</p>

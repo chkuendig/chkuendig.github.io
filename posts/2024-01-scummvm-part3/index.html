@@ -10,7 +10,7 @@
 <meta name="description" content="I finally found some time  over the holidays to wrap up some improvements I was working on for ScummVM last year.">
 <meta name="author" content="">
 <link rel="canonical" href="/posts/2024-01-scummvm-part3/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.3066b30d63cbcb5fe33f49048724971e05adcc5783abc553bfed2d7f618ee15c.css" integrity="sha256-MGazDWPLy1/jP0kEhySXHgWtzFeDq8VTv&#43;0tf2GO4Vw=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3b344c5ca36ddfb3c402187b775c86630470008cfe9ee494feba187afc9f4c89.css" integrity="sha256-OzRMXKNt37PEAhh7d1yGYwRwAIz&#43;nuSU/roYevyfTIk=" rel="preload stylesheet" as="style">
 <link rel="icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -201,7 +201,7 @@ The majority of this is adding the capability download files. As the file system
 <p>Only two combinations of format and type are accepted. The first is format RGBA and type UNSIGNED_BYTE. The second is an implementation-chosen format.</p>
 <p><em><a href="https://registry.khronos.org/webgl/specs/latest/1.0/#5.14.12">WebGL Specification: 5.14.12 Read Operations</a></em></p>
 </blockquote>
-<p>As it turns out, the implementation-chosen formats are buggy (<a class="github-button" href="https://github.com/KhronosGroup/WebGL/issues/2747" data-icon="octicon-issue-closed" data-size="small" data-text='WebGL#2747: <span style="font-weight:normal">readPixels issue </span>'></a>), so I switched back to <code>GL_RGBA</code> for Emscripten.</p>
+<p>As it turns out, the implementation-chosen formats are buggy (<a class="github-button" data-color-scheme="" href="https://github.com/KhronosGroup/WebGL/issues/2747" data-icon="octicon-issue-closed" data-size="small" data-text='<b>WebGL#2747:</b>&nbsp;readPixels issue '></a>), so I switched back to <code>GL_RGBA</code> for Emscripten.</p>
 </li>
 </ul>
 <p>Once that was fixed, when pressing <code>alt+s</code>, screenshots are  opened the same way as log files:</p>
@@ -219,7 +219,7 @@ The majority of this is adding the capability download files. As the file system
          alt="List of commits used to manually bisect commit"/> 
 </figure>
 </p>
-<p>This was so frustrating that I actually decided to stop banging my head against a wall and figure out how to troubleshoot such issues properly. Turns out there&rsquo;s <a href="https://git-scm.com/docs/git-bisect">git-bisect</a> which made things much much easier 😊 and eventually I could track it down to a specific commit: <a class="github-button" href="https://github.com/scummvm/scummvm/commit/863988fee4c0c9d70a2d0ac7919ab6d8ab0fdbd3" data-icon="octicon-git-commit" data-size="small" data-text='scummvm@863988f: <span style="font-weight:normal">OPENGL: Add proper error checking to the Shader class</span>'></a>.</p>
+<p>This was so frustrating that I actually decided to stop banging my head against a wall and figure out how to troubleshoot such issues properly. Turns out there&rsquo;s <a href="https://git-scm.com/docs/git-bisect">git-bisect</a> which made things much much easier 😊 and eventually I could track it down to a specific commit: <a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/863988fee4c0c9d70a2d0ac7919ab6d8ab0fdbd3" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@863988f:</b>&nbsp;OPENGL: Add proper error checking to the Shader class'></a>.</p>
 <p>At this point it became clear that I should not have given up on the profiler, the bug was indeed that since adding the debugging wrapper in that commit, every frame was calling an expensive GL function as not everything worked properly on WebGL (so errors are caught on every frame).</p>
 <p>Eventually this was a super easy fix, I just decided to skip this debug wrapper for Emscripten as the browser anyway pushes out the same debugging messages in the console.</p>
 <h2 id="shaders">Shaders</h2>
@@ -254,13 +254,13 @@ It was very satisfying to see this work without any changes (<a href="https://di
 <h2 id="other-improvements">Other Improvements</h2>
 <p>There were a bunch of improvements that aren&rsquo;t related to user visible features or minor bugfixes:</p>
 <ul>
-<li><strong>Disabled GLAD and fixed a build issue related to that</strong> - GLAD is not needed on Emscripten as we target Emscripten&rsquo;s emulated OpenGL ES built on top of WebGL which is a stable and static environment without any need for adjustments at runtime. Also, the current GLAD implementation is slow (see <a class="github-button" href="https://github.com/Dav1dde/glad-web/issues/12" data-icon="octicon-issue-closed" data-size="small" data-text='glad-web#12: <span style="font-weight:normal">add emscripten support to the loader</span>'></a> ).</li>
-<li><strong>Updated the <code>build.sh</code> and <code>configure</code> scripts</strong> for better handling of libraries. Third-Party libraries not auto-detected anymore, don&rsquo;t require external patches and we use <em>emscripten-ports</em> now also for <em>giflib</em> (which needed a small fix in emscripten: <a class="github-button" href="https://github.com/emscripten-core/emscripten/issues/18537" data-icon="octicon-issue-closed" data-size="small" data-text='emscripten#18537: <span style="font-weight:normal">using libgif port leads to duplicate symbol error when linking as main module</span>'></a>) and <em>libvorbis</em>.</li>
+<li><strong>Disabled GLAD and fixed a build issue related to that</strong> - GLAD is not needed on Emscripten as we target Emscripten&rsquo;s emulated OpenGL ES built on top of WebGL which is a stable and static environment without any need for adjustments at runtime. Also, the current GLAD implementation is slow (see <a class="github-button" data-color-scheme="" href="https://github.com/Dav1dde/glad-web/issues/12" data-icon="octicon-issue-closed" data-size="small" data-text='<b>glad-web#12:</b>&nbsp;add emscripten support to the loader'></a> ).</li>
+<li><strong>Updated the <code>build.sh</code> and <code>configure</code> scripts</strong> for better handling of libraries. Third-Party libraries not auto-detected anymore, don&rsquo;t require external patches and we use <em>emscripten-ports</em> now also for <em>giflib</em> (which needed a small fix in emscripten: <a class="github-button" data-color-scheme="" href="https://github.com/emscripten-core/emscripten/issues/18537" data-icon="octicon-issue-closed" data-size="small" data-text='<b>emscripten#18537:</b>&nbsp;using libgif port leads to duplicate symbol error when linking as main module'></a>) and <em>libvorbis</em>.</li>
 <li><strong>Adjusted game downloader to the new <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQamumX0p-DYQa5Umi3RxX-pHM6RZhAj1qvUP0jTmaqutN9FwzyriRSXlO9rq6kR60pGIuPvCDzZL3s/pub">ScummVM data</a></strong>  spreadsheet.</li>
 <li><strong>Removed workarounds in <code>scummvm.ini</code> and launch parameters</strong> by making OpenGL the default backend and adjusting the user settings path to use the home directory.</li>
-<li><strong>Remove gamepad API workaround</strong> which isn&rsquo;t needed anymore since <a class="github-button" href="https://github.com/scummvm/scummvm/commit/3a3da1b41e87cec8c86ca217fe50565faaf553fd" data-icon="octicon-git-commit" data-size="small" data-text='scummvm@3a3da1b: <span style="font-weight:normal">SDL: Allow joystick init to fail
+<li><strong>Remove gamepad API workaround</strong> which isn&rsquo;t needed anymore since <a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/3a3da1b41e87cec8c86ca217fe50565faaf553fd" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@3a3da1b:</b>&nbsp;SDL: Allow joystick init to fail
 
-It&#39;s not critical so can be skipped</span>'></a>.</li>
+It&#39;s not critical so can be skipped'></a>.</li>
 <li><strong>Loading Icons directly</strong> without having to fetch a large ZIP file to simplify things.</li>
 </ul>
 <h2 id="conclusion">Conclusion</h2>
@@ -273,11 +273,11 @@ It&#39;s not critical so can be skipped</span>'></a>.</li>
 <p>Trevor Sundberg&rsquo;s tutorial at motley-coder.com had a super useful sample for this (since taken offline, but available via the <a href="https://web.archive.org/web/20230208155942/https://motley-coder.com/2019/04/01/download-files-emscripten/">Internet Archive</a>).&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:2">
-<p>Apparently to fix some other issues - see <a class="github-button" href="https://github.com/scummvm/scummvm/pull/4854" data-icon="octicon-git-merge" data-size="small" data-text='scummvm#4854: <span style="font-weight:normal">GRAPHICS: Remove alpha channel for screenshots (OPENGL)</span>'></a> - hopefully this won&rsquo;t be an issue in Emscripten. Otherwise the PR has some discarded code that works by capturing RGBA and converting it later (<a class="github-button" href="https://github.com/scummvm/scummvm/commit/6b6c57e9fde54773876e765217f9d02a781fac9b" data-icon="octicon-git-commit" data-size="small" data-text='scummvm@6b6c57e: <span style="font-weight:normal">GRAPHICS: Preventively remove alpha channel for screenshots
+<p>Apparently to fix some other issues - see <a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/pull/4854" data-icon="octicon-git-merge" data-size="small" data-text='<b>scummvm#4854:</b>&nbsp;GRAPHICS: Remove alpha channel for screenshots (OPENGL)'></a> - hopefully this won&rsquo;t be an issue in Emscripten. Otherwise the PR has some discarded code that works by capturing RGBA and converting it later (<a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/6b6c57e9fde54773876e765217f9d02a781fac9b" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@6b6c57e:</b>&nbsp;GRAPHICS: Preventively remove alpha channel for screenshots
 
 Preserving the alpha channel for screenshots
 is not really needed and causes problems in
-the AGS engine (and possibily other engines)</span>'></a>).&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+the AGS engine (and possibily other engines)'></a>).&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:3">
 <p>You can inspect the profile yourself at <a href="https://share.firefox.dev/3RGTBd4">https://share.firefox.dev/3RGTBd4</a> - I just saw that all time seems to be spent in GL functions (namely <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/getErrorGL_Error">WebGLRenderingContext.getError()</a> which didn&rsquo;t make any sense to me as the regression was in our code not in the browser.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>

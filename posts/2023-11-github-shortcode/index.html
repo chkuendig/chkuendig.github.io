@@ -10,7 +10,7 @@
 <meta name="description" content="I link a lot to various GitHub items, so I built some Hugo shortcodes for it.">
 <meta name="author" content="">
 <link rel="canonical" href="/posts/2023-11-github-shortcode/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.3066b30d63cbcb5fe33f49048724971e05adcc5783abc553bfed2d7f618ee15c.css" integrity="sha256-MGazDWPLy1/jP0kEhySXHgWtzFeDq8VTv&#43;0tf2GO4Vw=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3b344c5ca36ddfb3c402187b775c86630470008cfe9ee494feba187afc9f4c89.css" integrity="sha256-OzRMXKNt37PEAhh7d1yGYwRwAIz&#43;nuSU/roYevyfTIk=" rel="preload stylesheet" as="style">
 <link rel="icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -195,8 +195,8 @@ if (!doNotTrack) {
 <h2 id="github-button-shortcode">Github Button Shortcode</h2>
 <p>Luckily there&rsquo;s already a nice to render nice GitHub buttons:<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup> 
     
-<a class="github-button" href="https://github.com/buttons/github-buttons" data-icon="octicon-repo" data-size="small" data-text='buttons/github-buttons'></a>.</p>
-<p>Generally the existing <code>github-buttons</code> was great, but I had to add a few more Octicons (<a href="https://primer.style/design/foundations/icons">the icons used by Github</a>) and I wanted to add coloring. Thankfully this wasn&rsquo;t more then a few minor changes (<a class="github-button" href="https://github.com/chkuendig/github-buttons/commit/95e2596c4e109c0bbf14a33d5fc840c40f326524" data-icon="octicon-git-commit" data-size="small" data-text='github-buttons@95e2596: <span style="font-weight:normal">adding new octicons and coloring</span>'></a>) and once done, it was very easy to build and copy over to hugo:</p>
+<a class="github-button" data-color-scheme="" href="https://github.com/buttons/github-buttons" data-icon="octicon-repo" data-size="small" data-text='<b>buttons/github-buttons</b>'></a>.</p>
+<p>Generally the existing <code>github-buttons</code> was great, but I had to add a few more Octicons (<a href="https://primer.style/design/foundations/icons">the icons used by Github</a>) and I wanted to add coloring. Thankfully this wasn&rsquo;t more then a few minor changes (<a class="github-button" data-color-scheme="" href="https://github.com/chkuendig/github-buttons/commit/95e2596c4e109c0bbf14a33d5fc840c40f326524" data-icon="octicon-git-commit" data-size="small" data-text='<b>github-buttons@95e2596:</b>&nbsp;adding new octicons and coloring'></a>) and once done, it was very easy to build and copy over to hugo:</p>
 <pre tabindex="0"><code>npm run build &amp;&amp; cp dist/buttons.js ../../christian.kuendig.info/assets/js/github-buttons.js
 </code></pre><p>now we just need to make sure to include this file in our template (see <a href="#usage">below</a>).</p>
 <h3 id="github-card-shortcode">Github Card Shortcode</h3>
@@ -248,18 +248,18 @@ if (!doNotTrack) {
 <li id="fn:4">
 <p>There also already a hugo shortcode for it, but it doesn&rsquo;t do  much beyond rendering static HTML: 
     
-<a class="github-button" href="https://github.com/statropy/github-button-hugo-shortcode" data-icon="octicon-repo" data-size="small" data-text='statropy/github-button-hugo-shortcode'></a>.&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<a class="github-button" data-color-scheme="" href="https://github.com/statropy/github-button-hugo-shortcode" data-icon="octicon-repo" data-size="small" data-text='<b>statropy/github-button-hugo-shortcode</b>'></a>.&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:5">
 <p>There are a lot of other projects for Github cards, but none look as nice in my opinion. I specifically looked at 
     
-<a class="github-button" href="https://github.com/lepture/github-cards" data-icon="octicon-repo" data-size="small" data-text='lepture/github-cards'></a>, 
+<a class="github-button" data-color-scheme="" href="https://github.com/lepture/github-cards" data-icon="octicon-repo" data-size="small" data-text='<b>lepture/github-cards</b>'></a>, 
     
-<a class="github-button" href="https://github.com/nwtgck/gh-card" data-icon="octicon-repo" data-size="small" data-text='nwtgck/gh-card'></a>, 
+<a class="github-button" data-color-scheme="" href="https://github.com/nwtgck/gh-card" data-icon="octicon-repo" data-size="small" data-text='<b>nwtgck/gh-card</b>'></a>, 
     
-<a class="github-button" href="https://github.com/po3rin/github_link_creator" data-icon="octicon-repo" data-size="small" data-text='po3rin/github_link_creator'></a> and 
+<a class="github-button" data-color-scheme="" href="https://github.com/po3rin/github_link_creator" data-icon="octicon-repo" data-size="small" data-text='<b>po3rin/github_link_creator</b>'></a> and 
     
-<a class="github-button" href="https://github.com/JoelSutherland/GitHub-jQuery-Repo-Widget" data-icon="octicon-repo" data-size="small" data-text='JoelSutherland/GitHub-jQuery-Repo-Widget'></a>, but let me know if you find a better one.&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<a class="github-button" data-color-scheme="" href="https://github.com/JoelSutherland/GitHub-jQuery-Repo-Widget" data-icon="octicon-repo" data-size="small" data-text='<b>JoelSutherland/GitHub-jQuery-Repo-Widget</b>'></a>, but let me know if you find a better one.&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:6">
 <p><a href="https://github.blog/2021-06-22-framework-building-open-graph-images/">A framework for building Open Graph images</a>&#160;<a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>

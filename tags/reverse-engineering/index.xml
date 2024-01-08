@@ -23,13 +23,6 @@
       <description>Looking into how to reverse engineer a funky christmas present and building out a new Home Assistant integration for it.</description>
     </item>
     <item>
-      <title>Forwarding Bluetooth with the AB BLE Gateway</title>
-      <link>/posts/2022-12-hass-ab_ble/</link>
-      <pubDate>Fri, 09 Dec 2022 11:46:04 +0100</pubDate>
-      <guid>/posts/2022-12-hass-ab_ble/</guid>
-      <description>We recently moved and I decided to buy a BLE-IP gateway off AliExpress. Turns out this needed some hacking to get it to work with Home Assistant.</description>
-    </item>
-    <item>
       <title>Sensirion SCD4x CO₂ Home Assistant Integration</title>
       <link>/posts/2022-02-sensirion-co2/</link>
       <pubDate>Wed, 02 Feb 2022 11:48:32 +0100</pubDate>

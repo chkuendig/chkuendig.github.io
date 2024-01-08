@@ -6,11 +6,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>tvhProxy: Streaming TVHeadend into Plex DVR | Christian Kündig</title>
-<meta name="keywords" content="Plex Media Server">
+<meta name="keywords" content="Personal Media Server">
 <meta name="description" content="Plex launched it&rsquo;s DVR feature in 2016. Unfortunately, it only supports either DVR tuners connected to the server directly or HDHomeRun devices. tvhProxy fixes that.">
 <meta name="author" content="">
 <link rel="canonical" href="/posts/2020-02-tvhproxy/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.3066b30d63cbcb5fe33f49048724971e05adcc5783abc553bfed2d7f618ee15c.css" integrity="sha256-MGazDWPLy1/jP0kEhySXHgWtzFeDq8VTv&#43;0tf2GO4Vw=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3b344c5ca36ddfb3c402187b775c86630470008cfe9ee494feba187afc9f4c89.css" integrity="sha256-OzRMXKNt37PEAhh7d1yGYwRwAIz&#43;nuSU/roYevyfTIk=" rel="preload stylesheet" as="style">
 <link rel="icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -113,7 +113,7 @@ if (!doNotTrack) {
   "name": "tvhProxy: Streaming TVHeadend into Plex DVR",
   "description": "Plex launched it\u0026rsquo;s DVR feature in 2016. Unfortunately, it only supports either DVR tuners connected to the server directly or HDHomeRun devices. tvhProxy fixes that.",
   "keywords": [
-    "Plex Media Server"
+    "Personal Media Server"
   ],
   "articleBody": "Plex launched its DVR feature in 2016. Using Plex’s TV DVR feature, it’s possible to watch live TV as well as schedule recordings remotely and stream them to your devices either within your home or over the internet. It’s the most polished DVR server I have seen so far.\nUnfortunately, it only supports either DVR tuners connected to the server directly or HDHomeRun devices. This is quite a limit, as this means CAM modules can’t be used, IPTV channels can’t be added and neither can satellite dishes.\nI already had set up TVHeadend with Multicast IPTV and , so I was looking into a way of feeding my TVHeadend channels into Plex.\ntvhProxy 💡 Update Jun 16, 2020: There’s now an effort to include HDHomeRun emulation in TVHeadend itself - this eventually might replace the need for tvhProxy: .\ntvhProxy is a small tool which helps bridging these two services. A small flask app to proxy requests between Plex Media Server and TVHeadend. The [original version of tvhProxy ( ) has been archived on GitHub by its maintainer and is out of date and does not work with recent versions of Plex Media Server.\nI have decided to revive the project and add a few critical improvements compared to the archived upstream version:\nSSDP Discovery. Fixes the issue of Plex randomly dropping the device - - by simulating the SSDP announcements a real HDHomerun is sending. Otherwise you the tuner is dropped and “Device not found. Ensure your device is powered on and connected to your network.” is shown in the settings\nDEBUG - DVR:Device: Device device://tv.plex.grabbers.hdhomerun/12345678 died DEBUG - DVR:Grabber: Plexserver discovered 0 compatible devices.` XMLTV EPG EPG export, including adding dummy programme entries for channels without EPG so you can still use these channels in Plex (see below for Plex configuration URL).\nConfiguration of variables via dotenv file for easier testing\nAdding a dockerfile for easier deployment.\nPlex configuration Enter the IP of the host running tvhProxy, including port 5004, e.g., 192.168.1.50:5004. Use http://192.168.1.50:5004/epg.xml for the EPG (see Using XMLTV for guide data for full instructions).\nShould the proxy keep disappearing or you can’t add it, it’s worth trying to delete the existing configuration from the database:\nSee https://support.plex.tv/articles/201100678-repair-a-corrupt-database/ on how to access the plex config database and run delete from media_provider_resources; to remove any leftover config. Docker Setup I’m using docker-compose with the following docker-compose.yml file:\nversion: \"2.1\" services: tvhproxy: build: https://github.com/chkuendig/tvhProxy.git container_name: tvhproxy environment: - TVH_PROXY_HOST=192.168.178.24 - TVH_URL=http://parklife:9981 - DEVICE_ID=2020-02-Q5YH-U5PIK8 #this is random but needs to stay fixed volumes: - \"/etc/localtime:/etc/localtime:ro\" # we need to have the same timezone as the host tvheadend to build the EPG correctly network_mode: \"host\" Since this isn’t a pre-built container, you run docker-compose build tvhproxy instead of docker-compose pull tvhproxy and that’s it.\nDiscussion Let me know what you think at https://forums.plex.tv/t/tvhproxy-update/544037.\n",
   "wordCount" : "472",
@@ -181,19 +181,19 @@ if (!doNotTrack) {
 <p>Unfortunately, it only supports either DVR tuners connected to the server directly or HDHomeRun devices. This is quite a limit, as this means CAM modules can&rsquo;t be used, IPTV channels can&rsquo;t be added and neither can satellite dishes.</p>
 <p>I already had set up TVHeadend with <a href="/posts/2020-02-tv7-epg/">Multicast IPTV</a> and 
     
-<a class="github-button" href="https://github.com/oscam-emu/oscam-emu" data-icon="octicon-repo" data-size="small" data-text='oscam-emu/oscam-emu'></a>, so I was looking into a way of feeding my TVHeadend channels into Plex.</p>
+<a class="github-button" data-color-scheme="" href="https://github.com/oscam-emu/oscam-emu" data-icon="octicon-repo" data-size="small" data-text='<b>oscam-emu/oscam-emu</b>'></a>, so I was looking into a way of feeding my TVHeadend channels into Plex.</p>
 <h2 id="tvhproxy">tvhProxy</h2>
 <aside>
     <span>💡</span>
-    <p><strong>Update Jun 16, 2020:</strong> There&rsquo;s now an effort to include HDHomeRun emulation in TVHeadend itself - this eventually might replace the need for tvhProxy:  <a class="github-button" href="https://github.com/tvheadend/tvheadend/pull/1348" data-icon="octicon-git-pull-request-closed" data-size="small" data-text='tvheadend#1348: <span style="font-weight:normal">hdhomerun: Add HDHomeRun server emulation support for LiveTV only (#4461)</span>'></a>  .</p>
+    <p><strong>Update Jun 16, 2020:</strong> There&rsquo;s now an effort to include HDHomeRun emulation in TVHeadend itself - this eventually might replace the need for tvhProxy:  <a class="github-button" data-color-scheme="" href="https://github.com/tvheadend/tvheadend/pull/1348" data-icon="octicon-git-pull-request-closed" data-size="small" data-text='<b>tvheadend#1348:</b>&nbsp;hdhomerun: Add HDHomeRun server emulation support for LiveTV only (#4461)'></a>  .</p>
 </aside>
 <p>tvhProxy is a small tool which helps bridging these two services. A small flask app to proxy requests between Plex Media Server and TVHeadend. The [original version of tvhProxy ( 
     
-<a class="github-button" href="https://github.com/jkaberg/tvhProxy" data-icon="octicon-repo" data-size="small" data-text='jkaberg/tvhProxy'></a> )  has been archived on GitHub by its maintainer and is out of date and does not work with recent versions of Plex Media Server.</p>
+<a class="github-button" data-color-scheme="" href="https://github.com/jkaberg/tvhProxy" data-icon="octicon-repo" data-size="small" data-text='<b>jkaberg/tvhProxy</b>'></a> )  has been archived on GitHub by its maintainer and is out of date and does not work with recent versions of Plex Media Server.</p>
 <p>I have decided to revive the project and add a few critical improvements compared to the archived upstream version:</p>
 <ul>
 <li>
-<p><a href="https://en.wikipedia.org/wiki/Simple_Service_Discovery_Protocol">SSDP</a> Discovery. Fixes the issue of Plex randomly dropping the device - <a class="github-button" href="https://github.com/jkaberg/tvhProxy/issues/21" data-icon="octicon-issue-opened" data-size="small" data-text='tvhProxy#21: <span style="font-weight:normal">still Device not found. Ensure your device is powered on and connected to your network.</span>'></a> - by simulating the SSDP announcements a real HDHomerun is sending. Otherwise you the tuner is dropped and &ldquo;Device not found. Ensure your device is powered on and connected to your network.&rdquo; is shown in the settings</p>
+<p><a href="https://en.wikipedia.org/wiki/Simple_Service_Discovery_Protocol">SSDP</a> Discovery. Fixes the issue of Plex randomly dropping the device - <a class="github-button" data-color-scheme="" href="https://github.com/jkaberg/tvhProxy/issues/21" data-icon="octicon-issue-opened" data-size="small" data-text='<b>tvhProxy#21:</b>&nbsp;still Device not found. Ensure your device is powered on and connected to your network.'></a> - by simulating the SSDP announcements a real HDHomerun is sending. Otherwise you the tuner is dropped and &ldquo;Device not found. Ensure your device is powered on and connected to your network.&rdquo; is shown in the settings</p>
 <pre tabindex="0"><code class="language-DEBUG" data-lang="DEBUG">DEBUG - DVR:Device: Device device://tv.plex.grabbers.hdhomerun/12345678 died
 DEBUG - DVR:Grabber: Plexserver discovered 0 compatible devices.`
 </code></pre></li>
@@ -237,7 +237,7 @@ DEBUG - DVR:Grabber: Plexserver discovered 0 compatible devices.`
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="/tags/plex-media-server/">Plex Media Server</a></li>
+      <li><a href="/tags/personal-media-server/">Personal Media Server</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="/posts/2020-09-plex-subtitles-issue/">

@@ -10,7 +10,7 @@
 <meta name="description" content="I recently added support support for the Sensirion SCD4x CO₂ Gadget to the Passive BLE Monitor integration for Home Assistant.">
 <meta name="author" content="">
 <link rel="canonical" href="/posts/2022-02-sensirion-co2/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.3066b30d63cbcb5fe33f49048724971e05adcc5783abc553bfed2d7f618ee15c.css" integrity="sha256-MGazDWPLy1/jP0kEhySXHgWtzFeDq8VTv&#43;0tf2GO4Vw=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3b344c5ca36ddfb3c402187b775c86630470008cfe9ee494feba187afc9f4c89.css" integrity="sha256-OzRMXKNt37PEAhh7d1yGYwRwAIz&#43;nuSU/roYevyfTIk=" rel="preload stylesheet" as="style">
 <link rel="icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -192,8 +192,8 @@ if (!doNotTrack) {
 <p>I initially was looking whether I would try to reverse engineer the data sent between the mobile app and the device, but eventually found yet another Sensirion reference software implementation which is the
 
     
-<a class="github-button" href="https://github.com/Sensirion/arduino-ble-gadget" data-icon="octicon-repo" data-size="small" data-text='Sensirion/arduino-ble-gadget'></a>. It&rsquo;s compatible with the mobile app and looks like it&rsquo;s very similar to the software running on the reference board gadget.</p>
-<p>I re-wrote the parsing in Python, and that was it. The code is quite simple and available in the pull request for the Passive BLE Monitor: <a class="github-button" href="https://github.com/custom-components/ble_monitor/pull/686" data-icon="octicon-git-merge" data-size="small" data-text='ble_monitor#686: <span style="font-weight:normal">Support for the Sensirion SCD4x CO₂ Gadget</span>'></a>.</p>
+<a class="github-button" data-color-scheme="" href="https://github.com/Sensirion/arduino-ble-gadget" data-icon="octicon-repo" data-size="small" data-text='<b>Sensirion/arduino-ble-gadget</b>'></a>. It&rsquo;s compatible with the mobile app and looks like it&rsquo;s very similar to the software running on the reference board gadget.</p>
+<p>I re-wrote the parsing in Python, and that was it. The code is quite simple and available in the pull request for the Passive BLE Monitor: <a class="github-button" data-color-scheme="" href="https://github.com/custom-components/ble_monitor/pull/686" data-icon="octicon-git-merge" data-size="small" data-text='<b>ble_monitor#686:</b>&nbsp;Support for the Sensirion SCD4x CO₂ Gadget'></a>.</p>
 <p>Two points of notice:</p>
 <ul>
 <li>The sensor also transmits temperature and humidity. Something which isn&rsquo;t supported in the official app.</li>

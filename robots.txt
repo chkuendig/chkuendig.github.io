@@ -5,7 +5,7 @@ Disallow: /tags/scummvm/
 Disallow: /tags/
 Disallow: /tags/web-development/
 Disallow: /posts/2023-11-tvheadend-hdhomerun/
-Disallow: /tags/plex-media-server/
+Disallow: /tags/personal-media-server/
 Disallow: /posts/2023-11-github-shortcode/
 Disallow: /posts/
 Disallow: /tags/reverse-engineering/

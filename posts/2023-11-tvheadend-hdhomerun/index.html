@@ -6,11 +6,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>HDHomerun Server Emulation in Tvheadend | Christian Kündig</title>
-<meta name="keywords" content="Plex Media Server">
+<meta name="keywords" content="Personal Media Server">
 <meta name="description" content="Time to retire tvhProxy by adding HDHomerun emulation to Tvheadend.">
 <meta name="author" content="">
 <link rel="canonical" href="/posts/2023-11-tvheadend-hdhomerun/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.3066b30d63cbcb5fe33f49048724971e05adcc5783abc553bfed2d7f618ee15c.css" integrity="sha256-MGazDWPLy1/jP0kEhySXHgWtzFeDq8VTv&#43;0tf2GO4Vw=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3b344c5ca36ddfb3c402187b775c86630470008cfe9ee494feba187afc9f4c89.css" integrity="sha256-OzRMXKNt37PEAhh7d1yGYwRwAIz&#43;nuSU/roYevyfTIk=" rel="preload stylesheet" as="style">
 <link rel="icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -113,7 +113,7 @@ if (!doNotTrack) {
   "name": "HDHomerun Server Emulation in Tvheadend",
   "description": "Time to retire tvhProxy by adding HDHomerun emulation to Tvheadend.",
   "keywords": [
-    "Plex Media Server"
+    "Personal Media Server"
   ],
   "articleBody": "Shortly after updating tvhProxy, an effort on the tvheadend side was made to include HDHomeRun emulation in TVHeadend itself. I was hoping this would eventually obsolete the need for tvhProxy.\nUnfortunately that pull request had a few major issues and was never merged. One of it’s biggest issue was that it implemented its own authentication bypass to get around the issue that HDHomerun clients like Plex don’t have any type of authentication when connecting to the tuner.\nTvheadend already has it’s own way of managing access controls without any explicit authentication (relying on the IP of clients), but unfortunately the PR was never adjusted accordingly.1\nAs I dusted off my IPTV setup recently (dockerizing Tvheadend as well as the tv7 EPG Parser), I thought it was a good time to retire tvhProxy for good.\nSo undertook an attempt to cleanup the previously rejected pull request an fix the major issues:\n💡 Update December 9th: The pull request is now merged in upstream Tvheadend 🎉.\nUpdate Dec 30: The pull request now also made it into the linuxserver.io docker (so the below custom build step isn’t required anymore): Version fd8b9e8b-ls197\nChanges compared to the previous pull request included the two points that prevented it from being merged:\nI removed all code related to the authentication bypass harmonized the comment format. My original fork of tvhProxy included a few additional fixes:\nAdding SSDP discovery to avoid the tuner from being dropped in Plex Filling in dummy EPG data for channels without EPG. I retested this and it turns out that Plex doesn’t need either anymore - I guess they fixed it on their side in the past few years. So the simple integration is enough.\nTvHeadend Permissions Setup To setup the correct access, I have added a user with the following configuration - check out the Tvheadend wiki for more details on how to configure access controls. Dockerized Setup If you use dockerized tvheadend and want to test this, I forked the linuxserver.io container to redirect to my branch. Currently I’m using the following docker-compose.yml to test this for a few days:\nversion: \"2.1\" services: tvheadend: # image: lscr.io/linuxserver/tvheadend:latest build: context: https://github.com/chkuendig/docker-tvheadend.git args: - TVHEADEND_COMMIT=81981d6b95c5103a959d7b03719b04ecf3876162 container_name: tvheadend environment: - PUID=1000 - PGID=1000 - RUN_OPTS= #optional volumes: - \u003c...\u003ehts/.hts/tvheadend:/config - \u003c...\u003ehts/recordings:/recordings network_mode: host restart: unless-stopped You can use this with docker-compose build tvheadend instead of docker-compose pull tvheadend and it should work just as well as the regular container.\nYou can read the whole discussion at . ↩︎\n",
   "wordCount" : "414",
@@ -228,7 +228,7 @@ if (!doNotTrack) {
 <hr>
 <ol>
 <li id="fn:1">
-<p>You can read the whole discussion at  <a class="github-button" href="https://github.com/tvheadend/tvheadend/pull/1348" data-icon="octicon-git-pull-request-closed" data-size="small" data-text='tvheadend#1348: <span style="font-weight:normal">hdhomerun: Add HDHomeRun server emulation support for LiveTV only (#4461)</span>'></a>.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>You can read the whole discussion at  <a class="github-button" data-color-scheme="" href="https://github.com/tvheadend/tvheadend/pull/1348" data-icon="octicon-git-pull-request-closed" data-size="small" data-text='<b>tvheadend#1348:</b>&nbsp;hdhomerun: Add HDHomeRun server emulation support for LiveTV only (#4461)'></a>.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </div>
@@ -237,7 +237,7 @@ if (!doNotTrack) {
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="/tags/plex-media-server/">Plex Media Server</a></li>
+      <li><a href="/tags/personal-media-server/">Personal Media Server</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="/posts/2024-01-scummvm-part3/">
