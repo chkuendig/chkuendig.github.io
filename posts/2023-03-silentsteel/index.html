@@ -10,7 +10,7 @@
 <meta name="description" content="Silent Steel is a submarine-themed FMV  game released in 1995. This is the summary of it&rsquo;s file formats, including a prototype re-implementation.">
 <meta name="author" content="">
 <link rel="canonical" href="/posts/2023-03-silentsteel/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.3b344c5ca36ddfb3c402187b775c86630470008cfe9ee494feba187afc9f4c89.css" integrity="sha256-OzRMXKNt37PEAhh7d1yGYwRwAIz&#43;nuSU/roYevyfTIk=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.095cfdfbbff79a5943e3b988be6523dbb16ec9cd391af31df6128cb10166eafa.css" integrity="sha256-CVz9&#43;7/3mllD47mIvmUj27Fuyc05GvMd9hKMsQFm6vo=" rel="preload stylesheet" as="style">
 <link rel="icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -62,6 +62,15 @@
 <script src="/js/github-buttons.min.js" data-no-instant
 ></script>
 
+<script>
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  });
+</script>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4NRERPTCT"></script>
 <script>
@@ -193,7 +202,8 @@ if (!doNotTrack) {
 <li>The position of the resources table is encoded at byte 35 in the header (see OSDEV link above) - byte 163 in the file.</li>
 <li>In our case, this byte is &lsquo;00x60&rsquo; or 96 in decimal. Adding this to the start of the header at 128 bytes means we now jump to byte 224.</li>
 <li>I&rsquo;ll skim over the details of the resource table, but the resources we are looking for (type <code>F4 04</code> in Ghidra, though that&rsquo;s actually the address of the string id - which is &ldquo;DATA&rdquo;) start at byte 410 and theres 85 (<code>\x54</code> in the 3rd byte) of them. The first two resources look as follows: (2nd line parsed)
-<img loading="lazy" src="/posts/2023-03-silentsteel/steel_exe-resource-table.png" type="" alt="Resource Table"  /></li>
+<img loading="lazy" src="steel_exe-resource-table.png" alt="Resource Table"  />
+</li>
 </ul>
 <table>
 <thead>
@@ -253,38 +263,38 @@ if (!doNotTrack) {
 <h4 id="game-scripts">Game Scripts</h4>
 <p>Once extracted, the game scripts follow a simple syntax. To explain, lets go through the start of the promo disc:</p>
 <p><strong>Resource 1001:</strong></p>
-<pre tabindex="0"><code>{
-    sequence &gt; ?v18 &gt; ?r$1001; &gt; ?j1002
-}
-</code></pre><p>This means that in sequence, three things will happen:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">    sequence &gt; ?v18 &gt; ?r$1001; &gt; ?j1002
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></div><p>This means that in sequence, three things will happen:</p>
 <ul>
 <li><code>?v18</code>: Unknown meaning</li>
 <li><code>?r$1001;</code>: Play video 1001 (if there&rsquo;s text after <code>;</code> print it out as subtitles).</li>
 <li><code>?j1002</code>: Jump to resource 1002</li>
 </ul>
 <p><strong>Resource 1002:</strong></p>
-<pre tabindex="0"><code>{
-    sequence &gt; ?&amp;9999 &gt; ?r$1002;
-}
-</code></pre><ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">    sequence &gt; ?&amp;9999 &gt; ?r$1002;
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></div><ul>
 <li><code>?&amp;9999</code>: Unknown meaning (video maybe a marker for savegames/checkpoint?)</li>
 <li><code>?r$1002;</code>: Play video 1002, again no subtitles</li>
 </ul>
-<pre tabindex="0"><code> 1 EXCHANGE {
-    + !0001This is the Captain. {
-       &gt; ?r$1003;Captain, sorry to wake you. We just received an urgent message from COMSUBLANT.
-   }
-   [...]
-    = !0002It can&#39;t be 0630 yet. XO, what&#39;s up? {
-       &gt; ?r$1004;Morning, Skipper. We just received an urgent message from COMSUBLANT.
-   }
-   [...]
-    - !0003This better be important. {
-       &gt; ?r$1005;Good morning, Sir. We just received urgent traffic from COMSUBLANT.
-   }
-   [...]
-}
-</code></pre><p>This is the first time the player gets to make a decision:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"> 1 EXCHANGE {
+</span></span><span class="line"><span class="cl">    + !0001This is the Captain. {
+</span></span><span class="line"><span class="cl">       &gt; ?r$1003;Captain, sorry to wake you. We just received an urgent message from COMSUBLANT.
+</span></span><span class="line"><span class="cl">   }
+</span></span><span class="line"><span class="cl">   [...]
+</span></span><span class="line"><span class="cl">    = !0002It can&#39;t be 0630 yet. XO, what&#39;s up? {
+</span></span><span class="line"><span class="cl">       &gt; ?r$1004;Morning, Skipper. We just received an urgent message from COMSUBLANT.
+</span></span><span class="line"><span class="cl">   }
+</span></span><span class="line"><span class="cl">   [...]
+</span></span><span class="line"><span class="cl">    - !0003This better be important. {
+</span></span><span class="line"><span class="cl">       &gt; ?r$1005;Good morning, Sir. We just received urgent traffic from COMSUBLANT.
+</span></span><span class="line"><span class="cl">   }
+</span></span><span class="line"><span class="cl">   [...]
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></div><p>This is the first time the player gets to make a decision:</p>
 <ul>
 <li><code>1 EXCHANGE</code> marks the start of an exchange (player controlled dialogue).
 <ul>
@@ -295,13 +305,13 @@ if (!doNotTrack) {
 </ul>
 </li>
 </ul>
-<pre tabindex="0"><code> 2 EXCHANGE {
-    + !0004I&#39;ll be right down. {
-       &gt; ?r$1012;Morning, Captain. Morning, Skipper... &gt; ?j2001
-   }
-   [...]
-}
-</code></pre><ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"> 2 EXCHANGE {
+</span></span><span class="line"><span class="cl">    + !0004I&#39;ll be right down. {
+</span></span><span class="line"><span class="cl">       &gt; ?r$1012;Morning, Captain. Morning, Skipper... &gt; ?j2001
+</span></span><span class="line"><span class="cl">   }
+</span></span><span class="line"><span class="cl">   [...]
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></div><ul>
 <li>This consequence has a jump (`?j2001) meaning that this choice ends the exchange and the game continues at resource 2001.</li>
 </ul>
 <h4 id="other-instructions">Other instructions</h4>

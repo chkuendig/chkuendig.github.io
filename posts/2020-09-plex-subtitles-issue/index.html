@@ -10,7 +10,7 @@
 <meta name="description" content="For some reason video files downloaded from the web won&rsquo;t play in Plex if they have subtitles.">
 <meta name="author" content="">
 <link rel="canonical" href="/posts/2020-09-plex-subtitles-issue/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.3b344c5ca36ddfb3c402187b775c86630470008cfe9ee494feba187afc9f4c89.css" integrity="sha256-OzRMXKNt37PEAhh7d1yGYwRwAIz&#43;nuSU/roYevyfTIk=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.095cfdfbbff79a5943e3b988be6523dbb16ec9cd391af31df6128cb10166eafa.css" integrity="sha256-CVz9&#43;7/3mllD47mIvmUj27Fuyc05GvMd9hKMsQFm6vo=" rel="preload stylesheet" as="style">
 <link rel="icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -62,6 +62,15 @@
 <script src="/js/github-buttons.min.js" data-no-instant
 ></script>
 
+<script>
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  });
+</script>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4NRERPTCT"></script>
 <script>
@@ -180,17 +189,17 @@ if (!doNotTrack) {
 </figure>
 
 <p>Changing players didn&rsquo;t matter, this was an issue affecting all platforms - even when using the web player in the browser! The debug logs also confirmed this was an issue with the transcoder:</p>
-<pre tabindex="0"><code>Sep 14 11:12:36 localhost PlexMediaServer[34961]: [Transcoder] Decoder (codec none) not found for input stream #0:0
-
-Sep 14 11:12:36 localhost PlexMediaServer[34961]: Transcode runner appears to have died.
-</code></pre><p>So for some reason, Plex tries to decode something with a codec called none? That doesn&rsquo;t make much sense. I looked at the streams with <code>ffprobe</code> and saw that <code>stream #0:0</code> was a subtitle stream - and it indeed had no coded defined!</p>
-<pre tabindex="0"><code>  Stream #0:0(eng): Subtitle: none (default)
-    Metadata:
-      BPS             : 118
-      DURATION        : 01:30:55.025000000
-      NUMBER_OF_FRAMES: 1242
-      NUMBER_OF_BYTES : 80709
-</code></pre><p>Looking at our video in Plex again showed the same thing: A subtitle track in english with <code>NONE</code> as the format.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Sep 14 11:12:36 localhost PlexMediaServer[34961]: [Transcoder] Decoder (codec none) not found for input stream #0:0
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Sep 14 11:12:36 localhost PlexMediaServer[34961]: Transcode runner appears to have died.
+</span></span></code></pre></div><p>So for some reason, Plex tries to decode something with a codec called none? That doesn&rsquo;t make much sense. I looked at the streams with <code>ffprobe</code> and saw that <code>stream #0:0</code> was a subtitle stream - and it indeed had no coded defined!</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">  Stream #0:0(eng): Subtitle: none (default)
+</span></span><span class="line"><span class="cl">    Metadata:
+</span></span><span class="line"><span class="cl">      BPS             : 118
+</span></span><span class="line"><span class="cl">      DURATION        : 01:30:55.025000000
+</span></span><span class="line"><span class="cl">      NUMBER_OF_FRAMES: 1242
+</span></span><span class="line"><span class="cl">      NUMBER_OF_BYTES : 80709
+</span></span></code></pre></div><p>Looking at our video in Plex again showed the same thing: A subtitle track in english with <code>NONE</code> as the format.</p>
 <figure class="centered">
     <img loading="lazy" src="/posts/2020-09-plex-subtitles-issue/subtitle-list.png  "
          alt="Subtitles: English (NONE)"/> 
@@ -209,8 +218,8 @@ Sep 14 11:12:36 localhost PlexMediaServer[34961]: Transcode runner appears to ha
 <p>The FFmpeg Project is aware of this issue, but unfortunately the bug is still open 4 years after it was opened<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>.</p>
 <h3 id="workaround">Workaround</h3>
 <p>As Plex doesn&rsquo;t seem to select  embedded subtitles automatically if there is an external one present, the easiest way to work around this is to extract the subtitles (and tell ffmpeg the format explicitly) into a external file:</p>
-<pre tabindex="0"><code>for f in *.mkv; do ffmpeg -c:s webvtt -i &#34;$f&#34; &#34;${f%.mkv}.en.vtt&#34;;done
-</code></pre><h3 id="conclusion">Conclusion</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">for f in *.mkv; do ffmpeg -c:s webvtt -i &#34;$f&#34; &#34;${f%.mkv}.en.vtt&#34;;done
+</span></span></code></pre></div><h3 id="conclusion">Conclusion</h3>
 <p>There are multiple ways this could be fixed in Plex:</p>
 <ul>
 <li>Wait for FFMPEG to fix this (unlikely, as the ffmpeg bug is already 4 years old)</li>

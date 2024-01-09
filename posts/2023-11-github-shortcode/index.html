@@ -10,7 +10,7 @@
 <meta name="description" content="I link a lot to various GitHub items, so I built some Hugo shortcodes for it.">
 <meta name="author" content="">
 <link rel="canonical" href="/posts/2023-11-github-shortcode/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.3b344c5ca36ddfb3c402187b775c86630470008cfe9ee494feba187afc9f4c89.css" integrity="sha256-OzRMXKNt37PEAhh7d1yGYwRwAIz&#43;nuSU/roYevyfTIk=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.095cfdfbbff79a5943e3b988be6523dbb16ec9cd391af31df6128cb10166eafa.css" integrity="sha256-CVz9&#43;7/3mllD47mIvmUj27Fuyc05GvMd9hKMsQFm6vo=" rel="preload stylesheet" as="style">
 <link rel="icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -62,6 +62,15 @@
 <script src="/js/github-buttons.min.js" data-no-instant
 ></script>
 
+<script>
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  });
+</script>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4NRERPTCT"></script>
 <script>
@@ -188,17 +197,17 @@ if (!doNotTrack) {
 <h3 id="fetching-resources-and-caching">Fetching resources and caching</h3>
 <p>I&rsquo;m not going into the details on how to fetch data with hugo shortcodes<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> or how the GitHub REST API <sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup> works.</p>
 <p>To avoid fetching all resources on each build, I decided to version/freeze the responses with my code, this can be done with the following config change:
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">caches</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">getresource</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">dir</span>: :<span style="color:#ae81ff">resourceDir/</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">maxAge</span>: -<span style="color:#ae81ff">1</span></span></span></code></pre></div></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">caches</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">getresource</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">dir</span><span class="p">:</span><span class="w"> </span><span class="p">:</span><span class="l">resourceDir/</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">maxAge</span><span class="p">:</span><span class="w"> </span>-<span class="m">1</span></span></span></code></pre></div></p>
 <h2 id="github-button-shortcode">Github Button Shortcode</h2>
 <p>Luckily there&rsquo;s already a nice to render nice GitHub buttons:<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup> 
     
 <a class="github-button" data-color-scheme="" href="https://github.com/buttons/github-buttons" data-icon="octicon-repo" data-size="small" data-text='<b>buttons/github-buttons</b>'></a>.</p>
 <p>Generally the existing <code>github-buttons</code> was great, but I had to add a few more Octicons (<a href="https://primer.style/design/foundations/icons">the icons used by Github</a>) and I wanted to add coloring. Thankfully this wasn&rsquo;t more then a few minor changes (<a class="github-button" data-color-scheme="" href="https://github.com/chkuendig/github-buttons/commit/95e2596c4e109c0bbf14a33d5fc840c40f326524" data-icon="octicon-git-commit" data-size="small" data-text='<b>github-buttons@95e2596:</b>&nbsp;adding new octicons and coloring'></a>) and once done, it was very easy to build and copy over to hugo:</p>
-<pre tabindex="0"><code>npm run build &amp;&amp; cp dist/buttons.js ../../christian.kuendig.info/assets/js/github-buttons.js
-</code></pre><p>now we just need to make sure to include this file in our template (see <a href="#usage">below</a>).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">npm run build &amp;&amp; cp dist/buttons.js ../../christian.kuendig.info/assets/js/github-buttons.js
+</span></span></code></pre></div><p>now we just need to make sure to include this file in our template (see <a href="#usage">below</a>).</p>
 <h3 id="github-card-shortcode">Github Card Shortcode</h3>
 <p>I unfortunately didn&rsquo;t find an equivalent for nice Github cards.</p>
 <p>I found <a href="https://github.blog/changelog/2021-04-21-opengraph-images-for-github-repositories-commits-issues-and-pull-requests/">Github&rsquo;s open graph images</a> super nice<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup> and the Github blog goes into great detail on how they were built<sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup>, but unfortunately there&rsquo;s no easy way to reproduce them, so I decided to take them as is and embed the images on my pages.</p>
@@ -209,27 +218,27 @@ if (!doNotTrack) {
 <h2 id="usage">Usage</h2>
 <ol>
 <li>Add the <code>hugo-github</code> repository as a submodule theme to your project
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git submodule add https://github.com/chkuendig/hugo-github.git themes/hugo-github
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git submodule add https://github.com/chkuendig/hugo-github.git themes/hugo-github
 </span></span></code></pre></div></li>
 <li>Add <code>hugo-github</code> as the left-most element of the <code>theme</code> list variable in your site&rsquo;s or theme&rsquo;s configuration file <code>config.yaml</code> or <code>config.toml</code>. Example, with <code>config.yaml</code>:
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">theme</span>: [<span style="color:#e6db74">&#34;hugo-github&#34;</span>, <span style="color:#e6db74">&#34;my-theme&#34;</span>]
-</span></span></code></pre></div>or, with <code>config.toml</code>,
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span><span style="color:#a6e22e">theme</span> = [<span style="color:#e6db74">&#34;hugo-github&#34;</span>, <span style="color:#e6db74">&#34;my-theme&#34;</span>]
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">theme</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;hugo-github&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;my-theme&#34;</span><span class="p">]</span><span class="w">
+</span></span></span></code></pre></div>or, with <code>config.toml</code>,
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">theme</span> <span class="p">=</span> <span class="p">[</span><span class="s2">&#34;hugo-github&#34;</span><span class="p">,</span> <span class="s2">&#34;my-theme&#34;</span><span class="p">]</span>
 </span></span></code></pre></div></li>
 <li>To use the <code>github-button</code>, don&rsquo;t forget to include the necessary javascript by adding the following to <code>layouts/partials/extend_head.html</code> (might be different for your theme):
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go-html-template" data-lang="go-html-template"><span style="display:flex;"><span><span style="color:#75715e">{{</span><span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#a6e22e">.HasShortcode</span> <span style="color:#e6db74">&#34;github_button&#34;</span><span style="color:#f92672">)</span> <span style="color:#75715e">}}</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">{{-</span> <span style="color:#a6e22e">$githubButtons</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">resources</span><span style="color:#a6e22e">.Get</span> <span style="color:#e6db74">&#34;js/github-buttons.js&#34;</span> <span style="color:#75715e">}}</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">{{-</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">hugo</span><span style="color:#a6e22e">.IsProduction</span> <span style="color:#75715e">}}</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">{{-</span> <span style="color:#a6e22e">$githubButtons</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">minify</span> <span style="color:#a6e22e">$githubButtons</span> <span style="color:#75715e">}}</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">{{-</span> <span style="color:#66d9ef">end</span> <span style="color:#75715e">}}</span>
-</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#75715e">{{</span> <span style="color:#a6e22e">$githubButtons</span><span style="color:#a6e22e">.RelPermalink</span> <span style="color:#75715e">}}</span><span style="color:#e6db74">&#34;</span> <span style="color:#a6e22e">data-no-instant</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">{{-</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">site</span><span style="color:#a6e22e">.Params.assets.disableFingerprinting</span> <span style="color:#75715e">}}</span><span style="color:#a6e22e">integrity</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#75715e">{{</span> <span style="color:#a6e22e">$githubButtons</span><span style="color:#a6e22e">.Data.Integrity</span> <span style="color:#75715e">}}</span><span style="color:#e6db74">&#34;</span><span style="color:#75715e">{{-</span> <span style="color:#66d9ef">end</span> <span style="color:#75715e">}}</span>
-</span></span><span style="display:flex;"><span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
-</span></span><span style="display:flex;"><span><span style="color:#75715e">{{</span> <span style="color:#66d9ef">end</span> <span style="color:#75715e">}}</span></span></span></code></pre></div></li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="k">if</span><span class="w"> </span><span class="o">(</span><span class="na">.HasShortcode</span><span class="w"> </span><span class="s">&#34;github_button&#34;</span><span class="o">)</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{-</span><span class="w"> </span><span class="nx">$githubButtons</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">resources</span><span class="na">.Get</span><span class="w"> </span><span class="s">&#34;js/github-buttons.js&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{-</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">hugo</span><span class="na">.IsProduction</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{-</span><span class="w"> </span><span class="nx">$githubButtons</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">minify</span><span class="w"> </span><span class="nx">$githubButtons</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{-</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="nx">$githubButtons</span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">data-no-instant</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{-</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">site</span><span class="na">.Params.assets.disableFingerprinting</span><span class="w"> </span><span class="cp">}}</span><span class="na">integrity</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="nx">$githubButtons</span><span class="na">.Data.Integrity</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span><span class="cp">{{-</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div></li>
 <li>Use either the <code>github_button</code> or <code>github_card</code> shortcodes as described above:
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span> {{&lt; <span style="color:#a6e22e">github_card</span> <span style="color:#e6db74">&#34;chkuendig/hugo-github&#34;</span> &gt;}}
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"> <span class="p">{{&lt;</span> <span class="nx">github_card</span> <span class="s">&#34;chkuendig/hugo-github&#34;</span> <span class="p">&gt;}}</span>
 </span></span></code></pre></div>or
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>{{&lt;  <span style="color:#a6e22e">github_button</span> <span style="color:#e6db74">&#34;chkuendig/hugo-github&#34;</span> &gt;}}
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="p">{{&lt;</span>  <span class="nx">github_button</span> <span class="s">&#34;chkuendig/hugo-github&#34;</span> <span class="p">&gt;}}</span>
 </span></span></code></pre></div></li>
 </ol>
 <div class="footnotes" role="doc-endnotes">

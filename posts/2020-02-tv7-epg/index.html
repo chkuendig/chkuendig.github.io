@@ -10,7 +10,7 @@
 <meta name="description" content="Init7, my FTTH provider has a great IPTV offering called TV7 Unfortunately there&rsquo;s no way to fetch the EPG data.">
 <meta name="author" content="">
 <link rel="canonical" href="/posts/2020-02-tv7-epg/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.3b344c5ca36ddfb3c402187b775c86630470008cfe9ee494feba187afc9f4c89.css" integrity="sha256-OzRMXKNt37PEAhh7d1yGYwRwAIz&#43;nuSU/roYevyfTIk=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.095cfdfbbff79a5943e3b988be6523dbb16ec9cd391af31df6128cb10166eafa.css" integrity="sha256-CVz9&#43;7/3mllD47mIvmUj27Fuyc05GvMd9hKMsQFm6vo=" rel="preload stylesheet" as="style">
 <link rel="icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -59,6 +59,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
 <link href='//fonts.googleapis.com/css?family=Mulish' rel='stylesheet' type='text/css'>
 
+<script>
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  });
+</script>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4NRERPTCT"></script>
 <script>
@@ -191,61 +200,61 @@ EIT (Event Information Table) that is broadcast with digital television signals.
 <p>While Init7 doesn&rsquo;t provide EPG data via the EIT or as a separate XMLTV file, they do provide EPG in their own app. So let&rsquo;s see how/if we can access that data source.</p>
 <p>I don&rsquo;t have access to an Android App (and decompiling iOS code is much more difficult), but it&rsquo;s easy enough to get the APK from apkpure and <a href="http://calebfenton.github.io/2016/02/28/decompiling-xapk-files/">decompile it</a>. The URLs are very easy to find in the decompiled files:</p>
 <p><strong>Base URL</strong>: The app implements a factory pattern to initialize the client-side interface for the app. In <code>core/api/TvApiFactory.java</code> we find the URL which hosts all other endpoints of this service:</p>
-<pre tabindex="0"><code>BASE_URL=&#34;https://tv7api2.tv.init7.net/api/&#34;
-</code></pre><p><strong>Channel List</strong>: Next, we will need to get a list of channels - like all the other data access methods this is now  of the client-side interface implemented in <code>core/api/TvApi.java</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@GET</span>(<span style="color:#e6db74">&#34;tvchannel/&#34;</span>)
-</span></span><span style="display:flex;"><span>Call<span style="color:#f92672">&lt;</span>TvChannelListResponse<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">tvChannelList</span>();
-</span></span></code></pre></div><p>This gets us a list of all channels and the UUIDs needed to further fetch detailed EPG data.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">BASE_URL=&#34;https://tv7api2.tv.init7.net/api/&#34;
+</span></span></code></pre></div><p><strong>Channel List</strong>: Next, we will need to get a list of channels - like all the other data access methods this is now  of the client-side interface implemented in <code>core/api/TvApi.java</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@GET</span><span class="p">(</span><span class="s">&#34;tvchannel/&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">Call</span><span class="o">&lt;</span><span class="n">TvChannelListResponse</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">tvChannelList</span><span class="p">();</span><span class="w">
+</span></span></span></code></pre></div><p>This gets us a list of all channels and the UUIDs needed to further fetch detailed EPG data.</p>
 <p><strong>EPG Data</strong>: To get an overview of all currently running programs, the method <code>getCurrentEPG</code>  in <code>core/api/TvApi.java</code> calls the endpoint <code>/epg</code> in various configurations:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@GET</span>(<span style="color:#e6db74">&#34;epg/?now__lte=true&amp;now__gte=true&#34;</span>)
-</span></span><span style="display:flex;"><span>Call<span style="color:#f92672">&lt;</span>EPGListResponse<span style="color:#960050;background-color:#1e0010">#</span> getCurrentEPG(<span style="color:#a6e22e">@Query</span>(<span style="color:#e6db74">&#34;channel&#34;</span>) String paramString);
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@GET</span>(<span style="color:#e6db74">&#34;epg/&#34;</span>)
-</span></span><span style="display:flex;"><span>Call<span style="color:#f92672">&lt;</span>EPGListResponse<span style="color:#960050;background-color:#1e0010">#</span> getEPG(<span style="color:#a6e22e">@Query</span>(<span style="color:#e6db74">&#34;channel&#34;</span>) String paramString);
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@GET</span>(<span style="color:#e6db74">&#34;epg/&#34;</span>)
-</span></span><span style="display:flex;"><span>Call<span style="color:#f92672">&lt;</span>EPGListResponse<span style="color:#960050;background-color:#1e0010">#</span> getEPG(<span style="color:#a6e22e">@Query</span>(<span style="color:#e6db74">&#34;channel&#34;</span>) String paramString1, <span style="color:#a6e22e">@Query</span>(<span style="color:#e6db74">&#34;limit&#34;</span>) <span style="color:#66d9ef">int</span> paramInt1, <span style="color:#a6e22e">@Query</span>(<span style="color:#e6db74">&#34;offset&#34;</span>) <span style="color:#66d9ef">int</span> paramInt2, <span style="color:#a6e22e">@Header</span>(<span style="color:#e6db74">&#34;If-None-Match&#34;</span>) String paramString2);
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@GET</span>(<span style="color:#e6db74">&#34;epg/&#34;</span>)
-</span></span><span style="display:flex;"><span>Call<span style="color:#f92672">&lt;</span>EPGListResponse<span style="color:#960050;background-color:#1e0010">#</span> getEPG(<span style="color:#a6e22e">@Query</span>(<span style="color:#e6db74">&#34;channel&#34;</span>) String paramString, <span style="color:#a6e22e">@Query</span>(<span style="color:#e6db74">&#34;limit&#34;</span>) <span style="color:#66d9ef">int</span> paramInt, <span style="color:#a6e22e">@Query</span>(<span style="color:#e6db74">&#34;now__lte&#34;</span>) <span style="color:#66d9ef">boolean</span> paramBoolean1, <span style="color:#a6e22e">@Query</span>(<span style="color:#e6db74">&#34;now__gte&#34;</span>) <span style="color:#66d9ef">boolean</span> paramBoolean2);
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@GET</span>(<span style="color:#e6db74">&#34;epg/&#34;</span>)
-</span></span><span style="display:flex;"><span>Call<span style="color:#f92672">&lt;</span>EPGListResponse<span style="color:#960050;background-color:#1e0010">#</span> getEPG(<span style="color:#a6e22e">@Query</span>(<span style="color:#e6db74">&#34;channel&#34;</span>) String paramString);
-</span></span></code></pre></div><p>There&rsquo;s two more endpoints which look interesting - <code>allowed/</code> and <code>replay/</code> - but for EPG purposes we don&rsquo;t need them.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@GET</span><span class="p">(</span><span class="s">&#34;epg/?now__lte=true&amp;now__gte=true&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">Call</span><span class="o">&lt;</span><span class="n">EPGListResponse</span><span class="err">#</span><span class="w"> </span><span class="n">getCurrentEPG</span><span class="p">(</span><span class="nd">@Query</span><span class="p">(</span><span class="s">&#34;channel&#34;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">paramString</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@GET</span><span class="p">(</span><span class="s">&#34;epg/&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">Call</span><span class="o">&lt;</span><span class="n">EPGListResponse</span><span class="err">#</span><span class="w"> </span><span class="n">getEPG</span><span class="p">(</span><span class="nd">@Query</span><span class="p">(</span><span class="s">&#34;channel&#34;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">paramString</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@GET</span><span class="p">(</span><span class="s">&#34;epg/&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">Call</span><span class="o">&lt;</span><span class="n">EPGListResponse</span><span class="err">#</span><span class="w"> </span><span class="n">getEPG</span><span class="p">(</span><span class="nd">@Query</span><span class="p">(</span><span class="s">&#34;channel&#34;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">paramString1</span><span class="p">,</span><span class="w"> </span><span class="nd">@Query</span><span class="p">(</span><span class="s">&#34;limit&#34;</span><span class="p">)</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">paramInt1</span><span class="p">,</span><span class="w"> </span><span class="nd">@Query</span><span class="p">(</span><span class="s">&#34;offset&#34;</span><span class="p">)</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">paramInt2</span><span class="p">,</span><span class="w"> </span><span class="nd">@Header</span><span class="p">(</span><span class="s">&#34;If-None-Match&#34;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">paramString2</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@GET</span><span class="p">(</span><span class="s">&#34;epg/&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">Call</span><span class="o">&lt;</span><span class="n">EPGListResponse</span><span class="err">#</span><span class="w"> </span><span class="n">getEPG</span><span class="p">(</span><span class="nd">@Query</span><span class="p">(</span><span class="s">&#34;channel&#34;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">paramString</span><span class="p">,</span><span class="w"> </span><span class="nd">@Query</span><span class="p">(</span><span class="s">&#34;limit&#34;</span><span class="p">)</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">paramInt</span><span class="p">,</span><span class="w"> </span><span class="nd">@Query</span><span class="p">(</span><span class="s">&#34;now__lte&#34;</span><span class="p">)</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">paramBoolean1</span><span class="p">,</span><span class="w"> </span><span class="nd">@Query</span><span class="p">(</span><span class="s">&#34;now__gte&#34;</span><span class="p">)</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">paramBoolean2</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@GET</span><span class="p">(</span><span class="s">&#34;epg/&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">Call</span><span class="o">&lt;</span><span class="n">EPGListResponse</span><span class="err">#</span><span class="w"> </span><span class="n">getEPG</span><span class="p">(</span><span class="nd">@Query</span><span class="p">(</span><span class="s">&#34;channel&#34;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">paramString</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><p>There&rsquo;s two more endpoints which look interesting - <code>allowed/</code> and <code>replay/</code> - but for EPG purposes we don&rsquo;t need them.</p>
 <h3 id="testing-it-out-with-curl-and-jq">Testing it out with curl and jq</h3>
 <p>Having extracted the above data, it&rsquo;s now time to play around with the endpoints we have found</p>
 <p><strong>Accessing the channel list:</strong></p>
 <ul>
 <li>
 <p>First - Downloading the channel list</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>BASE_URL<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://tv7api2.tv.init7.net/api/&#34;</span>
-</span></span><span style="display:flex;"><span>curl <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>BASE_URL<span style="color:#e6db74">}</span><span style="color:#e6db74">tvchannel/&#34;</span> &gt; tvChannelList.json
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">BASE_URL</span><span class="o">=</span><span class="s2">&#34;https://tv7api2.tv.init7.net/api/&#34;</span>
+</span></span><span class="line"><span class="cl">curl <span class="s2">&#34;</span><span class="si">${</span><span class="nv">BASE_URL</span><span class="si">}</span><span class="s2">tvchannel/&#34;</span> &gt; tvChannelList.json
 </span></span></code></pre></div></li>
 <li>
 <p>Let&rsquo;s see the full channel list by order number (presumably this is the channel number)</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>jq <span style="color:#e6db74">&#39;.results[] | &#34;(.ordernum) (.name)&#34;&#39;</span> tvChannelList.json | sort
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">jq <span class="s1">&#39;.results[] | &#34;(.ordernum) (.name)&#34;&#39;</span> tvChannelList.json <span class="p">|</span> sort
 </span></span></code></pre></div></li>
 <li>
 <p>show full channel list by last change date</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>jq <span style="color:#e6db74">&#39;.results[] | &#34;(.changed) (.name)&#34;&#39;</span> tvChannelList.json | sort
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">jq <span class="s1">&#39;.results[] | &#34;(.changed) (.name)&#34;&#39;</span> tvChannelList.json <span class="p">|</span> sort
 </span></span></code></pre></div></li>
 </ul>
 <p><strong>Downloading EPG Data</strong></p>
 <ul>
 <li>First - get all epg titles for currently running
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>BASE_URL<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://tv7api2.tv.init7.net/api/&#34;</span>
-</span></span><span style="display:flex;"><span>curl <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>BASE_URL<span style="color:#e6db74">}</span><span style="color:#e6db74">/epg/?now__lte=true&amp;now__gte=true&#34;</span> &gt; getCurrentEPG.json
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">BASE_URL</span><span class="o">=</span><span class="s2">&#34;https://tv7api2.tv.init7.net/api/&#34;</span>
+</span></span><span class="line"><span class="cl">curl <span class="s2">&#34;</span><span class="si">${</span><span class="nv">BASE_URL</span><span class="si">}</span><span class="s2">/epg/?now__lte=true&amp;now__gte=true&#34;</span> &gt; getCurrentEPG.json
 </span></span></code></pre></div></li>
 <li>Let&rsquo;s see the title for all the running programs
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>jq <span style="color:#e6db74">&#34;.results[].title&#34;</span> getCurrentEPG.json
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">jq <span class="s2">&#34;.results[].title&#34;</span> getCurrentEPG.json
 </span></span></code></pre></div></li>
 <li>download channel specific EPG
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>BASE_URL<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://tv7api2.tv.init7.net/api/&#34;</span>
-</span></span><span style="display:flex;"><span>curl <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>BASE_URL<span style="color:#e6db74">}</span><span style="color:#e6db74">epg/?channel=4c8a7d39-009d-4835-b6f9-69c7268fd9d4&#34;</span> &gt; getEPG-channel.json
-</span></span><span style="display:flex;"><span>cat getEPG-channel.json | jq <span style="color:#e6db74">&#34;.results[]&#34;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">BASE_URL</span><span class="o">=</span><span class="s2">&#34;https://tv7api2.tv.init7.net/api/&#34;</span>
+</span></span><span class="line"><span class="cl">curl <span class="s2">&#34;</span><span class="si">${</span><span class="nv">BASE_URL</span><span class="si">}</span><span class="s2">epg/?channel=4c8a7d39-009d-4835-b6f9-69c7268fd9d4&#34;</span> &gt; getEPG-channel.json
+</span></span><span class="line"><span class="cl">cat getEPG-channel.json <span class="p">|</span> jq <span class="s2">&#34;.results[]&#34;</span>
 </span></span></code></pre></div></li>
 </ul>
 <p><strong>Checking out allowed/</strong></p>
 <ul>
 <li>From what I can tell this just checks if the IP is part of Init7&rsquo;s subnet
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>BASE_URL<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://tv7api2.tv.init7.net/api/&#34;</span>
-</span></span><span style="display:flex;"><span>curl <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>BASE_URL<span style="color:#e6db74">}</span><span style="color:#e6db74">allowed/&#34;</span> | jq <span style="color:#e6db74">&#34;.&#34;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">BASE_URL</span><span class="o">=</span><span class="s2">&#34;https://tv7api2.tv.init7.net/api/&#34;</span>
+</span></span><span class="line"><span class="cl">curl <span class="s2">&#34;</span><span class="si">${</span><span class="nv">BASE_URL</span><span class="si">}</span><span class="s2">allowed/&#34;</span> <span class="p">|</span> jq <span class="s2">&#34;.&#34;</span>
 </span></span></code></pre></div></li>
 </ul>
 <h3 id="tv7-epg-parser">TV7 EPG Parser</h3>
@@ -256,8 +265,8 @@ EIT (Event Information Table) that is broadcast with digital television signals.
 <p>To integrate this with my existing setup, I wrote an small python app which prints out the EPG as an XMLTV string and can be called by a cron job to dump the info into <a href="https://forum.kodi.tv/showthread.php?tid=216393">TVHeadends via it&rsquo;s <code>xmltv.sock</code> epg grabber</a>. This also includes some very basic caching to avoid hammering the backend unnecessarily.</p>
 <p><a href="https://github.com/chkuendig/tv7-epg-parser" class="github-card"><img src="/posts/2020-02-tv7-epg/tv7-epg-parser_14701456696535435887.png"></a></p>
 <p>To regularly update the EPG, just feed the result to <code>socat</code> in a cron job:</p>
-<pre tabindex="0"><code>0 * * * * &lt;...&gt;/tv7-epg-parser/tv7-epg-parser.sh |  socat - UNIX-CONNECT:/srv/home/hts/.hts/tvheadend/epggrab/xmltv.sock
-</code></pre>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">0 * * * * &lt;...&gt;/tv7-epg-parser/tv7-epg-parser.sh |  socat - UNIX-CONNECT:/srv/home/hts/.hts/tvheadend/epggrab/xmltv.sock
+</span></span></code></pre></div>
   </div>
 
   <footer class="post-footer">

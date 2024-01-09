@@ -10,7 +10,7 @@
 <meta name="description" content="I finally found some time  over the holidays to wrap up some improvements I was working on for ScummVM last year.">
 <meta name="author" content="">
 <link rel="canonical" href="/posts/2024-01-scummvm-part3/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.3b344c5ca36ddfb3c402187b775c86630470008cfe9ee494feba187afc9f4c89.css" integrity="sha256-OzRMXKNt37PEAhh7d1yGYwRwAIz&#43;nuSU/roYevyfTIk=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.095cfdfbbff79a5943e3b988be6523dbb16ec9cd391af31df6128cb10166eafa.css" integrity="sha256-CVz9&#43;7/3mllD47mIvmUj27Fuyc05GvMd9hKMsQFm6vo=" rel="preload stylesheet" as="style">
 <link rel="icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -62,6 +62,15 @@
 <script src="/js/github-buttons.min.js" data-no-instant
 ></script>
 
+<script>
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  });
+</script>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4NRERPTCT"></script>
 <script>
@@ -212,7 +221,8 @@ The majority of this is adding the capability download files. As the file system
 <h2 id="fixing-an-opengl-performance-regression">Fixing an OpenGL performance regression</h2>
 <p>For some reason new builds were running Grim Fandango only at 3-5 FPS instead of 50-60fps - which wasn&rsquo;t the case in 2022 when I submitted my last PR. Finding the root cause of this was quite some work to track down.</p>
 <p>I initially ignored the fact that this was a regression and tried debugging it with the profiler - but couldn&rsquo;t figure it out since all time was spent in WebGLRenderingContext function. As it later turned out, the root cause was super obvious from the profile alone&hellip;<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>
-<img loading="lazy" src="/posts/2024-01-scummvm-part3/profiler.png" type="" alt="Firefox Profiler of Grim Fandango running with 3-5 fps"  /></p>
+<img loading="lazy" src="profiler.png" alt="Firefox Profiler of Grim Fandango running with 3-5 fps"  />
+</p>
 <p>So I went on figuring out which of the over 18'000 commits between my last PR in June 2022 and the end of December 2023 was causing this regression. For this I manually went picking random commits in between to check the performance trying to slowly narrow down where the issue might have been caused:
 <figure class="centered">
     <img loading="lazy" src="/posts/2024-01-scummvm-part3/manual-bisect.png  "
@@ -237,18 +247,18 @@ It was very satisfying to see this work without any changes (<a href="https://di
 <p>When building ScummVM with all engines enabled I encountered problems in two engines that used OpenGL symbols that aren&rsquo;t part of OpenGL ES:</p>
 <ul>
 <li><strong>Freescape</strong> does not wrap its <code>gfx_opengl.cpp</code> with <code>#ifdef USE_OPENGL_GAME</code> as other engines, as well as calls 	<code>glDisable(GL_LIGHTING) </code>in it&rsquo;s <code>gfx_opengl_shaders.cpp</code> which isn&rsquo;t something that is done in OpenGL ES (which doesn&rsquo;t have fixed pipeline lighting). Fixing this was easy by adding the relevant <code>#ifdefs</code>. Unfortunately this doesn&rsquo;t yet make the Shader-based OpenGL renderer work, as the shaders themselves aren&rsquo;t compatible with WebGL/GLSL, so now this fails at runtime:
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>Shader: createCompatShader(): Could not compile shader freescape_triangle.fragment: ERROR: 0:33: &#39;[]&#39; : Index expression must be constant.
-</span></span></code></pre></div>This is something that has to be fixed in the relevant shaders<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>. But it at least compiles now, and given TinyGL works just fine for this super old engine, I didn&rsquo;t add any other workarounds.</li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">Shader: createCompatShader(): Could not compile shader freescape_triangle.fragment: ERROR: 0:33: &#39;[]&#39; : Index expression must be constant.
+</span></span></span></code></pre></div>This is something that has to be fixed in the relevant shaders<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>. But it at least compiles now, and given TinyGL works just fine for this super old engine, I didn&rsquo;t add any other workarounds.</li>
 </ul>
 <ul>
 <li><strong>HPL1</strong> fails compiling in <code>CGProgram.cpp</code>:
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>engines/hpl1/engine/impl/CGProgram.cpp:149:14: error: use of undeclared identifier &#39;GL_PROJECTION_MATRIX&#39;
-</span></span><span style="display:flex;"><span>  149 |         glGetFloatv(GL_PROJECTION_MATRIX, projection.getData());
-</span></span><span style="display:flex;"><span>      |                     ^
-</span></span><span style="display:flex;"><span>engines/hpl1/engine/impl/CGProgram.cpp:150:14: error: use of undeclared identifier &#39;GL_MODELVIEW_MATRIX&#39;
-</span></span><span style="display:flex;"><span>  150 |         glGetFloatv(GL_MODELVIEW_MATRIX, modelView.getData());
-</span></span><span style="display:flex;"><span>      |                     ^
-</span></span></code></pre></div></li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">engines/hpl1/engine/impl/CGProgram.cpp:149:14: error: use of undeclared identifier &#39;GL_PROJECTION_MATRIX&#39;
+</span></span></span><span class="line"><span class="cl"><span class="go">  149 |         glGetFloatv(GL_PROJECTION_MATRIX, projection.getData());
+</span></span></span><span class="line"><span class="cl"><span class="go">      |                     ^
+</span></span></span><span class="line"><span class="cl"><span class="go">engines/hpl1/engine/impl/CGProgram.cpp:150:14: error: use of undeclared identifier &#39;GL_MODELVIEW_MATRIX&#39;
+</span></span></span><span class="line"><span class="cl"><span class="go">  150 |         glGetFloatv(GL_MODELVIEW_MATRIX, modelView.getData());
+</span></span></span><span class="line"><span class="cl"><span class="go">      |                     ^
+</span></span></span></code></pre></div></li>
 </ul>
 <p>I didn&rsquo;t find any workaround and given that I found many other references to classic OpenGL in this engine, I decided to flag HPL1 as requiring class OpenGL  in it&rsquo;s <code>configure.engine</code> so the engine is automatically disabled when building against OpenGL ES.</p>
 <h2 id="other-improvements">Other Improvements</h2>

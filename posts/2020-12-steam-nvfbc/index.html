@@ -10,7 +10,7 @@
 <meta name="description" content="Trying to get Steam Remote Play working from my Linux home lab, I noticed that while Steam offers capturing the frame data with NvFBC, the setting doesn&rsquo;t seem have any impact. Why is that?">
 <meta name="author" content="">
 <link rel="canonical" href="/posts/2020-12-steam-nvfbc/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.3b344c5ca36ddfb3c402187b775c86630470008cfe9ee494feba187afc9f4c89.css" integrity="sha256-OzRMXKNt37PEAhh7d1yGYwRwAIz&#43;nuSU/roYevyfTIk=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.095cfdfbbff79a5943e3b988be6523dbb16ec9cd391af31df6128cb10166eafa.css" integrity="sha256-CVz9&#43;7/3mllD47mIvmUj27Fuyc05GvMd9hKMsQFm6vo=" rel="preload stylesheet" as="style">
 <link rel="icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -62,6 +62,15 @@
 <script src="/js/github-buttons.min.js" data-no-instant
 ></script>
 
+<script>
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  });
+</script>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4NRERPTCT"></script>
 <script>
@@ -173,7 +182,8 @@ if (!doNotTrack) {
 </div>
   </header> 
   <div class="post-content"><p>While trying to use my home lab as a game streaming host with <a href="https://store.steampowered.com/remoteplay">Steam Remote Play</a> (more on that another time), I noticed that Steam offers capturing the frame data with NvFBC:</p>
-<p><img loading="lazy" src="/posts/2020-12-steam-nvfbc/2020-12-steam-nvfbc.jpg" type="" alt="Screenshot Steam"  /></p>
+<p><img loading="lazy" src="2020-12-steam-nvfbc.jpg" alt="Screenshot Steam"  />
+</p>
 <p>NvFBC allows the encoder to read from the framebuffer in the GPU directly without first copying it to main memory and then back to the GPU for encoding. This is intended to improve the streaming and should scrape a few more ms of latency off.  It&rsquo;s part of the <a href="https://developer.nvidia.com/capture-sdk">Nvidia Capture SDK</a> and unfortunately it&rsquo;s not available officially for consumer-grade cards:</p>
 <blockquote>
 <p>Capture SDK can be only used on GRID, Tesla, or Quadro X2000+ (X = K/M/P/RTX) hardware products. Other configurations are not permitted under the end user license agreement terms and conditions.</p>
@@ -194,20 +204,20 @@ if (!doNotTrack) {
 <p>Second, to be absolutely certain of of the setup - I also tested directly passing the magic values unlocking NvEnc both in 32bit and 64bit builds on the samples themselves (with an unpatched driver). This was a bit more difficult, but still easy. All I had to do was pass the magic numbers to the <code>createHandleParams</code>:</p>
 </li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">/*
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">* Create a session handle that is used to identify the client.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">* Request that the GL context is externally managed.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">memset</span>(<span style="color:#f92672">&amp;</span>createHandleParams, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(createHandleParams));
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// https://github.com/keylase/nvidia-patch/blob/8b0d2238c1391e7fadfc3df2aaf8d4dd398ed18d/win/nvfbcwrp/nvfbcwrp_main.cpp#L23
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> magic[] <span style="color:#f92672">=</span> { <span style="color:#ae81ff">0xAEF57AC5</span>, <span style="color:#ae81ff">0x401D1A39</span>, <span style="color:#ae81ff">0x1B856BBE</span>, <span style="color:#ae81ff">0x9ED0CEBA</span> };
-</span></span><span style="display:flex;"><span>createHandleParams.dwVersion         <span style="color:#f92672">=</span> NVFBC_CREATE_HANDLE_PARAMS_VER;
-</span></span><span style="display:flex;"><span>createHandleParams.bExternallyManagedContext <span style="color:#f92672">=</span> NVFBC_TRUE;
-</span></span><span style="display:flex;"><span>createHandleParams.glxCtx            <span style="color:#f92672">=</span> glxCtx;
-</span></span><span style="display:flex;"><span>createHandleParams.glxFBConfig       <span style="color:#f92672">=</span> glxFBConfig;
-</span></span><span style="display:flex;"><span>createHandleParams.pPrivateData      <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>magic;
-</span></span><span style="display:flex;"><span>createHandleParams.dwPrivateDataSize <span style="color:#f92672">=</span> <span style="color:#66d9ef">sizeof</span>(magic);</span></span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cm">/*
+</span></span></span><span class="line"><span class="cl"><span class="cm">* Create a session handle that is used to identify the client.
+</span></span></span><span class="line"><span class="cl"><span class="cm">*
+</span></span></span><span class="line"><span class="cl"><span class="cm">* Request that the GL context is externally managed.
+</span></span></span><span class="line"><span class="cl"><span class="cm">*/</span>
+</span></span><span class="line"><span class="cl"><span class="nf">memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">createHandleParams</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">createHandleParams</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// https://github.com/keylase/nvidia-patch/blob/8b0d2238c1391e7fadfc3df2aaf8d4dd398ed18d/win/nvfbcwrp/nvfbcwrp_main.cpp#L23
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="n">magic</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span> <span class="mh">0xAEF57AC5</span><span class="p">,</span> <span class="mh">0x401D1A39</span><span class="p">,</span> <span class="mh">0x1B856BBE</span><span class="p">,</span> <span class="mh">0x9ED0CEBA</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="n">createHandleParams</span><span class="p">.</span><span class="n">dwVersion</span>         <span class="o">=</span> <span class="n">NVFBC_CREATE_HANDLE_PARAMS_VER</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">createHandleParams</span><span class="p">.</span><span class="n">bExternallyManagedContext</span> <span class="o">=</span> <span class="n">NVFBC_TRUE</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">createHandleParams</span><span class="p">.</span><span class="n">glxCtx</span>            <span class="o">=</span> <span class="n">glxCtx</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">createHandleParams</span><span class="p">.</span><span class="n">glxFBConfig</span>       <span class="o">=</span> <span class="n">glxFBConfig</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">createHandleParams</span><span class="p">.</span><span class="n">pPrivateData</span>      <span class="o">=</span> <span class="o">&amp;</span><span class="n">magic</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">createHandleParams</span><span class="p">.</span><span class="n">dwPrivateDataSize</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">magic</span><span class="p">);</span></span></span></code></pre></div>
 <aside>
     <span>💡</span>
     <p><strong>FYI:</strong> I only got the magic values <a href="https://github.com/trevor403/get-priv-data-gfe">extracted from GFE</a> and the ones in nvidia-patch to work, the ones <a href="https://github.com/trevor403/get-priv-data/">extracted from Windows Steam</a> didn&rsquo;t. Not sure if that means anything or is a red herring.</p>
