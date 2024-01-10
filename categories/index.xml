@@ -4,6 +4,11 @@
     <title>Categories on Christian Kündig</title>
     <link>/categories/</link>
     <description>Recent content in Categories on Christian Kündig</description>
+    <image>
+      <title>Christian Kündig</title>
+      <url>/images/bg.jpg</url>
+      <link>/images/bg.jpg</link>
+    </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />

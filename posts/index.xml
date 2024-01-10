@@ -4,6 +4,11 @@
     <title>Personal Projects on Christian Kündig</title>
     <link>/posts/</link>
     <description>Recent content in Personal Projects on Christian Kündig</description>
+    <image>
+      <title>Christian Kündig</title>
+      <url>/images/bg.jpg</url>
+      <link>/images/bg.jpg</link>
+    </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Thu, 16 Mar 2023 15:24:59 +0100</lastBuildDate>

@@ -4,6 +4,11 @@
     <title>Personal Media Server on Christian Kündig</title>
     <link>/tags/personal-media-server/</link>
     <description>Recent content in Personal Media Server on Christian Kündig</description>
+    <image>
+      <title>Christian Kündig</title>
+      <url>/images/bg.jpg</url>
+      <link>/images/bg.jpg</link>
+    </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Sun, 26 Nov 2023 23:15:29 +0100</lastBuildDate>
