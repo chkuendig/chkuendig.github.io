@@ -85,13 +85,14 @@ if (!doNotTrack) {
 <meta property="og:title" content="Sensirion SCD4x CO₂ Home Assistant Integration" />
 <meta property="og:description" content="I recently added support support for the Sensirion SCD4x CO₂ Gadget to the Passive BLE Monitor integration for Home Assistant." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/posts/2022-02-sensirion-co2/" /><meta property="og:image" content="/images/bg.jpg"/><meta property="article:section" content="posts" />
+<meta property="og:url" content="/posts/2022-02-sensirion-co2/" />
+<meta property="og:image" content="/images/bg.jpg" />
+<meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-02-02T11:48:32+01:00" />
 <meta property="article:modified_time" content="2022-02-02T11:48:32+01:00" />
 
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="/images/bg.jpg"/>
-
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="/images/bg.jpg" />
 <meta name="twitter:title" content="Sensirion SCD4x CO₂ Home Assistant Integration"/>
 <meta name="twitter:description" content="I recently added support support for the Sensirion SCD4x CO₂ Gadget to the Passive BLE Monitor integration for Home Assistant."/>
 
@@ -129,7 +130,7 @@ if (!doNotTrack) {
   "articleBody": " 💡 Update Dec 7, 2022: Since Home Assistant 2022.12, the Sensirion integration is available out of the box if the Bluetooth integration is enabled (which itself replaces the 3rd-party Passive BLE Monitor integration discussed below).\nI recently added support support for the Sensirion SCD4x CO₂ Gadget (Reference design for SCD4x CO₂ sensors) to the Passive BLE Monitor integration for Home Assistant. Sensirion SCD4x CO₂ Gadget The SCD4x CO₂ gadget is a simple reference design circuit board of Sensirion’s SCD4x CO₂ sensor product line. Its the most affordable and simples CO₂ sensor I could find.\nIt is equipped with a LED indicating the indoor air quality based on the measured CO₂ concentration. Power is supplied via a standard USB-A plug. It also incorporates a Bluetooth Low Energy module allowing it to communicate measurements with Bluetooth devices.\nBLE protocol The sensor is transmitting it’s readings via bluetooth and the Sensirion MyAmbience CO2 App (Android + iOS) can be used to read them in real-time or download a log of past CO2 levels.\nThe same protocol is used by a ton of other Sensirion BLE devices, though I haven’t added support for them as I don’t have them myself. It also doesn’t implement any of the other bluetooth features (LED control, download of past data etc.)\nI initially was looking whether I would try to reverse engineer the data sent between the mobile app and the device, but eventually found yet another Sensirion reference software implementation which is the . It’s compatible with the mobile app and looks like it’s very similar to the software running on the reference board gadget.\nI re-wrote the parsing in Python, and that was it. The code is quite simple and available in the pull request for the Passive BLE Monitor: .\nTwo points of notice:\nThe sensor also transmits temperature and humidity. Something which isn’t supported in the official app. The official app also implements a download of (volatile) historic data via an active bluetooth connections, something I didn’t look into. ",
   "wordCount" : "335",
   "inLanguage": "en",
-  "datePublished": "2022-02-02T11:48:32+01:00",
+  "image": "/images/bg.jpg""datePublished": "2022-02-02T11:48:32+01:00",
   "dateModified": "2022-02-02T11:48:32+01:00",
   "mainEntityOfPage": {
     "@type": "WebPage",

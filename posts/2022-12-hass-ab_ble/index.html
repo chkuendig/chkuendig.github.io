@@ -82,13 +82,14 @@ if (!doNotTrack) {
 <meta property="og:title" content="Forwarding Bluetooth with the AB BLE Gateway" />
 <meta property="og:description" content="We recently moved and I decided to buy a BLE-IP gateway off AliExpress. Turns out this needed some hacking to get it to work with Home Assistant." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/posts/2022-12-hass-ab_ble/" /><meta property="og:image" content="/images/bg.jpg"/><meta property="article:section" content="posts" />
+<meta property="og:url" content="/posts/2022-12-hass-ab_ble/" />
+<meta property="og:image" content="/images/bg.jpg" />
+<meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-12-09T11:46:04+01:00" />
 <meta property="article:modified_time" content="2022-12-09T11:46:04+01:00" />
 
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="/images/bg.jpg"/>
-
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="/images/bg.jpg" />
 <meta name="twitter:title" content="Forwarding Bluetooth with the AB BLE Gateway"/>
 <meta name="twitter:description" content="We recently moved and I decided to buy a BLE-IP gateway off AliExpress. Turns out this needed some hacking to get it to work with Home Assistant."/>
 
@@ -126,7 +127,7 @@ if (!doNotTrack) {
   "articleBody": " As we moved apartments earlier this year, I realized that the new position of my home server puts it out of range of some of the Bluetooth Low Energy sensors we have (Temperature, CO₂, Soil Moisture etc). To bridge this, I got myself a cheap BLE-to-IP gateway, only to realize that this won’t just work out of the box 1.\nThe April Brother (AB) BLE Gateway V4 The April Brother (AB) BLE Gateway V4 is an ESP32- and NRF52832-based BLE to network gateway and bridge. It reads BLE advertisements data such as iBeacon, Eddystone or customized format data and sends to LAN/internet server (via MQTT, HTTP or Websockets). It’s widely distributed through AliExpress, Amazon, Taobao etc.\nFor more information, see the April Brother Wiki.\nHome Assistant Component To use this device, I had to implement a small component that allows forwarding BLE data from the April Brother (AB) BLE Gateway V4 to the new bluetooth component released in Home Assistant 2022.8.\nWhile the data encoding is documented, converting the data correctly was still quite a bit of work2 - if you are curious, all relevant code is in the parsing function in util.py.\nFor my purposes, I only implemented forwarding via MQTT (i.e. no support for HTTP or Websockets).\nSetup Instructions The component should automatically discover any devices on the network (the gateway advertises itself via SSDP).\nPlease make sure to have setup the MQTT component and have it configured to the same queue and server as in the Gateway config.\nThe component supports authenticated login and automatically checks that the MQTT settings match.\nConfiguration of the Gateway The easiest and most portable way to configure the gateway is through the electron based configuration tool at AprilBrother/gw4-config-tool. You’ll need to have node + npm installed to run it.\nClone the repo git clone https://github.com/AprilBrother/gw4-config-tool.git cd gw4-config-tool Install the configuration tool including it dependencies npm i . Launch npm start At this point, the configuration tool should find the gateway automatically (interestingly enough this happens by enumerating the whole subnet instead of using the SSDP broadcast… 🙄) If I checked the Home Assistant Forums I could have figured this out much earlier. ↩︎\nI was already familiar with the expected output format from when I built the Sensirion SCD4x CO₂ Integration earlier in the year, and April Brother documented the encoding on their Wiki. ↩︎\n",
   "wordCount" : "392",
   "inLanguage": "en",
-  "datePublished": "2022-12-09T11:46:04+01:00",
+  "image": "/images/bg.jpg""datePublished": "2022-12-09T11:46:04+01:00",
   "dateModified": "2022-12-09T11:46:04+01:00",
   "mainEntityOfPage": {
     "@type": "WebPage",

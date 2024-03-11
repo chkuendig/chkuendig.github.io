@@ -82,13 +82,14 @@ if (!doNotTrack) {
 <meta property="og:title" content="How to Add the Amphiro Hand Shower to Home Assistant" />
 <meta property="og:description" content="Looking into how to reverse engineer a funky christmas present and building out a new Home Assistant integration for it." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/posts/2023-01-hass-amphiro/" /><meta property="og:image" content="/images/bg.jpg"/><meta property="article:section" content="posts" />
+<meta property="og:url" content="/posts/2023-01-hass-amphiro/" />
+<meta property="og:image" content="/images/bg.jpg" />
+<meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2023-01-14T11:45:13+01:00" />
 <meta property="article:modified_time" content="2023-01-14T11:45:13+01:00" />
 
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="/images/bg.jpg"/>
-
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="/images/bg.jpg" />
 <meta name="twitter:title" content="How to Add the Amphiro Hand Shower to Home Assistant"/>
 <meta name="twitter:description" content="Looking into how to reverse engineer a funky christmas present and building out a new Home Assistant integration for it."/>
 
@@ -126,7 +127,7 @@ if (!doNotTrack) {
   "articleBody": " I got this funky shower head as a christmas present last year. Turns out it doesn’t just display your water and energy usage, but also transmits the data via Bluetooth. Obviously this is something which is interesting to track over time, so I’ve decided to build a small integration for Home Assistant for it.\nProtocol Figuring out the protocol wasn’t too difficult since there’s already a bit of information on the protocol available. The Amphiro implements three types of BLE connections:\npassive connection: This is what my component uses, the shower head by default transmits the following vendor specific service UUID: 0000180a-0000-1000-8000-00805f9b34fb, 7f402200-504f-4c41-5261-6d706869726f and 00004132-504f-4c41-5261-6d706869726fevery time it is running. The payload has the same format as the status event in the next bullet connected: this mode transmits a bit more data, but requires an active connection. There’s already an MQTT bridge available if you want to use this: Amphiro_Oras_bluetooth_shower_hub. I decided against this as active/connected connections are more complicated to implement and doesn’t add more value here. paired: The official app requires manual pairing with a pin displayed from the app. As the app also provides provides historic data I suspect in this mode one could also send queries to the device. From what I can tell, this is completely undocumented so far. Home Assistant Component This component supports reading sensor data from Amphiro Digital Hand Shower with the new bluetooth component released in Home Assistant 2022.8.\n",
   "wordCount" : "237",
   "inLanguage": "en",
-  "datePublished": "2023-01-14T11:45:13+01:00",
+  "image": "/images/bg.jpg""datePublished": "2023-01-14T11:45:13+01:00",
   "dateModified": "2023-01-14T11:45:13+01:00",
   "mainEntityOfPage": {
     "@type": "WebPage",

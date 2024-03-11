@@ -85,13 +85,14 @@ if (!doNotTrack) {
 <meta property="og:title" content="tvhProxy: Streaming TVHeadend into Plex DVR" />
 <meta property="og:description" content="Plex launched it&rsquo;s DVR feature in 2016. Unfortunately, it only supports either DVR tuners connected to the server directly or HDHomeRun devices. tvhProxy fixes that." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/posts/2020-02-tvhproxy/" /><meta property="og:image" content="/images/bg.jpg"/><meta property="article:section" content="posts" />
+<meta property="og:url" content="/posts/2020-02-tvhproxy/" />
+<meta property="og:image" content="/images/bg.jpg" />
+<meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2020-02-20T11:38:19+01:00" />
 <meta property="article:modified_time" content="2020-02-20T11:38:19+01:00" />
 
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="/images/bg.jpg"/>
-
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="/images/bg.jpg" />
 <meta name="twitter:title" content="tvhProxy: Streaming TVHeadend into Plex DVR"/>
 <meta name="twitter:description" content="Plex launched it&rsquo;s DVR feature in 2016. Unfortunately, it only supports either DVR tuners connected to the server directly or HDHomeRun devices. tvhProxy fixes that."/>
 
@@ -129,7 +130,7 @@ if (!doNotTrack) {
   "articleBody": "Plex launched its DVR feature in 2016. Using Plex’s TV DVR feature, it’s possible to watch live TV as well as schedule recordings remotely and stream them to your devices either within your home or over the internet. It’s the most polished DVR server I have seen so far.\nUnfortunately, it only supports either DVR tuners connected to the server directly or HDHomeRun devices. This is quite a limit, as this means CAM modules can’t be used, IPTV channels can’t be added and neither can satellite dishes.\nI already had set up TVHeadend with Multicast IPTV and , so I was looking into a way of feeding my TVHeadend channels into Plex.\ntvhProxy 💡 Update Jun 16, 2020: There’s now an effort to include HDHomeRun emulation in TVHeadend itself - this eventually might replace the need for tvhProxy: .\ntvhProxy is a small tool which helps bridging these two services. A small flask app to proxy requests between Plex Media Server and TVHeadend. The [original version of tvhProxy ( ) has been archived on GitHub by its maintainer and is out of date and does not work with recent versions of Plex Media Server.\nI have decided to revive the project and add a few critical improvements compared to the archived upstream version:\nSSDP Discovery. Fixes the issue of Plex randomly dropping the device - - by simulating the SSDP announcements a real HDHomerun is sending. Otherwise you the tuner is dropped and “Device not found. Ensure your device is powered on and connected to your network.” is shown in the settings\nDEBUG - DVR:Device: Device device://tv.plex.grabbers.hdhomerun/12345678 died DEBUG - DVR:Grabber: Plexserver discovered 0 compatible devices.` XMLTV EPG EPG export, including adding dummy programme entries for channels without EPG so you can still use these channels in Plex (see below for Plex configuration URL).\nConfiguration of variables via dotenv file for easier testing\nAdding a dockerfile for easier deployment.\nPlex configuration Enter the IP of the host running tvhProxy, including port 5004, e.g., 192.168.1.50:5004. Use http://192.168.1.50:5004/epg.xml for the EPG (see Using XMLTV for guide data for full instructions).\nShould the proxy keep disappearing or you can’t add it, it’s worth trying to delete the existing configuration from the database:\nSee https://support.plex.tv/articles/201100678-repair-a-corrupt-database/ on how to access the plex config database and run delete from media_provider_resources; to remove any leftover config. Docker Setup I’m using docker-compose with the following docker-compose.yml file:\nversion: \"2.1\" services: tvhproxy: build: https://github.com/chkuendig/tvhProxy.git container_name: tvhproxy environment: - TVH_PROXY_HOST=192.168.178.24 - TVH_URL=http://parklife:9981 - DEVICE_ID=2020-02-Q5YH-U5PIK8 #this is random but needs to stay fixed volumes: - \"/etc/localtime:/etc/localtime:ro\" # we need to have the same timezone as the host tvheadend to build the EPG correctly network_mode: \"host\" Since this isn’t a pre-built container, you run docker-compose build tvhproxy instead of docker-compose pull tvhproxy and that’s it.\nDiscussion Let me know what you think at https://forums.plex.tv/t/tvhproxy-update/544037.\n",
   "wordCount" : "472",
   "inLanguage": "en",
-  "datePublished": "2020-02-20T11:38:19+01:00",
+  "image": "/images/bg.jpg""datePublished": "2020-02-20T11:38:19+01:00",
   "dateModified": "2020-02-20T11:38:19+01:00",
   "mainEntityOfPage": {
     "@type": "WebPage",
