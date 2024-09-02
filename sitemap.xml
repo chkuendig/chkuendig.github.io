@@ -3,10 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>/</loc>
-    <lastmod>2024-01-05T00:00:24+01:00</lastmod>
-  </url><url>
-    <loc>/tags/gaming/</loc>
-    <lastmod>2024-01-05T00:00:24+01:00</lastmod>
+    <lastmod>2024-05-22T21:28:13+00:00</lastmod>
   </url><url>
     <loc>/posts/2024-01-scummvm-part3/</loc>
     <lastmod>2024-01-05T00:00:24+01:00</lastmod>
@@ -15,6 +12,9 @@
     <lastmod>2024-01-05T00:00:24+01:00</lastmod>
   </url><url>
     <loc>/tags/</loc>
+    <lastmod>2024-01-05T00:00:24+01:00</lastmod>
+  </url><url>
+    <loc>/tags/gaming/</loc>
     <lastmod>2024-01-05T00:00:24+01:00</lastmod>
   </url><url>
     <loc>/tags/web-development/</loc>
@@ -80,7 +80,7 @@
     <loc>/posts/2017-11-pm-night/</loc>
     <lastmod>2017-11-03T11:42:13+01:00</lastmod>
   </url><url>
-    <loc>/tags/writing-talking/</loc>
+    <loc>/tags/writing--talking/</loc>
     <lastmod>2017-11-03T11:42:13+01:00</lastmod>
   </url><url>
     <loc>/posts/2014-11-browsepass-dropbox/</loc>
@@ -123,5 +123,7 @@
     <lastmod>2007-11-02T22:06:30+01:00</lastmod>
   </url><url>
     <loc>/categories/</loc>
+  </url><url>
+    <loc>/tags/zurcher-studierendenzeitung/</loc>
   </url>
 </urlset>

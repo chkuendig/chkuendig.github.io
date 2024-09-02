@@ -1,8 +1,8 @@
 User-agent: *
-Disallow: /tags/gaming/
 Disallow: /posts/2024-01-scummvm-part3/
 Disallow: /tags/scummvm/
 Disallow: /tags/
+Disallow: /tags/gaming/
 Disallow: /tags/web-development/
 Disallow: /posts/2023-11-tvheadend-hdhomerun/
 Disallow: /tags/personal-media-server/
@@ -24,7 +24,7 @@ Disallow: /posts/2020-02-tv7-epg/
 Disallow: /posts/2019-12-scandit3d/
 Disallow: /posts/2019-04-zork/
 Disallow: /posts/2017-11-pm-night/
-Disallow: /tags/writing-talking/
+Disallow: /tags/writing--talking/
 Disallow: /posts/2014-11-browsepass-dropbox/
 Disallow: /posts/2010-05-zjp/
 Disallow: /tags/zurcher-studierendenzeitung/
@@ -39,3 +39,4 @@ Disallow: /posts/2008-02-danke-marcel/
 Disallow: /posts/2007-12-profitieren/
 Disallow: /posts/2007-11-investment-banking-selbstversuch/
 Disallow: /categories/
+Disallow: /tags/zurcher-studierendenzeitung/
