@@ -9,7 +9,7 @@
       <url>/images/bg.jpg</url>
       <link>/images/bg.jpg</link>
     </image>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo -- 0.134.0</generator>
     <language>en</language>
     <lastBuildDate>Fri, 03 Nov 2017 11:42:13 +0100</lastBuildDate>
     <atom:link href="/tags/writing--talking/index.xml" rel="self" type="application/rss+xml" />
@@ -18,9 +18,13 @@
       <link>/posts/2017-11-pm-night/</link>
       <pubDate>Fri, 03 Nov 2017 11:42:13 +0100</pubDate>
       <guid>/posts/2017-11-pm-night/</guid>
-      <description>On November 3rd I had the pleasure to present at the Product Management Night series of the Product Management Festival in Zurich.
-This time it was held held at the beautiful NZZ foyer next to the opera house. My presentation focused on how we build deep-tech products a Scandit and how PMs connect technological capabilities and customer value.
-I really enjoyed sharing my experiences and connecting with other product managers in my city.</description>
+      <description>&lt;p&gt;&lt;a href=&#34;https://productmanagementfestival.com/pm-nights/pm-night-zurich-3-nzz-03-11/&#34;&gt;&lt;figure class=&#34;float-right&#34;&gt;
+    &lt;img loading=&#34;lazy&#34; src=&#34;/posts/2017-11-pm-night/2017-pm-night.png  &#34;
+         alt=&#34;Product Management Night Logo (c) Product Management Festival&#34;/&gt; 
+&lt;/figure&gt;
+&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;On November 3rd I had the pleasure to present at the &lt;a href=&#34;https://productmanagementfestival.com/pm-nights/pm-night-zurich-3-nzz-03-11/&#34;&gt;Product Management Night&lt;/a&gt; series of the Product Management Festival in Zurich.&lt;/p&gt;
+&lt;p&gt;This time it was held held at the beautiful NZZ foyer next to the opera house.  My presentation focused on how we build deep-tech products a Scandit and how PMs connect technological capabilities and customer value.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Zürcher Journalistenpreis 2010</title>

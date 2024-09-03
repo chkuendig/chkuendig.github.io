@@ -10,7 +10,7 @@
 <meta name="description" content="I link a lot to various GitHub items, so I built some Hugo shortcodes for it.">
 <meta name="author" content="">
 <link rel="canonical" href="/posts/2023-11-github-shortcode/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.dca21d6392c736f9dd0a563ea9af56b2d6ea48989d12b1dbb5246b40039ca4f9.css" integrity="sha256-3KIdY5LHNvndClY&#43;qa9WstbqSJidErHbtSRrQAOcpPk=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.8273041aea75a8d4cd905c37659d34b9762b2a312f2199a5db7a30041a7f20ff.css" integrity="sha256-gnMEGup1qNTNkFw3ZZ00uXYrKjEvIZml23owBBp/IP8=" rel="preload stylesheet" as="style">
 <link rel="icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -73,17 +73,20 @@
   });
 </script>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-L4NRERPTCT"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-L4NRERPTCT', { 'anonymize_ip': false });
-}
-</script>
-<meta property="og:title" content="Github Shortcodes for the Hugo Static Page Generator" />
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4NRERPTCT"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-L4NRERPTCT');
+        }
+      </script><meta property="og:title" content="Github Shortcodes for the Hugo Static Page Generator" />
 <meta property="og:description" content="I link a lot to various GitHub items, so I built some Hugo shortcodes for it." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/2023-11-github-shortcode/" />
@@ -91,7 +94,7 @@ if (!doNotTrack) {
 <meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2023-11-02T00:00:35+01:00" />
 <meta property="article:modified_time" content="2023-11-02T00:00:35+01:00" />
-
+<meta property="fb:admins" content="about.me" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="/images/bg.jpg" />
 <meta name="twitter:title" content="Github Shortcodes for the Hugo Static Page Generator"/>
@@ -128,10 +131,10 @@ if (!doNotTrack) {
   "keywords": [
     "Web Development"
   ],
-  "articleBody": "Hugo (the static page generator I use for this website) provides various integrations for linking to or embedding content on Youtube, Twitter, Vimeo etc out of the box. This is super nice, but unfortunately it doesn’t have such an integration for Github - and I link a lot to various GitHub repositories, issues, pull requests or commits in my posts.\nI thought it would be nice to have some proper integration for this, so I created two Hugo shortcodes which can take github references:\nGithub Buttons: A way to quickly inline link to a repo, issue or commit. Github Cards: A simple social card that shows the details of a repo, issue or commit. Github References Github provides a set of autolinked references which work as a great reference on how to best reference things on GitHub. For my shortcodes I took inspiration from this and came up with the following 3 short references:\nRepo: owner/repo Issue or Pull Request: owner/repo#issue 1 Commit: owner/repo@hash Fetching resources and caching I’m not going into the details on how to fetch data with hugo shortcodes2 or how the GitHub REST API 3 works.\nTo avoid fetching all resources on each build, I decided to version/freeze the responses with my code, this can be done with the following config change: caches: getresource: dir: :resourceDir/ maxAge: -1\nGithub Button Shortcode Luckily there’s already a nice to render nice GitHub buttons:4 .\nGenerally the existing github-buttons was great, but I had to add a few more Octicons (the icons used by Github) and I wanted to add coloring. Thankfully this wasn’t more then a few minor changes () and once done, it was very easy to build and copy over to hugo:\nnpm run build \u0026\u0026 cp dist/buttons.js ../../christian.kuendig.info/assets/js/github-buttons.js now we just need to make sure to include this file in our template (see below).\nGithub Card Shortcode I unfortunately didn’t find an equivalent for nice Github cards.\nI found Github’s open graph images super nice5 and the Github blog goes into great detail on how they were built6, but unfortunately there’s no easy way to reproduce them, so I decided to take them as is and embed the images on my pages.\nOne little thing to work around is that these images are actually not exposed via the REST API so I had to craft my own URLs. It’s pretty straightforward and follows the general Github URL scheme, but it does include a cache hash. As I couldn’t reverse-engineer the hash, I had to make sure to generate it myself and make sure to invalidate it should the image update. For repos and issues I again used the REST API to get some data, for commits I decided to just use the commit has itself as I couldn’t identify a circumstance under which the image would update.\nThe end result looks pretty good I think:\nUsage Add the hugo-github repository as a submodule theme to your project git submodule add https://github.com/chkuendig/hugo-github.git themes/hugo-github Add hugo-github as the left-most element of the theme list variable in your site’s or theme’s configuration file config.yaml or config.toml. Example, with config.yaml: theme: [\"hugo-github\", \"my-theme\"] or, with config.toml, theme = [\"hugo-github\", \"my-theme\"] To use the github-button, don’t forget to include the necessary javascript by adding the following to layouts/partials/extend_head.html (might be different for your theme): {{if (.HasShortcode \"github_button\") }} {{- $githubButtons := resources.Get \"js/github-buttons.js\" }} {{- if hugo.IsProduction }} {{- $githubButtons = minify $githubButtons }} {{- end }} \u003cscript src=\"{{ $githubButtons.RelPermalink }}\" data-no-instant {{- if site.Params.assets.disableFingerprinting }}integrity=\"{{ $githubButtons.Data.Integrity }}\"{{- end }} \u003e\u003c/script\u003e {{ end }} Use either the github_button or github_card shortcodes as described above: {{\u003c github_card \"chkuendig/hugo-github\" \u003e}} or {{\u003c github_button \"chkuendig/hugo-github\" \u003e}} Pull requests and issues are handled and rendered differently, but a PR is always also an issue so the numbers don’t overlap. ↩︎\nMost of what I did is based on the following two blog posts: Bryce Wray: Static Mastodon toots in Hugo and Yury Zhauniarovich: Data Shortcode for Hugo ↩︎\nYou can check out the Github Documentation yourself: Get an issue, Get a repository and Get a commit ↩︎\nThere also already a hugo shortcode for it, but it doesn’t do much beyond rendering static HTML: . ↩︎\nThere are a lot of other projects for Github cards, but none look as nice in my opinion. I specifically looked at , , and , but let me know if you find a better one. ↩︎\nA framework for building Open Graph images ↩︎\n",
-  "wordCount" : "741",
+  "articleBody": "Hugo (the static page generator I use for this website) provides various integrations for linking to or embedding content on Youtube, Twitter, Vimeo etc out of the box. This is super nice, but unfortunately it doesn’t have such an integration for Github - and I link a lot to various GitHub repositories, issues, pull requests or commits in my posts.\nI thought it would be nice to have some proper integration for this, so I created two Hugo shortcodes which can take github references:\nGithub Buttons: A way to quickly inline link to a repo, issue or commit. Github Cards: A simple social card that shows the details of a repo, issue or commit. Github References Github provides a set of autolinked references which work as a great reference on how to best reference things on GitHub. For my shortcodes I took inspiration from this and came up with the following 3 short references:\nRepo: owner/repo Issue or Pull Request: owner/repo#issue 1 Commit: owner/repo@hash Fetching resources and caching I’m not going into the details on how to fetch data with hugo shortcodes2 or how the GitHub REST API 3 works.\nTo avoid fetching all resources on each build, I decided to version/freeze the responses with my code, this can be done with the following config change: caches: getresource: dir: :resourceDir/ maxAge: -1\nGithub Button Shortcode Luckily there’s already a nice to render nice GitHub buttons:4 .\nGenerally the existing github-buttons was great, but I had to add a few more Octicons (the icons used by Github) and I wanted to add coloring. Thankfully this wasn’t more then a few minor changes ( ) and once done, it was very easy to build and copy over to hugo:\nnpm run build \u0026\u0026 cp dist/buttons.js ../../christian.kuendig.info/assets/js/github-buttons.js now we just need to make sure to include this file in our template (see below).\nGithub Card Shortcode I unfortunately didn’t find an equivalent for nice Github cards.\nI found Github’s open graph images super nice5 and the Github blog goes into great detail on how they were built6, but unfortunately there’s no easy way to reproduce them, so I decided to take them as is and embed the images on my pages.\nOne little thing to work around is that these images are actually not exposed via the REST API so I had to craft my own URLs. It’s pretty straightforward and follows the general Github URL scheme, but it does include a cache hash. As I couldn’t reverse-engineer the hash, I had to make sure to generate it myself and make sure to invalidate it should the image update. For repos and issues I again used the REST API to get some data, for commits I decided to just use the commit has itself as I couldn’t identify a circumstance under which the image would update.\nThe end result looks pretty good I think:\nUsage Add the hugo-github repository as a submodule theme to your project git submodule add https://github.com/chkuendig/hugo-github.git themes/hugo-github Add hugo-github as the left-most element of the theme list variable in your site’s or theme’s configuration file config.yaml or config.toml. Example, with config.yaml: theme: [\"hugo-github\", \"my-theme\"] or, with config.toml, theme = [\"hugo-github\", \"my-theme\"] To use the github-button, don’t forget to include the necessary javascript by adding the following to layouts/partials/extend_head.html (might be different for your theme): {{if (.HasShortcode \"github_button\") }} {{- $githubButtons := resources.Get \"js/github-buttons.js\" }} {{- if hugo.IsProduction }} {{- $githubButtons = minify $githubButtons }} {{- end }} \u003cscript src=\"{{ $githubButtons.RelPermalink }}\" data-no-instant {{- if site.Params.assets.disableFingerprinting }}integrity=\"{{ $githubButtons.Data.Integrity }}\"{{- end }} \u003e\u003c/script\u003e {{ end }} Use either the github_button or github_card shortcodes as described above: {{\u003c github_card \"chkuendig/hugo-github\" \u003e}} or {{\u003c github_button \"chkuendig/hugo-github\" \u003e}} Pull requests and issues are handled and rendered differently, but a PR is always also an issue so the numbers don’t overlap. ↩︎\nMost of what I did is based on the following two blog posts: Bryce Wray: Static Mastodon toots in Hugo and Yury Zhauniarovich: Data Shortcode for Hugo ↩︎\nYou can check out the Github Documentation yourself: Get an issue, Get a repository and Get a commit ↩︎\nThere also already a hugo shortcode for it, but it doesn’t do much beyond rendering static HTML: . ↩︎\nThere are a lot of other projects for Github cards, but none look as nice in my opinion. I specifically looked at , , and , but let me know if you find a better one. ↩︎\nA framework for building Open Graph images ↩︎\n",
+  "wordCount" : "742",
   "inLanguage": "en",
-  "image": "/images/bg.jpg""datePublished": "2023-11-02T00:00:35+01:00",
+  "image": "/images/bg.jpg","datePublished": "2023-11-02T00:00:35+01:00",
   "dateModified": "2023-11-02T00:00:35+01:00",
   "mainEntityOfPage": {
     "@type": "WebPage",
@@ -208,8 +211,10 @@ if (!doNotTrack) {
 <h2 id="github-button-shortcode">Github Button Shortcode</h2>
 <p>Luckily there&rsquo;s already a nice to render nice GitHub buttons:<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup> 
     
+        
 <a class="github-button" data-color-scheme="" href="https://github.com/buttons/github-buttons" data-icon="octicon-repo" data-size="small" data-text='<b>buttons/github-buttons</b>'></a>.</p>
-<p>Generally the existing <code>github-buttons</code> was great, but I had to add a few more Octicons (<a href="https://primer.style/design/foundations/icons">the icons used by Github</a>) and I wanted to add coloring. Thankfully this wasn&rsquo;t more then a few minor changes (<a class="github-button" data-color-scheme="" href="https://github.com/chkuendig/github-buttons/commit/95e2596c4e109c0bbf14a33d5fc840c40f326524" data-icon="octicon-git-commit" data-size="small" data-text='<b>github-buttons@95e2596:</b>&nbsp;adding new octicons and coloring'></a>) and once done, it was very easy to build and copy over to hugo:</p>
+<p>Generally the existing <code>github-buttons</code> was great, but I had to add a few more Octicons (<a href="https://primer.style/design/foundations/icons">the icons used by Github</a>) and I wanted to add coloring. Thankfully this wasn&rsquo;t more then a few minor changes (
+        <a class="github-button" data-color-scheme="" href="https://github.com/chkuendig/github-buttons/commit/95e2596c4e109c0bbf14a33d5fc840c40f326524" data-icon="octicon-git-commit" data-size="small" data-text='<b>github-buttons@95e2596:</b>&nbsp;adding new octicons and coloring'></a>) and once done, it was very easy to build and copy over to hugo:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">npm run build &amp;&amp; cp dist/buttons.js ../../christian.kuendig.info/assets/js/github-buttons.js
 </span></span></code></pre></div><p>now we just need to make sure to include this file in our template (see <a href="#usage">below</a>).</p>
 <h3 id="github-card-shortcode">Github Card Shortcode</h3>
@@ -217,7 +222,8 @@ if (!doNotTrack) {
 <p>I found <a href="https://github.blog/changelog/2021-04-21-opengraph-images-for-github-repositories-commits-issues-and-pull-requests/">Github&rsquo;s open graph images</a> super nice<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup> and the Github blog goes into great detail on how they were built<sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup>, but unfortunately there&rsquo;s no easy way to reproduce them, so I decided to take them as is and embed the images on my pages.</p>
 <p>One little thing to work around is that these images are actually not exposed via the REST API so I had to craft my own URLs. It&rsquo;s pretty straightforward and follows the general Github URL scheme, but it does include a cache hash. As I couldn&rsquo;t reverse-engineer the hash,  I had to make sure to generate it myself and make sure to invalidate it should the image update. For repos and issues I again used the REST API to get some data, for commits I decided to just use the commit has itself as I couldn&rsquo;t identify a circumstance under which the image would update.</p>
 <p>The end result looks pretty good I think:</p>
-<a href="https://github.com/chkuendig/hugo-github" class="github-card"><img src="/posts/2023-11-github-shortcode/hugo-github_3885324570065166922.png"></a>
+
+            <a href="https://github.com/chkuendig/hugo-github" class="github-card"><img src="/posts/2023-11-github-shortcode/hugo-github_4194997949337551278.png"></a>
 
 <h2 id="usage">Usage</h2>
 <ol>
@@ -261,17 +267,22 @@ if (!doNotTrack) {
 <li id="fn:4">
 <p>There also already a hugo shortcode for it, but it doesn&rsquo;t do  much beyond rendering static HTML: 
     
+        
 <a class="github-button" data-color-scheme="" href="https://github.com/statropy/github-button-hugo-shortcode" data-icon="octicon-repo" data-size="small" data-text='<b>statropy/github-button-hugo-shortcode</b>'></a>.&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:5">
 <p>There are a lot of other projects for Github cards, but none look as nice in my opinion. I specifically looked at 
     
+        
 <a class="github-button" data-color-scheme="" href="https://github.com/lepture/github-cards" data-icon="octicon-repo" data-size="small" data-text='<b>lepture/github-cards</b>'></a>, 
     
+        
 <a class="github-button" data-color-scheme="" href="https://github.com/nwtgck/gh-card" data-icon="octicon-repo" data-size="small" data-text='<b>nwtgck/gh-card</b>'></a>, 
     
+        
 <a class="github-button" data-color-scheme="" href="https://github.com/po3rin/github_link_creator" data-icon="octicon-repo" data-size="small" data-text='<b>po3rin/github_link_creator</b>'></a> and 
     
+        
 <a class="github-button" data-color-scheme="" href="https://github.com/JoelSutherland/GitHub-jQuery-Repo-Widget" data-icon="octicon-repo" data-size="small" data-text='<b>JoelSutherland/GitHub-jQuery-Repo-Widget</b>'></a>, but let me know if you find a better one.&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:6">
@@ -304,7 +315,8 @@ if (!doNotTrack) {
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="/">Christian Kündig</a></span>
+        <span>&copy; 2024 <a href="/">Christian Kündig</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

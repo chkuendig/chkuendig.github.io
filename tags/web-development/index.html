@@ -10,7 +10,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <link rel="canonical" href="/tags/web-development/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.dca21d6392c736f9dd0a563ea9af56b2d6ea48989d12b1dbb5246b40039ca4f9.css" integrity="sha256-3KIdY5LHNvndClY&#43;qa9WstbqSJidErHbtSRrQAOcpPk=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.8273041aea75a8d4cd905c37659d34b9762b2a312f2199a5db7a30041a7f20ff.css" integrity="sha256-gnMEGup1qNTNkFw3ZZ00uXYrKjEvIZml23owBBp/IP8=" rel="preload stylesheet" as="style">
 <link rel="icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -71,23 +71,26 @@
   });
 </script>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-L4NRERPTCT"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-L4NRERPTCT', { 'anonymize_ip': false });
-}
-</script>
-<meta property="og:title" content="Web Development" />
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4NRERPTCT"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-L4NRERPTCT');
+        }
+      </script><meta property="og:title" content="Web Development" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="/tags/web-development/" />
 <meta property="og:image" content="/images/bg.jpg" />
 
-
+<meta property="fb:admins" content="about.me" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="/images/bg.jpg" />
 <meta name="twitter:title" content="Web Development"/>
@@ -181,7 +184,8 @@ if (!doNotTrack) {
   </header>
   <div class="entry-content">
     <p>The yearly hackathon at work is always a great time to pursue new ideas or play around in fun ways with existing technology. My entry in 2019 was a humorous take on using simulations when developing computer vision software. I long wondered to see if we could use modern game engines or other simulation technology to augment some of our real world testing at scale.
-For the hackathon, I decided to apply my (as you will see quite limited) skills and implement a prototype of such a system....</p>
+For the hackathon, I decided to apply my (as you will see quite limited) skills and implement a prototype of such a system.
+...</p>
   </div>
   <footer class="entry-footer"><span title='2019-12-18 11:37:11 +0100 +0100'>December 18, 2019</span></footer>
   <a class="entry-link" aria-label="post link to Simulating barcode scanning on the web" href="/posts/2019-12-scandit3d/"></a>
@@ -195,7 +199,8 @@ For the hackathon, I decided to apply my (as you will see quite limited) skills 
   <div class="entry-content">
     <p>Living and traveling overseas for more than a year, I want a way to access some of my more secure credentials in case of device loss.
 BrowsePass is a static web application to read KDBX files as produced by KeePass. This allows me to securely access my passwords and logins from everywhere - all I need is a computer with a web browser.
-As Google isn’t available in all the countries I’m traveling to (👋🇨🇳), I added support for Dropbox to it....</p>
+As Google isn’t available in all the countries I’m traveling to (👋🇨🇳), I added support for Dropbox to it. The integration is completely server-side and uses Dropbox’ Oauth/Rest Client API.
+...</p>
   </div>
   <footer class="entry-footer"><span title='2014-11-22 11:36:12 +0100 +0100'>November 22, 2014</span></footer>
   <a class="entry-link" aria-label="post link to BrowsePass fork with Dropbox support" href="/posts/2014-11-browsepass-dropbox/"></a>
@@ -203,7 +208,8 @@ As Google isn’t available in all the countries I’m traveling to (👋🇨�
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="/">Christian Kündig</a></span>
+        <span>&copy; 2024 <a href="/">Christian Kündig</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

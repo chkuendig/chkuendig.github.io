@@ -10,7 +10,7 @@
 <meta name="description" content="Time to retire tvhProxy by adding HDHomerun emulation to Tvheadend.">
 <meta name="author" content="">
 <link rel="canonical" href="/posts/2023-11-tvheadend-hdhomerun/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.dca21d6392c736f9dd0a563ea9af56b2d6ea48989d12b1dbb5246b40039ca4f9.css" integrity="sha256-3KIdY5LHNvndClY&#43;qa9WstbqSJidErHbtSRrQAOcpPk=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.8273041aea75a8d4cd905c37659d34b9762b2a312f2199a5db7a30041a7f20ff.css" integrity="sha256-gnMEGup1qNTNkFw3ZZ00uXYrKjEvIZml23owBBp/IP8=" rel="preload stylesheet" as="style">
 <link rel="icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -73,17 +73,20 @@
   });
 </script>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-L4NRERPTCT"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-L4NRERPTCT', { 'anonymize_ip': false });
-}
-</script>
-<meta property="og:title" content="HDHomerun Server Emulation in Tvheadend" />
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4NRERPTCT"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-L4NRERPTCT');
+        }
+      </script><meta property="og:title" content="HDHomerun Server Emulation in Tvheadend" />
 <meta property="og:description" content="Time to retire tvhProxy by adding HDHomerun emulation to Tvheadend." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/2023-11-tvheadend-hdhomerun/" />
@@ -91,7 +94,7 @@ if (!doNotTrack) {
 <meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2023-11-26T23:15:29+01:00" />
 <meta property="article:modified_time" content="2023-11-26T23:15:29+01:00" />
-
+<meta property="fb:admins" content="about.me" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="/images/bg.jpg" />
 <meta name="twitter:title" content="HDHomerun Server Emulation in Tvheadend"/>
@@ -131,7 +134,7 @@ if (!doNotTrack) {
   "articleBody": "Shortly after updating tvhProxy, an effort on the tvheadend side was made to include HDHomeRun emulation in TVHeadend itself. I was hoping this would eventually obsolete the need for tvhProxy.\nUnfortunately that pull request had a few major issues and was never merged. One of it’s biggest issue was that it implemented its own authentication bypass to get around the issue that HDHomerun clients like Plex don’t have any type of authentication when connecting to the tuner.\nTvheadend already has it’s own way of managing access controls without any explicit authentication (relying on the IP of clients), but unfortunately the PR was never adjusted accordingly.1\nAs I dusted off my IPTV setup recently (dockerizing Tvheadend as well as the tv7 EPG Parser), I thought it was a good time to retire tvhProxy for good.\nSo undertook an attempt to cleanup the previously rejected pull request an fix the major issues:\n💡 Update December 9th: The pull request is now merged in upstream Tvheadend 🎉.\nUpdate Dec 30: The pull request now also made it into the linuxserver.io docker (so the below custom build step isn’t required anymore): Version fd8b9e8b-ls197\nChanges compared to the previous pull request included the two points that prevented it from being merged:\nI removed all code related to the authentication bypass harmonized the comment format. My original fork of tvhProxy included a few additional fixes:\nAdding SSDP discovery to avoid the tuner from being dropped in Plex Filling in dummy EPG data for channels without EPG. I retested this and it turns out that Plex doesn’t need either anymore - I guess they fixed it on their side in the past few years. So the simple integration is enough.\nTvHeadend Permissions Setup To setup the correct access, I have added a user with the following configuration - check out the Tvheadend wiki for more details on how to configure access controls. Dockerized Setup If you use dockerized tvheadend and want to test this, I forked the linuxserver.io container to redirect to my branch. Currently I’m using the following docker-compose.yml to test this for a few days:\nversion: \"2.1\" services: tvheadend: # image: lscr.io/linuxserver/tvheadend:latest build: context: https://github.com/chkuendig/docker-tvheadend.git args: - TVHEADEND_COMMIT=81981d6b95c5103a959d7b03719b04ecf3876162 container_name: tvheadend environment: - PUID=1000 - PGID=1000 - RUN_OPTS= #optional volumes: - \u003c...\u003ehts/.hts/tvheadend:/config - \u003c...\u003ehts/recordings:/recordings network_mode: host restart: unless-stopped You can use this with docker-compose build tvheadend instead of docker-compose pull tvheadend and it should work just as well as the regular container.\nYou can read the whole discussion at . ↩︎\n",
   "wordCount" : "414",
   "inLanguage": "en",
-  "image": "/images/bg.jpg""datePublished": "2023-11-26T23:15:29+01:00",
+  "image": "/images/bg.jpg","datePublished": "2023-11-26T23:15:29+01:00",
   "dateModified": "2023-11-26T23:15:29+01:00",
   "mainEntityOfPage": {
     "@type": "WebPage",
@@ -196,7 +199,9 @@ if (!doNotTrack) {
 <p><strong>Update Dec 30:</strong> The pull request now also made it into the  linuxserver.io docker (so the below custom build step isn&rsquo;t required anymore): <a href="https://github.com/linuxserver/docker-tvheadend/pkgs/container/tvheadend/162443141?tag=version-fd8b9e8b">Version fd8b9e8b-ls197</a></p>
 </p>
 </aside>
-<a href="https://github.com/tvheadend/tvheadend/pull/1572" class="github-card"><img src="/posts/2023-11-tvheadend-hdhomerun/1572_175561919804228001.png"></a>
+
+            
+        <a href="https://github.com/tvheadend/tvheadend/pull/1572" class="github-card"><img src="/posts/2023-11-tvheadend-hdhomerun/1572_11417498493072987872.png"></a>
 
 <p>Changes compared to the previous pull request included the two points that prevented it from being merged:</p>
 <ul>
@@ -241,7 +246,8 @@ if (!doNotTrack) {
 <hr>
 <ol>
 <li id="fn:1">
-<p>You can read the whole discussion at  <a class="github-button" data-color-scheme="" href="https://github.com/tvheadend/tvheadend/pull/1348" data-icon="octicon-git-pull-request-closed" data-size="small" data-text='<b>tvheadend#1348:</b>&nbsp;hdhomerun: Add HDHomeRun server emulation support for LiveTV only (#4461)'></a>.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>You can read the whole discussion at 
+         <a class="github-button" data-color-scheme="" href="https://github.com/tvheadend/tvheadend/pull/1348" data-icon="octicon-git-pull-request-closed" data-size="small" data-text='<b>tvheadend#1348:</b>&nbsp;hdhomerun: Add HDHomeRun server emulation support for LiveTV only (#4461)'></a>.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </div>
@@ -270,7 +276,8 @@ if (!doNotTrack) {
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="/">Christian Kündig</a></span>
+        <span>&copy; 2024 <a href="/">Christian Kündig</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

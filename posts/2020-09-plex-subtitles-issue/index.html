@@ -10,7 +10,7 @@
 <meta name="description" content="For some reason video files downloaded from the web won&rsquo;t play in Plex if they have subtitles.">
 <meta name="author" content="">
 <link rel="canonical" href="/posts/2020-09-plex-subtitles-issue/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.dca21d6392c736f9dd0a563ea9af56b2d6ea48989d12b1dbb5246b40039ca4f9.css" integrity="sha256-3KIdY5LHNvndClY&#43;qa9WstbqSJidErHbtSRrQAOcpPk=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.8273041aea75a8d4cd905c37659d34b9762b2a312f2199a5db7a30041a7f20ff.css" integrity="sha256-gnMEGup1qNTNkFw3ZZ00uXYrKjEvIZml23owBBp/IP8=" rel="preload stylesheet" as="style">
 <link rel="icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -73,17 +73,20 @@
   });
 </script>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-L4NRERPTCT"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-L4NRERPTCT', { 'anonymize_ip': false });
-}
-</script>
-<meta property="og:title" content="Why WebVTT subtitles in Plex don&#39;t work" />
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4NRERPTCT"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-L4NRERPTCT');
+        }
+      </script><meta property="og:title" content="Why WebVTT subtitles in Plex don&#39;t work" />
 <meta property="og:description" content="For some reason video files downloaded from the web won&rsquo;t play in Plex if they have subtitles." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/2020-09-plex-subtitles-issue/" />
@@ -91,7 +94,7 @@ if (!doNotTrack) {
 <meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2020-09-20T22:41:33+02:00" />
 <meta property="article:modified_time" content="2020-09-20T22:41:33+02:00" />
-
+<meta property="fb:admins" content="about.me" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="/images/bg.jpg" />
 <meta name="twitter:title" content="Why WebVTT subtitles in Plex don&#39;t work"/>
@@ -131,7 +134,7 @@ if (!doNotTrack) {
   "articleBody": "I recently noticed that some videos I have downloaded from the web show a weird issue when playing them with Plex. As these were playing fine on the webpages I found them, it was odd that there would be any compatibility issue (Plex plays way more formats than what browsers support).\nOn the other hand, Plex clearly told me this was caused by a transcoder issue:\nChanging players didn’t matter, this was an issue affecting all platforms - even when using the web player in the browser! The debug logs also confirmed this was an issue with the transcoder:\nSep 14 11:12:36 localhost PlexMediaServer[34961]: [Transcoder] Decoder (codec none) not found for input stream #0:0 Sep 14 11:12:36 localhost PlexMediaServer[34961]: Transcode runner appears to have died. So for some reason, Plex tries to decode something with a codec called none? That doesn’t make much sense. I looked at the streams with ffprobe and saw that stream #0:0 was a subtitle stream - and it indeed had no coded defined!\nStream #0:0(eng): Subtitle: none (default) Metadata: BPS : 118 DURATION : 01:30:55.025000000 NUMBER_OF_FRAMES: 1242 NUMBER_OF_BYTES : 80709 Looking at our video in Plex again showed the same thing: A subtitle track in english with NONE as the format.\nAnd this is the moment I realized I could play this video with a workaround - just disable the subtitle in the UI, and the video plays just fine 🥳.\nBut why is this happening? Obviously having to manually deselect subtitles is not great - also, if I have them, why can’t I use the subtitles?\nA quick Google research revealed that im not the first one to have this issue 1 and people already identified some of the root causes. And the best lead I found was that this is related to how ffmpeg handles WebVTT subtitles, but I couldn’t find any further details in the Plex forums and the workarounds weren’t great.\nRoot Cause It took me some time to track down the details, but I eventually figured out what is going on:\nWebVTT is a standard for encoding subtitles as XML data. It’s a W3C standard and the primary use case is for displaying subtitles (“text tracks”) on web video. So it makes sense I would encounter these in videos I found on the web.\nWhere this gets complicated is when these subtitles aren’t just loaded as part of a website along the video, but when they are stored in the video file itself. There are two standards of how to include WebVTT subtitles in a container: as D_WEBVTT/SUBTITLES (following WebM specs) or as the more recent S_TEXT/WEBVTT (part of the Matroska spec).\nUnfortunately this is where the problems start. The D_WEBVTT/SUBTITLES never really found any adoption so almost all files store these subtitles as S_TEXT/WEBVTT. Unfortunately ffmpeg never implemented the Matroska way. So when trying to load these files ffmpeg simple reads the format as NONE - as in “none of the codecs I support”.\nThere’s a lot of files floating around with this codec id because youtube-dl (and possibly many other tools) follow the Matroska spec. People even reported this issue to the youtube-dl developers2.\nThe FFmpeg Project is aware of this issue, but unfortunately the bug is still open 4 years after it was opened3.\nWorkaround As Plex doesn’t seem to select embedded subtitles automatically if there is an external one present, the easiest way to work around this is to extract the subtitles (and tell ffmpeg the format explicitly) into a external file:\nfor f in *.mkv; do ffmpeg -c:s webvtt -i \"$f\" \"${f%.mkv}.en.vtt\";done Conclusion There are multiple ways this could be fixed in Plex:\nWait for FFMPEG to fix this (unlikely, as the ffmpeg bug is already 4 years old) Plex could blacklist “None” subtitles / don’t index them so the client’s won’t select them under any circumstance. This comes at the cost of not being able to use these subtitles, but that’s already not the case. As plex itself seems to extract the right codec id in the file details (something I only noticed later, FWIW: mediainfo also shows the correct codec. They could add a flag before calling ffmpeg in the transcoder to manually override the codec type so it’s not None? With #idx being the track with the S_TEXT/WEBVTT subtitles this is a single parameter: ffmpeg -c:#idx webvtt -i $file. Alternatively plex could also fix the underlying issue in the the embedded ffmpeg in Plex (and hopefulyl share the fix with the ffmpeg project). 💬 I have also shared these findings on the plex forums, so if you also encountered this issue, maybe add a comment here to help them prioritize this: Bug - Files with S_TEXT/WEBVTT Codec ID crash transcoder\nMarch 2018, March 2020, May 2020 ↩︎\n↩︎\nFFMPEG #5641: Support WebVTT according to MKV specs ↩︎\n",
   "wordCount" : "803",
   "inLanguage": "en",
-  "image": "/images/bg.jpg""datePublished": "2020-09-20T22:41:33+02:00",
+  "image": "/images/bg.jpg","datePublished": "2020-09-20T22:41:33+02:00",
   "dateModified": "2020-09-20T22:41:33+02:00",
   "mainEntityOfPage": {
     "@type": "WebPage",
@@ -242,7 +245,8 @@ if (!doNotTrack) {
 <p><a href="https://forums.plex.tv/t/mkv-files-with-embedded-vtt-subtitles-cant-be-played/227769">March 2018</a>, <a href="https://forums.plex.tv/t/webvtt-subs-on-ios-crashing-transcoder/556854">March 2020</a>, <a href="https://forums.plex.tv/t/please-add-new-codec-id-for-webvtt-subtitles-s-text-webvtt/596313">May 2020</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:2">
-<p><a class="github-button" data-color-scheme="" href="https://github.com/ytdl-org/youtube-dl/issues/16338" data-icon="octicon-issue-opened" data-size="small" data-text='<b>youtube-dl#16338:</b>&nbsp;Wrong &#34;Codec ID:&#34; for VTT in mkv file'></a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>
+        <a class="github-button" data-color-scheme="" href="https://github.com/ytdl-org/youtube-dl/issues/16338" data-icon="octicon-issue-opened" data-size="small" data-text='<b>youtube-dl#16338:</b>&nbsp;Wrong &#34;Codec ID:&#34; for VTT in mkv file'></a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:3">
 <p><a href="https://trac.ffmpeg.org/ticket/5641">FFMPEG #5641: Support WebVTT according to MKV specs</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
@@ -274,7 +278,8 @@ if (!doNotTrack) {
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="/">Christian Kündig</a></span>
+        <span>&copy; 2024 <a href="/">Christian Kündig</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

@@ -9,7 +9,7 @@
       <url>/images/bg.jpg</url>
       <link>/images/bg.jpg</link>
     </image>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo -- 0.134.0</generator>
     <language>en</language>
     <lastBuildDate>Fri, 05 Jan 2024 00:00:24 +0100</lastBuildDate>
     <atom:link href="/tags/web-development/index.xml" rel="self" type="application/rss+xml" />
@@ -46,17 +46,20 @@
       <link>/posts/2019-12-scandit3d/</link>
       <pubDate>Wed, 18 Dec 2019 11:37:11 +0100</pubDate>
       <guid>/posts/2019-12-scandit3d/</guid>
-      <description>The yearly hackathon at work is always a great time to pursue new ideas or play around in fun ways with existing technology. My entry in 2019 was a humorous take on using simulations when developing computer vision software. I long wondered to see if we could use modern game engines or other simulation technology to augment some of our real world testing at scale.
-For the hackathon, I decided to apply my (as you will see quite limited) skills and implement a prototype of such a system.</description>
+      <description>&lt;p&gt;The yearly hackathon at work is always a great time to pursue new ideas or play around in fun ways with existing technology. My entry in 2019 was a humorous take on using simulations when developing computer vision software. I long wondered to see if we could use modern game engines or other simulation technology to augment some of our real world testing at scale.&lt;/p&gt;
+&lt;p&gt;For the hackathon, I decided to apply my (as you will see quite limited) skills and implement a prototype of such a system.&lt;/p&gt;</description>
     </item>
     <item>
       <title>BrowsePass fork with Dropbox support</title>
       <link>/posts/2014-11-browsepass-dropbox/</link>
       <pubDate>Sat, 22 Nov 2014 11:36:12 +0100</pubDate>
       <guid>/posts/2014-11-browsepass-dropbox/</guid>
-      <description>Living and traveling overseas for more than a year, I want a way to access some of my more secure credentials in case of device loss.
-BrowsePass is a static web application to read KDBX files as produced by KeePass. This allows me to securely access my passwords and logins from everywhere - all I need is a computer with a web browser.
-As Google isn&amp;rsquo;t available in all the countries I&amp;rsquo;m traveling to (👋🇨🇳), I added support for Dropbox to it.</description>
+      <description>&lt;p&gt;Living and traveling overseas for more than a year, I want a way to access some of my more secure credentials in case of device loss.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://bitbucket.org/namn/browsepass&#34;&gt;BrowsePass&lt;/a&gt; is a static web application to read KDBX files as produced by KeePass. This allows me to securely access my passwords and logins from everywhere - all I need is a computer with a web browser.&lt;/p&gt;
+
+            &lt;a href=&#34;https://github.com/chkuendig/browsepass&#34; class=&#34;github-card&#34;&gt;&lt;img src=&#34;/posts/2014-11-browsepass-dropbox/browsepass_11742387053526056463.png&#34;&gt;&lt;/a&gt;
+
+&lt;p&gt;As Google isn&amp;rsquo;t available in all the countries I&amp;rsquo;m traveling to (👋🇨🇳), I added support for Dropbox to it. The integration is completely server-side and uses Dropbox&amp;rsquo; Oauth/Rest Client API.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

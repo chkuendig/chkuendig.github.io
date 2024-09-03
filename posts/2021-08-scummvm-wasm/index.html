@@ -10,7 +10,7 @@
 <meta name="description" content="Making old adventure (and other) games available on the web.">
 <meta name="author" content="">
 <link rel="canonical" href="/posts/2021-08-scummvm-wasm/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.dca21d6392c736f9dd0a563ea9af56b2d6ea48989d12b1dbb5246b40039ca4f9.css" integrity="sha256-3KIdY5LHNvndClY&#43;qa9WstbqSJidErHbtSRrQAOcpPk=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.8273041aea75a8d4cd905c37659d34b9762b2a312f2199a5db7a30041a7f20ff.css" integrity="sha256-gnMEGup1qNTNkFw3ZZ00uXYrKjEvIZml23owBBp/IP8=" rel="preload stylesheet" as="style">
 <link rel="icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -73,17 +73,20 @@
   });
 </script>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-L4NRERPTCT"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-L4NRERPTCT', { 'anonymize_ip': false });
-}
-</script>
-<meta property="og:title" content="Porting ScummVM to Webassembly" />
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4NRERPTCT"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-L4NRERPTCT');
+        }
+      </script><meta property="og:title" content="Porting ScummVM to Webassembly" />
 <meta property="og:description" content="Making old adventure (and other) games available on the web." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/2021-08-scummvm-wasm/" />
@@ -91,7 +94,7 @@ if (!doNotTrack) {
 <meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2021-08-20T11:38:45+01:00" />
 <meta property="article:modified_time" content="2021-08-20T11:38:45+01:00" />
-
+<meta property="fb:admins" content="about.me" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="/images/bg.jpg" />
 <meta name="twitter:title" content="Porting ScummVM to Webassembly"/>
@@ -131,7 +134,7 @@ if (!doNotTrack) {
   "articleBody": " 💡 Some of the below might be outdated, please also check out part 2 and part 3 of this project.\nGrowing up in the 90ies I played a lot of games. Mostly on PC and often not on the most advanced PC, so adventure games were one of my favorite genres. Now being in a different stage of live, I have gained an apprecition for the work preserving games from past periods.\nOne way to mkae sure these games are preserved for future generations is to remove any friction involved in playing them (trust me - you don’t want to have to install Windows 95 or DOS in 2021).\nFor tis reason ScummVM has always been close to my heart. Initially meant as a modern implementation (“VM”) for the SCUMM language early lucas arts adventures were implemneted in, it has grown to support hundereds of games, including 3D games.\nPreservation of classic games: ScummVM has played a critical role in the preservation of classic adventure games, ensuring that they remain accessible and playable for future generations. Many of these games were designed for outdated hardware and operating systems, making them difficult to run on modern computers without the aid of an emulator like ScummVM.\nCross-platform compatibility: ScummVM is designed to be cross-platform, allowing users to play these classic games on various operating systems such as Windows, macOS, Linux, and more. This cross-platform support ensures that users can enjoy these games regardless of the device or system they are using.\nEnhanced gameplay experience: ScummVM not only enables these classic games to run on modern systems but also often improves the overall gameplay experience. It can provide features such as improved graphics, enhanced audio, and other quality-of-life improvements that were not possible when the games were originally released.\nLoving the web, the natural next step is to make these games available on the web. The lesser friction the better, so let’s port ScummVM to the web!\nPrevious Work Before I started, I actually did some research and it turns out people have been looking into this before, going back to 2013 with the introduction of asm.js. I’m not going too deep into details, but there were two previous attempts worth crediting1:\nJukka Jylänki - the Co-lead on the Emscripten project at Mozilla - built a proof of concept in June 2013 - the page is not online anymore, but the source code still available at .\nAngus Lees - a ScummVM contributor - built a separate demo also in Jun 2013, still playable in 2021. I don’t think the source code is available for this.\nDemo First things first, let’s get to the point: This is an initial version of my Emscripten/Webassembly target as mentioned on the ScumMVM Discord a few days ago:\nYour browser doesn't support embedded videos, but don't worry, you can download it and watch it with your favorite video player! You can now try it yourself at scummvm.kuendig.io/scummvm.html including some freeware games, some demos and the ScummVM testbed 2.\nAs Emscripten has matured quite a bit in the last 8 years, I want to go beyond the demo and am actually plannnig to upstreaming this as a proper ScummVM port: What works and what doesn’t This port of ScummVM has two primary use cases as its goals:\nDemo App: The goal of this use case is to provide an easy way for people to discover ScummVM and old adventure games. Game preservation is not just about archival but also accessibility. The primary goal is to make it as easy as possible to play any game which can legally be made available, and there’s probably nothing easier than opening a webpage to do so.\nScummVM as a PWA (progressive web app): There are platforms where native ScummVM is not readily available (primarily iOS/iPadOS). A PWA can work around these limitations. To really make this work, a few more features beyond what’s in a Demo App would be required:\nOffline Support: PWAs can run offline. This means we have to find a way to cache some data which is downloaded on demand (engine plugins, game data etc.) Cloud Storage Integration: Users will have to have a way to bring their own games and export savegame data. This is best possible through cloud storage integration. This already exists in ScummVM, but a few adjustments will be necessary to make this work in a PWA. Not all of it required for this works, but we already have quite a few things:\nAll engines compile (though I didn’t test all of them), including ResidualVM with WebGL acceleration and shaders. Audio works and 3rd-party libraries for sound and video decoding are integrated. Proof of concept integration with BrowserFS to download game data lazily when required and to support local savegames. Some ideas for possible improvements:\nEmscripten Optimizations Emscripten offers a ton of optimizations, not all of it works yet:\nOptimize asyncify behaviour (we only have SDL functions calling wait currently), e.g with SDL_HINT_EMSCRIPTEN_ASYNCIFY. Specify a ASYNCIFY_ONLY list to to make asyncify only instrument functions in the call path as described in emscripten.org: Asyncify Don’t use asyncify but rewrite main loop to improve performance Shrink code size or execution speed with -Os or -Oz emcc arguments. Storage Integration Emscripten out of the box only emulates a in-memory filesystem. My initial hack This is an initial version of my Emscripten/Webassembly target as mentioned on Discord a few days ago (see video https://discord.com/channels/581224060529148060/581224061091446795/849353211877523536)\nstatic engine and bundling the game via a preloaded data file works. that’s what’s running in the video and also what the proof of concept in 2013 used. if that’s a goal for the project I can clean it up and push a PR fairly soon (I was planning on using dropbox/gdrive for game+save data and dynamic plugins - but that’s a lot more work)\nFor ScummVM to work properly, we will have to be able to load additional data from somewhere. I picked https://github.com/jvilk/BrowserFS. Unforutnately it’s pretty much abandoned (last release in 2017) and lacks a few things I’d like to have. 3\nBrowserFS seems abandoned and never did a stable 2.0.0 release. Maybe there’s a better way to handle storage?\nFile loading improvements:\nLoad assets with HTTP Range request headers. Load assets asynchronously (not blocking) via a worker. Add support for save games (and game data?) on personal cloud storage (Dropbox, Google Drive).\nUI Integration Responsiveness: Adjust the canvas size when resizing the browser.\nBug: Fullscreen mode doesn’t work.\nBuild a nice webpage around the canvas.\nAllow hiding of console, replace buttons/checkboxes from default emscripten template. Bonus: Adapt page padding/background color to theme (black when in game) ScummVM shouldn’t be able to “close” (there’s no concept for that:\nRemove “exit” buttons from all menus. Change any programmatic “exits” to cause a restart of Scummvm (or refresh of the page). Pass CLI parameters for ScummVM via URL parameters to allow for “deep-linking” to a specific game.\nOther Bugs + Tasks Bug: Vorbis support is broken - parts seems to have been patched out so -lvorbisfile triggers an error during configure (and emscripten-core/emscripten#9849 doesn’t seem to fix this). Bug: Going back to main menu from Grim (and other Residual Games?) messes up the render context and the UI is unusable. Check all disabled features (e.g. TiMidity++) and see if they could be enabled (some might never make sense, e.g. anything requiring MIDI Hardware, Update Checking etc). I’m currently working on a few improvements for the port which I hope will make it possible to release it as a general website with one of the upcoming releases. Mostly fixing the performance and adding support for cloud storage. My goal with this port is to make these games much more accessible, so ideally we can provide a playable version of the demos website one day :) Initially just as a experiment to see if I could make it run, I decided to eventually get this upstreamed. I don’t have much time to work on this, but I’m trying to keep this a continuous involvement (even if it just ends up 1-2 larger MRs per year).\nHow to build it There’s still a lot to do depending on how such a build would be deployed. I summarized quick build instructions and a summary of what’s done and what’s still missing at ./dists/emscripten/README.md.\nThe linked demo above is built with this (running ./dists/emscripten/build.sh all). I only tested building on macOS, but at least in theory this should also build on Linux and WSL (or anything else that can run shell scripts and is supported by emsdk).\nAbout Webassembly and Emscripten Emscripten is an LLVM/Clang-based compiler that compiles C and C++ source code to WebAssembly for execution in web browsers.\nNote: In general most code can be crosscompiled to webassembly just fine. There’s a few minor things which are different, but the mayor difference comnes down to how instructions are processed: Javascript and webassembly do support asynchronous/non-blocking code, but in general everything is running in the same event loop. This means also that webassembly code has to pause for the browser to do it’s operations - render the page, process inputs, run I/O and so on. One consequence of this is that the page is not re-drawn until the webassembly code “yields” to the browser. Emscripten provides as much tooling as possible for this, but there’s sometimes still a need to manually add a call to sleep into some engines.\nFor ScummVM, the Emscripten target provides a script to build ScummVM as a single page browser app.\nEmscripten is an LLVM/Clang-based compiler that compiles C and C++ source code to WebAssembly for execution in web browsers.\nHow to build for Webassembly This folder contains a script to help build scummvm with Emscripten, it automatically downloads the correct emsdk version and also takes care of bundling the data and setting up a few demo games.\nRunning emscripten/build.sh emscripten/build.sh needs to be run from the root of the project.\n./dists/emscripten/build.sh libs|configure|make|data|dist|all|clean It accepts a single parameter with 7 valid commands:\nlibs: Download and compile the required 3rd-party libraries required to build certain engines (libmad, a52dec etc) configure: Run the configure script with emconfigure with the recommended settings for a simple demo page make: Run the make scripts with emmake data: Download some demos and set up all data require for the demo page dist: Copy all files into a single build-emscripten folder to bring it all together all: Run all of the above commands clean: Remove all object files, built libs, bundled data etc Independent of the command executed, the script sets up a pre-defined emsdk environment in the subfolder ./dists/emscripten/build.sh\nIf you want to look into it more, there’s there’s been quite a bit of history on the ScummVM forums: https://forums.scummvm.org/viewtopic.php?p=76796 (2011) - and somebody even tried porting ScummVM manually to Javascript in 2010: . ↩︎\nSource code available at . ↩︎\nConsidering the hacked together nature of the other ports I obviously also checked what they did. None of them having JS code to implement the filesystem code, I initially though Emscripten might provide something I missed. Helpfully angus lees confirmed that he indeed wrote his own filesystem code that just backs on to http range requests (with a cache). ↩︎\n",
   "wordCount" : "1869",
   "inLanguage": "en",
-  "image": "/images/bg.jpg""datePublished": "2021-08-20T11:38:45+01:00",
+  "image": "/images/bg.jpg","datePublished": "2021-08-20T11:38:45+01:00",
   "dateModified": "2021-08-20T11:38:45+01:00",
   "mainEntityOfPage": {
     "@type": "WebPage",
@@ -210,6 +213,7 @@ if (!doNotTrack) {
 <li>
 <p><a href="https://github.com/juj">Jukka Jylänki</a> - the Co-lead on the Emscripten project at Mozilla - built a proof of concept in <a href="https://groups.google.com/g/emscripten-discuss/c/ubv-vHIgYsc">June 2013</a> - the page is not online anymore, but the  source code still available at 
     
+        
 <a class="github-button" data-color-scheme="" href="https://github.com/juj/emscripten-scummvm" data-icon="octicon-repo" data-size="small" data-text='<b>juj/emscripten-scummvm</b>'></a>.</p>
 </li>
 <li>
@@ -225,7 +229,9 @@ This is an initial version of my Emscripten/Webassembly target as mentioned on t
 </video>
 <p>You can now try it yourself at <a href="http://scummvm.kuendig.io/scummvm.html">scummvm.kuendig.io/scummvm.html</a> including  some freeware games, some demos and the ScummVM testbed <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>.</p>
 <p>As Emscripten has matured quite a bit in the last 8 years, I want to go beyond the demo and am actually plannnig to upstreaming this as a proper ScummVM port:
-<a href="https://github.com/scummvm/scummvm/pull/3046" class="github-card"><img src="/posts/2021-08-scummvm-wasm/3046_5292241474440105702.png"></a>
+
+            
+        <a href="https://github.com/scummvm/scummvm/pull/3046" class="github-card"><img src="/posts/2021-08-scummvm-wasm/3046_4850145506220130303.png"></a>
 </p>
 <h2 id="what-works-and-what-doesnt">What works and what doesn&rsquo;t</h2>
 <p>This port of ScummVM has two primary use cases as its goals:</p>
@@ -343,11 +349,13 @@ Initially just as a experiment to see if I could make it run, I decided to event
 <li id="fn:1">
 <p>If you want to look into it more, there&rsquo;s there&rsquo;s been quite a bit of history on the ScummVM forums: <a href="https://forums.scummvm.org/viewtopic.php?p=76796">https://forums.scummvm.org/viewtopic.php?p=76796</a> (2011) - and somebody even tried porting ScummVM manually to Javascript in 2010: 
     
+        
 <a class="github-button" data-color-scheme="" href="https://github.com/mutle/jsscummvm" data-icon="octicon-repo" data-size="small" data-text='<b>mutle/jsscummvm</b>'></a>.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:2">
 <p>Source code available at 
     
+        
 <a class="github-button" data-color-scheme="" href="https://github.com/chkuendig/scummvm-demo" data-icon="octicon-repo" data-size="small" data-text='<b>chkuendig/scummvm-demo</b>'></a>.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:3">
@@ -382,7 +390,8 @@ Initially just as a experiment to see if I could make it run, I decided to event
     </main>
     
 <footer class="footer">
-    <span>&copy; 2024 <a href="/">Christian Kündig</a></span>
+        <span>&copy; 2024 <a href="/">Christian Kündig</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
