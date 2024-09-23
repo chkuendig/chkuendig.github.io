@@ -151,8 +151,7 @@
       <guid>/posts/2014-11-browsepass-dropbox/</guid>
       <description>&lt;p&gt;Living and traveling overseas for more than a year, I want a way to access some of my more secure credentials in case of device loss.&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://bitbucket.org/namn/browsepass&#34;&gt;BrowsePass&lt;/a&gt; is a static web application to read KDBX files as produced by KeePass. This allows me to securely access my passwords and logins from everywhere - all I need is a computer with a web browser.&lt;/p&gt;
-
-            &lt;a href=&#34;https://github.com/chkuendig/browsepass&#34; class=&#34;github-card&#34;&gt;&lt;img src=&#34;/posts/2014-11-browsepass-dropbox/browsepass_11742387053526056463.png&#34;&gt;&lt;/a&gt;
+&lt;a href=&#34;https://github.com/chkuendig/browsepass&#34; class=&#34;github-card&#34;&gt;&lt;img src=&#34;/posts/2014-11-browsepass-dropbox/browsepass_11742387053526056463.png&#34;&gt;&lt;/a&gt;
 
 &lt;p&gt;As Google isn&amp;rsquo;t available in all the countries I&amp;rsquo;m traveling to (👋🇨🇳), I added support for Dropbox to it. The integration is completely client-side and uses Dropbox&amp;rsquo; Oauth/Rest Client API.&lt;/p&gt;</description>
     </item>

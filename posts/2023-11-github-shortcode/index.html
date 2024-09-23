@@ -222,8 +222,7 @@
 <p>I found <a href="https://github.blog/changelog/2021-04-21-opengraph-images-for-github-repositories-commits-issues-and-pull-requests/">Github&rsquo;s open graph images</a> super nice<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup> and the Github blog goes into great detail on how they were built<sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup>, but unfortunately there&rsquo;s no easy way to reproduce them, so I decided to take them as is and embed the images on my pages.</p>
 <p>One little thing to work around is that these images are actually not exposed via the REST API so I had to craft my own URLs. It&rsquo;s pretty straightforward and follows the general Github URL scheme, but it does include a cache hash. As I couldn&rsquo;t reverse-engineer the hash,  I had to make sure to generate it myself and make sure to invalidate it should the image update. For repos and issues I again used the REST API to get some data, for commits I decided to just use the commit has itself as I couldn&rsquo;t identify a circumstance under which the image would update.</p>
 <p>The end result looks pretty good I think:</p>
-
-            <a href="https://github.com/chkuendig/hugo-github" class="github-card"><img src="/posts/2023-11-github-shortcode/hugo-github_4194997949337551278.png"></a>
+<a href="https://github.com/chkuendig/hugo-github" class="github-card"><img src="/posts/2023-11-github-shortcode/hugo-github_4194997949337551278.png"></a>
 
 <h2 id="usage">Usage</h2>
 <ol>
