@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Fixing Quantum Break Video Playback on the Steam Deck | Christian Kündig</title>
+<meta name="keywords" content="Gaming">
+<meta name="description" content="Moving to statically hosted video files">
+<meta name="author" content="">
+<link rel="canonical" href="/posts/2024-10-fixing-quantum-break/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.8273041aea75a8d4cd905c37659d34b9762b2a312f2199a5db7a30041a7f20ff.css" integrity="sha256-gnMEGup1qNTNkFw3ZZ00uXYrKjEvIZml23owBBp/IP8=" rel="preload stylesheet" as="style">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="mask-icon" href="/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="/posts/2024-10-fixing-quantum-break/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
+<link href='//fonts.googleapis.com/css?family=Mulish' rel='stylesheet' type='text/css'>
+
+<script>
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  });
+</script>
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4NRERPTCT"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-L4NRERPTCT');
+        }
+      </script><meta property="og:title" content="Fixing Quantum Break Video Playback on the Steam Deck" />
+<meta property="og:description" content="Moving to statically hosted video files" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/2024-10-fixing-quantum-break/" />
+<meta property="og:image" content="/images/bg.jpg" />
+<meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-10-17T11:41:01+01:00" />
+<meta property="article:modified_time" content="2024-10-17T11:41:01+01:00" />
+<meta property="fb:admins" content="about.me" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="/images/bg.jpg" />
+<meta name="twitter:title" content="Fixing Quantum Break Video Playback on the Steam Deck"/>
+<meta name="twitter:description" content="Moving to statically hosted video files"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Personal Projects",
+      "item": "/posts/"
+    }
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Fixing Quantum Break Video Playback on the Steam Deck",
+      "item": "/posts/2024-10-fixing-quantum-break/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Fixing Quantum Break Video Playback on the Steam Deck",
+  "name": "Fixing Quantum Break Video Playback on the Steam Deck",
+  "description": "Moving to statically hosted video files",
+  "keywords": [
+    "Gaming"
+  ],
+  "articleBody": "get the offline videos: aria2c ‘magnet:?xt=urn:btih:699ecee2cac1a1fa657291a296878965dee07ec2\u0026tr=udp://tracker.opentrackr.org:1337’\nmount iso:\nudisksctl loop-setup -r -f Quantum.Break.COMPLETE-CODEX/codex-quantum.break.iso \u0026\u0026 udisksctl mount -b /dev/loop0 udisksctl unmount -b /dev/loop0 \u0026\u0026 udisksctl loop-delete -b /dev/loop0 check out what’s in the iso:\ninnoextract -l /media/christian/Quantum\\ Break/setup.exe:\nListing “Quantum Break” - setup data version 5.5.0.1 (unicode)\n“tmp/ISDone.dll” [temp] (446 KiB) “tmp/english.ini” [temp] (15.4 KiB) “tmp/Style.vsf” [temp] (44.7 KiB) “tmp/VclStylesinno.dll” [temp] (1.95 MiB) “tmp/BASS.dll” [temp] (107 KiB) “tmp/bp.dll” [temp] (129 KiB) “tmp/wintb.dll” [temp] (27.5 KiB) “tmp/Music.ogg” [temp] (2.07 MiB) “tmp/Play1.bmp” [temp] (540 B) “tmp/Play2.bmp” [temp] (540 B) “tmp/Play3.bmp” [temp] (540 B) “tmp/Pause1.bmp” [temp] (540 B) “tmp/Pause2.bmp” [temp] (540 B) “tmp/Pause3.bmp” [temp] (540 B) “tmp/trackBkg.bmp” [temp] (776 B) “tmp/trackbtn1.bmp” [temp] (344 B) “tmp/trackbtn2.bmp” [temp] (344 B) “tmp/trackbtn3.bmp” [temp] (344 B) “tmp/unarc.dll” [temp] (368 KiB) Warning: “setup-1.bin” is not part of the installer! Use the –gog option to try listing the contents of this file. Done with 1 warning. you’ll notice the warning about setup-1.bin. https://palaiologos.rocks/posts/codex/ reveals this isn’t a inno setup isntaller but a modified version of FreeArc (same as https://mrexodia.github.io/coding/2017/07/06/FreeArc-and-Dark-Souls-3)\nso we will have to use the unarc.dll to unpack this file. which means we’ll have to build and run a win32 app on Linux:\nTO build a proper binary:\ntests: wine unarc_cmd.exe x tests/Setup-1.cdx\nhttps://web.archive.org/web/20090814213807/http://freearc.sourceforge.net/rus/FreeArc040-rus.htm#_Toc185594991\n(or DISPLAY=:0.0 wine ./unarc_cmd.exe.so x -dpGame – “z:\\media\\christian\\Quantum Break\\setup-1.bin” as mentioned by https://github.com/nitzzzu/extraktt/tree/main to extract everything into subfolder Game - see\nhttps://web.archive.org/web/20090814213807/http://freearc.sourceforge.net/rus/FreeArc040-rus.htm#_Toc185594991 for a full list of parameters\ninstall dependencies sudo apt install innoextract g++-mingw-w64-i686-win32 wine wine32\nbuild app i686-w64-mingw32-g++ -static -static-libgcc -static-libstdc++ unarc_cmd/unarc_cmd.cpp -o unarc_cmd\nextract unarc.dll cd testdata innoextract -e -I tmp/unarc.dll Setup.exe md5_unarc=$(md5sum “tmp/unarc.dll”| cut -d \" \" -f1) if ! [ “06a9571ff4789cf4aec6fda08992a9dc” == “$md5_unarc” ]; then echo “MD5 mismatch”; exit 2; fi mv tmp/unarc.dll ../\ntest extraction cd ../ wine unarc_cmd.exe x -dptestdata\\tmp -apTheAllianceAliveHD_Data\\Managed\\ testdata/Setup-1.cdx md5_csharp=$(md5sum “testdata/tmp/Assembly-CSharp.dll”| cut -d \" \" -f1) if ! [ “dc367f75120c1305d759dfc7c31d1d8e” == “$md5_csharp” ]; then echo “MD5 mismatch”; exit 2; fi\nbuild artifact zip unarc_cmd.zip unarc_cmd.exe unarc.dll https://trstringer.com/github-actions-create-release-upload-artifacts/ // only run this manually from workflow\nOLD NOTES: NOTE: Winegcc does not build windows binaries. https://www.reddit.com/r/linuxquestions/comments/188l9z6/cant_get_wineg_to_make_an_exe/\n// we’ll need wine32 to build this sudo apt install wine32 wine32-tools g++-multilib xvfb #wine32tools for wingcc, xvfb for virtual x11, g++-multilib to build 32bit c++\ngit clone “https://github.com/nitzzzu/extraktt/tree/main\"\nwineg++-stable -m32 unarc_cmd/unarc_cmd.cpp -o unarc_cmd.exe.so\nXvfb :0 -screen 0 1024x768x16 \u0026 # start virtual screen and send to backgroudn DISPLAY=:0.0 wine ./unarc_cmd.exe.so x “z:\\media\\christian\\Quantum Break\\setup-1.bin” (or DISPLAY=:0.0 wine ./unarc_cmd.exe.so x -dpGame – “z:\\media\\christian\\Quantum Break\\setup-1.bin” as mentioned by https://github.com/nitzzzu/extraktt/tree/main)\nand that’s it. If you want to use a pre-build one, I uploaded it to github:\nhttps://fitgirl-repacks.site/quantum-break-live-series-offline-add/ https://disqus.com/embed/comments/?base=default\u0026f=fitgirl-repacks-site\u0026t_i=2162%20http%3A%2F%2Ffitgirl-repacks.site%2F%3Fp%3D2162\u0026t_u=https%3A%2F%2Ffitgirl-repacks.site%2Fquantum-break-live-series-offline-add%2F\u0026t_e=Quantum%20Break%20%E2%80%93%20Live%20Series%20Offline%20Add-on\u0026t_d=Quantum%20Break%20-%20Live%20Series%20Offline%20Add-on%20-%20FitGirl%20Repacks\u0026t_t=Quantum%20Break%20%E2%80%93%20Live%20Series%20Offline%20Add-on\u0026s_o=default#version=b040cc4fb9749f836fa39cae48953897\nsetting up steam steam build: 1.0.126.0307 codex buiod: 1.0.118.7039 / 1.0.118.7029 fitgirl: 1.0.118.7029 (savegames don’t seem compatible)\ncodex installer: export STEAM_COMPAT_DATA_PATH=~/.local/share/Steam/steamapps/compatdata/474960\nexport STEAM_COMPAT_CLIENT_INSTALL_PATH=~/.local/share/Steam\n/home/deck/.local/share/Steam/steamapps/common/Proton - Experimental/proton” run /run/media/deck/Quantum\\ Break/setup.exe\nexport STEAM_COMPAT_DATA_PATH=~/.local/share/Steam/steamapps/compatdata/474960\nexport STEAM_COMPAT_CLIENT_INSTALL_PATH=~/.local/share/Steam\n/home/deck/.local/share/Steam/steamapps/common/Proton - Experimental/proton\" run /run/media/deck/Quantum\\ Break/setup.exe\ninstall into z:///home/deck/.local/share/Steam/steamapps/common/QuantumBreak it chekcs free space. z: is root which doesn’t work/is it’s own mount, so you have to add home manually //home/deck/.local/share/Steam/steamapps/common/QuantumBreak open winefcg with protontricks: need to cd /run/media/deck/Quantum\\ Break/\n",
+  "wordCount" : "496",
+  "inLanguage": "en",
+  "image": "/images/bg.jpg","datePublished": "2024-10-17T11:41:01+01:00",
+  "dateModified": "2024-10-17T11:41:01+01:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/posts/2024-10-fixing-quantum-break/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Christian Kündig",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="/" accesskey="h" title="Christian Kündig (Alt + H)">Christian Kündig</a>
+            <div class="logo-switches">
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="/posts/" title="Personal Projects">
+                    <span>Personal Projects</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Fixing Quantum Break Video Playback on the Steam Deck
+    </h1>
+    <div class="post-meta"><span title='2024-10-17 11:41:01 +0100 +0100'>October 17, 2024</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>get the offline videos: aria2c &lsquo;magnet:?xt=urn:btih:699ecee2cac1a1fa657291a296878965dee07ec2&amp;tr=udp://tracker.opentrackr.org:1337&rsquo;</p>
+<p>mount iso:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">udisksctl loop-setup -r -f  Quantum.Break.COMPLETE-CODEX/codex-quantum.break.iso &amp;&amp;  udisksctl mount -b /dev/loop0
+</span></span><span class="line"><span class="cl">udisksctl unmount -b /dev/loop0 &amp;&amp; udisksctl loop-delete -b /dev/loop0
+</span></span></code></pre></div><p>check out what&rsquo;s in the iso:</p>
+<p>innoextract -l /media/christian/Quantum\ Break/setup.exe:</p>
+<p>Listing &ldquo;Quantum Break&rdquo; - setup data version 5.5.0.1 (unicode)</p>
+<ul>
+<li>&ldquo;tmp/ISDone.dll&rdquo; [temp] (446 KiB)</li>
+<li>&ldquo;tmp/english.ini&rdquo; [temp] (15.4 KiB)</li>
+<li>&ldquo;tmp/Style.vsf&rdquo; [temp] (44.7 KiB)</li>
+<li>&ldquo;tmp/VclStylesinno.dll&rdquo; [temp] (1.95 MiB)</li>
+<li>&ldquo;tmp/BASS.dll&rdquo; [temp] (107 KiB)</li>
+<li>&ldquo;tmp/bp.dll&rdquo; [temp] (129 KiB)</li>
+<li>&ldquo;tmp/wintb.dll&rdquo; [temp] (27.5 KiB)</li>
+<li>&ldquo;tmp/Music.ogg&rdquo; [temp] (2.07 MiB)</li>
+<li>&ldquo;tmp/Play1.bmp&rdquo; [temp] (540 B)</li>
+<li>&ldquo;tmp/Play2.bmp&rdquo; [temp] (540 B)</li>
+<li>&ldquo;tmp/Play3.bmp&rdquo; [temp] (540 B)</li>
+<li>&ldquo;tmp/Pause1.bmp&rdquo; [temp] (540 B)</li>
+<li>&ldquo;tmp/Pause2.bmp&rdquo; [temp] (540 B)</li>
+<li>&ldquo;tmp/Pause3.bmp&rdquo; [temp] (540 B)</li>
+<li>&ldquo;tmp/trackBkg.bmp&rdquo; [temp] (776 B)</li>
+<li>&ldquo;tmp/trackbtn1.bmp&rdquo; [temp] (344 B)</li>
+<li>&ldquo;tmp/trackbtn2.bmp&rdquo; [temp] (344 B)</li>
+<li>&ldquo;tmp/trackbtn3.bmp&rdquo; [temp] (344 B)</li>
+<li>&ldquo;tmp/unarc.dll&rdquo; [temp] (368 KiB)
+Warning: &ldquo;setup-1.bin&rdquo; is not part of the installer!
+Use the &ndash;gog option to try listing the contents of this file.
+Done with 1 warning.</li>
+</ul>
+<p>you&rsquo;ll notice the warning about setup-1.bin. <a href="https://palaiologos.rocks/posts/codex/">https://palaiologos.rocks/posts/codex/</a> reveals this isn&rsquo;t a inno setup isntaller but a modified version of FreeArc (same as <a href="https://mrexodia.github.io/coding/2017/07/06/FreeArc-and-Dark-Souls-3">https://mrexodia.github.io/coding/2017/07/06/FreeArc-and-Dark-Souls-3</a>)</p>
+<p>so we will have to use the unarc.dll to unpack this file. which means we&rsquo;ll have to build and run a win32 app on Linux:</p>
+<p>TO build a proper binary:</p>
+<p>tests: wine unarc_cmd.exe x tests/Setup-1.cdx</p>
+<p><a href="https://web.archive.org/web/20090814213807/http://freearc.sourceforge.net/rus/FreeArc040-rus.htm#_Toc185594991">https://web.archive.org/web/20090814213807/http://freearc.sourceforge.net/rus/FreeArc040-rus.htm#_Toc185594991</a></p>
+<p>(or DISPLAY=:0.0 wine ./unarc_cmd.exe.so  x  -dpGame &ndash; &ldquo;z:\media\christian\Quantum Break\setup-1.bin&rdquo; as mentioned by <a href="https://github.com/nitzzzu/extraktt/tree/main">https://github.com/nitzzzu/extraktt/tree/main</a> to extract everything into subfolder Game - see</p>
+<p><a href="https://web.archive.org/web/20090814213807/http://freearc.sourceforge.net/rus/FreeArc040-rus.htm#_Toc185594991">https://web.archive.org/web/20090814213807/http://freearc.sourceforge.net/rus/FreeArc040-rus.htm#_Toc185594991</a> for a full list of parameters</p>
+<h1 id="install-dependencies">install dependencies</h1>
+<p>sudo apt install innoextract g++-mingw-w64-i686-win32 wine wine32</p>
+<h1 id="build-app">build app</h1>
+<p>i686-w64-mingw32-g++ -static -static-libgcc -static-libstdc++ unarc_cmd/unarc_cmd.cpp -o unarc_cmd</p>
+<h2 id="extract-unarcdll">extract unarc.dll</h2>
+<p>cd testdata
+innoextract -e -I tmp/unarc.dll Setup.exe
+md5_unarc=$(md5sum &ldquo;tmp/unarc.dll&rdquo;| cut -d &quot; &quot; -f1)
+if ! [ &ldquo;06a9571ff4789cf4aec6fda08992a9dc&rdquo; == &ldquo;$md5_unarc&rdquo; ]; then echo &ldquo;MD5 mismatch&rdquo;; exit 2; fi
+mv  tmp/unarc.dll ../</p>
+<h2 id="test-extraction">test extraction</h2>
+<p>cd ../
+wine unarc_cmd.exe x -dptestdata\tmp -apTheAllianceAliveHD_Data\Managed\ testdata/Setup-1.cdx
+md5_csharp=$(md5sum &ldquo;testdata/tmp/Assembly-CSharp.dll&rdquo;| cut -d &quot; &quot; -f1)
+if ! [ &ldquo;dc367f75120c1305d759dfc7c31d1d8e&rdquo; == &ldquo;$md5_csharp&rdquo; ]; then echo &ldquo;MD5 mismatch&rdquo;; exit 2; fi</p>
+<h2 id="build-artifact">build artifact</h2>
+<p>zip unarc_cmd.zip unarc_cmd.exe unarc.dll
+<a href="https://trstringer.com/github-actions-create-release-upload-artifacts/">https://trstringer.com/github-actions-create-release-upload-artifacts/</a> // only run this manually from workflow</p>
+<p>OLD NOTES:
+NOTE: Winegcc does not build windows binaries. <a href="https://www.reddit.com/r/linuxquestions/comments/188l9z6/cant_get_wineg_to_make_an_exe/">https://www.reddit.com/r/linuxquestions/comments/188l9z6/cant_get_wineg_to_make_an_exe/</a></p>
+<p>// we&rsquo;ll need wine32 to build this
+sudo apt install wine32 wine32-tools  g++-multilib xvfb #wine32tools for wingcc, xvfb for virtual x11,  g++-multilib to build 32bit c++</p>
+<p>git clone &ldquo;<a href="https://github.com/nitzzzu/extraktt/tree/main%22">https://github.com/nitzzzu/extraktt/tree/main&quot;</a></p>
+<p>wineg++-stable -m32 unarc_cmd/unarc_cmd.cpp -o unarc_cmd.exe.so</p>
+<p>Xvfb :0 -screen 0 1024x768x16 &amp; # start virtual screen and send to backgroudn
+DISPLAY=:0.0 wine ./unarc_cmd.exe.so  x &ldquo;z:\media\christian\Quantum Break\setup-1.bin&rdquo;
+(or DISPLAY=:0.0 wine ./unarc_cmd.exe.so  x  -dpGame &ndash; &ldquo;z:\media\christian\Quantum Break\setup-1.bin&rdquo; as mentioned by <a href="https://github.com/nitzzzu/extraktt/tree/main">https://github.com/nitzzzu/extraktt/tree/main</a>)</p>
+<p>and that&rsquo;s it. If you want to use a pre-build one, I uploaded it to github:</p>
+<p><a href="https://fitgirl-repacks.site/quantum-break-live-series-offline-add/">https://fitgirl-repacks.site/quantum-break-live-series-offline-add/</a>
+<a href="https://disqus.com/embed/comments/?base=default&amp;f=fitgirl-repacks-site&amp;t_i=2162%20http%3A%2F%2Ffitgirl-repacks.site%2F%3Fp%3D2162&amp;t_u=https%3A%2F%2Ffitgirl-repacks.site%2Fquantum-break-live-series-offline-add%2F&amp;t_e=Quantum%20Break%20%E2%80%93%20Live%20Series%20Offline%20Add-on&amp;t_d=Quantum%20Break%20-%20Live%20Series%20Offline%20Add-on%20-%20FitGirl%20Repacks&amp;t_t=Quantum%20Break%20%E2%80%93%20Live%20Series%20Offline%20Add-on&amp;s_o=default#version=b040cc4fb9749f836fa39cae48953897">https://disqus.com/embed/comments/?base=default&amp;f=fitgirl-repacks-site&amp;t_i=2162%20http%3A%2F%2Ffitgirl-repacks.site%2F%3Fp%3D2162&amp;t_u=https%3A%2F%2Ffitgirl-repacks.site%2Fquantum-break-live-series-offline-add%2F&amp;t_e=Quantum%20Break%20%E2%80%93%20Live%20Series%20Offline%20Add-on&amp;t_d=Quantum%20Break%20-%20Live%20Series%20Offline%20Add-on%20-%20FitGirl%20Repacks&amp;t_t=Quantum%20Break%20%E2%80%93%20Live%20Series%20Offline%20Add-on&amp;s_o=default#version=b040cc4fb9749f836fa39cae48953897</a></p>
+<h1 id="setting-up-steam">setting up steam</h1>
+<p>steam build: 1.0.126.0307
+codex buiod: 1.0.118.7039 / 1.0.118.7029
+fitgirl: 1.0.118.7029 (savegames don&rsquo;t seem compatible)</p>
+<h1 id="codex-installer">codex installer:</h1>
+<p>export STEAM_COMPAT_DATA_PATH=~/.local/share/Steam/steamapps/compatdata/474960</p>
+<p>export STEAM_COMPAT_CLIENT_INSTALL_PATH=~/.local/share/Steam</p>
+<p>/home/deck/.local/share/Steam/steamapps/common/Proton - Experimental/proton&rdquo; run /run/media/deck/Quantum\ Break/setup.exe</p>
+<p>export STEAM_COMPAT_DATA_PATH=~/.local/share/Steam/steamapps/compatdata/474960</p>
+<p>export STEAM_COMPAT_CLIENT_INSTALL_PATH=~/.local/share/Steam</p>
+<p>/home/deck/.local/share/Steam/steamapps/common/Proton - Experimental/proton&quot; run /run/media/deck/Quantum\ Break/setup.exe</p>
+<p>install into z:///home/deck/.local/share/Steam/steamapps/common/QuantumBreak
+it chekcs free space. z: is root which doesn&rsquo;t work/is it&rsquo;s own mount, so you have to add home manually
+//home/deck/.local/share/Steam/steamapps/common/QuantumBreak
+open winefcg with protontricks:
+need to cd /run/media/deck/Quantum\ Break/</p>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="/tags/gaming/">Video Games</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="next" href="/posts/2024-01-scummvm-part3/">
+    <span class="title"><span>January 5, 2024</span> | Next »</span>
+    <br>
+    <span>Porting ScummVM to Webassembly, Part 3</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2024 <a href="/">Christian Kündig</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<script src="/js/quicklink.umd.min.js" data-no-instant
+></script>
+<script data-no-instant>
+  
+window.addEventListener('load', () => {
+  quicklink.listen();
+});
+</script>
+
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+</body>
+
+</html>
