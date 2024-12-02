@@ -1,9 +1,8 @@
 User-agent: *
-Disallow: /posts/2024-10-fixing-quantum-break/
-Disallow: /tags/
-Disallow: /tags/gaming/
 Disallow: /posts/2024-01-scummvm-part3/
 Disallow: /tags/scummvm/
+Disallow: /tags/
+Disallow: /tags/gaming/
 Disallow: /tags/web-development/
 Disallow: /posts/2023-11-tvheadend-hdhomerun/
 Disallow: /tags/personal-media-server/

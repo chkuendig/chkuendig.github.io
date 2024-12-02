@@ -11,20 +11,20 @@
     </image>
     <generator>Hugo -- 0.134.0</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 17 Oct 2024 11:41:01 +0100</lastBuildDate>
+    <lastBuildDate>Fri, 05 Jan 2024 00:00:24 +0100</lastBuildDate>
     <atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Video Games</title>
-      <link>/tags/gaming/</link>
-      <pubDate>Thu, 17 Oct 2024 11:41:01 +0100</pubDate>
-      <guid>/tags/gaming/</guid>
-      <description></description>
-    </item>
     <item>
       <title>ScummVM</title>
       <link>/tags/scummvm/</link>
       <pubDate>Fri, 05 Jan 2024 00:00:24 +0100</pubDate>
       <guid>/tags/scummvm/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Video Games</title>
+      <link>/tags/gaming/</link>
+      <pubDate>Fri, 05 Jan 2024 00:00:24 +0100</pubDate>
+      <guid>/tags/gaming/</guid>
       <description></description>
     </item>
     <item>
