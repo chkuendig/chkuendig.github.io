@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Video Games on Christian Kündig</title>
-    <link>/tags/gaming/</link>
+    <link>/tags/video-games/</link>
     <description>Recent content in Video Games on Christian Kündig</description>
     <image>
       <title>Christian Kündig</title>
@@ -12,7 +12,7 @@
     <generator>Hugo -- 0.145.0</generator>
     <language>en</language>
     <lastBuildDate>Mon, 04 Aug 2025 12:25:46 +0100</lastBuildDate>
-    <atom:link href="/tags/gaming/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="/tags/video-games/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Porting ScummVM to Webassembly, Part 4c - File Access</title>
       <link>/posts/2025-08-scummvm-part4c/</link>
