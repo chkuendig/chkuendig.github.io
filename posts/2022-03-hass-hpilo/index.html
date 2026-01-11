@@ -6,15 +6,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>HP iLO Integration for Home Assistant | Christian Kündig</title>
-<meta name="keywords" content="Home Assistant">
+<meta name="keywords" content="Home Automation">
 <meta name="description" content="
      
 
 
-I have been using a HP Microserver for a few years as my home lab and quite enjoy it. Unfortunately Home Assistant&rsquo;s existing HP Integrated Lights-Out (ILO) integration is very limited and does not have any configuration integration. I have started working on an updated version of this integration. For the initial release, I focused on three things:">
+I have been using a HP Microserver for a few years as my home lab and quite enjoy it. Unfortunately Home Assistant&rsquo;s existing HP Integrated Lights-Out (ILO) integration is very limited and does not have any configuration integration. I have started working on an updated version of this integration. For the initial release, I focused on three things:
+
+Auto-Discovery with config flow so no configuration.yaml editing will be required.
+Support for as many sensor types automatically out of the box.
+Updating python-hpilo.
+
+">
 <meta name="author" content="">
 <link rel="canonical" href="/posts/2022-03-hass-hpilo/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.8273041aea75a8d4cd905c37659d34b9762b2a312f2199a5db7a30041a7f20ff.css" integrity="sha256-gnMEGup1qNTNkFw3ZZ00uXYrKjEvIZml23owBBp/IP8=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4b4ba94b836af7c5b90f9d1ab2afae9f8e5e904c2a158eff92031324dea547d4.css" integrity="sha256-S0upS4Nq98W5D50asq&#43;un45ekEwqFY7/kgMTJN6lR9Q=" rel="preload stylesheet" as="style">
 <link rel="icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -90,27 +96,34 @@ I have been using a HP Microserver for a few years as my home lab and quite enjo
           gtag('js', new Date());
           gtag('config', 'G-L4NRERPTCT');
         }
-      </script><meta property="og:title" content="HP iLO Integration for Home Assistant" />
-<meta property="og:description" content="
-     
-
-
-I have been using a HP Microserver for a few years as my home lab and quite enjoy it. Unfortunately Home Assistant&rsquo;s existing HP Integrated Lights-Out (ILO) integration is very limited and does not have any configuration integration. I have started working on an updated version of this integration. For the initial release, I focused on three things:" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="/posts/2022-03-hass-hpilo/" />
-<meta property="og:image" content="/posts/2022-03-hass-hpilo/screenshot_ilo_discovery.png" />
-<meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-02-08T11:42:13+01:00" />
-<meta property="article:modified_time" content="2022-02-08T11:42:13+01:00" />
-<meta property="fb:admins" content="about.me" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="/posts/2022-03-hass-hpilo/screenshot_ilo_discovery.png" />
-<meta name="twitter:title" content="HP iLO Integration for Home Assistant"/>
+      </script><meta property="og:url" content="/posts/2022-03-hass-hpilo/">
+  <meta property="og:site_name" content="Christian Kündig">
+  <meta property="og:title" content="HP iLO Integration for Home Assistant">
+  <meta property="og:description" content=" I have been using a HP Microserver for a few years as my home lab and quite enjoy it. Unfortunately Home Assistant’s existing HP Integrated Lights-Out (ILO) integration is very limited and does not have any configuration integration. I have started working on an updated version of this integration. For the initial release, I focused on three things:
+Auto-Discovery with config flow so no configuration.yaml editing will be required. Support for as many sensor types automatically out of the box. Updating python-hpilo. ">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2022-02-08T11:42:13+01:00">
+    <meta property="article:modified_time" content="2022-02-08T11:42:13+01:00">
+    <meta property="article:tag" content="Home Automation">
+      <meta property="og:image" content="/posts/2022-03-hass-hpilo/screenshot_ilo_discovery.png">
+        <meta property="fb:admins" content="about.me">
+  <meta name="fediverse:creator" content="@chkuendig@ioc.exchange">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="/posts/2022-03-hass-hpilo/screenshot_ilo_discovery.png">
+<meta name="twitter:title" content="HP iLO Integration for Home Assistant">
 <meta name="twitter:description" content="
      
 
 
-I have been using a HP Microserver for a few years as my home lab and quite enjoy it. Unfortunately Home Assistant&rsquo;s existing HP Integrated Lights-Out (ILO) integration is very limited and does not have any configuration integration. I have started working on an updated version of this integration. For the initial release, I focused on three things:"/>
+I have been using a HP Microserver for a few years as my home lab and quite enjoy it. Unfortunately Home Assistant&rsquo;s existing HP Integrated Lights-Out (ILO) integration is very limited and does not have any configuration integration. I have started working on an updated version of this integration. For the initial release, I focused on three things:
+
+Auto-Discovery with config flow so no configuration.yaml editing will be required.
+Support for as many sensor types automatically out of the box.
+Updating python-hpilo.
+
+">
 
 
 <script type="application/ld+json">
@@ -139,9 +152,9 @@ I have been using a HP Microserver for a few years as my home lab and quite enjo
   "@type": "BlogPosting",
   "headline": "HP iLO Integration for Home Assistant",
   "name": "HP iLO Integration for Home Assistant",
-  "description": " I have been using a HP Microserver for a few years as my home lab and quite enjoy it. Unfortunately Home Assistant\u0026rsquo;s existing HP Integrated Lights-Out (ILO) integration is very limited and does not have any configuration integration. I have started working on an updated version of this integration. For the initial release, I focused on three things:\n",
+  "description": " I have been using a HP Microserver for a few years as my home lab and quite enjoy it. Unfortunately Home Assistant\u0026rsquo;s existing HP Integrated Lights-Out (ILO) integration is very limited and does not have any configuration integration. I have started working on an updated version of this integration. For the initial release, I focused on three things:\nAuto-Discovery with config flow so no configuration.yaml editing will be required. Support for as many sensor types automatically out of the box. Updating python-hpilo. ",
   "keywords": [
-    "Home Assistant"
+    "Home Automation"
   ],
   "articleBody": " I have been using a HP Microserver for a few years as my home lab and quite enjoy it. Unfortunately Home Assistant’s existing HP Integrated Lights-Out (ILO) integration is very limited and does not have any configuration integration. I have started working on an updated version of this integration. For the initial release, I focused on three things:\nAuto-Discovery with config flow so no configuration.yaml editing will be required. Support for as many sensor types automatically out of the box. Updating python-hpilo. Discovery For Auto Discovery to work, it has to be enabled in the iLO admin UI: For development \u0026 testing it also makes sense to set the interval low enough (default seems to be 10min)\nILO servers are announcing themselves on a few of SSDP search targets:\nurn:schemas-upnp-org:device:Basic:1 with details at http://[IP]/upnp/BasicDevice.xml (this implements the UPnP Basic:1.0 Device Definition standard ). Luckily Home Assistant already implements this as part of the existing SSDP discovery mechanism. urn:dmtf-org:service:redfish-rest:1 with details at https://[IP]/redfish/v1/ (this implements the DMTF’s Redfish Standard). See also https://stackoverflow.com/a/39153603 and https://hewlettpackard.github.io/ilo-rest-api-docs/ilo5/?shell#introduction. This could be added to Home Assistant with python-redfish-library urn:www-hp-com:service:Federation:2 - not clear where the details for this will end up at. I also didn’t look into the underlying standard. These all return slightly different data, but none seems to include all the information necessary (i.e. the correct UUID or the port/protocol of the REST api ).\nBasic Device seems to be the one most common and is already supported by Home Assistant, so I picked that.\nNext Steps Configuration The goal is to implement a clean config flow supporting a few things:\nRegular setup flow for discovered devices as well as a manual setup flow. Update of IPs and Hostname from discovery in case any of them change. Import of existing sensors from configuration.yaml It should be possible to enable/disable what sensors and other entities/platforms are added. (since this can quickly get out of hand) Platforms This component will set up the following platforms.\nPlatform Description binary_sensor Show something True or False. sensor Show info from blueprint API. switch Switch something True or False. The existing sensors only implement the sensor entity. Ideally a few more things would be nice:\nAutomatically generate all supported entities automatically. Device entity with as much information as possile about the system configuration Binary sensor for firmware update status, power Buttons for Firmware upgrades and reboots/restarts etc. Switches for Power on/Off Fan entities for fans There’s already two PRs to improve on this: and so I’ll see where these go as well and then update the integration.\nCaching Startup and refresh is currently not optimized, slowing this integration down quite a bit. It also seems that data isn’t shared between sensors, meaning the rate limiting is resulting in very coarse grained data once there’s more then a handful of sensors active.\nTests There’s actually no tests at all in Home Assistant for this component right now. Most features should be able to be tested with the existing mock data in python-hpilo.\n",
   "wordCount" : "500",
@@ -211,15 +224,14 @@ I have been using a HP Microserver for a few years as my home lab and quite enjo
 <li>Support for as many sensor types automatically out of the box.</li>
 <li>Updating <a href="https://pypi.org/project/python-hpilo/">python-hpilo</a>.</li>
 </ul>
-<p><a href="https://github.com/chkuendig/hass-hp_ilo-beta" class="github-card"><img src="/posts/2022-03-hass-hpilo/hass-hp_ilo-beta_11496865343647443782.png"></a></p>
+<p><a href="https://github.com/chkuendig/hass-hp_ilo-beta" class="github-card"><img src="/posts/2022-03-hass-hpilo/hass-hp_ilo-beta_11496865343647443782.png" alt="🚥 Updated HP Integrated Lights Out (iLO) component for Home Assistant "></a></p>
 <h2 id="discovery">Discovery</h2>
 <p>For Auto Discovery to work, it has to be enabled in the iLO admin UI:
-<img loading="lazy" src="screenshot_ilo_discovery.png" alt="ILO Screenshot"  />
-</p>
+<img alt="ILO Screenshot" loading="lazy" src="/posts/2022-03-hass-hpilo/screenshot_ilo_discovery.png"></p>
 <p>For development &amp; testing it also makes sense to set the interval low enough (default seems to be 10min)</p>
 <p>ILO servers are announcing themselves on a few of SSDP search targets:</p>
 <ul>
-<li><code>urn:schemas-upnp-org:device:Basic:1</code> with details at <code>http://[IP]/upnp/BasicDevice.xml</code> (this implements the <a href="http://upnp.org/specs/basic/UPnP-basic-Basic-v1-Device.pdf">UPnP
+<li><code>urn:schemas-upnp-org:device:Basic:1</code> with details at <code>http://[IP]/upnp/BasicDevice.xml</code> (this implements the <a href="https://upnp.org/specs/basic/UPnP-basic-Basic-v1-Device.pdf">UPnP
 Basic:1.0 Device Definition</a> standard ). Luckily Home Assistant already implements this as part of the existing SSDP discovery mechanism.</li>
 <li><code>urn:dmtf-org:service:redfish-rest:1</code> with details at <code>https://[IP]/redfish/v1/</code> (this implements the <a href="https://www.dmtf.org/standards/redfish">DMTF’s Redfish Standard</a>). See also <a href="https://stackoverflow.com/a/39153603">https://stackoverflow.com/a/39153603</a> and <a href="https://hewlettpackard.github.io/ilo-rest-api-docs/ilo5/?shell#introduction">https://hewlettpackard.github.io/ilo-rest-api-docs/ilo5/?shell#introduction</a>. This could be added to Home Assistant with <a href="https://pypi.org/project/redfish/">python-redfish-library</a></li>
 <li><code>urn:www-hp-com:service:Federation:2</code> - not clear where the details for this will end up at. I also didn&rsquo;t look into the underlying standard.</li>
@@ -240,22 +252,22 @@ Basic:1.0 Device Definition</a> standard ). Luckily Home Assistant already imple
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Platform</th>
-          <th style="text-align: left">Description</th>
+          <th>Platform</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><code>binary_sensor</code></td>
-          <td style="text-align: left">Show something <code>True</code> or <code>False</code>.</td>
+          <td><code>binary_sensor</code></td>
+          <td>Show something <code>True</code> or <code>False</code>.</td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>sensor</code></td>
-          <td style="text-align: left">Show info from blueprint API.</td>
+          <td><code>sensor</code></td>
+          <td>Show info from blueprint API.</td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>switch</code></td>
-          <td style="text-align: left">Switch something <code>True</code> or <code>False</code>.</td>
+          <td><code>switch</code></td>
+          <td>Switch something <code>True</code> or <code>False</code>.</td>
       </tr>
   </tbody>
 </table>
@@ -268,9 +280,7 @@ Basic:1.0 Device Definition</a> standard ). Luckily Home Assistant already imple
 <li>Switches for Power on/Off</li>
 <li>Fan entities for fans</li>
 </ul>
-<p>There&rsquo;s already two PRs to improve on this:  
-         <a class="github-button" data-color-scheme="" href="https://github.com/home-assistant/core/pull/65900" data-icon="octicon-git-pull-request-closed" data-size="small" data-text='<b>core#65900:</b>&nbsp;Add statistics capabilities to hp_ilo integration'></a> and  
-         <a class="github-button" data-color-scheme="" href="https://github.com/home-assistant/core/pull/32209" data-icon="octicon-git-pull-request-closed" data-size="small" data-text='<b>core#32209:</b>&nbsp;Add switch platform for hp ilo integration'></a> so I&rsquo;ll see where these go as well and then update the integration.</p>
+<p>There&rsquo;s already two PRs to improve on this:  <a class="github-button" data-color-scheme="" href="https://github.com/home-assistant/core/pull/65900" data-icon="octicon-git-pull-request-closed" data-size="small" data-text='<b>core#65900:</b>&nbsp;Add statistics capabilities to hp_ilo integration'></a> and  <a class="github-button" data-color-scheme="" href="https://github.com/home-assistant/core/pull/32209" data-icon="octicon-git-pull-request-closed" data-size="small" data-text='<b>core#32209:</b>&nbsp;Add switch platform for hp ilo integration'></a> so I&rsquo;ll see where these go as well and then update the integration.</p>
 <h3 id="caching">Caching</h3>
 <p>Startup and refresh is currently not optimized, slowing this integration down quite a bit. It also seems that data isn&rsquo;t shared between sensors, meaning the rate limiting is resulting in very coarse grained data once there&rsquo;s more then a handful of sensors active.</p>
 <h3 id="tests">Tests</h3>
@@ -281,7 +291,7 @@ Most features should be able to be tested with the existing mock data in <code>p
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="/tags/home-assistant/">Home Assistant</a></li>
+      <li><a href="/tags/home-automation/">Home Automation</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="/posts/2022-05-scummvm-part2/">
@@ -301,7 +311,7 @@ Most features should be able to be tested with the existing mock data in <code>p
     </main>
     
 <footer class="footer">
-        <span>&copy; 2024 <a href="/">Christian Kündig</a></span> · 
+        <span>&copy; 2026 <a href="/">Christian Kündig</a></span> · 
 
     <span>
         Powered by

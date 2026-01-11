@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Porting ScummVM to Webassembly, Part 4b - Sound Improvements | Christian Kündig</title>
+<meta name="keywords" content="Gaming, ScummVM, Web Development">
+<meta name="description" content="Diving deep into the different audio options ScummVM provides and making sure they work in the browser.">
+<meta name="author" content="">
+<link rel="canonical" href="/posts/2025-08-scummvm-part4b/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4b4ba94b836af7c5b90f9d1ab2afae9f8e5e904c2a158eff92031324dea547d4.css" integrity="sha256-S0upS4Nq98W5D50asq&#43;un45ekEwqFY7/kgMTJN6lR9Q=" rel="preload stylesheet" as="style">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="mask-icon" href="/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="/posts/2025-08-scummvm-part4b/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
+<link href='//fonts.googleapis.com/css?family=Mulish' rel='stylesheet' type='text/css'>
+
+<script src="/js/github-buttons.min.js" data-no-instant
+></script>
+
+<script>
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  });
+</script>
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4NRERPTCT"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-L4NRERPTCT');
+        }
+      </script><meta property="og:url" content="/posts/2025-08-scummvm-part4b/">
+  <meta property="og:site_name" content="Christian Kündig">
+  <meta property="og:title" content="Porting ScummVM to Webassembly, Part 4b - Sound Improvements">
+  <meta property="og:description" content="Diving deep into the different audio options ScummVM provides and making sure they work in the browser.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-08-03T12:25:46+01:00">
+    <meta property="article:modified_time" content="2025-08-03T12:25:46+01:00">
+    <meta property="article:tag" content="Video Games">
+    <meta property="article:tag" content="ScummVM">
+    <meta property="article:tag" content="Web Development">
+      <meta property="og:image" content="/images/bg.jpg">
+        <meta property="fb:admins" content="about.me">
+  <meta name="fediverse:creator" content="@chkuendig@ioc.exchange">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="/images/bg.jpg">
+<meta name="twitter:title" content="Porting ScummVM to Webassembly, Part 4b - Sound Improvements">
+<meta name="twitter:description" content="Diving deep into the different audio options ScummVM provides and making sure they work in the browser.">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Personal Projects",
+      "item": "/posts/"
+    }
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Porting ScummVM to Webassembly, Part 4b - Sound Improvements",
+      "item": "/posts/2025-08-scummvm-part4b/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Porting ScummVM to Webassembly, Part 4b - Sound Improvements",
+  "name": "Porting ScummVM to Webassembly, Part 4b - Sound Improvements",
+  "description": "Diving deep into the different audio options ScummVM provides and making sure they work in the browser.",
+  "keywords": [
+    "Gaming", "ScummVM", "Web Development"
+  ],
+  "articleBody": "Introduction This will be a bit of a deep dive into how music works and worked in video games. Let’s start with the present (and past within the 21st century): Audio is generally recorded or digitally generated and stored as waveform files. It can be compressed in various ways (mp3, aac, ogg, ac3 etc), but in the end, you can imagine it being the same thing as what’s on a cassette tape or CD (if you are old enough to remember either - otherwise it’s just what’s happening when you press that play button in Spotify).\nTo support games using this (some older ones actually just put CD audio on the CD-ROM as additional tracks), ScummVM supports a ton of audio codecs (as well as video codecs for the same thing in video).\nNow on how this worked in the late 80s to early 90s - it was really hard for a computer to play music as we intend today. Computers back then did not have the space (A song in CD quality is 20 megabytes, a floppy disk can store 1.44 of them), and also not the processing power to do any realtime de-compression with its weak CPU.\nSo how did old DOS games play music? They used the sequence music - the game tells the computer which note to play for how long and how strong to play it. Kind of like sheet music, but for computers. When you sequence music, it’s your computer that makes the sound from scratch. And the part responsible for making the sound is the sound card - A sort of a synthesizer but for your computer.\nGenerally, the available sound cards can be broken down into three categories:\nPC Speaker: This was built into any PC. It’s responsible for outputting the “beeps”. It can output square wave sounds and it’s monophonic (it can play one note at a time). This was very limited, but some composers from the era managed to do something great with it. AdLib / Soundblaster: This probably was the standard gaming sound card for that era. If you played those games as a kid, you probably had this one. This sound card uses the Yamaha OPL2 chip. It’s the same chip that you can find in a lot of Yamaha keyboards from the era. To make sound, it uses FM synthesis or frequency modulation. The Sound Blaster was a later sound card with more features, but most of the time it plays in compatible AdLib mode, so the sound doesn’t change. MT32: The Roland MT-32 was a professional sound module released in the late 80s. It was the actual synthesizer that the composers used to compose the soundtrack of the games. It uses LA synthesis, linear arithmetic. It combines really short samples for the initial part of the sound with subtractive synthesis for the sustain part of the sound. This gives you the most 80s cheesy lush sounds and we all love it. If you want to dive deeper into this, this YouTube video was really helpful: https://www.youtube.com/watch?time_continue=179\u0026v=R14XeuTXwaU\u0026embeds_referring_euri=https%3A%2F%2Fnotegpt.io%2F\u0026embeds_referring_origin=https%3A%2F%2Fnotegpt.io\u0026source_ve_path=MjM4NTE\nMIDI MIDI (Musical Instrument Digital Interface) is a protocol that allows electronic musical instruments, computers, and other devices to communicate and exchange information, but it doesn’t generate sound on its own. Instead, MIDI transmits performance data (like note information, velocity, and control changes) that tells a receiving device how to produce sound using its own internal sound engine or virtual instrument. You can imagine it as a type of music notation, instead of the actual waveforms building the music.\nAll of this means, that how MIDI music sounds, actually depends a lot on the (physical or virtual) device used.\nScummVM implementation The default: OPL Emulation By default, ScummVM comes with multiple OPL emulators which can be used directly if the game supports it, or to synthesize MIDI music.\nAdLib devices do not use MIDI. They instead have a chip that produces sound through FM synthesis. While some games do store their audio data using a MIDI-derived format, this is converted by the game to work with the AdLib chip. ScummVM emulates a few different AdLib configurations, and selects the most appropriate for the game:\nThe original AdLib and SoundBlaster card had one OPL2 chip. The SoundBlaster Pro 1 had two OPL2 chips The SoundBlaster Pro 2 and 16 had an OPL3 chip. The AdLib emulator setting offers MAME, DOSBox and Nuked emulation, with MAME being the least accurate and using the least CPU power, and Nuked being the most accurate and also using the most CPU power - DOSBox is somewhere in between.\nEmbedded Software Synthesizers for MIDI FluidSynth is a popular open-source software synthesizer that can play MIDI files using SoundFont (.sf2) files. For the Emscripten build, I opted to use FluidLite, which is a lightweight version of FluidSynth that’s better suited for web deployment due to its smaller size and reduced dependencies.\nI’ve included a basic SoundFont file in the build, so MIDI music works out of the box without requiring users to download additional files. This provides a good balance between file size and audio quality.\n- AUDIO: Add a basic soundfont for fluidlite (August 2) - AUDIO: EMSCRIPTEN: Add fluidlite support (August 2) Roland MT-32 and CM-32L emulation ScummVM includes Munt, a software synthesizer that emulates the Roland MT-32, MT-100, and CM-32L audio modules. These were high-end audio devices used by many game composers in the late 80s and early 90s, and many classic adventure games sound significantly better when played with MT-32 emulation.\nThe good news is that Munt works perfectly in the Emscripten build without any additional changes needed. This means you can experience games like Monkey Island and Indiana Jones with their original intended audio quality, right in your browser.\nUsing actual MIDI devices: Web MIDI For those who own physical MIDI hardware, I’ve added support for the Web MIDI API, which allows the browser to communicate with MIDI devices connected to your computer. This means you can use a real hardware synthesizer or MIDI keyboard to play the music from classic games.\nI unfortunately threw away the keyboard I had as a kid, so I’m testing this with software synthesizers. But if you have actual MIDI hardware, you can now use it directly in the browser version of ScummVM!\nNote: If you have an MT-32, this might not fully work yet as my WebMIDI driver is missing the SysEx extension, which is needed for some MT-32 specific features.\nYou can test if your MIDI setup works using this online tool: https://www.onlinemusictools.com/webmiditest/\n- MIDI: EMSCRIPTEN: Add Web MIDI Driver (February 13)\nRetroWave: Using a Real OPL chip For the ultimate authenticity, I’ve added support for the RetroWave OPL3 hardware device. This is a modern USB device that contains an actual Yamaha OPL3 chip - the same chip that was in the Sound Blaster Pro 2 and Sound Blaster 16 cards.\nUsing the Web Serial API, the browser can now communicate directly with the RetroWave hardware, meaning you can hear the authentic FM synthesis sound of a real OPL3 chip while playing games in your browser. This is particularly exciting for enthusiasts who want the most accurate retro gaming experience possible.\n- AUDIO: EMSCRIPTEN: Add RetroWave with Web Serial API (May 5)\nText to Speech Text-to-Speech (TTS) support is an important accessibility feature in ScummVM. It allows players with visual impairments to have the game’s text read aloud, making adventure games much more accessible. This feature is particularly valuable for text-heavy games where reading subtitles is essential to gameplay.\nFor the Emscripten build, I’ve integrated the Web Speech API, which provides high-quality text-to-speech capabilities directly in the browser. The Web Speech API uses the operating system’s built-in voices, so the quality and available languages depend on what’s installed on the user’s system.\nYou can test the Web Speech API here: https://mdn.github.io/dom-examples/web-speech-api/speak-easy-synthesis/\nThis implementation makes ScummVM more accessible to a wider audience and aligns with the project’s commitment to inclusive gaming.\n- BACKENDS: EMSCRIPTEN: Fix missing TTS include (June 30) - EMSCRIPTEN: TTS: Add TTS based on Web Speech API (May 20) Various other libraries I also spent time adding and cleaning up various audio and video libraries to improve codec support:\nAdded libraries:\n- DISTS: EMSCRIPTEN: Add libvpx to build (February 4)\nlibvpx is Google’s VP8/VP9 video codec library. Adding this improves video playback support for games that use these modern codecs.\nMusic Tracker support:\nMusic Trackers are a unique way of creating music that was popular in the demoscene and some games. libmikmod is a portable sound library that can play module music files in formats like MOD, S3M, IT, and XM.\n- DISTS: EMSCRIPTEN: Add libmikmod to build (February 10) - DISTS: EMSCRIPTEN: Add libmpcdec to build (February 12) URL updates and cleanup:\nSeveral libraries had their source archives disappear from SourceForge, so I updated the build to use VideoLAN’s maintained forks:\n- DISTS: EMSCRIPTEN: Change the upstream URL for a52dec to VideoLAN (July 21)\n- DISTS: EMSCRIPTEN: Disable unused audio components (February 4) - DISTS: EMSCRIPTEN: Change the upstream URL for libmpeg2 to VideoLAN (June 30) I disabled several audio components that were being built but weren’t actually usable in the browser environment: timidity (requires external patch sets), sndio (OpenBSD audio framework), and /dev/snd/seq (Linux ALSA sequencer). This reduces build time and output size.\n- EMSCRIPTEN: CI: Build with more libraries (July 26)\nI also took the chance to switch the emscripten versions for libvorbis and libogg to directly use properly versioned upstream releases: https://github.com/emscripten-core/emscripten/pull/25274\n",
+  "wordCount" : "1584",
+  "inLanguage": "en",
+  "image": "/images/bg.jpg","datePublished": "2025-08-03T12:25:46+01:00",
+  "dateModified": "2025-08-03T12:25:46+01:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/posts/2025-08-scummvm-part4b/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Christian Kündig",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="/" accesskey="h" title="Christian Kündig (Alt + H)">Christian Kündig</a>
+            <div class="logo-switches">
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="/posts/" title="Personal Projects">
+                    <span>Personal Projects</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Porting ScummVM to Webassembly, Part 4b - Sound Improvements
+    </h1>
+    <div class="post-meta"><span title='2025-08-03 12:25:46 +0100 +0100'>August 3, 2025</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h1 id="introduction">Introduction</h1>
+<p>This will be a bit of a deep dive into how music works and worked in video games. Let&rsquo;s start with the present (and past within the 21st century): Audio is generally recorded or digitally generated and stored as waveform files. It can be compressed in various ways (mp3, aac, ogg, ac3 etc), but in the end, you can imagine it being the same thing as what&rsquo;s on a cassette tape or CD (if you are old enough to remember either - otherwise it&rsquo;s just what&rsquo;s happening when you press that play button in Spotify).</p>
+<p>To support games using this (some older ones actually just put CD audio on the CD-ROM as additional tracks), ScummVM supports a ton of audio codecs (as well as video codecs for the same thing in video).</p>
+<p>Now on how this worked in the late 80s to early 90s - it was really hard for a computer to play music as we intend today. Computers back then did not have the space (A song in CD quality is 20 megabytes, a floppy disk can store 1.44 of them), and also not the processing power to do any realtime de-compression with its weak CPU.</p>
+<p>So how did old DOS games play music? They used the sequence music - the game tells the computer which note to play for how long and how strong to play it. Kind of like sheet music, but for computers. When you sequence music, it&rsquo;s your computer that makes the sound from scratch. And the part responsible for making the sound is the sound card - A sort of a synthesizer but for your computer.</p>
+<p>Generally, the available sound cards can be broken down into three categories:</p>
+<ul>
+<li>PC Speaker: This was built into any PC. It&rsquo;s responsible for outputting the &ldquo;beeps&rdquo;. It can output square wave sounds and it&rsquo;s monophonic (it can play one note at a time). This was very limited, but some composers from the era managed to do something great with it.</li>
+<li>AdLib / Soundblaster: This probably was the standard gaming sound card for that era. If you played those games as a kid, you probably had this one. This sound card uses the Yamaha OPL2 chip. It&rsquo;s the same chip that you can find in a lot of Yamaha keyboards from the era. To make sound, it uses FM synthesis or frequency modulation. The Sound Blaster was a later sound card with more features, but most of the time it plays in compatible AdLib mode, so the sound doesn&rsquo;t change.</li>
+<li>MT32: The Roland MT-32 was a professional sound module released in the late 80s. It was the actual synthesizer that the composers used to compose the soundtrack of the games. It uses LA synthesis, linear arithmetic. It combines really short samples for the initial part of the sound with subtractive synthesis for the sustain part of the sound. This gives you the most 80s cheesy lush sounds and we all love it.</li>
+</ul>
+<p>If you want to dive deeper into this, this YouTube video was really helpful:
+<a href="https://www.youtube.com/watch?time_continue=179&amp;v=R14XeuTXwaU&amp;embeds_referring_euri=https%3A%2F%2Fnotegpt.io%2F&amp;embeds_referring_origin=https%3A%2F%2Fnotegpt.io&amp;source_ve_path=MjM4NTE">https://www.youtube.com/watch?time_continue=179&amp;v=R14XeuTXwaU&amp;embeds_referring_euri=https%3A%2F%2Fnotegpt.io%2F&amp;embeds_referring_origin=https%3A%2F%2Fnotegpt.io&amp;source_ve_path=MjM4NTE</a></p>
+<h1 id="midi">MIDI</h1>
+<p>MIDI (Musical Instrument Digital Interface) is a protocol that allows electronic musical instruments, computers, and other devices to communicate and exchange information, but it doesn&rsquo;t generate sound on its own. Instead, MIDI transmits performance data (like note information, velocity, and control changes) that tells a receiving device how to produce sound using its own internal sound engine or virtual instrument. You can imagine it as a type of music notation, instead of the actual waveforms building the music.</p>
+<p>All of this means, that how MIDI music sounds, actually depends a lot on the (physical or virtual) device used.</p>
+<h1 id="scummvm-implementation">ScummVM implementation</h1>
+<h2 id="the-default-opl-emulation">The default: OPL Emulation</h2>
+<p>By default, ScummVM comes with multiple OPL emulators which can be used directly if the game supports it, or to synthesize MIDI music.</p>
+<p>AdLib devices do not use MIDI. They instead have a chip that produces sound through FM synthesis. While some games do store their audio data using a MIDI-derived format, this is converted by the game to work with the AdLib chip. ScummVM emulates a few different AdLib configurations, and selects the most appropriate for the game:</p>
+<pre><code>The original AdLib and SoundBlaster card had one OPL2 chip.
+
+The SoundBlaster Pro 1 had two OPL2 chips
+
+The SoundBlaster Pro 2 and 16 had an OPL3 chip.
+</code></pre>
+<p>The AdLib emulator setting offers MAME, DOSBox and Nuked emulation, with MAME being the least accurate and using the least CPU power, and Nuked being the most accurate and also using the most CPU power - DOSBox is somewhere in between.</p>
+<h2 id="embedded-software-synthesizers-for-midi">Embedded Software Synthesizers for MIDI</h2>
+<p>FluidSynth is a popular open-source software synthesizer that can play MIDI files using SoundFont (.sf2) files. For the Emscripten build, I opted to use FluidLite, which is a lightweight version of FluidSynth that&rsquo;s better suited for web deployment due to its smaller size and reduced dependencies.</p>
+<p>I&rsquo;ve included a basic SoundFont file in the build, so MIDI music works out of the box without requiring users to download additional files. This provides a good balance between file size and audio quality.</p>
+<ul>
+<li><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/fa1d1010274ab1fc704cd175d8f06b8f08e2caab" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@fa1d101:</b>&nbsp;AUDIO: Add a basic soundfont for fluidlite'></a> - AUDIO: Add a basic soundfont for fluidlite (August 2)</li>
+<li><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/85cc85814ca7472afe77baeab03fa62efaad3c36" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@85cc858:</b>&nbsp;AUDIO: EMSCRIPTEN: Add fluidlite support'></a> - AUDIO: EMSCRIPTEN: Add fluidlite support (August 2)</li>
+</ul>
+<h2 id="roland-mt-32-and-cm-32l-emulation">Roland MT-32 and CM-32L emulation</h2>
+<p>ScummVM includes <a href="https://munt.sourceforge.net/">Munt</a>, a software synthesizer that emulates the Roland MT-32, MT-100, and CM-32L audio modules. These were high-end audio devices used by many game composers in the late 80s and early 90s, and many classic adventure games sound significantly better when played with MT-32 emulation.</p>
+<p>The good news is that Munt works perfectly in the Emscripten build without any additional changes needed. This means you can experience games like Monkey Island and Indiana Jones with their original intended audio quality, right in your browser.</p>
+<h2 id="using-actual-midi-devices-web-midi">Using actual MIDI devices: Web MIDI</h2>
+<p>For those who own physical MIDI hardware, I&rsquo;ve added support for the <a href="https://www.w3.org/TR/webmidi/">Web MIDI API</a>, which allows the browser to communicate with MIDI devices connected to your computer. This means you can use a real hardware synthesizer or MIDI keyboard to play the music from classic games.</p>
+<p>I unfortunately threw away the keyboard I had as a kid, so I&rsquo;m testing this with software synthesizers. But if you have actual MIDI hardware, you can now use it directly in the browser version of ScummVM!</p>
+<p><strong>Note:</strong> If you have an MT-32, this might not fully work yet as my WebMIDI driver is missing the <a href="https://blog.landr.com/midi-sysex/">SysEx</a> extension, which is needed for some MT-32 specific features.</p>
+<p>You can test if your MIDI setup works using this online tool: <a href="https://www.onlinemusictools.com/webmiditest/">https://www.onlinemusictools.com/webmiditest/</a></p>
+<p><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/412c8f248edd3f42225ae70b9731e89832a42953" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@412c8f2:</b>&nbsp;MIDI: EMSCRIPTEN: Add Web MIDI Driver'></a> - MIDI: EMSCRIPTEN: Add Web MIDI Driver (February 13)</p>
+<h2 id="retrowave-using-a-real-opl-chip">RetroWave: Using a Real OPL chip</h2>
+<p>For the ultimate authenticity, I&rsquo;ve added support for the <a href="https://www.serdashop.com/retrowave-opl3-express">RetroWave OPL3</a> hardware device. This is a modern USB device that contains an actual Yamaha OPL3 chip - the same chip that was in the Sound Blaster Pro 2 and Sound Blaster 16 cards.</p>
+<p>Using the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API">Web Serial API</a>, the browser can now communicate directly with the RetroWave hardware, meaning you can hear the authentic FM synthesis sound of a real OPL3 chip while playing games in your browser. This is particularly exciting for enthusiasts who want the most accurate retro gaming experience possible.</p>
+<p><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/7da7cc9f9e205f8455482faba6943c97133049b0" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@7da7cc9:</b>&nbsp;AUDIO: EMSCRIPTEN: Add RetroWave with Web Serial API'></a> - AUDIO: EMSCRIPTEN: Add RetroWave with Web Serial API (May 5)</p>
+<h1 id="text-to-speech">Text to Speech</h1>
+<p>Text-to-Speech (TTS) support is an important accessibility feature in ScummVM. It allows players with visual impairments to have the game&rsquo;s text read aloud, making adventure games much more accessible. This feature is particularly valuable for text-heavy games where reading subtitles is essential to gameplay.</p>
+<p>For the Emscripten build, I&rsquo;ve integrated the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API">Web Speech API</a>, which provides high-quality text-to-speech capabilities directly in the browser. The Web Speech API uses the operating system&rsquo;s built-in voices, so the quality and available languages depend on what&rsquo;s installed on the user&rsquo;s system.</p>
+<p>You can test the Web Speech API here: <a href="https://mdn.github.io/dom-examples/web-speech-api/speak-easy-synthesis/">https://mdn.github.io/dom-examples/web-speech-api/speak-easy-synthesis/</a></p>
+<p>This implementation makes ScummVM more accessible to a wider audience and aligns with the project&rsquo;s commitment to inclusive gaming.</p>
+<ul>
+<li><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/cbd1fb7f814c70ab83c6fa9c4f66a1e9d5a00b0d" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@cbd1fb7:</b>&nbsp;BACKENDS: EMSCRIPTEN: Fix missing TTS include'></a> - BACKENDS: EMSCRIPTEN: Fix missing TTS include (June 30)</li>
+<li><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/c8102c4c6f7fa4450972544bc35314eb2639c0de" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@c8102c4:</b>&nbsp;EMSCRIPTEN: TTS: Add TTS based on Web Speech API'></a> - EMSCRIPTEN: TTS: Add TTS based on Web Speech API (May 20)</li>
+</ul>
+<h1 id="various-other-libraries">Various other libraries</h1>
+<p>I also spent time adding and cleaning up various audio and video libraries to improve codec support:</p>
+<p><strong>Added libraries:</strong></p>
+<p><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/e4da1028635a859c6dd011c91587390e3c2a5439" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@e4da102:</b>&nbsp;DISTS: EMSCRIPTEN: Add libvpx to build'></a> - DISTS: EMSCRIPTEN: Add libvpx to build (February 4)</p>
+<p><a href="https://www.webmproject.org/code/">libvpx</a> is Google&rsquo;s VP8/VP9 video codec library. Adding this improves video playback support for games that use these modern codecs.</p>
+<p><strong>Music Tracker support:</strong></p>
+<p><a href="https://en.wikipedia.org/wiki/Music_tracker">Music Trackers</a> are a unique way of creating music that was popular in the demoscene and some games. libmikmod is a portable sound library that can play module music files in formats like MOD, S3M, IT, and XM.</p>
+<ul>
+<li><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/a270658d0d2c4ea473be807375d2e697231dc16a" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@a270658:</b>&nbsp;DISTS: EMSCRIPTEN: Add libmikmod to build'></a> - DISTS: EMSCRIPTEN: Add libmikmod to build (February 10)</li>
+<li><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/b1ffb2c4381dc488d494fca4cac0366a0d0c37f3" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@b1ffb2c:</b>&nbsp;DISTS: EMSCRIPTEN: Add libmpcdec to build'></a> - DISTS: EMSCRIPTEN: Add libmpcdec to build (February 12)</li>
+</ul>
+<p><strong>URL updates and cleanup:</strong></p>
+<p>Several libraries had their source archives disappear from SourceForge, so I updated the build to use VideoLAN&rsquo;s maintained forks:</p>
+<p><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/a52b6356d31da0178d6b84c1087e06065b01f7b7" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@a52b635:</b>&nbsp;DISTS: EMSCRIPTEN: Change the upstream URL for a52dec to VideoLAN
+
+The original a52dec source archive is gone from SF.NET, so use the
+ a52dec sources from the VideoLAN git repo instead'></a> - DISTS: EMSCRIPTEN: Change the upstream URL for a52dec to VideoLAN (July 21)</p>
+<ul>
+<li><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/bf9077feecb51543153f30308fcf3c8836cbe6b7" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@bf9077f:</b>&nbsp;DISTS: EMSCRIPTEN: Disable unused audio components'></a> - DISTS: EMSCRIPTEN: Disable unused audio components (February 4)</li>
+<li><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/bf3ee0774eba48cb70b816def7a98f4743bd0600" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@bf3ee07:</b>&nbsp;DISTS: EMSCRIPTEN: Change the upstream URL for libmpeg2 to VideoLAN
+
+The original libmpeg2 source archive is gone from SF.NET, so use the
+patched libmpeg2 sources from the VideoLAN git repo instead'></a> - DISTS: EMSCRIPTEN: Change the upstream URL for libmpeg2 to VideoLAN (June 30)</li>
+</ul>
+<p>I disabled several audio components that were being built but weren&rsquo;t actually usable in the browser environment: timidity (requires external patch sets), <a href="https://sndio.org/">sndio</a> (OpenBSD audio framework), and /dev/snd/seq (Linux ALSA sequencer). This reduces build time and output size.</p>
+<p><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/13978af6f2c183f5438328375846003faed6f71e" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@13978af:</b>&nbsp;EMSCRIPTEN: CI: Build with more libraries'></a> - EMSCRIPTEN: CI: Build with more libraries (July 26)</p>
+<p>I also took the chance to switch the emscripten versions for libvorbis and libogg to directly use properly versioned upstream releases: <a href="https://github.com/emscripten-core/emscripten/pull/25274">https://github.com/emscripten-core/emscripten/pull/25274</a></p>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="/tags/gaming/">Video Games</a></li>
+      <li><a href="/tags/scummvm/">ScummVM</a></li>
+      <li><a href="/tags/web-development/">Web Development</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="/posts/2025-08-scummvm-part4c/">
+    <span class="title">« Prev | <span>August 4, 2025</span></span>
+    <br>
+    <span>Porting ScummVM to Webassembly, Part 4c - File Access</span>
+  </a>
+  <a class="next" href="/posts/2025-08-scummvm-part4a/">
+    <span class="title"><span>August 2, 2025</span> | Next »</span>
+    <br>
+    <span>Porting ScummVM to Webassembly, Part 4a - Maintenance</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="/">Christian Kündig</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<script src="/js/quicklink.umd.min.js" data-no-instant
+></script>
+<script data-no-instant>
+  
+window.addEventListener('load', () => {
+  quicklink.listen();
+});
+</script>
+
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+</body>
+
+</html>

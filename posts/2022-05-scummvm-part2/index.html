@@ -10,7 +10,7 @@
 <meta name="description" content="Since merging the initial Webassembly port of ScummVM, I have added a few critical improvements">
 <meta name="author" content="">
 <link rel="canonical" href="/posts/2022-05-scummvm-part2/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.8273041aea75a8d4cd905c37659d34b9762b2a312f2199a5db7a30041a7f20ff.css" integrity="sha256-gnMEGup1qNTNkFw3ZZ00uXYrKjEvIZml23owBBp/IP8=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4b4ba94b836af7c5b90f9d1ab2afae9f8e5e904c2a158eff92031324dea547d4.css" integrity="sha256-S0upS4Nq98W5D50asq&#43;un45ekEwqFY7/kgMTJN6lR9Q=" rel="preload stylesheet" as="style">
 <link rel="icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -86,19 +86,25 @@
           gtag('js', new Date());
           gtag('config', 'G-L4NRERPTCT');
         }
-      </script><meta property="og:title" content="Porting ScummVM to Webassembly, Part 2" />
-<meta property="og:description" content="Since merging the initial Webassembly port of ScummVM, I have added a few critical improvements" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="/posts/2022-05-scummvm-part2/" />
-<meta property="og:image" content="/images/bg.jpg" />
-<meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-03-21T11:39:21+01:00" />
-<meta property="article:modified_time" content="2022-03-21T11:39:21+01:00" />
-<meta property="fb:admins" content="about.me" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="/images/bg.jpg" />
-<meta name="twitter:title" content="Porting ScummVM to Webassembly, Part 2"/>
-<meta name="twitter:description" content="Since merging the initial Webassembly port of ScummVM, I have added a few critical improvements"/>
+      </script><meta property="og:url" content="/posts/2022-05-scummvm-part2/">
+  <meta property="og:site_name" content="Christian Kündig">
+  <meta property="og:title" content="Porting ScummVM to Webassembly, Part 2">
+  <meta property="og:description" content="Since merging the initial Webassembly port of ScummVM, I have added a few critical improvements">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2022-03-21T11:39:21+01:00">
+    <meta property="article:modified_time" content="2022-03-21T11:39:21+01:00">
+    <meta property="article:tag" content="ScummVM">
+    <meta property="article:tag" content="Video Games">
+    <meta property="article:tag" content="Web Development">
+      <meta property="og:image" content="/images/bg.jpg">
+        <meta property="fb:admins" content="about.me">
+  <meta name="fediverse:creator" content="@chkuendig@ioc.exchange">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="/images/bg.jpg">
+<meta name="twitter:title" content="Porting ScummVM to Webassembly, Part 2">
+<meta name="twitter:description" content="Since merging the initial Webassembly port of ScummVM, I have added a few critical improvements">
 
 
 <script type="application/ld+json">
@@ -131,8 +137,8 @@
   "keywords": [
     "ScummVM", "Gaming", "Web Development"
   ],
-  "articleBody": " 💡 This is part 2 of my work on porting ScummVM. Please also check out part 1 and part 3 of this project.\nSince merging the initial Webassembly port of ScummVM, I have added a few critical improvements which moves the project forward torwards an eventual official release:\nDynamic Plugins: It’s now possible to dynamically load plugins, making it possible to bundle all engines without the binary growing into unreasonable sizes. This involved a few fixes in Emscripten to get working ( ) - which haven’t been merged, so it’s manually patched in during the setup of the build environment. General Build Improvements: The build script is now fully self-contained and can be run with Github actions, this includes automatic download of games/demos as well as generating the default scummvm.ini for a demo page. See on how a self-contained ScummVM demo is built (incl. bundled games). ScummvmFS: I added a custom filesystem layer which in the future can be extended to support range requests and persisting downloaded data for offline usage - hopefully this can eventually replace which hasn’t seen any commits in 12+ months. Additionally, a few minor quality of life improvements also made it in:\nCLI arguments: It’s now possible to pass CLI arguments as a anchor link. In the build script this is used to bootstrap the initial scummvm.ini file by opening http://localhost:8080/scummvm.html#--add --path=/games --recursive in a headless browser. HiDPI fix: SDL_GetDisplayDPI has been added to SDL for Emscripten - but this hasn’t been released yet so I switched to using an unreleased version of SDL during the setup of the build environment. Without it the all the UI fonts are broken/too small. Parts of the rejected are added to the SDL backend for fullscreen support, no exit buttons and proper URL opening in this port. Various Bugfixes: DIRECTOR: Engine freezes as it doesn’t yield back to the browser. STARK: Passing integer enums to glTexParameterf causes an error in WebGL when using this engine. TESTBED: Crash as the engine tries to write into a read-only filesystem in Emscripten. Gamepad API: There was a crash when opening the app on a non-secure context (i.e. HTTP instead of HTTPS) due to SDL wanting to use the Gamepad Web API and ScummVM crashing if it couldn’t instantiate the SDL Gamepad API, there’s now a redirect to HTTPS to avoid this issue. For details on all of this, check out the following pull request that hopefully will get merged in the coming days:\nThis was a major piece of work for me as it also depended on multiple upstream fixes in SDL and Emscripten:\nAs mentioned not all of them are merged yet so I the build script patches them manually.\nAs before, the latest version is running at scummvm.kuendig.io (now automatically built with Github Actions, see the above mentioned .\nWith this contribution I now also officially joined the ScummVM Development team as the Webassembly / Emscripten maintainer - so you find my name now in the credits 😊.\nNext steps I think we’re really getting closer to making this official. I think there are two main roadblocks:\nReplace BrowserFS with something better suited to our use case - preferably implemented in C++ and using the new Emscripten Filesystem backend ( ) Add support for cloud storage so users can import/export savegames. And a few minor optimizations around asyncify/dynamic loading and random QoL improvements such as screenshot, logfile support. Maybe better error handling and loading animations would be nice as well.\n",
-  "wordCount" : "581",
+  "articleBody": " 💡 This is part 2 of my work on porting ScummVM. Please also check out part 1 and part 3 of this project.\nSince merging the initial Webassembly port of ScummVM, I have added a few critical improvements which moves the project forward torwards an eventual official release:\nDynamic Plugins: It’s now possible to dynamically load plugins, making it possible to bundle all engines without the binary growing into unreasonable sizes. This involved a few fixes in Emscripten to get working () - which haven’t been merged, so it’s manually patched in during the setup of the build environment. General Build Improvements: The build script is now fully self-contained and can be run with Github actions, this includes automatic download of games/demos as well as generating the default scummvm.ini for a demo page. See on how a self-contained ScummVM demo is built (incl. bundled games). ScummvmFS: I added a custom filesystem layer which in the future can be extended to support range requests and persisting downloaded data for offline usage - hopefully this can eventually replace which hasn’t seen any commits in 12+ months. Additionally, a few minor quality of life improvements also made it in:\nCLI arguments: It’s now possible to pass CLI arguments as a anchor link. In the build script this is used to bootstrap the initial scummvm.ini file by opening http://localhost:8080/scummvm.html#--add --path=/games --recursive in a headless browser. HiDPI fix: SDL_GetDisplayDPI has been added to SDL for Emscripten - but this hasn’t been released yet so I switched to using an unreleased version of SDL during the setup of the build environment. Without it the all the UI fonts are broken/too small. Parts of the rejected are added to the SDL backend for fullscreen support, no exit buttons and proper URL opening in this port. Various Bugfixes: DIRECTOR: Engine freezes as it doesn’t yield back to the browser. STARK: Passing integer enums to glTexParameterf causes an error in WebGL when using this engine. TESTBED: Crash as the engine tries to write into a read-only filesystem in Emscripten. Gamepad API: There was a crash when opening the app on a non-secure context (i.e. HTTP instead of HTTPS) due to SDL wanting to use the Gamepad Web API and ScummVM crashing if it couldn’t instantiate the SDL Gamepad API, there’s now a redirect to HTTPS to avoid this issue. For details on all of this, check out the following pull request that hopefully will get merged in the coming days:\nThis was a major piece of work for me as it also depended on multiple upstream fixes in SDL and Emscripten:\nAs mentioned not all of them are merged yet so I the build script patches them manually.\nAs before, the latest version is running at scummvm.kuendig.io (now automatically built with Github Actions, see the above mentioned .\nWith this contribution I now also officially joined the ScummVM Development team as the Webassembly / Emscripten maintainer - so you find my name now in the credits 😊.\nNext steps I think we’re really getting closer to making this official. I think there are two main roadblocks:\nReplace BrowserFS with something better suited to our use case - preferably implemented in C++ and using the new Emscripten Filesystem backend ( ) Add support for cloud storage so users can import/export savegames. And a few minor optimizations around asyncify/dynamic loading and random QoL improvements such as screenshot, logfile support. Maybe better error handling and loading animations would be nice as well.\n",
+  "wordCount" : "580",
   "inLanguage": "en",
   "image": "/images/bg.jpg","datePublished": "2022-03-21T11:39:21+01:00",
   "dateModified": "2022-03-21T11:39:21+01:00",
@@ -194,23 +200,15 @@
 </aside>
 <p>Since merging the initial Webassembly port of ScummVM, I have added a few critical improvements which moves the project forward torwards an eventual official release:</p>
 <ul>
-<li>Dynamic Plugins: It&rsquo;s now possible to dynamically load plugins, making it possible to bundle all engines without the binary growing into unreasonable sizes. This involved a few fixes in Emscripten to get working (
-        <a class="github-button" data-color-scheme="" href="https://github.com/emscripten-core/emscripten/pull/15893" data-icon="octicon-git-merge" data-size="small" data-text='<b>emscripten#15893:</b>&nbsp;import mutable globals used in Asyncify pass'></a>) - which haven&rsquo;t been merged, so it&rsquo;s manually patched in during the setup of the build environment.</li>
-<li>General Build Improvements: The build script is now fully self-contained and can be run with Github actions, this includes automatic download of games/demos as well as generating the default scummvm.ini for a demo page. See 
-    
-        
-<a class="github-button" data-color-scheme="" href="https://github.com/chkuendig/scummvm-demo" data-icon="octicon-repo" data-size="small" data-text='<b>chkuendig/scummvm-demo</b>'></a> on how a self-contained ScummVM demo is built (incl. bundled games).</li>
-<li>ScummvmFS: I added a custom filesystem layer which in the future can be extended to support range requests and persisting downloaded data for offline usage - hopefully this can eventually replace 
-    
-        
-<a class="github-button" data-color-scheme="" href="https://github.com/jvilk/BrowserFS" data-icon="octicon-repo" data-size="small" data-text='<b>jvilk/BrowserFS</b>'></a> which hasn&rsquo;t seen any commits in 12+ months.</li>
+<li>Dynamic Plugins: It&rsquo;s now possible to dynamically load plugins, making it possible to bundle all engines without the binary growing into unreasonable sizes. This involved a few fixes in Emscripten to get working (<a class="github-button" data-color-scheme="" href="https://github.com/emscripten-core/emscripten/pull/15893" data-icon="octicon-git-merge" data-size="small" data-text='<b>emscripten#15893:</b>&nbsp;import mutable globals used in Asyncify pass'></a>) - which haven&rsquo;t been merged, so it&rsquo;s manually patched in during the setup of the build environment.</li>
+<li>General Build Improvements: The build script is now fully self-contained and can be run with Github actions, this includes automatic download of games/demos as well as generating the default scummvm.ini for a demo page. See <a class="github-button" data-color-scheme="" href="https://github.com/chkuendig/scummvm-demo" data-icon="octicon-repo" data-size="small" data-text='<b>chkuendig/scummvm-demo</b>'></a> on how a self-contained ScummVM demo is built (incl. bundled games).</li>
+<li>ScummvmFS: I added a custom filesystem layer which in the future can be extended to support range requests and persisting downloaded data for offline usage - hopefully this can eventually replace <a class="github-button" data-color-scheme="" href="https://github.com/jvilk/BrowserFS" data-icon="octicon-repo" data-size="small" data-text='<b>jvilk/BrowserFS</b>'></a> which hasn&rsquo;t seen any commits in 12+ months.</li>
 </ul>
 <p>Additionally, a few minor quality of life improvements also made it in:</p>
 <ul>
 <li>CLI arguments: It&rsquo;s now possible to pass CLI arguments as a anchor link. In the build script this is used to bootstrap the initial <code>scummvm.ini</code> file by opening <code>http://localhost:8080/scummvm.html#--add --path=/games --recursive</code> in a headless browser.</li>
 <li>HiDPI fix: SDL_GetDisplayDPI has been added to SDL for Emscripten - but this hasn&rsquo;t been released yet so I switched to using an unreleased version of SDL during the setup of the build environment. Without it the all the UI fonts are broken/too small.</li>
-<li>Parts of the rejected 
-         <a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/pull/3686" data-icon="octicon-git-pull-request-closed" data-size="small" data-text='<b>scummvm#3686:</b>&nbsp;EMSCRIPTEN: Add backend and fix full screen support'></a> are added to the SDL backend for fullscreen support, no exit buttons and proper URL opening in this port.</li>
+<li>Parts of the rejected <a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/pull/3686" data-icon="octicon-git-pull-request-closed" data-size="small" data-text='<b>scummvm#3686:</b>&nbsp;EMSCRIPTEN: Add backend and fix full screen support'></a> are added to the SDL backend for fullscreen support, no exit buttons and proper URL opening in this port.</li>
 <li>Various Bugfixes:
 <ul>
 <li>DIRECTOR: Engine freezes as it doesn&rsquo;t yield back to the browser.</li>
@@ -221,32 +219,22 @@
 </li>
 </ul>
 <p>For details on all of this, check out the following pull request that hopefully will get merged in the coming days:</p>
-
-             
-         <a href="https://github.com/scummvm/scummvm/pull/3766" class="github-card"><img src="/posts/2022-05-scummvm-part2/3766_3515749043357010183.png"></a>
+<a href="https://github.com/scummvm/scummvm/pull/3766" class="github-card"><img src="/posts/2022-05-scummvm-part2/3766_3515749043357010183.png" alt="DISTS: Updated Webassembly / Emscripten Port"></a>
 
 <p>This was a major piece of work for me as it also depended on multiple upstream fixes in SDL and Emscripten:</p>
 <ul>
-<li>
-        <a class="github-button" data-color-scheme="" href="https://github.com/libsdl-org/SDL/pull/5419" data-icon="octicon-git-merge" data-size="small" data-text='<b>SDL#5419:</b>&nbsp;Fix &#34;SDL_TRUE is not defined&#34; runtime error for emscripten.'></a></li>
-<li>
-        <a class="github-button" data-color-scheme="" href="https://github.com/libsdl-org/SDL/pull/5383" data-icon="octicon-git-merge" data-size="small" data-text='<b>SDL#5383:</b>&nbsp;Add SDL_GetDisplayDPI implementation on Emscripten'></a></li>
-<li>
-        <a class="github-button" data-color-scheme="" href="https://github.com/emscripten-core/emscripten/pull/15893" data-icon="octicon-git-merge" data-size="small" data-text='<b>emscripten#15893:</b>&nbsp;import mutable globals used in Asyncify pass'></a></li>
-<li>
-        <a class="github-button" data-color-scheme="" href="https://github.com/emscripten-core/emscripten/pull/16687" data-icon="octicon-git-merge" data-size="small" data-text='<b>emscripten#16687:</b>&nbsp;SDL2: Fix SDL_OpenURL'></a></li>
+<li><a class="github-button" data-color-scheme="" href="https://github.com/libsdl-org/SDL/pull/5419" data-icon="octicon-git-merge" data-size="small" data-text='<b>SDL#5419:</b>&nbsp;Fix &#34;SDL_TRUE is not defined&#34; runtime error for emscripten.'></a></li>
+<li><a class="github-button" data-color-scheme="" href="https://github.com/libsdl-org/SDL/pull/5383" data-icon="octicon-git-merge" data-size="small" data-text='<b>SDL#5383:</b>&nbsp;Add SDL_GetDisplayDPI implementation on Emscripten'></a></li>
+<li><a class="github-button" data-color-scheme="" href="https://github.com/emscripten-core/emscripten/pull/15893" data-icon="octicon-git-merge" data-size="small" data-text='<b>emscripten#15893:</b>&nbsp;import mutable globals used in Asyncify pass'></a></li>
+<li><a class="github-button" data-color-scheme="" href="https://github.com/emscripten-core/emscripten/pull/16687" data-icon="octicon-git-merge" data-size="small" data-text='<b>emscripten#16687:</b>&nbsp;SDL2: Fix SDL_OpenURL'></a></li>
 </ul>
 <p>As mentioned not all of them are merged yet so I the build script patches them manually.</p>
-<p>As before, the latest version is running at <a href="http://scummvm.kuendig.io/">scummvm.kuendig.io</a> (now automatically built with Github Actions, see the above mentioned 
-    
-        
-<a class="github-button" data-color-scheme="" href="https://github.com/chkuendig/scummvm-demo" data-icon="octicon-repo" data-size="small" data-text='<b>chkuendig/scummvm-demo</b>'></a>.</p>
+<p>As before, the latest version is running at <a href="https://scummvm.kuendig.io/">scummvm.kuendig.io</a> (now automatically built with Github Actions, see the above mentioned <a class="github-button" data-color-scheme="" href="https://github.com/chkuendig/scummvm-demo" data-icon="octicon-repo" data-size="small" data-text='<b>chkuendig/scummvm-demo</b>'></a>.</p>
 <p>With this contribution I now also officially joined the ScummVM Development team as the Webassembly / Emscripten maintainer - so you find my name now in the <a href="https://www.scummvm.org/credits/">credits</a> 😊.</p>
 <h2 id="next-steps">Next steps</h2>
 <p>I think we&rsquo;re really getting closer to making this official. I think there are two main roadblocks:</p>
 <ul>
-<li>Replace BrowserFS with something better suited to our use case - preferably implemented in C++ and using the new Emscripten Filesystem backend (
-        <a class="github-button" data-color-scheme="" href="https://github.com/emscripten-core/emscripten/issues/15041" data-icon="octicon-issue-closed" data-size="small" data-text='<b>emscripten#15041:</b>&nbsp;New File System Implementation'></a> )</li>
+<li>Replace BrowserFS with something better suited to our use case - preferably implemented in C++ and using the new Emscripten Filesystem backend (<a class="github-button" data-color-scheme="" href="https://github.com/emscripten-core/emscripten/issues/15041" data-icon="octicon-issue-closed" data-size="small" data-text='<b>emscripten#15041:</b>&nbsp;New File System Implementation'></a> )</li>
 <li>Add support for cloud storage so users can import/export savegames.</li>
 </ul>
 <p>And a few minor optimizations around asyncify/dynamic loading and random QoL improvements such as screenshot, logfile support. Maybe better error handling and loading animations would be nice as well.</p>
@@ -263,7 +251,7 @@
   <a class="prev" href="/posts/2022-12-hass-ab_ble/">
     <span class="title">« Prev | <span>December 9, 2022</span></span>
     <br>
-    <span>Forwarding Bluetooth with the AB BLE Gateway</span>
+    <span>Forwarding Bluetooth with the April Brother BLE Gateway</span>
   </a>
   <a class="next" href="/posts/2022-03-hass-hpilo/">
     <span class="title"><span>February 8, 2022</span> | Next »</span>
@@ -277,7 +265,7 @@
     </main>
     
 <footer class="footer">
-        <span>&copy; 2024 <a href="/">Christian Kündig</a></span> · 
+        <span>&copy; 2026 <a href="/">Christian Kündig</a></span> · 
 
     <span>
         Powered by

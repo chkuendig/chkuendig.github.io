@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>RetroWave OPL3 Express via Web Serial API | Christian Kündig</title>
+<meta name="keywords" content="">
+<meta name="description" content="Authentic sounds from vintage sound chips - using the Yamaha OPL chip (AdLib, Soundblaster etc) in the Chromium.">
+<meta name="author" content="">
+<link rel="canonical" href="/posts/2025-04-retrowave/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4b4ba94b836af7c5b90f9d1ab2afae9f8e5e904c2a158eff92031324dea547d4.css" integrity="sha256-S0upS4Nq98W5D50asq&#43;un45ekEwqFY7/kgMTJN6lR9Q=" rel="preload stylesheet" as="style">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="mask-icon" href="/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="/posts/2025-04-retrowave/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
+<link href='//fonts.googleapis.com/css?family=Mulish' rel='stylesheet' type='text/css'>
+
+<script src="/js/github-buttons.min.js" data-no-instant
+></script>
+
+<script>
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  });
+</script>
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4NRERPTCT"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-L4NRERPTCT');
+        }
+      </script><meta property="og:url" content="/posts/2025-04-retrowave/">
+  <meta property="og:site_name" content="Christian Kündig">
+  <meta property="og:title" content="RetroWave OPL3 Express via Web Serial API">
+  <meta property="og:description" content="Authentic sounds from vintage sound chips - using the Yamaha OPL chip (AdLib, Soundblaster etc) in the Chromium.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-04-10T12:25:46+01:00">
+    <meta property="article:modified_time" content="2025-04-10T12:25:46+01:00">
+      <meta property="og:image" content="/images/bg.jpg">
+        <meta property="fb:admins" content="about.me">
+  <meta name="fediverse:creator" content="@chkuendig@ioc.exchange">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="/images/bg.jpg">
+<meta name="twitter:title" content="RetroWave OPL3 Express via Web Serial API">
+<meta name="twitter:description" content="Authentic sounds from vintage sound chips - using the Yamaha OPL chip (AdLib, Soundblaster etc) in the Chromium.">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Personal Projects",
+      "item": "/posts/"
+    }
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "RetroWave OPL3 Express via Web Serial API",
+      "item": "/posts/2025-04-retrowave/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "RetroWave OPL3 Express via Web Serial API",
+  "name": "RetroWave OPL3 Express via Web Serial API",
+  "description": "Authentic sounds from vintage sound chips - using the Yamaha OPL chip (AdLib, Soundblaster etc) in the Chromium.",
+  "keywords": [
+    
+  ],
+  "articleBody": "As part of an upcoming Audio-focused ScummVM update I got myself a RetroWave OPL3 Express.\nThe RetroWave OPL Hardware Yamaha YMF262 (Wikimedia Commons)\nRetroWave is a hardware sound board series that uses vintage sound chips and works with modern hardware. Namely, it contains the Yamaha YMF262-M and makes it available via an USB-C port. This chip is part of the Yamaha OPL line of sound chips and which were widely used in the 90s sound cards such as the AdLib or Creative Soundblaster cards.1\nWhile there’s a various ways to emulate the sound from these cards, using the real hardware is always more accurate and honestly also just more fun to tinker with. If you like retro tech, I can only recommend getting one.\nℹ️ If you want to learn more, I can recommend the following video from LGR: RetroWave OPL3: The USB AdLib Sound Card (July 13th, 2021)\nThe RetroWave Software SudoMaker is providing two software components to play sound on these chips:\nThe RetroWave Library: This handles sending the commands via serial to the connected chip. It’s what you would program against if you want to use the chip directly and it’s what apps supporting these chips (ScummVM, DOSBox-X, 86Box etc) rely on.\nThe RetroWave Player: If you want to playback music, you will need a tool to read sound files and send them to the chip. Most commonly these sound files are shared as VGM files. VGM (Video Game Music) is a sample-accurate sound logging format for many machines and sound chips. Unlike audio formats like MP3 which store a soundwave as recorded by a microphone, VGM logs the commands sent to the sound chips so the sound can be recreated by sending them again to the sound chip (physical or emulated). The normal extension is .vgm but files can also be gzip compressed into .vgz files. SudoMaker is providing a reference command-line VGM player that can be used to extract these commands and send them to a physical chip.\nSo to make this work in the browser as a proof of concept, I ported both to the Web.\nPorting Retrowave to Emscripten Both the library and the player are written in portable C code, so porting them to Emscripten wasn’t too hard. To access the board, I can use the Web Serial API - a somewhat obscure interface that’s unfortunately only supported by Chromium-based browsers.\nThe changes were not huge, so they were merged upstream pretty quickly: If you want to check out the WebSerial Implementation, it’s all in a single file: Web_SerialPort.c.\nThe Web OPL3 Player Demo To try this out, the player is available at oplplayer.kuendig.io. It’s been tested on the RetroWave OPL3 Express (v2), but should generally work with any OPL3 chip connected via serial port. The source code for this small demo page is also on Github: . If you don’t have an OPL3 board, you can also check out the following video:\nLicense + Credits My own Webassembly port of RetroWavePlayer and RetroWaveLib based on SudoMaker/RetroWave (AGPL-3.0 license) The Terminal Font is Perfect DOS VGA 437 Win by Zeh Fernando (Freeware) Terminal itself is Xterm.js with mame/xterm-pty (both MIT license) The demo songs are from the Sound Blaster Series Demo Disc available at vgmrips.net See Wikipedia for more details: https://en.wikipedia.org/wiki/Yamaha_OPL ↩︎\n",
+  "wordCount" : "549",
+  "inLanguage": "en",
+  "image": "/images/bg.jpg","datePublished": "2025-04-10T12:25:46+01:00",
+  "dateModified": "2025-04-10T12:25:46+01:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/posts/2025-04-retrowave/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Christian Kündig",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="/" accesskey="h" title="Christian Kündig (Alt + H)">Christian Kündig</a>
+            <div class="logo-switches">
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="/posts/" title="Personal Projects">
+                    <span>Personal Projects</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      RetroWave OPL3 Express via Web Serial API
+    </h1>
+    <div class="post-meta"><span title='2025-04-10 12:25:46 +0100 +0100'>April 10, 2025</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>As part of an upcoming Audio-focused ScummVM update I got myself a <a href="https://shop.sudomaker.com/products/retrowave-opl3-express">RetroWave OPL3 Express</a>.</p>
+<h2 id="the-retrowave-opl-hardware">The RetroWave OPL Hardware</h2>
+<figure class="float-right">
+    <img loading="lazy" src="/posts/2025-04-retrowave/YMF262-M.jpg  "
+         alt="Yamaha YMF262 (Wikimedia Commons)"/> <figcaption>
+            <p><em>Yamaha YMF262</em> (<a href="https://commons.wikimedia.org/wiki/File:YMF262-M.jpg">Wikimedia Commons</a>)</p>
+        </figcaption>
+</figure>
+
+<p>RetroWave is a hardware sound board series that uses vintage sound chips and works with modern hardware. Namely, it contains the Yamaha YMF262-M and makes it available via an USB-C port. This chip is part of the Yamaha OPL line of sound chips and which were widely used in the 90s sound cards such as the AdLib or Creative Soundblaster cards.<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+<p>While there&rsquo;s a various ways to emulate the sound from these cards, using the real hardware is always more accurate and honestly also just more fun to tinker with. If you like retro tech, I can only recommend getting one.</p>
+<aside>
+    <span>ℹ️</span>
+    <p>If you want to learn more, I can recommend the following video from LGR: <a href="https://www.youtube.com/watch?v=dg33QLkHAu4">RetroWave OPL3: The USB AdLib Sound Card (July 13th, 2021)</a></p>
+</aside>
+<h2 id="the-retrowave-software">The RetroWave Software</h2>
+<p>SudoMaker is providing two software components to play sound on these chips:</p>
+<ul>
+<li>
+<p>The RetroWave Library: This handles sending the commands via serial to the connected chip. It&rsquo;s what you would program against if you want to use the chip directly and it&rsquo;s what apps supporting these chips  (ScummVM, DOSBox-X, 86Box etc) rely on.</p>
+</li>
+<li>
+<p>The RetroWave Player: If you want to playback music, you will need a tool to read sound files and send them to the chip. Most commonly these sound files are shared as VGM files. VGM (Video Game Music) is a sample-accurate sound logging format for many machines and sound chips. Unlike audio formats like MP3 which store a soundwave as recorded by a microphone, VGM logs the commands sent to the sound chips so the sound can be recreated by sending them again to the sound chip (physical or emulated). The normal extension is .vgm but files can also be gzip compressed into .vgz files. SudoMaker is providing a reference command-line VGM player that can be used to extract these commands and send them to a physical chip.</p>
+</li>
+</ul>
+<p>So to make this work in the browser as a proof of concept, I ported both to the Web.</p>
+<h1 id="porting-retrowave-to-emscripten">Porting Retrowave to Emscripten</h1>
+<p>Both the library and the player are written in portable C code, so porting them to Emscripten wasn&rsquo;t too hard. To access the board, I can use the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API">Web Serial API</a> - a somewhat obscure interface that&rsquo;s <a href="https://caniuse.com/web-serial">unfortunately only supported by Chromium-based browsers</a>.</p>
+<p>The changes were not huge, so they were merged upstream pretty quickly:
+<a href="https://github.com/SudoMaker/RetroWave/pull/8" class="github-card"><img src="/posts/2025-04-retrowave/8_3695346079831895396.png" alt="Emscripten Port via Web Serial API"></a>
+</p>
+<p>If you want to check out the WebSerial Implementation, it&rsquo;s all in a single file: <a href="https://github.com/chkuendig/RetroWave/blob/7a5fcf47eb1c2c0f28f28a5990e2ddba74e346ba/RetroWaveLib/Platform/Web_SerialPort.c">Web_SerialPort.c</a>.</p>
+<h1 id="the-web-opl3-player-demo">The Web OPL3 Player Demo</h1>
+<p>To try this out, the player is available at <a href="https://oplplayer.kuendig.io">oplplayer.kuendig.io</a>. It&rsquo;s been tested on the <a href="https://shop.sudomaker.com/products/retrowave-opl3-express">RetroWave OPL3 Express (v2)</a>, but should generally work with any OPL3 chip connected via serial port. The source code for this small demo page is also on Github: <a class="github-button" data-color-scheme="" href="https://github.com/chkuendig/oplplayer.kuendig.io" data-icon="octicon-repo" data-size="small" data-text='<b>chkuendig/oplplayer.kuendig.io</b>'></a>. If you don&rsquo;t have an OPL3 board, you can also check out the following video:</p>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+      <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube-nocookie.com/embed/JMKBpi5cIN8?autoplay=0&amp;controls=1&amp;end=0&amp;loop=0&amp;mute=0&amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video"></iframe>
+    </div>
+
+<h1 id="license--credits">License + Credits</h1>
+<ul>
+<li>My own <a href="https://github.com/chkuendig/RetroWave">Webassembly port</a> of RetroWavePlayer and RetroWaveLib based on <a href="https://github.com/SudoMaker/RetroWave">SudoMaker/RetroWave</a> (AGPL-3.0 license)</li>
+<li>The Terminal Font is <a href="https://zehfernando.com/2015/revisiting-vga-fonts/">Perfect DOS VGA 437 Win</a> by <a href="https://www.zehfernando.com">Zeh Fernando</a> (Freeware)</li>
+<li>Terminal itself is <a href="https://xtermjs.org/">Xterm.js</a> with <a href="https://github.com/mame/xterm-pty">mame/xterm-pty</a>  (both  MIT license)</li>
+<li>The demo songs are from the Sound Blaster Series Demo Disc available at <a href="https://vgmrips.net/packs/pack/sound-blaster-series-demo-songs-ibm-pc-xt-at">vgmrips.net</a></li>
+</ul>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>See Wikipedia for more details: <a href="https://en.wikipedia.org/wiki/Yamaha_OPL">https://en.wikipedia.org/wiki/Yamaha_OPL</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="/posts/2025-08-scummvm-part4a/">
+    <span class="title">« Prev | <span>August 2, 2025</span></span>
+    <br>
+    <span>Porting ScummVM to Webassembly, Part 4a - Maintenance</span>
+  </a>
+  <a class="next" href="/posts/2019-12-wedding/">
+    <span class="title"><span>November 9, 2024</span> | Next »</span>
+    <br>
+    <span>Our Wedding Website, 5 Years Later</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="/">Christian Kündig</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<script src="/js/quicklink.umd.min.js" data-no-instant
+></script>
+<script data-no-instant>
+  
+window.addEventListener('load', () => {
+  quicklink.listen();
+});
+</script>
+
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+</body>
+
+</html>

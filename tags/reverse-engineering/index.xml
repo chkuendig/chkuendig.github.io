@@ -9,10 +9,17 @@
       <url>/images/bg.jpg</url>
       <link>/images/bg.jpg</link>
     </image>
-    <generator>Hugo -- 0.134.0</generator>
+    <generator>Hugo -- 0.145.0</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 14 Mar 2023 11:41:01 +0100</lastBuildDate>
+    <lastBuildDate>Fri, 26 Jan 2024 22:42:54 +0000</lastBuildDate>
     <atom:link href="/tags/reverse-engineering/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Fixing Play Suisse in yt-dlp</title>
+      <link>/posts/2024-01-playsuisse/</link>
+      <pubDate>Fri, 26 Jan 2024 22:42:54 +0000</pubDate>
+      <guid>/posts/2024-01-playsuisse/</guid>
+      <description>yt-dlp support for Play Suisse has been broken since the platform enforced a user login to access any video streams  in August 2023. Let&amp;rsquo;s fix that.</description>
+    </item>
     <item>
       <title>Reverse Engineering the 1995 FMV Game Silent Steel</title>
       <link>/posts/2023-03-silentsteel/</link>

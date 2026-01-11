@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Porting ScummVM to Webassembly, Part 4c - File Access | Christian Kündig</title>
+<meta name="keywords" content="Gaming, ScummVM, Web Development">
+<meta name="description" content="Revisiting how files are loaded over the network and finally adding support for cloud storage (Dropbox, Google Drive etc)">
+<meta name="author" content="">
+<link rel="canonical" href="/posts/2025-08-scummvm-part4c/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4b4ba94b836af7c5b90f9d1ab2afae9f8e5e904c2a158eff92031324dea547d4.css" integrity="sha256-S0upS4Nq98W5D50asq&#43;un45ekEwqFY7/kgMTJN6lR9Q=" rel="preload stylesheet" as="style">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="mask-icon" href="/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="/posts/2025-08-scummvm-part4c/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
+<link href='//fonts.googleapis.com/css?family=Mulish' rel='stylesheet' type='text/css'>
+
+<script src="/js/github-buttons.min.js" data-no-instant
+></script>
+
+<script>
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  });
+</script>
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4NRERPTCT"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-L4NRERPTCT');
+        }
+      </script><meta property="og:url" content="/posts/2025-08-scummvm-part4c/">
+  <meta property="og:site_name" content="Christian Kündig">
+  <meta property="og:title" content="Porting ScummVM to Webassembly, Part 4c - File Access">
+  <meta property="og:description" content="Revisiting how files are loaded over the network and finally adding support for cloud storage (Dropbox, Google Drive etc)">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-08-04T12:25:46+01:00">
+    <meta property="article:modified_time" content="2025-08-04T12:25:46+01:00">
+    <meta property="article:tag" content="Video Games">
+    <meta property="article:tag" content="ScummVM">
+    <meta property="article:tag" content="Web Development">
+      <meta property="og:image" content="/images/bg.jpg">
+        <meta property="fb:admins" content="about.me">
+  <meta name="fediverse:creator" content="@chkuendig@ioc.exchange">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="/images/bg.jpg">
+<meta name="twitter:title" content="Porting ScummVM to Webassembly, Part 4c - File Access">
+<meta name="twitter:description" content="Revisiting how files are loaded over the network and finally adding support for cloud storage (Dropbox, Google Drive etc)">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Personal Projects",
+      "item": "/posts/"
+    }
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Porting ScummVM to Webassembly, Part 4c - File Access",
+      "item": "/posts/2025-08-scummvm-part4c/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Porting ScummVM to Webassembly, Part 4c - File Access",
+  "name": "Porting ScummVM to Webassembly, Part 4c - File Access",
+  "description": "Revisiting how files are loaded over the network and finally adding support for cloud storage (Dropbox, Google Drive etc)",
+  "keywords": [
+    "Gaming", "ScummVM", "Web Development"
+  ],
+  "articleBody": "This is the third part of the Part 4 mini-series. Part 4a covered maintenance work (testbed, timers, shaders, SDL3), Part 4b dove into audio (FluidLite, Web MIDI, RetroWave, TTS), and this chapter focuses on moving ScummVM’s web build closer to seamless file access: cloud storage, a cleaner network stack, and a filesystem rewrite that sets up the next round of improvements.\nCloud Storage Integration - CLOUD: Add Support for Emscripten\nOne of the most exciting features I’ve added is support for cloud storage providers. This allows you to store your game files in Dropbox, Google Drive, OneDrive, or Box, and access them directly from the browser version of ScummVM. No more manual file uploads for each gaming session - just connect your cloud storage once and all your games are available!\nThis PR adds support for cloud storage providers (Dropbox, Google Drive, OneDrive, Box) for the Emscripten backend. It includes improvements to the cloud setup wizard, JSON parsing fixes, and OAuth flow handling.\nKey improvements:\n- CLOUD: Skip Mode Select in setup wizard if only manual mode is available (May 8) - CLOUD: Cleanup unused kOpenUrlStorageCmd (May 8) - CLOUD: Remember selected storage and pass it on to kCloudConnectionWizardOpenUrlStorageCmd in setup wizard (May 8) - CLOUD: Avoid overloading runModal (May 18) - COMMON: Fix JSON parsing of unicode strings (May 7) Custom Network Stack Beyond cloud storage, I’m tightening how the browser build fetches data. Games and assets can now be loaded directly from web servers via HTTP/HTTPS, which makes hosting demos or providing pre-configured libraries much simpler. This network stack work lays the groundwork for a cleaner separation between local data (IDBFS) and remote sources (HTTP/HTTPS), which I’ll hook up more fully in the next iteration.\nFilesystem Rewrite Since the first commit, I used BrowserFS for filesystem abstraction. However, it has been deprecated:\nBrowserFS seems abandoned and never did a stable 2.0.0 release. Maybe there’s a better way to handle Storage?\nAt some point I vendored it in (2022: - DISTS: Updated Webassembly / Emscripten Port), but it never was fully the right tool (although development has resumed). I thought it might eventually help making cloud storage available more easily, but it turned out that the existing ScummVM code works very well for that already, and my goal is to keep as much as possible within the existing C++ infrastructure of the project - if only to ensure other people can maintain my code (or god willing, another Emscripten maintainer materializes.)\nSo I have finally removed it. For the local storage, I now use IDBFS directly in C++. For fetching assets over HTTPS, I built a small abstraction in C++ to use the browser’s Fetch API.\nBenefits of this change:\nSmaller bundle size: Removing the BrowserFS dependency reduces the initial download size Better maintainability: Using native Emscripten APIs means the code is easier for other contributors to understand and maintain More control: Direct access to IDBFS and Fetch API gives us more flexibility for future optimizations Keeps code in C++: Maintaining consistency with the rest of ScummVM’s codebase I don’t think this is necessarily the end-all best state. Ideally we would move to WASMFS, so we could use OPFS (Origin Private File System) for better performance and use FETCH_FS for the assets, but that will require enabling threads, which we currently don’t support yet due to complications with dynamic module loading.\n- EMSCRIPTEN: FS: Implement filesystems in C++ and remove BrowserFS dependency (August 1)\n",
+  "wordCount" : "575",
+  "inLanguage": "en",
+  "image": "/images/bg.jpg","datePublished": "2025-08-04T12:25:46+01:00",
+  "dateModified": "2025-08-04T12:25:46+01:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/posts/2025-08-scummvm-part4c/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Christian Kündig",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="/" accesskey="h" title="Christian Kündig (Alt + H)">Christian Kündig</a>
+            <div class="logo-switches">
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="/posts/" title="Personal Projects">
+                    <span>Personal Projects</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Porting ScummVM to Webassembly, Part 4c - File Access
+    </h1>
+    <div class="post-meta"><span title='2025-08-04 12:25:46 +0100 +0100'>August 4, 2025</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>This is the third part of the Part 4 mini-series. Part 4a covered maintenance work (testbed, timers, shaders, SDL3), Part 4b dove into audio (FluidLite, Web MIDI, RetroWave, TTS), and this chapter focuses on moving ScummVM&rsquo;s web build closer to seamless file access: cloud storage, a cleaner network stack, and a filesystem rewrite that sets up the next round of improvements.</p>
+<h1 id="cloud-storage-integration">Cloud Storage Integration</h1>
+<p><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/pull/6859" data-icon="octicon-git-merge" data-size="small" data-text='<b>scummvm#6859:</b>&nbsp;CLOUD: Add Support for Emscripten'></a> - CLOUD: Add Support for Emscripten</p>
+<p>One of the most exciting features I&rsquo;ve added is support for cloud storage providers. This allows you to store your game files in Dropbox, Google Drive, OneDrive, or Box, and access them directly from the browser version of ScummVM. No more manual file uploads for each gaming session - just connect your cloud storage once and all your games are available!</p>
+<p>This PR adds support for cloud storage providers (Dropbox, Google Drive, OneDrive, Box) for the Emscripten backend. It includes improvements to the cloud setup wizard, JSON parsing fixes, and OAuth flow handling.</p>
+<p><strong>Key improvements:</strong></p>
+<ul>
+<li><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/891398074340c067598c02f7f8d5e653cb01b147" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@8913980:</b>&nbsp;CLOUD: Skip Mode Select in setup wizard if only manual mode is available'></a> - CLOUD: Skip Mode Select in setup wizard if only manual mode is available (May 8)</li>
+<li><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/a14d7dbd886815ab1f7ed1ce7b4f2c6f3d4476af" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@a14d7db:</b>&nbsp;CLOUD: Cleanup unused kOpenUrlStorageCmd'></a> - CLOUD: Cleanup unused kOpenUrlStorageCmd (May 8)</li>
+<li><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/f44a548d3f4575b6115aff9e7f468191ea52a2b7" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@f44a548:</b>&nbsp;CLOUD: Remember selected storage and pass it on to kCloudConnectionWizardOpenUrlStorageCmd in setup wizard'></a> - CLOUD: Remember selected storage and pass it on to kCloudConnectionWizardOpenUrlStorageCmd in setup wizard (May 8)</li>
+<li><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/9fb0538cb3a21d0507cb3f58f0300a1d69098933" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@9fb0538:</b>&nbsp;CLOUD: Avoid overloading runModal'></a> - CLOUD: Avoid overloading runModal (May 18)</li>
+<li><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/3677c91606a56e3571ebd5831c7b03f32e50ec41" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@3677c91:</b>&nbsp;COMMON: Fix JSON parsing of unicode strings'></a> - COMMON: Fix JSON parsing of unicode strings (May 7)</li>
+</ul>
+<h1 id="custom-network-stack">Custom Network Stack</h1>
+<p>Beyond cloud storage, I&rsquo;m tightening how the browser build fetches data. Games and assets can now be loaded directly from web servers via HTTP/HTTPS, which makes hosting demos or providing pre-configured libraries much simpler. This network stack work lays the groundwork for a cleaner separation between local data (IDBFS) and remote sources (HTTP/HTTPS), which I&rsquo;ll hook up more fully in the next iteration.</p>
+<h1 id="filesystem-rewrite">Filesystem Rewrite</h1>
+<p>Since the <a href="https://github.com/scummvm/scummvm/commit/b7a2e22b0a9cd9b6fb55415abc4544a2d30f69df#diff-ea22d9d6da9410325f88879098057fd26dbe38962446622a4db064fd62b9d455R120">first commit</a>, I used BrowserFS for filesystem abstraction. However, it has been deprecated:</p>
+<blockquote>
+<p>BrowserFS seems abandoned and never did a stable 2.0.0 release. Maybe there&rsquo;s a better way to handle Storage?</p></blockquote>
+<p>At some point I <a href="https://stackoverflow.com/questions/26217488/what-is-vendoring">vendored it in</a> (2022: <a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/pull/3766" data-icon="octicon-git-merge" data-size="small" data-text='<b>scummvm#3766:</b>&nbsp;DISTS: Updated Webassembly / Emscripten Port'></a> - DISTS: Updated Webassembly / Emscripten Port), but it never was fully the right tool (although development <a href="https://github.com/jvilk/BrowserFS?tab=readme-ov-file#deprecated-active-fork-zenfs">has resumed</a>). I thought it might eventually help making cloud storage available more easily, but it turned out that the existing ScummVM code works very well for that already, and my goal is to keep as much as possible within the existing C++ infrastructure of the project - if only to ensure other people can maintain my code (or god willing, another Emscripten maintainer materializes.)</p>
+<p>So I have finally removed it. For the local storage, I now use <a href="https://emscripten.org/docs/api_reference/Filesystem-API.html">IDBFS</a> directly in C++. For fetching assets over HTTPS, I built a small abstraction in C++ to use the browser&rsquo;s Fetch API.</p>
+<p><strong>Benefits of this change:</strong></p>
+<ul>
+<li><strong>Smaller bundle size:</strong> Removing the BrowserFS dependency reduces the initial download size</li>
+<li><strong>Better maintainability:</strong> Using native Emscripten APIs means the code is easier for other contributors to understand and maintain</li>
+<li><strong>More control:</strong> Direct access to IDBFS and Fetch API gives us more flexibility for future optimizations</li>
+<li><strong>Keeps code in C++:</strong> Maintaining consistency with the rest of ScummVM&rsquo;s codebase</li>
+</ul>
+<p>I don&rsquo;t think this is necessarily the end-all best state. Ideally we would move to WASMFS, so we could use OPFS (Origin Private File System) for better performance and use FETCH_FS for the assets, but that will require enabling threads, which we currently don&rsquo;t support yet due to complications with dynamic module loading.</p>
+<p><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/c4fa025aae98746420a7703796f31df6626c71a2" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@c4fa025:</b>&nbsp;EMSCRIPTEN: FS: Implement filesystems in C&#43;&#43; and remove BrowserFS dependency'></a> - EMSCRIPTEN: FS: Implement filesystems in C++ and remove BrowserFS dependency (August 1)</p>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="/tags/gaming/">Video Games</a></li>
+      <li><a href="/tags/scummvm/">ScummVM</a></li>
+      <li><a href="/tags/web-development/">Web Development</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="/posts/2026-01-trmnl-setup/">
+    <span class="title">« Prev | <span>January 10, 2026</span></span>
+    <br>
+    <span>TRMNL for Our Home</span>
+  </a>
+  <a class="next" href="/posts/2025-08-scummvm-part4b/">
+    <span class="title"><span>August 3, 2025</span> | Next »</span>
+    <br>
+    <span>Porting ScummVM to Webassembly, Part 4b - Sound Improvements</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="/">Christian Kündig</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<script src="/js/quicklink.umd.min.js" data-no-instant
+></script>
+<script data-no-instant>
+  
+window.addEventListener('load', () => {
+  quicklink.listen();
+});
+</script>
+
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+</body>
+
+</html>

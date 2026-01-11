@@ -9,16 +9,51 @@
       <url>/images/bg.jpg</url>
       <link>/images/bg.jpg</link>
     </image>
-    <generator>Hugo -- 0.134.0</generator>
+    <generator>Hugo -- 0.145.0</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 05 Jan 2024 00:00:24 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 10 Jan 2026 00:00:00 +0100</lastBuildDate>
     <atom:link href="/tags/web-development/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>TRMNL for Our Home</title>
+      <link>/posts/2026-01-trmnl-setup/</link>
+      <pubDate>Sat, 10 Jan 2026 00:00:00 +0100</pubDate>
+      <guid>/posts/2026-01-trmnl-setup/</guid>
+      <description>Setting up a TRMNL display at home and building three custom plugins for local weather, the SBB station board, and a simplified family calendar.</description>
+    </item>
+    <item>
+      <title>Porting ScummVM to Webassembly, Part 4c - File Access</title>
+      <link>/posts/2025-08-scummvm-part4c/</link>
+      <pubDate>Mon, 04 Aug 2025 12:25:46 +0100</pubDate>
+      <guid>/posts/2025-08-scummvm-part4c/</guid>
+      <description>Revisiting how files are loaded over the network and finally adding support for cloud storage (Dropbox, Google Drive etc)</description>
+    </item>
+    <item>
+      <title>Porting ScummVM to Webassembly, Part 4b - Sound Improvements</title>
+      <link>/posts/2025-08-scummvm-part4b/</link>
+      <pubDate>Sun, 03 Aug 2025 12:25:46 +0100</pubDate>
+      <guid>/posts/2025-08-scummvm-part4b/</guid>
+      <description>Diving deep into the different audio options ScummVM provides and making sure they work in the browser.</description>
+    </item>
+    <item>
+      <title>Porting ScummVM to Webassembly, Part 4a - Maintenance</title>
+      <link>/posts/2025-08-scummvm-part4a/</link>
+      <pubDate>Sat, 02 Aug 2025 02:25:46 +0100</pubDate>
+      <guid>/posts/2025-08-scummvm-part4a/</guid>
+      <description>Cleaning up some loose ends to get ready for future improvements</description>
+    </item>
+    <item>
+      <title>Our Wedding Website, 5 Years Later</title>
+      <link>/posts/2019-12-wedding/</link>
+      <pubDate>Sat, 09 Nov 2024 11:36:51 +0100</pubDate>
+      <guid>/posts/2019-12-wedding/</guid>
+      <description>Reflecting on the custom wedding website I built in 2019, and how it evolved over the years.</description>
+    </item>
     <item>
       <title>Porting ScummVM to Webassembly, Part 3</title>
       <link>/posts/2024-01-scummvm-part3/</link>
       <pubDate>Fri, 05 Jan 2024 00:00:24 +0100</pubDate>
       <guid>/posts/2024-01-scummvm-part3/</guid>
-      <description>I finally found some time  over the holidays to wrap up some improvements I was working on for ScummVM last year.</description>
+      <description>I finally found some time over the holidays to wrap up some improvements I was working on for ScummVM last year.</description>
     </item>
     <item>
       <title>Github Shortcodes for the Hugo Static Page Generator</title>
@@ -56,7 +91,7 @@
       <guid>/posts/2014-11-browsepass-dropbox/</guid>
       <description>&lt;p&gt;Living and traveling overseas for more than a year, I want a way to access some of my more secure credentials in case of device loss.&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://bitbucket.org/namn/browsepass&#34;&gt;BrowsePass&lt;/a&gt; is a static web application to read KDBX files as produced by KeePass. This allows me to securely access my passwords and logins from everywhere - all I need is a computer with a web browser.&lt;/p&gt;
-&lt;a href=&#34;https://github.com/chkuendig/browsepass&#34; class=&#34;github-card&#34;&gt;&lt;img src=&#34;/posts/2014-11-browsepass-dropbox/browsepass_11742387053526056463.png&#34;&gt;&lt;/a&gt;
+&lt;a href=&#34;https://github.com/chkuendig/browsepass&#34; class=&#34;github-card&#34;&gt;&lt;img src=&#34;/posts/2014-11-browsepass-dropbox/browsepass_11742387053526056463.png&#34; alt=&#34;Browsepass fork (see https://bitbucket.org/namn/browsepass ) with Dropbox support &#34;&gt;&lt;/a&gt;
 
 &lt;p&gt;As Google isn&amp;rsquo;t available in all the countries I&amp;rsquo;m traveling to (👋🇨🇳), I added support for Dropbox to it. The integration is completely client-side and uses Dropbox&amp;rsquo; Oauth/Rest Client API.&lt;/p&gt;</description>
     </item>

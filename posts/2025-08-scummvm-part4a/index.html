@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Porting ScummVM to Webassembly, Part 4a - Maintenance | Christian Kündig</title>
+<meta name="keywords" content="Gaming, ScummVM, Web Development">
+<meta name="description" content="Cleaning up some loose ends to get ready for future improvements">
+<meta name="author" content="">
+<link rel="canonical" href="/posts/2025-08-scummvm-part4a/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4b4ba94b836af7c5b90f9d1ab2afae9f8e5e904c2a158eff92031324dea547d4.css" integrity="sha256-S0upS4Nq98W5D50asq&#43;un45ekEwqFY7/kgMTJN6lR9Q=" rel="preload stylesheet" as="style">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="mask-icon" href="/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="/posts/2025-08-scummvm-part4a/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
+<link href='//fonts.googleapis.com/css?family=Mulish' rel='stylesheet' type='text/css'>
+
+<script src="/js/github-buttons.min.js" data-no-instant
+></script>
+
+<script>
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  });
+</script>
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4NRERPTCT"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-L4NRERPTCT');
+        }
+      </script><meta property="og:url" content="/posts/2025-08-scummvm-part4a/">
+  <meta property="og:site_name" content="Christian Kündig">
+  <meta property="og:title" content="Porting ScummVM to Webassembly, Part 4a - Maintenance">
+  <meta property="og:description" content="Cleaning up some loose ends to get ready for future improvements">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-08-02T02:25:46+01:00">
+    <meta property="article:modified_time" content="2025-08-02T02:25:46+01:00">
+    <meta property="article:tag" content="Video Games">
+    <meta property="article:tag" content="ScummVM">
+    <meta property="article:tag" content="Web Development">
+      <meta property="og:image" content="/images/bg.jpg">
+        <meta property="fb:admins" content="about.me">
+  <meta name="fediverse:creator" content="@chkuendig@ioc.exchange">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="/images/bg.jpg">
+<meta name="twitter:title" content="Porting ScummVM to Webassembly, Part 4a - Maintenance">
+<meta name="twitter:description" content="Cleaning up some loose ends to get ready for future improvements">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Personal Projects",
+      "item": "/posts/"
+    }
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Porting ScummVM to Webassembly, Part 4a - Maintenance",
+      "item": "/posts/2025-08-scummvm-part4a/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Porting ScummVM to Webassembly, Part 4a - Maintenance",
+  "name": "Porting ScummVM to Webassembly, Part 4a - Maintenance",
+  "description": "Cleaning up some loose ends to get ready for future improvements",
+  "keywords": [
+    "Gaming", "ScummVM", "Web Development"
+  ],
+  "articleBody": " ℹ️ This post is part of a series of posts describing my work porting ScummVM to the Web. You can find past (and future) posts here: ScummVM\nIt’s been a while since my last post about porting ScummVM. I have kept working on it the past 18 months since my last post. Life was busy, and many of the changes needed more time to get into a mergeable state, which led me to focus on new things instead of wrapping up what I was working on. Cleaning up is less fun than starting new.\nThe good news though is that in the past few months, I started pushing more upstream. So much in fact, that I have decided to break up part 4 into 3 sub-chapters (if The Avengers and Mission Impossible can split movies into to two parts, I can do three for my posts!)\nThis first part will be focus on maintenance. Part b (now online) and c (see here) will focus on new features (Audio/Video and file access).\nTestbed ScummVM has a special game engine, called ’testbed’. Its only purpose is to perform series of tests which help backend authors to see correctness of their implementation. Basically a “fake game” using all features. I have known about this, but haven’t really spent time with it much in the past. Looking into it closer, I found it to be super useful - although not very actively maintained. So I dug in and made sure all tests passed on the web:\n- SCUMM: Add small helpers for shorter/safer/clearer enhancement checks (May 25) - TESTBED: Fix broken tests and non-interactive mode (July 2)\nKey improvements:\nMake Interactive Mode configurable in GUI: I wanted to be able to run testbed in automated mode without adjusting the scummvm.ini - this is now possible. I managed to mess this one up during rebasing, so I had to push a fix for it in the second PR. 🫠 Fix file writing if game data directory is read-only: This is a bug we discussed a while ago on discord. If the game directory is read-only the write tests and the filelog are now stored in the savegame location. Support opening logfile in Emscripten: This is similar to the screenshot export from (Emscripten: Screenshot and Logfile support and minor bugfixes \u0026 improvements). I added a button to Open the log file. This led to quite some discussion, so I ended up implementing it in a cross-platform way. File will open in the ScummVM-UI via the textviewer widget. I still plan on eventually make these files downloadable, but for now this is good enough. Fix freeze when playing MIDI in Emscripten: “This type of loop needs to yield to the browser regularly in single-threaded Emscripten” - what it actually needs to do is sleep for a while to not hammer the CPU to 100%. This one was funny as I added it to work around a bug in Emscripten (everything freezes if Game Engines don’t yield once in a while), but the fix was needed anyway (so we didn’t end up gating it with an #ifdef and didn’t remove it after I fixed the underlying Emscripten issue). Fixing bugs.scummvm.org#15754 - tests failing for files with trailing dots. I noticed this failing test a while ago, and opened a bug hoping someone more knowledgeable would fix it. But since this didn’t happen, I fixed it myself. Turned out to be an issue with the test. It’s not clear if this ever worked as the handling of trailing dots is in SearchMan, not FSDirectory. I checked the AGOS engine and it also uses SearchMan, so this should now be correct. Maybe this test pre-dates SearchMan? The ImageAlbum test also didn’t work. Also a bug in the test itself which should now be fixed (the images are in a subfolder that wasn’t added to SearchMan). There was a correctly failing test in the save game tests. I fixed the issue by properly setting the correct error when a save game can’t be opened. SDL Timers This was one of the things that I knew was broken, but not sure why. Since the first port, some engines never worked and just crashed when launching a game with a somewhat odd unreachable code error. I noticed the same thing happened in the Threading/Mutex locking tests in Testbed above. Which meant I finally had a somewhat restricted test environment to reproduce it.\nFix timers and event polling. We used to rely on SDL timers as all other SDL backends. Unfortunately this never worked as these timers (when not using threads and webworkers) are implemented as javascript timeouts, which combined with Asyncify means we can have weird re-entry issues (timer completes when the wasm runtime is paused for another async operation).\nI have re-read the Emscripten page warning about this re-entry issue many many times, but it took me to see it in action to understand what was happening. Fixing it was somewhat easy, there’s other single-threaded backends in ScummVM having to figure out timers (Nintendo 64, Nintendo DS, Atari), and I just copied the solution from them: Check if a timer has to be executed whenever the main loop is polling for events.\nIn practice all engines that used timers crashed. This is now fixed by moving to a model where we use the event loop for timers. Using threads unfortunately currently doesn’t work with dynamic loading which we need to keep initial binary size in check.\nFixed in (BACKENDS: EMSCRIPTEN: Fix timers and event polling), merged in (EMSCRIPTEN: Adding audio libraries, implementing FS in C++ and smaller fixes - opened August 2)\nGLSL Shaders While I have worked in gaming before and studied computer science, I have basically no experience working on 3D rendering. So noticing that some games crashed at launch with a Shader issue sure sounded like a daunting task. In the end, it was not that difficult:\nOpenGLES 2.0 GLSL requires:\nControl flow is limited to forward branching and to loops where the maximum number of iterations can easily be determined at compile time. (Appendix A, 4 Control Flow) In the fragment shader, support for indexing is only mandated for constant-index-expressions. (Appendix A, 5 Indexing of Arrays, Vectors and Matrices) Generally this doesn’t seem to be a limit enforced on most hardware, but for WebGL, this conformity seems to be enforced by the ANGLE Compiler used in all major browsers.\nThis PR fixes the following two errors when launching TWP or Freescape games:\n’[]’ : Index expression must be constant ‘i’ : Loop index cannot be compared with non-constant expression So I had to figure out correct upper boundary for the new iteration limits. This was a fun task - you want to make sure we don’t loop too many times to help the compiler optimize, on the other hand, if we don’t loop enough - everything will break. See the relevant commits:\n(TWP: GLSL loop index cannot be compared with non-constant expression) (FREESCAPE: GLSL index expression must be constant and loop index cannot be compared with non-constant expression) It was eventually merged in (TWP: FREESCAPE: Fix non-compliant GLSL - opened May 9)\nSDL 3 Past updates had me sending patches upstream to SDL2, but this time it was the other way around: SDL3 was officially released on January 21st, and an SDL3 backend was added to ScummVM on Feb 18 ( - BACKENDS: Add SDL3 backend + update imgui, actually opened already in December)\nEmscripten being a pretty new platform, I hoped that SDL3 had a few good quality of life improvements and started work on using SDL3 as the default:\nFix SDLPlugin: Fix by using the correct types (doesn’t compile with SDL3) - (BACKENDS: SDL: Fix SDLPlugin for SDL3) Fix Touch Events: Touch events were completely broken. I knew other backends use this (Switch most importantly), so fixing this was quite motivating - (BACKENDS: SDL: Fix touch events for SDL3) Converting SDL_FingerID to proper 64-bit type (in SDL2 it was signed, in SDL3 it’s unsigned) to avoid an issue where on iOS devices the id turned negative (which we use to indicate that a finger isn’t down anymore) Converting SDL3 nanosecond timestamps to milliseconds as that’s what ScummVM uses everywhere. This resolves an issue where simulated keypresses weren’t triggered as a difference between a (truncated from 64bit) uint32 and uint64 timestamp was calculated to determine the duration of a tap, as well as double clicks not being detected correctly. Add Emscripten backend to configure: Setup SDL3 manually and pick SDL3 always - (EMSCRIPTEN: Add Emscripten backend to configure and setup SDL3 manually) I got this nicely packed up and merged in a single PR: (SDL: EMSCRIPTEN: SDL3 bug fixes and use SDL3 for emscripten backend - July 31st)\nCI, Warnings and smaller things Build Improvements, CI and Buildbot - CI: Add Emscripten builds (July 14) ",
+  "wordCount" : "1892",
+  "inLanguage": "en",
+  "image": "/images/bg.jpg","datePublished": "2025-08-02T02:25:46+01:00",
+  "dateModified": "2025-08-02T02:25:46+01:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/posts/2025-08-scummvm-part4a/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Christian Kündig",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="/" accesskey="h" title="Christian Kündig (Alt + H)">Christian Kündig</a>
+            <div class="logo-switches">
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="/posts/" title="Personal Projects">
+                    <span>Personal Projects</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Porting ScummVM to Webassembly, Part 4a - Maintenance
+    </h1>
+    <div class="post-meta"><span title='2025-08-02 02:25:46 +0100 +0100'>August 2, 2025</span>
+
+</div>
+  </header> 
+  <div class="post-content"><aside>
+    <span>ℹ️</span>
+    <p>This post is part of a series of posts describing my work porting ScummVM to the Web. You can find past (and future) posts here: <a href="https://christian.kuendig.info/tags/scummvm/">ScummVM</a></p>
+</aside>
+<p>It&rsquo;s been a while since my last post about porting ScummVM. I have kept working on it the past 18 months since my <a href="https://christian.kuendig.info/posts/2024-01-scummvm-part3/">last post</a>. Life was busy, and many of the changes needed more time to get into a mergeable state, which led me to focus on new things instead of wrapping up what I was working on. Cleaning up is less fun than starting new.</p>
+<p>The good news though is that in the past few months, I started pushing more upstream. So much in fact, that I have decided to break up part 4 into 3 sub-chapters (if The Avengers and Mission Impossible can split movies into to two parts, I can do three for my posts!)</p>
+<p>This first part will be focus on maintenance. Part b (<a href="/posts/2025-08-scummvm-part4b/">now online</a>) and c (<a href="/posts/2025-08-scummvm-part4c/">see here</a>) will focus on new features (Audio/Video and file access).</p>
+<h1 id="testbed">Testbed</h1>
+<p>ScummVM has a special game engine, called &rsquo;testbed&rsquo;. Its only purpose is to perform series of tests which help backend authors to see correctness of their implementation. Basically a &ldquo;fake game&rdquo; using all features. I have known about this, but haven&rsquo;t really spent time with it much in the past. Looking into it closer, I found it to be super useful - although not very actively maintained. So I dug in and made sure all tests passed on the web:</p>
+<p><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/pull/6650" data-icon="octicon-git-merge" data-size="small" data-text='<b>scummvm#6650:</b>&nbsp;SCUMM: Add small helpers for shorter/safer/clearer enhancement checks'></a> - SCUMM: Add small helpers for shorter/safer/clearer enhancement checks (May 25)
+<a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/pull/6789" data-icon="octicon-git-merge" data-size="small" data-text='<b>scummvm#6789:</b>&nbsp;TESTBED: Fix broken tests and non-interactive mode'></a> - TESTBED: Fix broken tests and non-interactive mode (July 2)</p>
+<p><strong>Key improvements:</strong></p>
+<ul>
+<li><strong>Make Interactive Mode configurable in GUI:</strong> I wanted to be able to run testbed in automated mode without adjusting the scummvm.ini - this is now possible. I managed to mess this one up during rebasing, so I had to push a fix for it in the second PR. 🫠
+<ul>
+<li><img alt="Testbed: Toggle Interactive Mode" loading="lazy" src="/posts/2025-08-scummvm-part4a/testbed-interactive-mode.png"></li>
+</ul>
+</li>
+<li><strong>Fix file writing if game data directory is read-only:</strong> This is a bug we discussed a while ago on discord. If the game directory is read-only the write tests and the filelog are now stored in the savegame location.</li>
+<li><strong>Support opening logfile in Emscripten:</strong> This is similar to the screenshot export from <a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/pull/5587" data-icon="octicon-git-merge" data-size="small" data-text='<b>scummvm#5587:</b>&nbsp;Emscripten: Screenshot and Logfile support and minor bugfixes &amp; improvements'></a> (Emscripten: Screenshot and Logfile support and minor bugfixes &amp; improvements). I added a button to Open the log file. This led to quite some discussion, so I ended up implementing it in a cross-platform way. File will open in the ScummVM-UI via the textviewer widget. I still plan on eventually make these files downloadable, but for now this is good enough.
+<ul>
+<li><img alt="Testbed: Result screen with &ldquo;Open Log&rdquo; button" loading="lazy" src="/posts/2025-08-scummvm-part4a/testbed-logfile.png"></li>
+</ul>
+</li>
+<li><strong>Fix freeze when playing MIDI in Emscripten:</strong> &ldquo;This type of loop needs to yield to the browser regularly in single-threaded Emscripten&rdquo; - what it actually needs to do is sleep for a while to not hammer the CPU to 100%. This one was funny as I added it to work around a bug in Emscripten (everything freezes if Game Engines don&rsquo;t yield once in a while), but the fix was needed anyway (so we didn&rsquo;t end up gating it with an <code>#ifdef</code> and didn&rsquo;t remove it after I fixed the underlying Emscripten issue).</li>
+<li><strong>Fixing <a href="https://bugs.scummvm.org/ticket/15754">bugs.scummvm.org#15754</a></strong> - tests failing for files with trailing dots. I noticed this failing test a while ago, and opened a bug hoping someone more knowledgeable would fix it. But since this didn&rsquo;t happen, I fixed it myself. Turned out to be an issue with the test. It&rsquo;s not clear if this ever worked as the handling of trailing dots is in SearchMan, not FSDirectory. I checked the AGOS engine and it also uses SearchMan, so this should now be correct. Maybe this test pre-dates SearchMan?</li>
+<li><strong>The ImageAlbum test also didn&rsquo;t work.</strong> Also a bug in the test itself which should now be fixed (the images are in a subfolder that wasn&rsquo;t added to SearchMan).</li>
+<li><strong>There was a correctly failing test in the save game tests.</strong> I fixed the issue by properly setting the correct error when a save game can&rsquo;t be opened.</li>
+</ul>
+<h1 id="sdl-timers">SDL Timers</h1>
+<p>This was one of the things that I knew was broken, but not sure why. Since the first port, some engines never worked and just crashed when launching a game with a somewhat odd <code>unreachable code</code> error. I noticed the same thing happened in the Threading/Mutex locking tests in Testbed above. Which meant I finally had a somewhat restricted test environment to reproduce it.</p>
+<p>Fix timers and event polling. We used to rely on SDL timers as all other SDL backends. Unfortunately this never worked as these timers (when not using threads and webworkers) are implemented as javascript timeouts, which combined with Asyncify means we can have weird re-entry issues (timer completes when the wasm runtime is paused for another async operation).</p>
+<p>I have re-read the Emscripten page warning about this <a href="https://emscripten.org/docs/porting/asyncify.html#reentrancy">re-entry issue</a> many many times, but it took me to see it in action to understand what was happening. Fixing it was somewhat easy, there&rsquo;s other single-threaded backends in ScummVM having to figure out timers (Nintendo 64, Nintendo DS, Atari), and I just copied the solution from them: Check if a timer has to be executed whenever the main loop is polling for events.</p>
+<p>In practice all engines that used timers crashed. This is now fixed by moving to a model where we use the event loop for timers. Using threads unfortunately currently doesn&rsquo;t work with dynamic loading which we need to keep initial binary size in check.</p>
+<p>Fixed in <a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/d79e58b7d38ffd92dacddba379a3a11e8979732d" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@d79e58b:</b>&nbsp;BACKENDS: EMSCRIPTEN: Fix timers and event polling'></a> (BACKENDS: EMSCRIPTEN: Fix timers and event polling), merged in <a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/pull/6853" data-icon="octicon-git-merge" data-size="small" data-text='<b>scummvm#6853:</b>&nbsp;EMSCRIPTEN: Adding audio libraries, implementing FS in C&#43;&#43; and smaller fixes'></a> (EMSCRIPTEN: Adding audio libraries, implementing FS in C++ and smaller fixes - opened August 2)</p>
+<h1 id="glsl-shaders">GLSL Shaders</h1>
+<p>While I have worked in gaming before and studied computer science, I have basically no experience working on 3D rendering. So noticing that some games crashed at launch with a Shader issue sure sounded like a daunting task. In the end, it was not that difficult:</p>
+<p><a href="https://www.khronos.org/files/opengles_shading_language.pdf">OpenGLES 2.0 GLSL</a> requires:</p>
+<ul>
+<li>Control flow is limited to forward branching and to loops where the maximum number of iterations can easily be determined at compile time. (Appendix A, 4 Control Flow)</li>
+<li>In the fragment shader, support for indexing is only mandated for constant-index-expressions. (Appendix A, 5 Indexing of Arrays, Vectors and Matrices)</li>
+</ul>
+<p>Generally this doesn&rsquo;t seem to be a limit enforced on most hardware, but for WebGL, this conformity seems to be <a href="https://www.khronos.org/webgl/public-mailing-list/public_webgl/1012/msg00063.php">enforced by the ANGLE Compiler</a> used in all major browsers.</p>
+<p>This PR fixes the following two errors when launching TWP or Freescape games:</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/19529690/index-expression-must-be-constant-webgl-glsl-error">&rsquo;[]&rsquo; : Index expression must be constant</a></li>
+<li><a href="https://stackoverflow.com/questions/38986208/webgl-loop-index-cannot-be-compared-with-non-constant-expression">&lsquo;i&rsquo; : Loop index cannot be compared with non-constant expression</a></li>
+</ul>
+<p>So I had to figure out correct upper boundary for the new iteration limits. This was a fun task - you want to make sure we don&rsquo;t loop too many times to help the compiler optimize, on the other hand, if we don&rsquo;t loop enough - everything will break. See the relevant commits:</p>
+<ul>
+<li><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/2067c6ab5312596e96fc939d61ef5237fc919ae4" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@2067c6a:</b>&nbsp;TWP: GLSL loop index cannot be compared with non-constant expression'></a> (TWP: GLSL loop index cannot be compared with non-constant expression)</li>
+<li><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/cee0ecffc500a81c753c24abffd199f1ddc7ddef" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@cee0ecf:</b>&nbsp;FREESCAPE: GLSL index expression must be constant and loop index cannot be compared with non-constant expression.'></a> (FREESCAPE: GLSL index expression must be constant and loop index cannot be compared with non-constant expression)</li>
+</ul>
+<p>It was eventually merged in <a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/pull/6602" data-icon="octicon-git-merge" data-size="small" data-text='<b>scummvm#6602:</b>&nbsp;TWP: FREESCAPE: Fix non-compliant GLSL'></a> (TWP: FREESCAPE: Fix non-compliant GLSL - opened May 9)</p>
+<h1 id="sdl-3">SDL 3</h1>
+<p>Past updates had me sending patches upstream to SDL2, but this time it was the other way around: <a href="https://www.patreon.com/posts/sdl3-is-released-120491416">SDL3 was officially released on January 21st</a>, and an SDL3 backend was added to ScummVM on Feb 18 (<a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/pull/6312" data-icon="octicon-git-merge" data-size="small" data-text='<b>scummvm#6312:</b>&nbsp;BACKENDS: Add SDL3 backend &#43; update imgui'></a> - BACKENDS: Add SDL3 backend + update imgui, actually opened already in December)</p>
+<p>Emscripten being a pretty new platform, I hoped that SDL3 had a few good quality of life improvements and started work on using SDL3 as the default:</p>
+<ul>
+<li><strong>Fix SDLPlugin:</strong> Fix by using the correct types (doesn&rsquo;t compile with SDL3) - <a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/0c039741e549d27e7726fdf5a858133f03c9b343" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@0c03974:</b>&nbsp;BACKENDS: SDL: Fix SDLPlugin for SDL3'></a> (BACKENDS: SDL: Fix SDLPlugin for SDL3)</li>
+<li><strong>Fix Touch Events:</strong> Touch events were completely broken. I knew other backends use this (Switch most importantly), so fixing this was quite motivating - <a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/2b0bc6045d35fa1993880d21b875f8991a9a11dc" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@2b0bc60:</b>&nbsp;BACKENDS: SDL: Fix touch events for SDL3
+
+- SDL_FingerID is now uint64 and 0 is defined as an invalid ID
+- Timestamps are now based on nanoseconds and have to be converted to ms'></a> (BACKENDS: SDL: Fix touch events for SDL3)
+<ul>
+<li>Converting <code>SDL_FingerID</code> to proper 64-bit type (in SDL2 it was signed, in SDL3 it&rsquo;s unsigned) to avoid an issue where on iOS devices the <code>id</code> turned negative (which we use to indicate that a finger isn&rsquo;t down anymore)</li>
+<li>Converting SDL3 nanosecond timestamps to milliseconds as that&rsquo;s what ScummVM uses everywhere. This resolves an issue where simulated keypresses weren&rsquo;t triggered as a difference between a (truncated from 64bit) uint32 and uint64 timestamp was calculated to determine the duration of a tap, as well as double clicks not being detected correctly.</li>
+</ul>
+</li>
+<li><strong>Add Emscripten backend to configure:</strong> Setup SDL3 manually and pick SDL3 always - <a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/754d4b4c0c828902e874eb389df3ceed239b9a3b" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@754d4b4:</b>&nbsp;EMSCRIPTEN: Add Emscripten backend to configure and setup SDL3 manually'></a> (EMSCRIPTEN: Add Emscripten backend to configure and setup SDL3 manually)</li>
+</ul>
+<p>I got this nicely packed up and merged in a single PR: <a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/pull/6848" data-icon="octicon-git-merge" data-size="small" data-text='<b>scummvm#6848:</b>&nbsp;SDL: EMSCRIPTEN: SDL3 bug fixes and use SDL3 for emscripten backend'></a> (SDL: EMSCRIPTEN: SDL3 bug fixes and use SDL3 for emscripten backend - July 31st)</p>
+<h1 id="ci-warnings-and-smaller-things">CI, Warnings and smaller things</h1>
+<h2 id="build-improvements-ci-and-buildbot">Build Improvements, CI and Buildbot</h2>
+<ul>
+<li><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/bf932da8ddcbe903cdcb911cf41bb8dda5950870" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@bf932da:</b>&nbsp;CI: Add Emscripten builds'></a> - CI: Add Emscripten builds (July 14)</li>
+<li><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/61ad913de6b6b23acaece5b9c70cae7245ceaf47" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@61ad913:</b>&nbsp;DISTS: EMSCRIPTEN: Simplify build by removing extra scripts for demo download and scummvm.ini creation and don&#39;t depend on nodejs at all (&#43; switch to O2 by default)'></a> - DISTS: EMSCRIPTEN: Simplify build by removing extra scripts for demo download and scummvm.ini creation and don&rsquo;t depend on nodejs at all (+ switch to O2 by default) (August 1)</li>
+<li><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/76cf7936a2813d9545e07abed0747979ed30582a" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@76cf793:</b>&nbsp;BACKENDS: OPENGL3D: Fix builds with USE_FORCED_GLES and without USE_GLAD'></a> - BACKENDS: OPENGL3D: Fix builds with USE_FORCED_GLES and without USE_GLAD (June 30)</li>
+<li><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/ade1c2fa60a362b35ca5d8439aa23f704590af26" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@ade1c2f:</b>&nbsp;DISTS: EMSCRIPTEN: Update Emscripten SDK and cleanup build.sh'></a> - DISTS: EMSCRIPTEN: Update Emscripten SDK and cleanup build.sh (June 30)</li>
+</ul>
+<h2 id="support-for-bidirectional-bidi-text">Support for Bidirectional (BiDi) text</h2>
+<p>A bidirectional text contains two text directionalities, right-to-left (RTL) and left-to-right (LTR). Some so-called right-to-left scripts such as the Persian script and Arabic are mostly, but not exclusively, right-to-left - mathematical expressions, numeric dates and numbers bearing units are embedded from left to right.</p>
+<p>RTL text can also become bi-direction when text from a left-to-right language such as English is embedded in them; or vice versa, if Arabic is embedded in a left-to-right script such as English.</p>
+<p>In order to have proper Arabic and Hebrew support, the bidi algorithm needs to be implemented. GNU FriBidi is an implementation of that, which I&rsquo;ve now integrated into the Emscripten build.
+<img alt="The word &ldquo;language&rdquo; in arabic" loading="lazy" src="/posts/2025-08-scummvm-part4a/bidi-text.png"></p>
+<p>Comparison:</p>
+<table>
+  <thead>
+      <tr>
+          <th>With Bidirectional text support</th>
+          <th>Without Bidirectional text support</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><img alt="Screenshot" loading="lazy" src="/posts/2025-08-scummvm-part4a/no-fribidi.png"></td>
+          <td><a href="with-fribidi.png">Screenshot</a></td>
+      </tr>
+  </tbody>
+</table>
+<p>Adding BiDi support enables proper text display for right-to-left languages like Arabic and Hebrew, making ScummVM more accessible to players worldwide. This is particularly important for games that have been localized to these languages.</p>
+<p><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/2dca73e8a3669e02b994b92922fa2b0b4a67f507" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@2dca73e:</b>&nbsp;DISTS: EMSCRIPTEN: Add Fribidi to build'></a> - EMSCRIPTEN: Add FriBidi library support</p>
+<h2 id="warnings">Warnings</h2>
+<p>I also started to work a bit on some janitorial tasks:</p>
+<ul>
+<li><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/855edd6b3e954ce8b8ed538775c5d83f79e54a51" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@855edd6:</b>&nbsp;LASTEXPRESS: Rename PAGE_SIZE macro'></a> - LASTEXPRESS: Rename PAGE_SIZE macro (July 31)</li>
+<li><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/944d5666993298d02047c574539be2f0ffeb347d" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@944d566:</b>&nbsp;COMMON: Silence warning “unused variable”'></a> - COMMON: Silence warning &ldquo;unused variable&rdquo; (February 13)</li>
+<li><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/9a03ef57ca2e51a1ffe7875a790e7c30019d109e" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@9a03ef5:</b>&nbsp;SDL: Silence warning &#34;unused function &#39;sdlGetAttribute&#39;&#34;'></a> - SDL: Silence warning &ldquo;unused function &lsquo;sdlGetAttribute&rsquo;&rdquo; (May 9)</li>
+<li><a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/commit/375a2091c8880a31acaf5b1417a288dd94d75bfe" data-icon="octicon-git-commit" data-size="small" data-text='<b>scummvm@375a209:</b>&nbsp;IMAGE: Silence warning &#34;&#39;Image::JPEGDecoder::getPalette&#39; hides overloaded virtual function&#34;'></a> - IMAGE: Silence warning &ldquo;&lsquo;Image::JPEGDecoder::getPalette&rsquo; hides overloaded virtual function&rdquo; (May 9)</li>
+</ul>
+<h2 id="optimizations">Optimizations</h2>
+<p>I spent some time optimizing the build output to reduce file sizes and improve loading times:</p>
+<ul>
+<li>
+<p><strong>Limit plugin exports:</strong> By providing the plugin names as inputs to the build process, we can limit what symbols are exported, making our libraries smaller. This required building the plugins first, necessitating a change to the main Makefile. The benefit is significantly smaller WASM files that download and parse faster.</p>
+</li>
+<li>
+<p><strong>Limit asyncify exports:</strong> In a similar way, we can tell the asyncify instrumentation to only consider specific imports in plugins that need to be asyncify-instrumented. Now the dynamic engines only export the basic interface defined in <code>./backends/plugins/elf/plugin.syms</code>. This allows Emscripten to perform much more efficient dead code elimination on the side modules, resulting in smaller individual engine files.</p>
+</li>
+<li>
+<p><strong>Main module optimization:</strong> I experimented with similar options for the main module but haven&rsquo;t found a working solution yet. This remains an area for future improvement.</p>
+</li>
+</ul>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="/tags/gaming/">Video Games</a></li>
+      <li><a href="/tags/scummvm/">ScummVM</a></li>
+      <li><a href="/tags/web-development/">Web Development</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="/posts/2025-08-scummvm-part4b/">
+    <span class="title">« Prev | <span>August 3, 2025</span></span>
+    <br>
+    <span>Porting ScummVM to Webassembly, Part 4b - Sound Improvements</span>
+  </a>
+  <a class="next" href="/posts/2025-04-retrowave/">
+    <span class="title"><span>April 10, 2025</span> | Next »</span>
+    <br>
+    <span>RetroWave OPL3 Express via Web Serial API</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="/">Christian Kündig</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<script src="/js/quicklink.umd.min.js" data-no-instant
+></script>
+<script data-no-instant>
+  
+window.addEventListener('load', () => {
+  quicklink.listen();
+});
+</script>
+
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+</body>
+
+</html>

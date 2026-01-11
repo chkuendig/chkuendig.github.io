@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>TRMNL for Our Home | Christian Kündig</title>
+<meta name="keywords" content="Home Automation, Web Development">
+<meta name="description" content="Setting up a TRMNL display at home and building three custom plugins for local weather, the SBB station board, and a simplified family calendar.">
+<meta name="author" content="">
+<link rel="canonical" href="/posts/2026-01-trmnl-setup/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4b4ba94b836af7c5b90f9d1ab2afae9f8e5e904c2a158eff92031324dea547d4.css" integrity="sha256-S0upS4Nq98W5D50asq&#43;un45ekEwqFY7/kgMTJN6lR9Q=" rel="preload stylesheet" as="style">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="mask-icon" href="/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="/posts/2026-01-trmnl-setup/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
+<link href='//fonts.googleapis.com/css?family=Mulish' rel='stylesheet' type='text/css'>
+
+<script src="/js/github-buttons.min.js" data-no-instant
+></script>
+
+<script>
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  });
+</script>
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4NRERPTCT"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-L4NRERPTCT');
+        }
+      </script><meta property="og:url" content="/posts/2026-01-trmnl-setup/">
+  <meta property="og:site_name" content="Christian Kündig">
+  <meta property="og:title" content="TRMNL for Our Home">
+  <meta property="og:description" content="Setting up a TRMNL display at home and building three custom plugins for local weather, the SBB station board, and a simplified family calendar.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-10T00:00:00+01:00">
+    <meta property="article:modified_time" content="2026-01-10T00:00:00+01:00">
+    <meta property="article:tag" content="Home Automation">
+    <meta property="article:tag" content="Web Development">
+      <meta property="og:image" content="/images/bg.jpg">
+        <meta property="fb:admins" content="about.me">
+  <meta name="fediverse:creator" content="@chkuendig@ioc.exchange">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="/images/bg.jpg">
+<meta name="twitter:title" content="TRMNL for Our Home">
+<meta name="twitter:description" content="Setting up a TRMNL display at home and building three custom plugins for local weather, the SBB station board, and a simplified family calendar.">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Personal Projects",
+      "item": "/posts/"
+    }
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "TRMNL for Our Home",
+      "item": "/posts/2026-01-trmnl-setup/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "TRMNL for Our Home",
+  "name": "TRMNL for Our Home",
+  "description": "Setting up a TRMNL display at home and building three custom plugins for local weather, the SBB station board, and a simplified family calendar.",
+  "keywords": [
+    "Home Automation", "Web Development"
+  ],
+  "articleBody": " What TRMNL Is TRMNL is a slow-information, always-on display. It is built around a simple idea: ambient, glanceable data beats notification chaos. The hardware is quiet and understated, and the software is intentionally minimal. I love that it treats information as decor rather than alerts.\nThe thoughtful design shows up in small places. One of my favorite examples is how the team handles accessibility and layout tweaks, like in this short thread: https://bsky.app/profile/ericwbailey.website/post/3mc3ositnc22j. It is a good reminder that calm tech can still sweat the details.\nWhy I Like It at Home Lives on the wall next to the entry door and never asks for attention, but is always readable. Focuses on a handful of tiles instead of infinite feeds or notifications. Easy to script against, so personal data can be pulled in without a full dashboard project. The Three Plugins I Built I used TRMNLP, a local development server for building TRMNL plugins. It’s built in Ruby and uses Liquid templates (the same templating engine Shopify uses), which made it straightforward to design and iterate. The workflow is simple: write Liquid templates locally, watch them update in real time via the dev server, then push finished plugins to TRMNL with a single command.\nThe final setup with weather, calendar, and SBB departures\nSwiss Meteo I wanted Swiss-specific weather data because the existing TRMNL plugins rely on global weather services that are not nearly as accurate as local ones—especially for same-day predictions in Switzerland where weather can change quickly. MeteoSwiss provides highly detailed and accurate forecasts.\nI used as a reference to figure out how the MeteoSwiss API metrics work. The rest was about replicating the official MeteoSwiss design using Highcharts for the temperature graph and the TRMNL design framework for consistent styling.\nSBB Station Board A station board plugin already exists (), but I wanted to tweak it a bit. Specifically, I added support for multiple lines—so you can display both bus and train departures going to the same destination together. I also integrated the real SBB pictograms for proper visual consistency with actual station boards.\nI shared these changes as along with some other minor improvements.\nFamily Calendar TRMNL already comes with a good integrated calendar plugin, but to keep the display minimal, I wanted to reduce it further. I created a plugin that uses the “plugin merge” data strategy to leverage the existing Fastmail calendar plugin but render it in a much more simplified way—just a quick preview of events coming up in the next month.\nSetup Notes The out-of-box setup was straightforward: Wi-Fi, add the display to the account, and pick a starter layout. After that, the SDK made it easy to drop in the custom plugins above. Everything has been stable so far, and the whole point—ambient info without pings—works exactly as advertised.\n",
+  "wordCount" : "468",
+  "inLanguage": "en",
+  "image": "/images/bg.jpg","datePublished": "2026-01-10T00:00:00+01:00",
+  "dateModified": "2026-01-10T00:00:00+01:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/posts/2026-01-trmnl-setup/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Christian Kündig",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="/" accesskey="h" title="Christian Kündig (Alt + H)">Christian Kündig</a>
+            <div class="logo-switches">
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="/posts/" title="Personal Projects">
+                    <span>Personal Projects</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      TRMNL for Our Home
+    </h1>
+    <div class="post-meta"><span title='2026-01-10 00:00:00 +0100 +0100'>January 10, 2026</span>
+
+</div>
+  </header> 
+  <div class="post-content"><figure class="centered">
+    <img loading="lazy" src="/posts/2026-01-trmnl-setup/og-gray-wall.jpg  "
+         alt="TRMNL display mounted on a wall showing calendar, weather, stock prices, and schedule information"/> 
+</figure>
+
+<h2 id="what-trmnl-is">What TRMNL Is</h2>
+<p><a href="https://usetrmnl.com/">TRMNL</a> is a slow-information, always-on display. It is built around a simple idea: ambient, glanceable data beats notification chaos. The hardware is quiet and understated, and the software is intentionally minimal. I love that it treats information as decor rather than alerts.</p>
+<p>The thoughtful design shows up in small places. One of my favorite examples is how the team handles accessibility and layout tweaks, like in this short thread: <a href="https://bsky.app/profile/ericwbailey.website/post/3mc3ositnc22j">https://bsky.app/profile/ericwbailey.website/post/3mc3ositnc22j</a>. It is a good reminder that calm tech can still sweat the details.</p>
+<h2 id="why-i-like-it-at-home">Why I Like It at Home</h2>
+<ul>
+<li>Lives on the wall next to the entry door and never asks for attention, but is always readable.</li>
+<li>Focuses on a handful of tiles instead of infinite feeds or notifications.</li>
+<li>Easy to script against, so personal data can be pulled in without a full dashboard project.</li>
+</ul>
+<h2 id="the-three-plugins-i-built">The Three Plugins I Built</h2>
+<p>I used <a href="https://github.com/usetrmnl/trmnlp">TRMNLP</a>, a local development server for building TRMNL plugins. It&rsquo;s built in Ruby and uses Liquid templates (the same templating engine Shopify uses), which made it straightforward to design and iterate. The workflow is simple: write Liquid templates locally, watch them update in real time via the dev server, then push finished plugins to TRMNL with a single command.</p>
+<figure class="centered">
+    <img loading="lazy" src="/posts/2026-01-trmnl-setup/screenshot.png  "
+         alt="TRMNL display showing current weather, family calendar with upcoming events, and SBB departure times for local trains"/> <figcaption>
+            <p><em>The final setup with weather, calendar, and SBB departures</em></p>
+        </figcaption>
+</figure>
+
+<h3 id="swiss-meteo">Swiss Meteo</h3>
+<p>I wanted Swiss-specific weather data because the existing TRMNL plugins rely on global weather services that are not nearly as accurate as local ones—especially for same-day predictions in Switzerland where weather can change quickly. MeteoSwiss provides highly detailed and accurate forecasts.</p>
+<p>I used <a class="github-button" data-color-scheme="" href="https://github.com/Rudd-O/hamsclientfork" data-icon="octicon-repo" data-size="small" data-text='<b>Rudd-O/hamsclientfork</b>'></a> as a reference to figure out how the MeteoSwiss API metrics work. The rest was about replicating the official MeteoSwiss design using <a href="https://www.highcharts.com/">Highcharts</a> for the temperature graph and the <a href="https://docs.usetrmnl.com/go/developer-guide/design-framework">TRMNL design framework</a> for consistent styling.</p>
+<h3 id="sbb-station-board">SBB Station Board</h3>
+<p>A station board plugin already exists (<a class="github-button" data-color-scheme="" href="https://github.com/jcfischer/sbb-stationboard" data-icon="octicon-repo" data-size="small" data-text='<b>jcfischer/sbb-stationboard</b>'></a>), but I wanted to tweak it a bit. Specifically, I added support for multiple lines—so you can display both bus and train departures going to the same destination together. I also integrated the real <a href="https://digital.sbb.ch/de/foundation/assets/pictos/">SBB pictograms</a> for proper visual consistency with actual station boards.</p>
+<p>I shared these changes as <a class="github-button" data-color-scheme="" href="https://github.com/jcfischer/sbb-stationboard/pull/1" data-icon="octicon-git-pull-request" data-size="small" data-text='<b>sbb-stationboard#1:</b>&nbsp;Some minor improvements'></a> along with some other minor improvements.</p>
+<h3 id="family-calendar">Family Calendar</h3>
+<p>TRMNL already comes with a good integrated calendar plugin, but to keep the display minimal, I wanted to reduce it further. I created a plugin that uses the <a href="https://docs.usetrmnl.com/go/private-api/plugin-data">&ldquo;plugin merge&rdquo; data strategy</a> to leverage the existing Fastmail calendar plugin but render it in a much more simplified way—just a quick preview of events coming up in the next month.</p>
+<h2 id="setup-notes">Setup Notes</h2>
+<p>The out-of-box setup was straightforward: Wi-Fi, add the display to the account, and pick a starter layout. After that, the SDK made it easy to drop in the custom plugins above. Everything has been stable so far, and the whole point—ambient info without pings—works exactly as advertised.</p>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="/tags/home-automation/">Home Automation</a></li>
+      <li><a href="/tags/web-development/">Web Development</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="next" href="/posts/2025-08-scummvm-part4c/">
+    <span class="title"><span>August 4, 2025</span> | Next »</span>
+    <br>
+    <span>Porting ScummVM to Webassembly, Part 4c - File Access</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="/">Christian Kündig</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<script src="/js/quicklink.umd.min.js" data-no-instant
+></script>
+<script data-no-instant>
+  
+window.addEventListener('load', () => {
+  quicklink.listen();
+});
+</script>
+
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+</body>
+
+</html>

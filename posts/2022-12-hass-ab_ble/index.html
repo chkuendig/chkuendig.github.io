@@ -5,12 +5,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Forwarding Bluetooth with the AB BLE Gateway | Christian Kündig</title>
-<meta name="keywords" content="Home Assistant">
-<meta name="description" content="We recently moved and I decided to buy a BLE-IP gateway off AliExpress. Turns out this needed some hacking to get it to work with Home Assistant.">
+<title>Forwarding Bluetooth with the April Brother BLE Gateway | Christian Kündig</title>
+<meta name="keywords" content="Home Automation">
+<meta name="description" content="We recently moved and I decided to buy a BLE-&gt;IP gateway off AliExpress to increase coverage in the bigger place. Turns out this needed some hacking to get it to work with Home Assistant.">
 <meta name="author" content="">
 <link rel="canonical" href="/posts/2022-12-hass-ab_ble/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.8273041aea75a8d4cd905c37659d34b9762b2a312f2199a5db7a30041a7f20ff.css" integrity="sha256-gnMEGup1qNTNkFw3ZZ00uXYrKjEvIZml23owBBp/IP8=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4b4ba94b836af7c5b90f9d1ab2afae9f8e5e904c2a158eff92031324dea547d4.css" integrity="sha256-S0upS4Nq98W5D50asq&#43;un45ekEwqFY7/kgMTJN6lR9Q=" rel="preload stylesheet" as="style">
 <link rel="icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -60,6 +60,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
 <link href='//fonts.googleapis.com/css?family=Mulish' rel='stylesheet' type='text/css'>
 
+<script src="/js/github-buttons.min.js" data-no-instant
+></script>
+
 <script>
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -83,19 +86,23 @@
           gtag('js', new Date());
           gtag('config', 'G-L4NRERPTCT');
         }
-      </script><meta property="og:title" content="Forwarding Bluetooth with the AB BLE Gateway" />
-<meta property="og:description" content="We recently moved and I decided to buy a BLE-IP gateway off AliExpress. Turns out this needed some hacking to get it to work with Home Assistant." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="/posts/2022-12-hass-ab_ble/" />
-<meta property="og:image" content="/images/bg.jpg" />
-<meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-12-09T11:46:04+01:00" />
-<meta property="article:modified_time" content="2022-12-09T11:46:04+01:00" />
-<meta property="fb:admins" content="about.me" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="/images/bg.jpg" />
-<meta name="twitter:title" content="Forwarding Bluetooth with the AB BLE Gateway"/>
-<meta name="twitter:description" content="We recently moved and I decided to buy a BLE-IP gateway off AliExpress. Turns out this needed some hacking to get it to work with Home Assistant."/>
+      </script><meta property="og:url" content="/posts/2022-12-hass-ab_ble/">
+  <meta property="og:site_name" content="Christian Kündig">
+  <meta property="og:title" content="Forwarding Bluetooth with the April Brother BLE Gateway">
+  <meta property="og:description" content="We recently moved and I decided to buy a BLE-&gt;IP gateway off AliExpress to increase coverage in the bigger place. Turns out this needed some hacking to get it to work with Home Assistant.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2022-12-09T11:46:04+01:00">
+    <meta property="article:modified_time" content="2022-12-09T11:46:04+01:00">
+    <meta property="article:tag" content="Home Automation">
+      <meta property="og:image" content="/images/bg.jpg">
+        <meta property="fb:admins" content="about.me">
+  <meta name="fediverse:creator" content="@chkuendig@ioc.exchange">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="/images/bg.jpg">
+<meta name="twitter:title" content="Forwarding Bluetooth with the April Brother BLE Gateway">
+<meta name="twitter:description" content="We recently moved and I decided to buy a BLE-&gt;IP gateway off AliExpress to increase coverage in the bigger place. Turns out this needed some hacking to get it to work with Home Assistant.">
 
 
 <script type="application/ld+json">
@@ -112,7 +119,7 @@
     {
       "@type": "ListItem",
       "position":  1 ,
-      "name": "Forwarding Bluetooth with the AB BLE Gateway",
+      "name": "Forwarding Bluetooth with the April Brother BLE Gateway",
       "item": "/posts/2022-12-hass-ab_ble/"
     }
   ]
@@ -122,14 +129,14 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "Forwarding Bluetooth with the AB BLE Gateway",
-  "name": "Forwarding Bluetooth with the AB BLE Gateway",
-  "description": "We recently moved and I decided to buy a BLE-IP gateway off AliExpress. Turns out this needed some hacking to get it to work with Home Assistant.",
+  "headline": "Forwarding Bluetooth with the April Brother BLE Gateway",
+  "name": "Forwarding Bluetooth with the April Brother BLE Gateway",
+  "description": "We recently moved and I decided to buy a BLE-\u0026gt;IP gateway off AliExpress to increase coverage in the bigger place. Turns out this needed some hacking to get it to work with Home Assistant.",
   "keywords": [
-    "Home Assistant"
+    "Home Automation"
   ],
-  "articleBody": " As we moved apartments earlier this year, I realized that the new position of my home server puts it out of range of some of the Bluetooth Low Energy sensors we have (Temperature, CO₂, Soil Moisture etc). To bridge this, I got myself a cheap BLE-to-IP gateway, only to realize that this won’t just work out of the box 1.\nThe April Brother (AB) BLE Gateway V4 The April Brother (AB) BLE Gateway V4 is an ESP32- and NRF52832-based BLE to network gateway and bridge. It reads BLE advertisements data such as iBeacon, Eddystone or customized format data and sends to LAN/internet server (via MQTT, HTTP or Websockets). It’s widely distributed through AliExpress, Amazon, Taobao etc.\nFor more information, see the April Brother Wiki.\nHome Assistant Component To use this device, I had to implement a small component that allows forwarding BLE data from the April Brother (AB) BLE Gateway V4 to the new bluetooth component released in Home Assistant 2022.8.\nWhile the data encoding is documented, converting the data correctly was still quite a bit of work2 - if you are curious, all relevant code is in the parsing function in util.py.\nFor my purposes, I only implemented forwarding via MQTT (i.e. no support for HTTP or Websockets).\nSetup Instructions The component should automatically discover any devices on the network (the gateway advertises itself via SSDP).\nPlease make sure to have setup the MQTT component and have it configured to the same queue and server as in the Gateway config.\nThe component supports authenticated login and automatically checks that the MQTT settings match.\nConfiguration of the Gateway The easiest and most portable way to configure the gateway is through the electron based configuration tool at AprilBrother/gw4-config-tool. You’ll need to have node + npm installed to run it.\nClone the repo git clone https://github.com/AprilBrother/gw4-config-tool.git cd gw4-config-tool Install the configuration tool including it dependencies npm i . Launch npm start At this point, the configuration tool should find the gateway automatically (interestingly enough this happens by enumerating the whole subnet instead of using the SSDP broadcast… 🙄) If I checked the Home Assistant Forums I could have figured this out much earlier. ↩︎\nI was already familiar with the expected output format from when I built the Sensirion SCD4x CO₂ Integration earlier in the year, and April Brother documented the encoding on their Wiki. ↩︎\n",
-  "wordCount" : "392",
+  "articleBody": " As we moved apartments earlier this year, I realized that the new position of my home server puts it out of range of some of the Bluetooth Low Energy sensors we have (Temperature, CO₂, Soil Moisture etc). To bridge this, I got myself a cheap BLE-to-IP gateway, only to realize that this won’t just work out of the box 1.\nThe April Brother (AB) BLE Gateway V4 The April Brother (AB) BLE Gateway V4 is an ESP32- and NRF52832-based BLE to network gateway and bridge. It reads BLE advertisements data such as iBeacon, Eddystone or customized format data and sends to LAN/internet server (via MQTT, HTTP or Websockets). It’s widely distributed through AliExpress, Amazon, Taobao etc.\nFor more information, see the April Brother Wiki.\nHome Assistant Component 💡 Update Dec 12, 2022: Just a few week after me working on this (a few days after this post), April Brother seems to have uploaded their own component: To use this device, I had to implement a small component that allows forwarding BLE data from the April Brother (AB) BLE Gateway V4 to the new bluetooth component released in Home Assistant 2022.8.\nWhile the data encoding is documented, converting the data correctly was still quite a bit of work2 - if you are curious, all relevant code is in the parsing function in util.py.\nFor my purposes, I only implemented forwarding via MQTT (i.e. no support for HTTP or Websockets). I’ll also try to get this included in the Home Assistant Community Store (HACS) eventually3.\n💡 Update Feb 11, 2025: This Homeassistant component finally landed in HACS: Setup Instructions The component should automatically discover any devices on the network (the gateway advertises itself via SSDP).\nPlease make sure to have setup the MQTT component and have it configured to the same queue and server as in the Gateway config.\nThe component supports authenticated login and automatically checks that the MQTT settings match.\nConfiguration of the Gateway The easiest and most portable way to configure the gateway is through the electron based configuration tool at AprilBrother/gw4-config-tool. You’ll need to have node + npm installed to run it.\nClone the repo git clone https://github.com/AprilBrother/gw4-config-tool.git cd gw4-config-tool Install the configuration tool including it dependencies npm i . Launch npm start At this point, the configuration tool should find the gateway automatically (interestingly enough this happens by enumerating the whole subnet instead of using the SSDP broadcast… 🙄) If I checked the Home Assistant Forums I could have figured this out much earlier. ↩︎\nI was already familiar with the expected output format from when I built the Sensirion SCD4x CO₂ Integration earlier in the year, and April Brother documented the encoding on their Wiki. ↩︎\n↩︎\n",
+  "wordCount" : "449",
   "inLanguage": "en",
   "image": "/images/bg.jpg","datePublished": "2022-12-09T11:46:04+01:00",
   "dateModified": "2022-12-09T11:46:04+01:00",
@@ -179,7 +186,7 @@
   <header class="post-header">
     
     <h1 class="post-title entry-hint-parent">
-      Forwarding Bluetooth with the AB BLE Gateway
+      Forwarding Bluetooth with the April Brother BLE Gateway
     </h1>
     <div class="post-meta"><span title='2022-12-09 11:46:04 +0100 +0100'>December 9, 2022</span>
 
@@ -192,13 +199,25 @@
 
 <p>As we moved apartments earlier this year, I realized that the new position of my home server puts it out of range of some of the Bluetooth Low Energy sensors we have (Temperature, <a href="/posts/2022-02-sensirion-co2/">CO₂</a>, Soil Moisture etc). To bridge this, I got myself a cheap BLE-to-IP gateway, only to realize that this won&rsquo;t just work out of the box <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
 <h2 id="the-april-brother-ab-ble-gateway-v4">The April Brother (AB) BLE Gateway V4</h2>
-<p>The <em>April Brother (AB) BLE Gateway V4</em> is an ESP32- and NRF52832-based BLE to network gateway and bridge. It reads BLE advertisements data such as iBeacon, Eddystone or customized format data and sends to LAN/internet server (via MQTT, HTTP or Websockets). It&rsquo;s widely distributed through <a href="https://www.aliexpress.com/item/4000003566223.html">AliExpress</a>, <a href="https://www.amazon.de/Tonysa-URF52832-Bluetooth-Intelligentes-Weitbereichs%C3%BCberwachung-default/dp/B07X937ZFF">Amazon</a>, Taobao etc.</p>
+<p>The <em>April Brother (AB) BLE Gateway V4</em> is an ESP32- and NRF52832-based BLE to network gateway and bridge. It reads BLE advertisements data such as iBeacon, Eddystone or customized format data and sends to LAN/internet server (via MQTT, HTTP or Websockets). It&rsquo;s widely distributed through <a href="https://www.aliexpress.com/item/4000003566223.html">AliExpress</a>, <a href="https://www.amazon.co.uk/Kafuty-Bluetooth-Collection-Location-Watchdog-default/dp/B07TQDDFJX">Amazon</a>, Taobao etc.</p>
 <p>For more information, see the <a href="https://wiki.aprbrother.com/en/AB_BLE_Gateway_V4.html">April Brother Wiki</a>.</p>
 <h2 id="home-assistant-component">Home Assistant Component</h2>
+<aside>
+    <span>💡</span>
+    <p><strong>Update Dec 12, 2022:</strong> Just a few week after me working on this (a few days after this post), April Brother seems to have uploaded their own component: <a class="github-button" data-color-scheme="" href="https://github.com/AprilBrother/component-ab-gateway" data-icon="octicon-repo" data-size="small" data-text='<b>AprilBrother/component-ab-gateway</b>'></a></p>
+</aside>
 <p>To use this device, I had to implement a small component that allows forwarding  BLE data from the April Brother (AB) BLE Gateway V4 to the new <a href="https://www.home-assistant.io/integrations/bluetooth/">bluetooth component</a> released in Home Assistant <a href="https://www.home-assistant.io/blog/2022/08/03/release-20228/#first-class-bluetooth-support">2022.8</a>.</p>
-<p><a href="https://github.com/chkuendig/hass-ab_ble_gateway" class="github-card"><img src="/posts/2022-12-hass-ab_ble/hass-ab_ble_gateway_13990354871464550267.png"></a></p>
+<p><a href="https://github.com/chkuendig/hass-ab_ble_gateway" class="github-card"><img src="/posts/2022-12-hass-ab_ble/hass-ab_ble_gateway_13990354871464550267.png" alt="Home Assistant Component for April Brother/AB BLE Gateway V4 "></a></p>
 <p>While the data encoding is documented, converting the data correctly was still quite a bit of work<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> - if you are curious, all relevant code is in the parsing function in <a href="https://github.com/chkuendig/hass-ab_ble_gateway/blob/4d2c74cc1621bc721b3556438471d5a849fb8f1e/custom_components/ab_ble_gateway/util.py">util.py</a>.</p>
-<p>For my purposes, I only implemented forwarding via MQTT (i.e. no support for HTTP or Websockets).</p>
+<p>For my purposes, I only implemented forwarding via MQTT (i.e. no support for HTTP or Websockets).
+I&rsquo;ll also try to get this included in the <a href="https://hacs.xyz/">Home Assistant Community Store (HACS)</a> eventually<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>.</p>
+<aside>
+    <span>💡</span>
+    <p><p><strong>Update Feb 11, 2025:</strong> This Homeassistant component finally landed in HACS: <figure class="centered">
+<img loading="lazy" src="/posts/2022-12-hass-ab_ble/hacs_ap-ble.png  "
+alt="Home Assistant Community Store (HACS)"/></p>
+</figure></p>
+</aside>
 <h2 id="setup-instructions">Setup Instructions</h2>
 <p>The component should automatically discover any devices on the network (the gateway advertises itself via SSDP).</p>
 <p>Please make sure to have setup the <a href="https://www.home-assistant.io/integrations/mqtt/">MQTT component</a> and have it configured to the same queue and server as in the Gateway config.</p>
@@ -226,6 +245,9 @@
 <li id="fn:2">
 <p>I was already familiar with the expected output format from when I built the <a href="/posts/2022-02-sensirion-co2/">Sensirion SCD4x CO₂ Integration</a> earlier in the year, and April Brother documented the encoding on their <a href="https://wiki.aprbrother.com/en/User_Guide_For_AB_BLE_Gateway_V4.html#data-format">Wiki</a>.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
+<li id="fn:3">
+<p><a class="github-button" data-color-scheme="" href="https://github.com/hacs/default/pull/2523" data-icon="octicon-git-merge" data-size="small" data-text='<b>default#2523:</b>&nbsp;Adds new integration [chkuendig/hass-ab_ble_gateway]'></a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
 </ol>
 </div>
 
@@ -233,7 +255,7 @@
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="/tags/home-assistant/">Home Assistant</a></li>
+      <li><a href="/tags/home-automation/">Home Automation</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="/posts/2023-01-hass-amphiro/">
@@ -253,7 +275,7 @@
     </main>
     
 <footer class="footer">
-        <span>&copy; 2024 <a href="/">Christian Kündig</a></span> · 
+        <span>&copy; 2026 <a href="/">Christian Kündig</a></span> · 
 
     <span>
         Powered by

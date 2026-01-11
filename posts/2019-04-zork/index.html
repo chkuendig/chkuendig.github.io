@@ -10,7 +10,7 @@
 <meta name="description" content="Today, the source code of many old Infocom Text Adventures has been uploaded to Github. Let&rsquo;s see if we can compile Zork.">
 <meta name="author" content="">
 <link rel="canonical" href="/posts/2019-04-zork/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.8273041aea75a8d4cd905c37659d34b9762b2a312f2199a5db7a30041a7f20ff.css" integrity="sha256-gnMEGup1qNTNkFw3ZZ00uXYrKjEvIZml23owBBp/IP8=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4b4ba94b836af7c5b90f9d1ab2afae9f8e5e904c2a158eff92031324dea547d4.css" integrity="sha256-S0upS4Nq98W5D50asq&#43;un45ekEwqFY7/kgMTJN6lR9Q=" rel="preload stylesheet" as="style">
 <link rel="icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -86,19 +86,23 @@
           gtag('js', new Date());
           gtag('config', 'G-L4NRERPTCT');
         }
-      </script><meta property="og:title" content="Compiling Zork from Scratch" />
-<meta property="og:description" content="Today, the source code of many old Infocom Text Adventures has been uploaded to Github. Let&rsquo;s see if we can compile Zork." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="/posts/2019-04-zork/" />
-<meta property="og:image" content="/images/bg.jpg" />
-<meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2019-04-17T11:41:01+01:00" />
-<meta property="article:modified_time" content="2019-04-17T11:41:01+01:00" />
-<meta property="fb:admins" content="about.me" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="/images/bg.jpg" />
-<meta name="twitter:title" content="Compiling Zork from Scratch"/>
-<meta name="twitter:description" content="Today, the source code of many old Infocom Text Adventures has been uploaded to Github. Let&rsquo;s see if we can compile Zork."/>
+      </script><meta property="og:url" content="/posts/2019-04-zork/">
+  <meta property="og:site_name" content="Christian Kündig">
+  <meta property="og:title" content="Compiling Zork from Scratch">
+  <meta property="og:description" content="Today, the source code of many old Infocom Text Adventures has been uploaded to Github. Let’s see if we can compile Zork.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2019-04-17T11:41:01+01:00">
+    <meta property="article:modified_time" content="2019-04-17T11:41:01+01:00">
+    <meta property="article:tag" content="Video Games">
+      <meta property="og:image" content="/images/bg.jpg">
+        <meta property="fb:admins" content="about.me">
+  <meta name="fediverse:creator" content="@chkuendig@ioc.exchange">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="/images/bg.jpg">
+<meta name="twitter:title" content="Compiling Zork from Scratch">
+<meta name="twitter:description" content="Today, the source code of many old Infocom Text Adventures has been uploaded to Github. Let&rsquo;s see if we can compile Zork.">
 
 
 <script type="application/ld+json">
@@ -131,8 +135,8 @@
   "keywords": [
     "Gaming"
   ],
-  "articleBody": "Today, the source code of many old Infocom Text Adventures (such as Zork) has been uploaded to Github:\nI've uploaded the entirety of source code of all Infocom text adventures/interactive fiction to Github. https://t.co/p0K8MRKoTN If you don't understand ZIL, and you probably don't, read this instruction manual. https://t.co/H8nl1fxWcv\n— Jason Scott (@textfiles) April 16, 2019 Jason has been going through the Infocom archives a few years ago 1 and he mentiones the existence of the “Infocom Drive” with these sources but they never surfaced. It’s great they finally found the light of day.\nAs Andrew Plotkin points out, it’s not clear how long this will stay up. So if you care about those things, you might want to get them right away.2\nInfocom, Text Adventers, ZIL and Z-Machines Infocom as game studio (they also made a database product) was a pioneer in text adventures. As the name suggests, text adventures are purely text based games where the player direct the action by entering short strings of words to give commands when prompted with the game responding with text describing the action of the players command.\nZork was the first of their games and massive success, with sales increasing for years as the market for personal computers expanded. In 2007, Zork was included in the game canon by the Library of Congress as one of the ten most important video games in history3.\nInfocom games were written using a programming language called ZIL (Zork Implementation Language) that compiled into a bytecode able to run on a standardized virtual machine called the Z-machine. This sounds very convoluted for the simplicity of the game until we remember that Infocom was founded in 1979, just two years after the release of the Apple II and two years before the release of the first IBM PC. There were countless different home computer brand with incompatible architectures on the market being sold (Amstrad, Commodore, Atari, Amiga etc.), until the market consolidated in the first half of the 80ies.\nAs the games were text based and used variants of the same Z-machine interpreter, the interpreter had to be ported to new computer architectures only once per architecture, rather than once per game. With the Z-machine, Infocom was able to release most of their games for most popular home computers simultaneously\nThis also makes running these games on modern platforms very feasible, as all one has to do is implement a Z-machine. Frotz is the most popular one and it’s still maintained - there’s even an iOS Version!\n💡 Looks like ScummVM is also planning to add support for Z-Machine games coming in a future release:\nwas merged in 2018 and added the [ScummVM Z-code engine](https://wiki.scummvm.org/index.php?title=Glk/ZCode) based on Frotz. Update Sept 27th 2020: This has now been released with ScummVM 2.2.0 “Interactive Fantasy”.\nInfocom Source Code Jason shared some context on the shared source code in Twitter thread:\nSo, Infocom source code is now uploaded to Github. Most people don't speak or want to speak the language it's written in, ZIL (Zork Implementation Language). You can browse through it and kind of suss out what's being done when and the choices made over the course of time.\n— Jason Scott (@textfiles) April 16, 2019 The compiler, as far as absolutely anybody can tell, is lost. It is not possible to turn this source code into a functioning game anymore, and certainly not by using any tools that exist in any chain, anywhere. This is therefore less \"code\" and more \"text artifact\".\n— Jason Scott (@textfiles) April 16, 2019 Somehow I found this hard to believe. There’s a programming language used in early video game history for some of the most successful games of their time - and no compiler exists anymore? And guess what - while the original compiler (called Zilch) is actually lost, somebody already implemented one for modern systems!\nZILF is open-source toolchain written by Tara McGrew that includes a ZIL compiler, a Z-machine (ZAP) assembler and ZIL libraries for writing text adventure games. It is written in C#, and runs under Windows, MacOS, or Linux.\nInstalling ZILF and Frotz I thought it would be nice to have a toolchain available on homebrew to easily run these games from source. Frotz, the Z-machine is already available on homebrew to play the compiled games, but to compile them, you’d have to download and build ZILF manually.\nI opened a PR ( ) for this to get this included in homebrew, but in the meantime you can try it out via my custom tap :\nbrew tap chkuendig/zilf brew install frotz zilf I wasn’t able to get zilf to compile the samples in any other directory than “bin/” (just unzipping it locally and renaming the folder means some includes start to break), but other than that, this passes all audits. Update: This is fixed now\nBuilding Zork Let’s try to run Zork, as mentioned Infocom first game and probably biggest hit. Once you have ZILF and Frotz installed, it’s time to build. ZILF takes ZIL source code and compiles it into Z-machine assembly code, which is then passed to ZAPF to make the final Z-code story file.\ngit clone https://github.com/historicalsource/zork1.git cd zork1 zilf zork1.zil zapf zork1.zap And that’s it, you have built Zork from source! Just run frotz zork1.z3 and the game starts:\nZORK I: The Great Underground Empire Infocom interactive fiction - a fantasy story Copyright (c) 1981, 1982, 1983, 1984, 1985, 1986 Infocom, Inc. All rights reserved. ZORK is a registered trademark of Infocom, Inc. Release 0 / Serial number 190416 West of House You are standing in an open field west of a white house, with a boarded front door. There is a small mailbox here. \u003e Have fun!\nPostscript: 🎬 Update April 29th: For background, Jason Scott went into a lot of super interesting details on his most recent podcast episode: ( Youtube Link )\n💡 Update 2021: Not really related, but if you found this interesting, I wanted to highlight Ryan C. Gordon amazing multizork which shoehorns multiplayer into a Z-Machine!\n17 Aug 2021: Project multizork\nA Cabinet of Infocom Curiousities — November 23, 2015 and The Rest of the Infocom Cabinet — November 25, 2015 ↩︎\nIf you want to do it in one go: curl \"https://api.github.com/users/historicalsource/repos?page=1\u0026per_page=100\" | grep git_url | cut -d \\\" -f 4 | xargs -L1 git clone (credit to JWZ) ↩︎\nWikipedia: Zork ↩︎\n",
-  "wordCount" : "1073",
+  "articleBody": "Today, the source code of many old Infocom Text Adventures (such as Zork) has been uploaded to Github:\nJason has been going through the Infocom archives a few years ago 1 and he mentioned the existence of the “Infocom Drive” with these sources but they never surfaced. It’s great they finally found the light of day.\nAs Andrew Plotkin points out, it’s not clear how long this will stay up. So if you care about those things, you might want to get them right away.2\nInfocom, Text Adventers, ZIL and Z-Machines Infocom as game studio (they also made a database product) was a pioneer in text adventures. As the name suggests, text adventures are purely text based games where the player direct the action by entering short strings of words to give commands when prompted with the game responding with text describing the action of the players command.\nZork was the first of their games and massive success, with sales increasing for years as the market for personal computers expanded. In 2007, Zork was included in the game canon by the Library of Congress as one of the ten most important video games in history3.\nInfocom games were written using a programming language called ZIL (Zork Implementation Language) that compiled into a bytecode able to run on a standardized virtual machine called the Z-machine. This sounds very convoluted for the simplicity of the game until we remember that Infocom was founded in 1979, just two years after the release of the Apple II and two years before the release of the first IBM PC. There were countless different home computer brand with incompatible architectures on the market being sold (Amstrad, Commodore, Atari, Amiga etc.), until the market consolidated in the first half of the 80ies.\nAs the games were text based and used variants of the same Z-machine interpreter, the interpreter had to be ported to new computer architectures only once per architecture, rather than once per game. With the Z-machine, Infocom was able to release most of their games for most popular home computers simultaneously\nThis also makes running these games on modern platforms very feasible, as all one has to do is implement a Z-machine. Frotz is the most popular one and it’s still maintained - there’s even an iOS Version!\n💡 Looks like ScummVM is also planning to add support for Z-Machine games coming in a future release: was merged in 2018 and added the ScummVM Z-code engine based on Frotz.\nUpdate Sept 27th 2020: This has now been released with ScummVM 2.2.0 “Interactive Fantasy”.\nInfocom Source Code Jason shared some context on the shared source code in a longer Twitter thread and called out one thing specifically which piqued my interest:\nSomehow I found this hard to believe. There’s a programming language used in early video game history for some of the most successful games of their time - and no compiler exists anymore?\nAnd guess what - while the original compiler (called Zilch) is actually lost, somebody already implemented one for modern systems! ZILF is open-source toolchain written by Tara McGrew that includes a ZIL compiler, a Z-machine (ZAP) assembler and ZIL libraries for writing text adventure games. It is written in C#, and runs under Windows, MacOS, or Linux.\nInstalling ZILF and Frotz I thought it would be nice to have a toolchain available on homebrew to easily run these games from source. Frotz, the Z-machine is already available on homebrew to play the compiled games, but to compile them, you’d have to download and build ZILF manually.\nI opened a PR ( ) for this to get this included in homebrew, but in the meantime you can try it out via my custom tap :\nbrew tap chkuendig/zilf brew install frotz zilf I wasn’t able to get zilf to compile the samples in any other directory than “bin/” (just unzipping it locally and renaming the folder means some includes start to break), but other than that, this passes all audits. Update: This is fixed now\nBuilding Zork Let’s try to run Zork, as mentioned Infocom first game and probably biggest hit. Once you have ZILF and Frotz installed, it’s time to build. ZILF takes ZIL source code and compiles it into Z-machine assembly code, which is then passed to ZAPF to make the final Z-code story file.\ngit clone https://github.com/historicalsource/zork1.git cd zork1 zilf zork1.zil zapf zork1.zap And that’s it, you have built Zork from source! Just run frotz zork1.z3 and the game starts:\nZORK I: The Great Underground Empire Infocom interactive fiction - a fantasy story Copyright (c) 1981, 1982, 1983, 1984, 1985, 1986 Infocom, Inc. All rights reserved. ZORK is a registered trademark of Infocom, Inc. Release 0 / Serial number 190416 West of House You are standing in an open field west of a white house, with a boarded front door. There is a small mailbox here. \u003e Have fun!\nPostscript: 🎬 Update April 29th: For background, Jason Scott went into a lot of super interesting details on his most recent podcast episode: ( Youtube Link )\n💡 Update 2021: Not really related, but if you found this interesting, I wanted to highlight Ryan C. Gordon amazing multizork which shoehorns multiplayer into a Z-Machine!\n17 Aug 2021: Project multizork\nA Cabinet of Infocom Curiousities — November 23, 2015 and The Rest of the Infocom Cabinet — November 25, 2015 ↩︎\nIf you want to do it in one go: curl \"https://api.github.com/users/historicalsource/repos?page=1\u0026per_page=100\" | grep git_url | cut -d \\\" -f 4 | xargs -L1 git clone (credit to JWZ) ↩︎\nWikipedia: Zork ↩︎\n",
+  "wordCount" : "928",
   "inLanguage": "en",
   "image": "/images/bg.jpg","datePublished": "2019-04-17T11:41:01+01:00",
   "dateModified": "2019-04-17T11:41:01+01:00",
@@ -189,12 +193,14 @@
 </div>
   </header> 
   <div class="post-content"><p>Today, the source code of many old Infocom Text Adventures (such as Zork) has been uploaded to Github:</p>
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">I&#39;ve uploaded the entirety of source code of all Infocom text adventures/interactive fiction to Github. <a href="https://t.co/p0K8MRKoTN">https://t.co/p0K8MRKoTN</a> If you don&#39;t understand ZIL, and you probably don&#39;t, read this instruction manual. <a href="https://t.co/H8nl1fxWcv">https://t.co/H8nl1fxWcv</a></p>&mdash; Jason Scott (@textfiles) <a href="https://twitter.com/textfiles/status/1118002533908340736?ref_src=twsrc%5Etfw">April 16, 2019</a></blockquote>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-<p>Jason has been going through the Infocom archives a few years ago <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> and he mentiones the existence of the &ldquo;Infocom Drive&rdquo; with these sources but they never surfaced. It&rsquo;s great they finally found the light of day.</p>
-<p>As Andrew Plotkin <a href="http://blog.zarfhome.com/2019/04/all-of-infocoms-game-source-code.html">points out</a>, it&rsquo;s not clear how long this will stay up. So if you care about those things, you might want to get them right away.<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<a href="https://web.archive.org/web/20190416041020/https://twitter.com/textfiles/status/1118002533908340736">
+<picture class="centered">
+  <source srcset="textfiles_status_1118002533908340736.png" media="(prefers-color-scheme: light)"/>
+  <source srcset="textfiles_status_1005102014571958274-dark.png"  media="(prefers-color-scheme: dark)"/>
+  <img src="textfiles_status_1118002533908340736.png" alt="@textfiles (15 Apr 2019): I've uploaded the entirety of source code of all Infocom text adventures/interactive fiction to Github. github.com/historicalsource… If you don't understand ZIL, and you probably don't, read this instruction manual. archive.org/details/Learning…"/>
+</picture></a>
+<p>Jason has been going through the Infocom archives a few years ago <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> and he mentioned the existence of the &ldquo;Infocom Drive&rdquo; with these sources but they never surfaced. It&rsquo;s great they finally found the light of day.</p>
+<p>As Andrew Plotkin <a href="https://blog.zarfhome.com/2019/04/all-of-infocoms-game-source-code.html">points out</a>, it&rsquo;s not clear how long this will stay up. So if you care about those things, you might want to get them right away.<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
 <h3 id="infocom-text-adventers-zil-and-z-machines">Infocom, Text Adventers, ZIL and Z-Machines</h3>
 <figure class="float-right">
     <img loading="lazy" src="/posts/2019-04-zork/zork1_title.png  "
@@ -208,35 +214,30 @@
 <p>This also makes running these games on modern platforms very feasible, as all one has to do is implement a Z-machine. <a href="https://davidgriffith.gitlab.io/frotz/">Frotz</a> is the most popular one and it&rsquo;s still maintained - there&rsquo;s even an <a href="https://apps.apple.com/ch/app/frotz/id287653015">iOS Version</a>!</p>
 <aside>
     <span>💡</span>
-    <p><p>Looks like ScummVM is also planning to add support for Z-Machine games coming in a future release:</p>
-<pre><code>    &lt;a class=&quot;github-button&quot; data-color-scheme=&quot;&quot; href=&quot;https://github.com/scummvm/scummvm/pull/1393&quot; data-icon=&quot;octicon-git-merge&quot; data-size=&quot;small&quot; data-text='&lt;b&gt;scummvm#1393:&lt;/b&gt;&amp;nbsp;GLK: New Glk engine'&gt;&lt;/a&gt; was merged in 2018 and added the [ScummVM Z-code engine](https://wiki.scummvm.org/index.php?title=Glk/ZCode) based on Frotz.
-</code></pre>
+    <p><p>Looks like ScummVM is also planning to add support for Z-Machine games coming in a future release:
+<a class="github-button" data-color-scheme="" href="https://github.com/scummvm/scummvm/pull/1393" data-icon="octicon-git-merge" data-size="small" data-text='<b>scummvm#1393:</b>&nbsp;GLK: New Glk engine'></a> was merged in 2018 and added the <a href="https://wiki.scummvm.org/index.php?title=Glk/ZCode">ScummVM Z-code engine</a> based on Frotz.</p>
 <p><strong>Update Sept 27th 2020:</strong> This has now been released with <a href="https://www.scummvm.org/news/20200927/">ScummVM 2.2.0 &ldquo;Interactive Fantasy&rdquo;</a>.</p>
 </p>
 </aside>
 <h3 id="infocom-source-code">Infocom Source Code</h3>
-<p>Jason shared some context on the shared source code in Twitter thread:</p>
-<p><blockquote class="twitter-tweet"><p lang="en" dir="ltr">So, Infocom source code is now uploaded to Github. Most people don&#39;t speak or want to speak the language it&#39;s written in, ZIL (Zork Implementation Language). You can browse through it and kind of suss out what&#39;s being done when and the choices made over the course of time.</p>&mdash; Jason Scott (@textfiles) <a href="https://twitter.com/textfiles/status/1118005126457888768?ref_src=twsrc%5Etfw">April 16, 2019</a></blockquote>
-
-
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">The compiler, as far as absolutely anybody can tell, is lost. It is not possible to turn this source code into a functioning game anymore, and certainly not by using any tools that exist in any chain, anywhere. This is therefore less &quot;code&quot; and more &quot;text artifact&quot;.</p>&mdash; Jason Scott (@textfiles) <a href="https://twitter.com/textfiles/status/1118005129280675841?ref_src=twsrc%5Etfw">April 16, 2019</a></blockquote>
-
-</p>
-<p>Somehow I found this hard to believe. There&rsquo;s a programming language used in early video game history for some of the most successful games of their time - and no compiler exists anymore? And guess what - while the original compiler (called <a href="https://www.ifwiki.org/Zilch">Zilch</a>) is actually lost, somebody already implemented one for modern systems!</p>
-<p><a href="http://zilf.io/">ZILF</a> is open-source toolchain written by Tara McGrew that includes a ZIL compiler, a Z-machine (ZAP) assembler and ZIL libraries for writing text adventure games. It is written in C#, and runs under Windows, MacOS, or Linux.</p>
+<p>Jason shared some context on the shared source code in a longer Twitter thread and called out one thing specifically which piqued my interest:</p>
+<a href="https://web.archive.org/web/20190616144050/https://twitter.com/textfiles/status/1118005129280675841">
+<picture class="centered">
+  <source srcset="textfiles_status_1118005129280675841.png" media="(prefers-color-scheme: light)"/>
+  <source srcset="textfiles_status_1118005129280675841-dark.png"  media="(prefers-color-scheme: dark)"/>
+  <img src="textfiles_status_1118005129280675841.png" alt='@textfiles (15 Apr 2019): The compiler, as far as absolutely anybody can tell, is lost. It is not possible to turn this source code into a functioning game anymore, and certainly not by using any tools that exist in any chain, anywhere. This is therefore less "code" and more "text artifact".'/>
+</picture></a>
+<p>Somehow I found this hard to believe. There&rsquo;s a programming language used in early video game history for some of the most successful games of their time - and no compiler exists anymore?</p>
+<p>And guess what - while the original compiler (called <a href="https://www.ifwiki.org/Zilch">Zilch</a>) is actually lost, somebody already implemented one for modern systems! <a href="https://foss.heptapod.net/zilf/zilf/-/wikis/home">ZILF</a> is open-source toolchain written by Tara McGrew that includes a ZIL compiler, a Z-machine (ZAP) assembler and ZIL libraries for writing text adventure games. It is written in C#, and runs under Windows, MacOS, or Linux.</p>
 <h3 id="installing-zilf-and-frotz">Installing ZILF and Frotz</h3>
 <p>I thought it would be nice to have a toolchain available on homebrew to easily run these games from source. <a href="https://formulae.brew.sh/formula/frotz">Frotz</a>, the Z-machine is already available on homebrew to play the compiled games, but to compile them, you&rsquo;d have to download and build ZILF manually.</p>
-<p>I opened a PR ( 
-         <a class="github-button" data-color-scheme="" href="https://github.com/Homebrew/homebrew-core/pull/38990" data-icon="octicon-git-pull-request-closed" data-size="small" data-text='<b>homebrew-core#38990:</b>&nbsp;zilf 0.8 (new formula)'></a> ) for this to get this included in homebrew, but in the meantime you can try it out via my custom tap 
-    
-        
-<a class="github-button" data-color-scheme="" href="https://github.com/chkuendig/homebrew-zilf" data-icon="octicon-repo" data-size="small" data-text='<b>chkuendig/homebrew-zilf</b>'></a>  :</p>
+<p>I opened a PR ( <a class="github-button" data-color-scheme="" href="https://github.com/Homebrew/homebrew-core/pull/38990" data-icon="octicon-git-pull-request-closed" data-size="small" data-text='<b>homebrew-core#38990:</b>&nbsp;zilf 0.8 (new formula)'></a> ) for this to get this included in homebrew, but in the meantime you can try it out via my custom tap <a class="github-button" data-color-scheme="" href="https://github.com/chkuendig/homebrew-zilf" data-icon="octicon-repo" data-size="small" data-text='<b>chkuendig/homebrew-zilf</b>'></a>  :</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">brew tap chkuendig/zilf
 </span></span><span class="line"><span class="cl">brew install frotz zilf
 </span></span></code></pre></div><p><del>I wasn&rsquo;t able to get zilf to compile the samples in any other directory than &ldquo;bin/&rdquo; (just unzipping it locally and renaming the folder means some includes start to break), but other than that, this passes all audits.</del> <em>Update: This is fixed now</em></p>
 <h3 id="building-zork">Building Zork</h3>
 <p>Let&rsquo;s try to run Zork, as mentioned Infocom first game and probably biggest hit.
-<a href="https://github.com/historicalsource/zork1" class="github-card"><img src="/posts/2019-04-zork/zork1_5507089836643516847.png"></a></p>
+<a href="https://github.com/historicalsource/zork1" class="github-card"><img src="/posts/2019-04-zork/zork1_5507089836643516847.png" alt="Zork I (Microcomputer Version) by Infocom"></a></p>
 <p>Once you have ZILF and Frotz installed, it&rsquo;s time to build. ZILF takes ZIL source code and compiles it into Z-machine assembly code, which is then passed to ZAPF to make the final Z-code story file.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">git clone https://github.com/historicalsource/zork1.git
 </span></span><span class="line"><span class="cl">cd zork1
@@ -272,7 +273,7 @@
 <hr>
 <ol>
 <li id="fn:1">
-<p><a href="http://ascii.textfiles.com/archives/4834">A Cabinet of Infocom Curiousities — November 23, 2015</a> and <a href="http://ascii.textfiles.com/archives/4848">The Rest of the Infocom Cabinet — November 25, 2015</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p><a href="https://ascii.textfiles.com/archives/4834">A Cabinet of Infocom Curiousities — November 23, 2015</a> and <a href="https://ascii.textfiles.com/archives/4848">The Rest of the Infocom Cabinet — November 25, 2015</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:2">
 <p>If you want to do it in one go: <code>curl &quot;https://api.github.com/users/historicalsource/repos?page=1&amp;per_page=100&quot; | grep git_url | cut -d \&quot; -f 4 | xargs -L1 git clone</code> (<a href="https://www.jwz.org/blog/2019/04/infocom/">credit to JWZ</a>)&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
@@ -307,7 +308,7 @@
     </main>
     
 <footer class="footer">
-        <span>&copy; 2024 <a href="/">Christian Kündig</a></span> · 
+        <span>&copy; 2026 <a href="/">Christian Kündig</a></span> · 
 
     <span>
         Powered by

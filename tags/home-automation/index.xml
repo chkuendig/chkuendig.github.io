@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Home Automation on Christian Kündig</title>
+    <link>/tags/home-automation/</link>
+    <description>Recent content in Home Automation on Christian Kündig</description>
+    <image>
+      <title>Christian Kündig</title>
+      <url>/images/bg.jpg</url>
+      <link>/images/bg.jpg</link>
+    </image>
+    <generator>Hugo -- 0.145.0</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 10 Jan 2026 00:00:00 +0100</lastBuildDate>
+    <atom:link href="/tags/home-automation/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>TRMNL for Our Home</title>
+      <link>/posts/2026-01-trmnl-setup/</link>
+      <pubDate>Sat, 10 Jan 2026 00:00:00 +0100</pubDate>
+      <guid>/posts/2026-01-trmnl-setup/</guid>
+      <description>Setting up a TRMNL display at home and building three custom plugins for local weather, the SBB station board, and a simplified family calendar.</description>
+    </item>
+    <item>
+      <title>How to Add the Amphiro Hand Shower to Home Assistant</title>
+      <link>/posts/2023-01-hass-amphiro/</link>
+      <pubDate>Sat, 14 Jan 2023 11:45:13 +0100</pubDate>
+      <guid>/posts/2023-01-hass-amphiro/</guid>
+      <description>Looking into how to reverse engineer a funky christmas present and building out a new Home Assistant integration for it.</description>
+    </item>
+    <item>
+      <title>Forwarding Bluetooth with the April Brother BLE Gateway</title>
+      <link>/posts/2022-12-hass-ab_ble/</link>
+      <pubDate>Fri, 09 Dec 2022 11:46:04 +0100</pubDate>
+      <guid>/posts/2022-12-hass-ab_ble/</guid>
+      <description>We recently moved and I decided to buy a BLE-&amp;gt;IP gateway off AliExpress to increase coverage in the bigger place. Turns out this needed some hacking to get it to work with Home Assistant.</description>
+    </item>
+    <item>
+      <title>HP iLO Integration for Home Assistant</title>
+      <link>/posts/2022-03-hass-hpilo/</link>
+      <pubDate>Tue, 08 Feb 2022 11:42:13 +0100</pubDate>
+      <guid>/posts/2022-03-hass-hpilo/</guid>
+      <description>&lt;figure class=&#34;float-right&#34;&gt;
+    &lt;img loading=&#34;lazy&#34; src=&#34;/posts/2022-03-hass-hpilo/microserver-gen8.png  &#34;
+         alt=&#34;HPE ProLiant MicroServer Gen8&#34;/&gt; 
+&lt;/figure&gt;
+
+&lt;p&gt;I have been using a HP Microserver for a few years as my home lab and quite enjoy it. Unfortunately Home Assistant&amp;rsquo;s existing &lt;a href=&#34;https://www.home-assistant.io/integrations/hp_ilo&#34;&gt;HP Integrated Lights-Out (ILO) integration&lt;/a&gt; is very limited and does not have any configuration integration. I have started working on an updated version of this integration. For the initial release, I focused on three things:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Auto-Discovery with config flow so no &lt;code&gt;configuration.yaml&lt;/code&gt; editing will be required.&lt;/li&gt;
+&lt;li&gt;Support for as many sensor types automatically out of the box.&lt;/li&gt;
+&lt;li&gt;Updating &lt;a href=&#34;https://pypi.org/project/python-hpilo/&#34;&gt;python-hpilo&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/chkuendig/hass-hp_ilo-beta&#34; class=&#34;github-card&#34;&gt;&lt;img src=&#34;/posts/2022-03-hass-hpilo/hass-hp_ilo-beta_11496865343647443782.png&#34; alt=&#34;🚥 Updated HP Integrated Lights Out (iLO) component for Home Assistant &#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Sensirion SCD4x CO₂ Home Assistant Integration</title>
+      <link>/posts/2022-02-sensirion-co2/</link>
+      <pubDate>Wed, 02 Feb 2022 11:48:32 +0100</pubDate>
+      <guid>/posts/2022-02-sensirion-co2/</guid>
+      <description>I recently added support support for the Sensirion SCD4x CO₂ Gadget to the Passive BLE Monitor integration for Home Assistant.</description>
+    </item>
+  </channel>
+</rss>

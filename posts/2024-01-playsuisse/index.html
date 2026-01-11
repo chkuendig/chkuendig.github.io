@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Fixing Play Suisse in yt-dlp | Christian Kündig</title>
+<meta name="keywords" content="Reverse Engineering">
+<meta name="description" content="yt-dlp support for Play Suisse has been broken since the platform enforced a user login to access any video streams  in August 2023. Let&rsquo;s fix that.">
+<meta name="author" content="">
+<link rel="canonical" href="/posts/2024-01-playsuisse/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4b4ba94b836af7c5b90f9d1ab2afae9f8e5e904c2a158eff92031324dea547d4.css" integrity="sha256-S0upS4Nq98W5D50asq&#43;un45ekEwqFY7/kgMTJN6lR9Q=" rel="preload stylesheet" as="style">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="mask-icon" href="/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="/posts/2024-01-playsuisse/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
+<link href='//fonts.googleapis.com/css?family=Mulish' rel='stylesheet' type='text/css'>
+
+<script>
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  });
+</script>
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4NRERPTCT"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-L4NRERPTCT');
+        }
+      </script><meta property="og:url" content="/posts/2024-01-playsuisse/">
+  <meta property="og:site_name" content="Christian Kündig">
+  <meta property="og:title" content="Fixing Play Suisse in yt-dlp">
+  <meta property="og:description" content="yt-dlp support for Play Suisse has been broken since the platform enforced a user login to access any video streams  in August 2023. Let’s fix that.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-01-26T22:42:54+00:00">
+    <meta property="article:modified_time" content="2024-01-26T22:42:54+00:00">
+    <meta property="article:tag" content="Reverse Engineering">
+      <meta property="og:image" content="/images/bg.jpg">
+        <meta property="fb:admins" content="about.me">
+  <meta name="fediverse:creator" content="@chkuendig@ioc.exchange">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="/images/bg.jpg">
+<meta name="twitter:title" content="Fixing Play Suisse in yt-dlp">
+<meta name="twitter:description" content="yt-dlp support for Play Suisse has been broken since the platform enforced a user login to access any video streams  in August 2023. Let&rsquo;s fix that.">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Personal Projects",
+      "item": "/posts/"
+    }
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Fixing Play Suisse in yt-dlp",
+      "item": "/posts/2024-01-playsuisse/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Fixing Play Suisse in yt-dlp",
+  "name": "Fixing Play Suisse in yt-dlp",
+  "description": "yt-dlp support for Play Suisse has been broken since the platform enforced a user login to access any video streams  in August 2023. Let\u0026rsquo;s fix that.",
+  "keywords": [
+    "Reverse Engineering"
+  ],
+  "articleBody": "Play Suisse is a swiss video on demand platform offering a wide range of Swiss-produced films, drama series, documentaries and features from all of Switzerland’s regions. Imagine a free and publicly financed Netflix for local production.\nI recently wanted to import a show from Play Suisse to Plex. Typically I use yt-dlp for this, but unfortunately this didn’t work at all despite yt-dlp having support for Playsuisse:\nyt-dlp \"https://www.playsuisse.ch/watch/2489617?episodeId=2498821\u0026locale=de\" [PlaySuisse] Extracting URL: hhttps://www.playsuisse.ch/watch/2489617?episodeId=2498821\u0026locale=de [PlaySuisse] 2489617: Downloading JSON metadata ERROR: [PlaySuisse] 2489617: Unable to download JSON metadata: : Failed to resolve '4bbepzm4ef.execute-api.eu-central-1.amazonaws.com' ([Errno -2] Name does not resolve) (caused by TransportError(\": Failed to resolve '4bbepzm4ef.execute-api.eu-central-1.amazonaws.com' ([Errno -2] Name does not resolve)\")) No matter what URL, this was the error. As I tried to lookup this domain, DNS indeed didn’t resolve this domain, so it seemed that this was a bug in yt-dlp.\nLooking for this hostname it didn’t take me too long to figure out where this error is coming from (yt_dlp/extractor/playsuisse.py):\ndef _get_media_data(self, media_id): # NOTE In the web app, the \"locale\" header is used to switch between languages, # However this doesn't seem to take effect when passing the header here. response = self._download_json( 'https://4bbepzm4ef.execute-api.eu-central-1.amazonaws.com/prod/graphql', media_id, data=json.dumps({ 'operationName': 'AssetWatch', 'query': self._GRAPHQL_QUERY, 'variables': {'assetId': media_id} }).encode('utf-8'), headers={'Content-Type': 'application/json', 'locale': 'de'}) return response['data']['assetV2'] For some reason, this hardcoded URL is not working anymore. It was pretty easy to find out what the current URL should be by opening the link in the browser and checking for any calls to a URL containing graphql: Fixing the video download So the first change was moving the url to https://www.playsuisse.ch/api/graphql. Unfortunately this was where the bigger issues started:\nℹ️ You might notice the change of the command from yt-dlp to python3 -m yt_dlp - this is done to make sure I’m using the code checked out from git into the local directory instead of the version I installed via homebrew).\npython3 -m yt_dlp \"https://www.playsuisse.ch/watch/2489617?episodeId=2498821\u0026locale=de\" [PlaySuisse] Extracting URL: https://www.playsuisse.ch/watch/2489617?episodeId=2498821\u0026locale=de [PlaySuisse] 2498821: Downloading JSON metadata [PlaySuisse] 2498821: Downloading m3u8 information WARNING: [PlaySuisse] Failed to download m3u8 information: HTTP Error 400: Bad Request ERROR: [PlaySuisse] 2498821: No video formats found!; please report this issue on https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using yt-dlp -U Clearly something else is going wrong. 400 Bad Requests means we called something at the server in a way it didn’t expect us to. Not having a clue what this might be caused on, I checked for any existing issues on Github and got lucky: Bug: Skimming the issue it became pretty clear what’s going on: Besides changing the host name, Play Suisse now also requires logging in as a user to access the video streams. While yt-dlp supports user logins, the extractor for Play Suisse does not have this implemented.\nThe issue thankfully already contains quite some details, most importantly, where this login is coming from and what the error is:\nthe m3u8 URL giving the error 400 response is: https://playsuisse.ch/api/playback?asset_id=2254297\u0026stipo_env=production\u0026language=de if opened in browser, you can see its error message is id_token not found which suggests they have added some sort of security token that the extractor is missing\nand\nFrom what I’ve been able to see with the developer tools, the URL for the m3u8 has now two tokens id_token and userinfo_token. In a private navigation window from a browser where I never logged in the PlaySuisse website, I’ve been able to download the m3u8 file using only the id_token. Alas, I haven’t been able to pinpoint the source for this value while browsing the website.\nAnd people also figured out that this ID is stored in the browser’s local storage:\nAnd it is then stored in Local Storage under the persist:root key:\nSo at this point, it was quite obv. what to try next. What if we just get the token_id from an existing session (extracted from the developer tools in the browser) and hardcode the token_id in the python source code to see if this works?\nThis was easy to check by adding the token in the relevant section in yt_dlp/extractor/playsuisse.py, by changing the following code\nf, subs = self._extract_m3u8_formats_and_subtitles( media['url'], media_data['id'], 'mp4', m3u8_id='HLS', fatal=False) and adding the following line above to change the media url:\nmedia['url'] = media['url'] + \"\u0026id_token=\" f, subs = self._extract_m3u8_formats_and_subtitles( media['url'], media_data['id'], 'mp4', m3u8_id='HLS', fatal=False) and this was when it finally worked, I could download the video!\nFiguring out how to get the token ID Now for this to work longer than once (the token will expire), we need to automate fetching the tokens instead of pasting them from the browser.\nThe bug report hinted that the tokens are created during login. That sounded annoying to automate, but it turned out to be straightforward once I traced the web flow with developer tools and then replayed it with curl.\nWhat the browser does:\nThe login page generates a StateProperties blob and a CSRF token. Both are passed along with your credentials. After a successful POST, the page returns an id_token (JWT) and userinfo_token. These are stored in Local Storage under the persist:root key. Subsequent API calls add id_token to the HLS playback URL (the missing piece in yt-dlp), and userinfo_token is used for profile requests. Replaying with curl to confirm:\nThe credentials are sent as regular form fields—no obfuscation. You must keep three things from the initial login page: cookies, StateProperties, and the X-CSRF-TOKEN header. Strip anything else and the request still works. Once the POST succeeds, the response contains the tokens; you can extract id_token and feed it back into the playback URL. With that, the HLS manifests download fine. I wrapped this logic in the extractor so yt-dlp can log in, pull the tokens, and append id_token automatically to the playback URL.\nThe fix landed here:\nPostscript Playsuisse has a few weird formats - The quality IDs for the video aren’t standardized and the audio track is somewhat random (as it typically has 3+ language tracks, the default rarely makes sense). Eventually I had success backing up the show I wanted with following command:\npython3 -m yt_dlp \"https://www.playsuisse.ch/detail/2489617?locale=de\" \\ --username=\"\" --password=\"\" \\ -f 'bestvideo+HLS-audio0-Deutsch' --embed-subs --sub-lang \"en\" \\ -o \"Davos.1917.S01E0%(playlist_index)s.%(title)s.%(ext)s\" ",
+  "wordCount" : "1038",
+  "inLanguage": "en",
+  "image": "/images/bg.jpg","datePublished": "2024-01-26T22:42:54.723Z",
+  "dateModified": "2024-01-26T22:42:54.723Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/posts/2024-01-playsuisse/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Christian Kündig",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="/" accesskey="h" title="Christian Kündig (Alt + H)">Christian Kündig</a>
+            <div class="logo-switches">
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="/posts/" title="Personal Projects">
+                    <span>Personal Projects</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Fixing Play Suisse in yt-dlp
+    </h1>
+    <div class="post-meta"><span title='2024-01-26 22:42:54.723 +0000 UTC'>January 26, 2024</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>Play Suisse is a swiss video on demand platform offering a wide range of Swiss-produced films, drama series, documentaries and features from all of Switzerland&rsquo;s regions. Imagine a free and publicly financed Netflix for local production.</p>
+<p><img alt="alt text" loading="lazy" src="/posts/2024-01-playsuisse/playsuisse.png"></p>
+<p>I recently wanted to import a show from Play Suisse to Plex. Typically I use yt-dlp for this, but unfortunately this didn&rsquo;t work at all despite yt-dlp having support for Playsuisse:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">yt-dlp <span class="s2">&#34;https://www.playsuisse.ch/watch/2489617?episodeId=2498821&amp;locale=de&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>PlaySuisse<span class="o">]</span> Extracting URL: hhttps://www.playsuisse.ch/watch/2489617?episodeId<span class="o">=</span>2498821<span class="p">&amp;</span><span class="nv">locale</span><span class="o">=</span>de
+</span></span><span class="line"><span class="cl"><span class="o">[</span>PlaySuisse<span class="o">]</span> 2489617: Downloading JSON metadata
+</span></span><span class="line"><span class="cl">ERROR: <span class="o">[</span>PlaySuisse<span class="o">]</span> 2489617: Unable to download JSON metadata: &lt;urllib3.connection.HTTPSConnection object at 0x7f9e8b53f050&gt;: Failed to resolve <span class="s1">&#39;4bbepzm4ef.execute-api.eu-central-1.amazonaws.com&#39;</span> <span class="o">([</span>Errno -2<span class="o">]</span> Name does not resolve<span class="o">)</span> <span class="o">(</span>caused by TransportError<span class="o">(</span><span class="s2">&#34;&lt;urllib3.connection.HTTPSConnection object at 0x7f9e8b53f050&gt;: Failed to resolve &#39;4bbepzm4ef.execute-api.eu-central-1.amazonaws.com&#39; ([Errno -2] Name does not resolve)&#34;</span><span class="o">))</span>
+</span></span></code></pre></div><p>No matter what URL, this was the error. As I tried to lookup this domain, DNS indeed didn&rsquo;t resolve this domain, so it seemed that this was a bug in yt-dlp.</p>
+<p>Looking for this hostname it didn&rsquo;t take me too long to figure out where this error is coming from (<a href="https://github.com/yt-dlp/yt-dlp/blob/5f25f348f9eb5db842b1ec6799f95bebb7ba35a7/yt_dlp/extractor/playsuisse.py#L142">yt_dlp/extractor/playsuisse.py</a>):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">_get_media_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">media_id</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># NOTE In the web app, the &#34;locale&#34; header is used to switch between languages,</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># However this doesn&#39;t seem to take effect when passing the header here.</span>
+</span></span><span class="line"><span class="cl">        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_download_json</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="s1">&#39;https://4bbepzm4ef.execute-api.eu-central-1.amazonaws.com/prod/graphql&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">media_id</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">                <span class="s1">&#39;operationName&#39;</span><span class="p">:</span> <span class="s1">&#39;AssetWatch&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="s1">&#39;query&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_GRAPHQL_QUERY</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="s1">&#39;variables&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;assetId&#39;</span><span class="p">:</span> <span class="n">media_id</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">})</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">,</span> <span class="s1">&#39;locale&#39;</span><span class="p">:</span> <span class="s1">&#39;de&#39;</span><span class="p">})</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;assetV2&#39;</span><span class="p">]</span>
+</span></span></code></pre></div><p>For some reason, this hardcoded URL is not working anymore. It was pretty easy to find out what the current URL should be by opening the link in the browser and checking for any calls to a URL containing graphql:
+<img alt="Alt text" loading="lazy" src="/posts/2024-01-playsuisse/image.png"></p>
+<h1 id="fixing-the-video-download">Fixing the video download</h1>
+<p>So the first change was moving the url to <code>https://www.playsuisse.ch/api/graphql</code>. Unfortunately this was where the bigger issues started:</p>
+<aside>
+    <span>ℹ️</span>
+    <p>You might notice the change of the command from <code>yt-dlp</code> to <code>python3 -m yt_dlp</code> - this is done to make sure I&rsquo;m using the code checked out from git into the local directory instead of the version I installed via homebrew).</p>
+</aside>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">python3 -m yt_dlp <span class="s2">&#34;https://www.playsuisse.ch/watch/2489617?episodeId=2498821&amp;locale=de&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>PlaySuisse<span class="o">]</span> Extracting URL: https://www.playsuisse.ch/watch/2489617?episodeId<span class="o">=</span>2498821<span class="p">&amp;</span><span class="nv">locale</span><span class="o">=</span>de
+</span></span><span class="line"><span class="cl"><span class="o">[</span>PlaySuisse<span class="o">]</span> 2498821: Downloading JSON metadata
+</span></span><span class="line"><span class="cl"><span class="o">[</span>PlaySuisse<span class="o">]</span> 2498821: Downloading m3u8 information
+</span></span><span class="line"><span class="cl">WARNING: <span class="o">[</span>PlaySuisse<span class="o">]</span> Failed to download m3u8 information: HTTP Error 400: Bad Request
+</span></span><span class="line"><span class="cl">ERROR: <span class="o">[</span>PlaySuisse<span class="o">]</span> 2498821: No video formats found!<span class="p">;</span> please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q<span class="o">=</span> , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U
+</span></span></code></pre></div><p>Clearly something else is going wrong. <code>400 Bad Requests</code> means we called something at the server in a way it didn&rsquo;t expect us to. Not having a clue what this might be caused on, I checked for any existing issues on Github and got lucky:
+Bug:
+<a href="https://github.com/yt-dlp/yt-dlp/issues/7974" class="github-card"><img src="/posts/2024-01-playsuisse/7974_5249212696497893988.png" alt="[PlaySuisse] Failed to download m3u8 information: HTTP Error 400: Bad Request"></a></p>
+<p>Skimming the issue it became pretty clear what&rsquo;s going on: Besides changing the host name, Play Suisse now also requires logging in as a user to access the video streams. While yt-dlp supports user logins, the extractor for Play Suisse does not have this implemented.</p>
+<p>The issue thankfully already contains quite some details, most importantly, where this login is coming from and what the error is:</p>
+<blockquote>
+<p>the m3u8 URL giving the error 400 response is:
+<a href="https://playsuisse.ch/api/playback?asset_id=2254297&amp;stipo_env=production&amp;language=de">https://playsuisse.ch/api/playback?asset_id=2254297&amp;stipo_env=production&amp;language=de</a>
+if opened in browser, you can see its error message is id_token not found
+which suggests they have added some sort of security token that the extractor is missing</p></blockquote>
+<p>and</p>
+<blockquote>
+<p>From what I&rsquo;ve been able to see with the developer tools, the URL for the m3u8 has now two tokens id_token and userinfo_token. In a private navigation window from a browser where I never logged in the PlaySuisse website, I&rsquo;ve been able to download the m3u8 file using only the id_token. Alas, I haven&rsquo;t been able to pinpoint the source for this value while browsing the website.</p></blockquote>
+<p>And people also figured out that this ID is stored in the browser&rsquo;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage">local storage</a>:</p>
+<blockquote>
+<p>And it is then stored in Local Storage under the <code>persist:root key:</code></p></blockquote>
+<p>So at this point, it was quite obv. what to try next. What if we just get the <code>token_id</code> from an existing session (extracted from the developer tools in the browser) and hardcode the token_id in the python source code to see if this works?</p>
+<p>This was easy to check by adding the token in the relevant section in <a href="https://github.com/yt-dlp/yt-dlp/blob/5f25f348f9eb5db842b1ec6799f95bebb7ba35a7/yt_dlp/extractor/playsuisse.py#L171">yt_dlp/extractor/playsuisse.py</a>, by changing the following code</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl">            <span class="n">f</span><span class="p">,</span> <span class="n">subs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extract_m3u8_formats_and_subtitles</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                <span class="n">media</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">],</span> <span class="n">media_data</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="s1">&#39;mp4&#39;</span><span class="p">,</span> <span class="n">m3u8_id</span><span class="o">=</span><span class="s1">&#39;HLS&#39;</span><span class="p">,</span> <span class="n">fatal</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></span></code></pre></div><p>and adding the following line above to change the media url:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl">            <span class="n">media</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">media</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&#34;&amp;id_token=&lt;token copy pasted from localstorage&gt;&#34;</span>
+</span></span><span class="line"><span class="cl">           <span class="n">f</span><span class="p">,</span> <span class="n">subs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extract_m3u8_formats_and_subtitles</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                <span class="n">media</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">],</span> <span class="n">media_data</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="s1">&#39;mp4&#39;</span><span class="p">,</span> <span class="n">m3u8_id</span><span class="o">=</span><span class="s1">&#39;HLS&#39;</span><span class="p">,</span> <span class="n">fatal</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></span></code></pre></div><p>and this was when it finally worked, I could download the video!</p>
+<h1 id="figuring-out-how-to-get-the-token-id">Figuring out how to get the token ID</h1>
+<p>Now for this to work longer than once (the token will expire), we need to automate fetching the tokens instead of pasting them from the browser.</p>
+<p>The bug report hinted that the tokens are created during login. That sounded annoying to automate, but it turned out to be straightforward once I traced the web flow with developer tools and then replayed it with <code>curl</code>.</p>
+<p>What the browser does:</p>
+<ol>
+<li>The login page generates a <code>StateProperties</code> blob and a CSRF token. Both are passed along with your credentials.</li>
+<li>After a successful POST, the page returns an <code>id_token</code> (JWT) and <code>userinfo_token</code>. These are stored in Local Storage under the <code>persist:root</code> key.</li>
+<li>Subsequent API calls add <code>id_token</code> to the HLS playback URL (the missing piece in yt-dlp), and <code>userinfo_token</code> is used for profile requests.</li>
+</ol>
+<p>Replaying with curl to confirm:</p>
+<ul>
+<li>The credentials are sent as regular form fields—no obfuscation.</li>
+<li>You must keep three things from the initial login page: cookies, <code>StateProperties</code>, and the <code>X-CSRF-TOKEN</code> header. Strip anything else and the request still works.</li>
+<li>Once the POST succeeds, the response contains the tokens; you can extract <code>id_token</code> and feed it back into the playback URL. With that, the HLS manifests download fine.</li>
+</ul>
+<p>I wrapped this logic in the extractor so yt-dlp can log in, pull the tokens, and append <code>id_token</code> automatically to the playback URL.</p>
+<p>The fix landed here:</p>
+<p><a href="https://github.com/yt-dlp/yt-dlp/pull/9077" class="github-card"><img src="/posts/2024-01-playsuisse/9077_5980360858156930288.png" alt="[extractor/playsuisse] fix #7974 with login"></a></p>
+<h1 id="postscript">Postscript</h1>
+<p>Playsuisse has a few weird formats - The quality IDs for the video aren&rsquo;t standardized and the audio track is somewhat random (as it typically has 3+ language tracks, the default rarely makes sense).  Eventually I had success backing up the show I wanted with following command:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">python3 -m yt_dlp <span class="s2">&#34;https://www.playsuisse.ch/detail/2489617?locale=de&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--username<span class="o">=</span><span class="s2">&#34;&lt;email&gt;&#34;</span> --password<span class="o">=</span><span class="s2">&#34;&lt;password&gt;&#34;</span>  <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-f <span class="s1">&#39;bestvideo+HLS-audio0-Deutsch&#39;</span> --embed-subs --sub-lang <span class="s2">&#34;en&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-o <span class="s2">&#34;Davos.1917.S01E0%(playlist_index)s.%(title)s.%(ext)s&#34;</span>
+</span></span></code></pre></div>
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="/tags/reverse-engineering/">Reverse Engineering</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="/posts/2019-12-wedding/">
+    <span class="title">« Prev | <span>November 9, 2024</span></span>
+    <br>
+    <span>Our Wedding Website, 5 Years Later</span>
+  </a>
+  <a class="next" href="/posts/2024-01-scummvm-part3/">
+    <span class="title"><span>January 5, 2024</span> | Next »</span>
+    <br>
+    <span>Porting ScummVM to Webassembly, Part 3</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="/">Christian Kündig</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<script src="/js/quicklink.umd.min.js" data-no-instant
+></script>
+<script data-no-instant>
+  
+window.addEventListener('load', () => {
+  quicklink.listen();
+});
+</script>
+
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+</body>
+
+</html>
