@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>TRMNL for Our Home | Christian Kündig</title>
+<title>My Custom TRMNL Setup For Our Home | Christian Kündig</title>
 <meta name="keywords" content="Home Automation, Web Development">
 <meta name="description" content="Setting up a TRMNL display at home and building three custom plugins for local weather, the SBB station board, and a simplified family calendar.">
 <meta name="author" content="">
@@ -88,7 +88,7 @@
         }
       </script><meta property="og:url" content="/posts/2026-01-trmnl-setup/">
   <meta property="og:site_name" content="Christian Kündig">
-  <meta property="og:title" content="TRMNL for Our Home">
+  <meta property="og:title" content="My Custom TRMNL Setup For Our Home">
   <meta property="og:description" content="Setting up a TRMNL display at home and building three custom plugins for local weather, the SBB station board, and a simplified family calendar.">
   <meta property="og:locale" content="en">
   <meta property="og:type" content="article">
@@ -102,7 +102,7 @@
   <meta name="fediverse:creator" content="@chkuendig@ioc.exchange">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="/images/bg.jpg">
-<meta name="twitter:title" content="TRMNL for Our Home">
+<meta name="twitter:title" content="My Custom TRMNL Setup For Our Home">
 <meta name="twitter:description" content="Setting up a TRMNL display at home and building three custom plugins for local weather, the SBB station board, and a simplified family calendar.">
 
 
@@ -120,7 +120,7 @@
     {
       "@type": "ListItem",
       "position":  1 ,
-      "name": "TRMNL for Our Home",
+      "name": "My Custom TRMNL Setup For Our Home",
       "item": "/posts/2026-01-trmnl-setup/"
     }
   ]
@@ -130,14 +130,14 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "TRMNL for Our Home",
-  "name": "TRMNL for Our Home",
+  "headline": "My Custom TRMNL Setup For Our Home",
+  "name": "My Custom TRMNL Setup For Our Home",
   "description": "Setting up a TRMNL display at home and building three custom plugins for local weather, the SBB station board, and a simplified family calendar.",
   "keywords": [
     "Home Automation", "Web Development"
   ],
-  "articleBody": " What TRMNL Is TRMNL is a slow-information, always-on display. It is built around a simple idea: ambient, glanceable data beats notification chaos. The hardware is quiet and understated, and the software is intentionally minimal. I love that it treats information as decor rather than alerts.\nThe thoughtful design shows up in small places. One of my favorite examples is how the team handles accessibility and layout tweaks, like in this short thread: https://bsky.app/profile/ericwbailey.website/post/3mc3ositnc22j. It is a good reminder that calm tech can still sweat the details.\nWhy I Like It at Home Lives on the wall next to the entry door and never asks for attention, but is always readable. Focuses on a handful of tiles instead of infinite feeds or notifications. Easy to script against, so personal data can be pulled in without a full dashboard project. The Three Plugins I Built I used TRMNLP, a local development server for building TRMNL plugins. It’s built in Ruby and uses Liquid templates (the same templating engine Shopify uses), which made it straightforward to design and iterate. The workflow is simple: write Liquid templates locally, watch them update in real time via the dev server, then push finished plugins to TRMNL with a single command.\nThe final setup with weather, calendar, and SBB departures\nSwiss Meteo I wanted Swiss-specific weather data because the existing TRMNL plugins rely on global weather services that are not nearly as accurate as local ones—especially for same-day predictions in Switzerland where weather can change quickly. MeteoSwiss provides highly detailed and accurate forecasts.\nI used as a reference to figure out how the MeteoSwiss API metrics work. The rest was about replicating the official MeteoSwiss design using Highcharts for the temperature graph and the TRMNL design framework for consistent styling.\nSBB Station Board A station board plugin already exists (), but I wanted to tweak it a bit. Specifically, I added support for multiple lines—so you can display both bus and train departures going to the same destination together. I also integrated the real SBB pictograms for proper visual consistency with actual station boards.\nI shared these changes as along with some other minor improvements.\nFamily Calendar TRMNL already comes with a good integrated calendar plugin, but to keep the display minimal, I wanted to reduce it further. I created a plugin that uses the “plugin merge” data strategy to leverage the existing Fastmail calendar plugin but render it in a much more simplified way—just a quick preview of events coming up in the next month.\nSetup Notes The out-of-box setup was straightforward: Wi-Fi, add the display to the account, and pick a starter layout. After that, the SDK made it easy to drop in the custom plugins above. Everything has been stable so far, and the whole point—ambient info without pings—works exactly as advertised.\n",
-  "wordCount" : "468",
+  "articleBody": " What TRMNL Is TRMNL is a slow-information, always-on display. It is built around a simple idea: ambient, glanceable data beats notification chaos. The hardware is quiet and understated, and the software is intentionally minimal. I love that it treats information as decor rather than alerts.\nThe thoughtful design shows up in small places. One of my favorite examples is how the team handles accessibility and layout tweaks, like in this short thread: https://bsky.app/profile/ericwbailey.website/post/3mc3ositnc22j. It is a good reminder that calm tech can still sweat the details.\nWhy I Like It at Home Lives on the wall next to the entry door and never asks for attention, but is always readable. Focuses on a handful of tiles instead of infinite feeds or notifications. Easy to script against, so personal data can be pulled in without a full dashboard project. The Three Plugins I Built I used TRMNLP, a local development server for building TRMNL plugins. It’s built in Ruby and uses Liquid templates (the same templating engine Shopify uses), which made it straightforward to design and iterate. The workflow is simple: write Liquid templates locally, watch them update in real time via the dev server, then push finished plugins to TRMNL with a single command.\nThe final setup with weather, calendar, and SBB departures\nSwiss Meteo I wanted Swiss-specific weather data because the existing TRMNL plugins rely on global weather services that are not nearly as accurate as local ones—especially for same-day predictions in Switzerland where weather can change quickly. MeteoSwiss provides highly detailed and accurate forecasts.\nI used as a reference to figure out how the MeteoSwiss API metrics work. The rest was about replicating the official MeteoSwiss design using Highcharts for the temperature graph and the TRMNL design framework for consistent styling.\nThis plugin ended up being the bulk of the work. It pulls the official MeteoSwiss forecasts (hourly and multi-day) and maps every condition code to TRMNL’s icon set so the display looks native. To try it yourself:\nInstall manually via the unpublished recipe: https://usetrmnl.com/recipes/198612 (the GitHub repo above stays current). Configure your Swiss postal code (PLZ), pick one of the supported languages (English, Deutsch, Français, Italiano), and choose a layout (Full, Half Horizontal, Half Vertical, or Quadrant). The feed refreshes every ~15 minutes; once set, it just runs quietly like the screenshots in the repo. SBB Station Board A station board plugin already exists (), but I wanted to tweak it a bit. Specifically, I added support for multiple lines—so you can display both bus and train departures going to the same destination together. I also integrated the real SBB pictograms for proper visual consistency with actual station boards.\nI shared these changes as along with some other minor improvements.\nFamily Calendar TRMNL already comes with a good integrated calendar plugin, but to keep the display minimal, I wanted to reduce it further. I created a plugin that uses the “plugin merge” data strategy to leverage the existing Fastmail calendar plugin but render it in a much more simplified way—just a quick preview of events coming up in the next month.\nSetup Notes The out-of-box setup was straightforward: Wi-Fi, add the display to the account, and pick a starter layout. After that, the SDK made it easy to drop in the custom plugins above. Everything has been stable so far, and the whole point—ambient info without pings—works exactly as advertised.\n",
+  "wordCount" : "563",
   "inLanguage": "en",
   "image": "/images/bg.jpg","datePublished": "2026-01-10T00:00:00+01:00",
   "dateModified": "2026-01-10T00:00:00+01:00",
@@ -187,7 +187,7 @@
   <header class="post-header">
     
     <h1 class="post-title entry-hint-parent">
-      TRMNL for Our Home
+      My Custom TRMNL Setup For Our Home
     </h1>
     <div class="post-meta"><span title='2026-01-10 00:00:00 +0100 +0100'>January 10, 2026</span>
 
@@ -219,6 +219,14 @@
 <h3 id="swiss-meteo">Swiss Meteo</h3>
 <p>I wanted Swiss-specific weather data because the existing TRMNL plugins rely on global weather services that are not nearly as accurate as local ones—especially for same-day predictions in Switzerland where weather can change quickly. MeteoSwiss provides highly detailed and accurate forecasts.</p>
 <p>I used <a class="github-button" data-color-scheme="" href="https://github.com/Rudd-O/hamsclientfork" data-icon="octicon-repo" data-size="small" data-text='<b>Rudd-O/hamsclientfork</b>'></a> as a reference to figure out how the MeteoSwiss API metrics work. The rest was about replicating the official MeteoSwiss design using <a href="https://www.highcharts.com/">Highcharts</a> for the temperature graph and the <a href="https://docs.usetrmnl.com/go/developer-guide/design-framework">TRMNL design framework</a> for consistent styling.</p>
+<a href="https://github.com/chkuendig/trmnl-meteoswiss" class="github-card"><img src="/posts/2026-01-trmnl-setup/trmnl-meteoswiss_4958318765687594168.png" alt="TRMNL Meteoswiss Weather Plugin"></a>
+
+<p>This plugin ended up being the bulk of the work. It pulls the official MeteoSwiss forecasts (hourly and multi-day) and maps every condition code to TRMNL&rsquo;s icon set so the display looks native. To try it yourself:</p>
+<ul>
+<li>Install manually via the unpublished recipe: <a href="https://usetrmnl.com/recipes/198612">https://usetrmnl.com/recipes/198612</a> (the GitHub repo above stays current).</li>
+<li>Configure your Swiss postal code (PLZ), pick one of the supported languages (English, Deutsch, Français, Italiano), and choose a layout (Full, Half Horizontal, Half Vertical, or Quadrant).</li>
+<li>The feed refreshes every ~15 minutes; once set, it just runs quietly like the screenshots in the repo.</li>
+</ul>
 <h3 id="sbb-station-board">SBB Station Board</h3>
 <p>A station board plugin already exists (<a class="github-button" data-color-scheme="" href="https://github.com/jcfischer/sbb-stationboard" data-icon="octicon-repo" data-size="small" data-text='<b>jcfischer/sbb-stationboard</b>'></a>), but I wanted to tweak it a bit. Specifically, I added support for multiple lines—so you can display both bus and train departures going to the same destination together. I also integrated the real <a href="https://digital.sbb.ch/de/foundation/assets/pictos/">SBB pictograms</a> for proper visual consistency with actual station boards.</p>
 <p>I shared these changes as <a class="github-button" data-color-scheme="" href="https://github.com/jcfischer/sbb-stationboard/pull/1" data-icon="octicon-git-pull-request" data-size="small" data-text='<b>sbb-stationboard#1:</b>&nbsp;Some minor improvements'></a> along with some other minor improvements.</p>
