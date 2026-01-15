@@ -18,7 +18,15 @@
       <link>/tags/home-automation/</link>
       <pubDate>Sat, 10 Jan 2026 00:00:00 +0100</pubDate>
       <guid>/tags/home-automation/</guid>
-      <description></description>
+      <description>&lt;p&gt;I try to tinker with gadgets around the house. Mostly because it&amp;rsquo;s fun to work on things that have a connection to the physical world. To that end, I&amp;rsquo;m also maintaining a few open source projects:&lt;/p&gt;
+&lt;h3 id=&#34;home-assistant-custom-components&#34;&gt;Home Assistant Custom Components&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&#34;https://github.com/chkuendig/hass-amphiro-ble&#34;&gt;Amphiro Digital Hand Shower&lt;/a&gt;&lt;/strong&gt; – Reads sensor data from the Amphiro Digital Hand Shower via Bluetooth for tracking water and energy usage.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://my.home-assistant.io/redirect/hacs_repository/?owner=chkuendig&amp;amp;repository=hass-amphiro-ble&amp;amp;category=integration&#34;&gt;&lt;img alt=&#34;Install with HACS&#34; loading=&#34;lazy&#34; src=&#34;/tags/home-automation/hacs_badge.svg&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&#34;https://github.com/chkuendig/hass-ab_ble_gateway&#34;&gt;April Brother (AB) BLE Gateway V4&lt;/a&gt;&lt;/strong&gt; – Forwards BLE advertisement data from the April Brother BLE Gateway V4 to Home Assistant&amp;rsquo;s Bluetooth integration.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Web Development</title>
@@ -83,13 +91,6 @@
       <link>/tags/zurcher-studierendenzeitung/</link>
       <pubDate>Fri, 28 May 2010 11:34:07 +0100</pubDate>
       <guid>/tags/zurcher-studierendenzeitung/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Home Assistant</title>
-      <link>/tags/home-assistant/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>/tags/home-assistant/</guid>
       <description></description>
     </item>
     <item>

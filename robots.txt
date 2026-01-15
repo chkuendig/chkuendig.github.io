@@ -47,5 +47,4 @@ Disallow: /posts/2008-02-danke-marcel/
 Disallow: /posts/2007-12-profitieren/
 Disallow: /posts/2007-11-investment-banking-selbstversuch/
 Disallow: /categories/
-Disallow: /tags/home-assistant/
 Disallow: /tags/zurcher-studierendenzeitung/
