@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Custom Icon for Airprint Printer with Cups | Christian Kündig</title>
+<meta name="keywords" content="">
+<meta name="description" content="My 20-year-old Samsung printer deserved better than a generic icon. Here&rsquo;s how I dug through CUPS source code to figure out why printer icons don&rsquo;t work and the simple Docker volume mount that fixed it.">
+<meta name="author" content="">
+<link rel="canonical" href="/posts/2026-01-printer-icon/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4b4ba94b836af7c5b90f9d1ab2afae9f8e5e904c2a158eff92031324dea547d4.css" integrity="sha256-S0upS4Nq98W5D50asq&#43;un45ekEwqFY7/kgMTJN6lR9Q=" rel="preload stylesheet" as="style">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="mask-icon" href="/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="/posts/2026-01-printer-icon/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
+<link href='//fonts.googleapis.com/css?family=Mulish' rel='stylesheet' type='text/css'>
+
+<script>
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  });
+</script>
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4NRERPTCT"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-L4NRERPTCT');
+        }
+      </script><meta property="og:url" content="/posts/2026-01-printer-icon/">
+  <meta property="og:site_name" content="Christian Kündig">
+  <meta property="og:title" content="Custom Icon for Airprint Printer with Cups">
+  <meta property="og:description" content="My 20-year-old Samsung printer deserved better than a generic icon. Here’s how I dug through CUPS source code to figure out why printer icons don’t work and the simple Docker volume mount that fixed it.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-25T20:00:00+01:00">
+    <meta property="article:modified_time" content="2026-01-25T20:00:00+01:00">
+      <meta property="og:image" content="/images/bg.jpg">
+        <meta property="fb:admins" content="about.me">
+  <meta name="fediverse:creator" content="@chkuendig@ioc.exchange">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="/images/bg.jpg">
+<meta name="twitter:title" content="Custom Icon for Airprint Printer with Cups">
+<meta name="twitter:description" content="My 20-year-old Samsung printer deserved better than a generic icon. Here&rsquo;s how I dug through CUPS source code to figure out why printer icons don&rsquo;t work and the simple Docker volume mount that fixed it.">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Personal Projects",
+      "item": "/posts/"
+    }
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Custom Icon for Airprint Printer with Cups",
+      "item": "/posts/2026-01-printer-icon/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Custom Icon for Airprint Printer with Cups",
+  "name": "Custom Icon for Airprint Printer with Cups",
+  "description": "My 20-year-old Samsung printer deserved better than a generic icon. Here\u0026rsquo;s how I dug through CUPS source code to figure out why printer icons don\u0026rsquo;t work and the simple Docker volume mount that fixed it.",
+  "keywords": [
+    
+  ],
+  "articleBody": " I’ve been using the same printer for the last 20+ years (apparently its firmware was built on my 19th birthday). The last 10+ years, this has been as a networked printer, using AirPrint in its newest configuration. One thing I always felt was missing for this, was the nice printer icons I get when adding work printers. The icon in macOS looks nothing like the printer.\nBackground AirPrint is Apple’s implementation of IPP Everywhere, a standard that enables driverless printing. Instead of requiring vendor-specific drivers, IPP Everywhere printers advertise their capabilities over the network, and clients can print using standard protocols.\nThe discovery mechanism relies on DNS-SD (DNS-Based Service Discovery), which you might know by its marketing names: Bonjour (Apple) or Zeroconf. When a printer supports IPP Everywhere, it broadcasts its presence on the local network along with metadata about its capabilities - including a URL to its icon.\nThis icon URL is part of the printer-icons IPP attribute. When you add a printer on macOS or iOS, the system fetches this icon to display in the Print Center. Enterprise printers typically serve proper icons of themselves, but consumer printers and CUPS-shared printers often show a generic icon - or nothing at all.\nHow this works in CUPS Let’s trace through the CUPS source code to understand how printer icons are advertised and served.\nWhere the icon URL is generated In scheduler/ipp.c:4973-4977, CUPS constructs the printer-icons attribute URL:\nhttpAssembleURIf(HTTP_URI_CODING_ALL, uri, sizeof(uri), is_encrypted ? \"https\" : \"http\", NULL, con-\u003eclientname, con-\u003eclientport, \"/icons/%s.png\", printer-\u003ename); ippAddString(con-\u003eresponse, IPP_TAG_PRINTER, IPP_TAG_URI, \"printer-icons\", NULL, uri); This advertises URLs like: http://hostname:631/icons/PRINTERNAME.png\nWhere the icon is served from In scheduler/client.c:1294-1315, the get_file() function handles requests for /icons/:\nelse if ((!strncmp(con-\u003euri, \"/icons/\", 7) || !strncmp(con-\u003euri, \"/printers/\", 10) || !strncmp(con-\u003euri, \"/classes/\", 9)) \u0026\u0026 !strcmp(con-\u003euri + strlen(con-\u003euri) - 4, \".png\")) { // Extract printer name from URL strlcpy(dest, strchr(con-\u003euri + 1, '/') + 1, sizeof(dest)); dest[strlen(dest) - 4] = '\\0'; /* Strip .png */ // Look up the printer if ((p = cupsdFindDest(dest)) == NULL) { // Printer not found - return 404 return (NULL); } // Look for icon in CacheDir/images/ snprintf(filename, len, \"%s/images/%s.png\", CacheDir, p-\u003ename); // Fallback to generic icon if printer-specific icon doesn't exist if (access(filename, F_OK) \u003c 0) snprintf(filename, len, \"%s/images/generic.png\", DocumentRoot); } The key insight: for /icons/PRINTERNAME.png, CUPS first looks for the file at CacheDir/images/PRINTERNAME.png. If that doesn’t exist, it falls back to DocumentRoot/images/generic.png.\nTesting the advertised URL We can verify what CUPS advertises using ipptool:\n$ ipptool -t -v ipp://Parklife.local:631/printers/Samsung_ML-1710P get-printer-attributes.test | grep icon printer-icons (uri) = http://Parklife.local:631/icons/Samsung_ML-1710P.png But when we try to access that URL:\n$ curl \"http://parklife:631/icons/Samsung_ML-1710P.png\" \u003c!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\"\u003e ",
+  "wordCount" : "870",
+  "inLanguage": "en",
+  "image": "/images/bg.jpg","datePublished": "2026-01-25T20:00:00+01:00",
+  "dateModified": "2026-01-25T20:00:00+01:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/posts/2026-01-printer-icon/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Christian Kündig",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="/" accesskey="h" title="Christian Kündig (Alt + H)">Christian Kündig</a>
+            <div class="logo-switches">
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="/posts/" title="Personal Projects">
+                    <span>Personal Projects</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Custom Icon for Airprint Printer with Cups
+    </h1>
+    <div class="post-meta"><span title='2026-01-25 20:00:00 +0100 +0100'>January 25, 2026</span>
+
+</div>
+  </header> 
+  <div class="post-content"><figure class="float-right">
+<picture>
+  <source srcset="hero%20image.png" media="(prefers-color-scheme: light)"/>
+  <source srcset="hero%20image_dark.png" media="(prefers-color-scheme: dark)"/>
+  <img src="hero%20image.png" alt="Before and after: the Print Center showing generic icon vs custom Samsung printer icon">
+</picture>
+</figure>
+<p>I&rsquo;ve been using the same printer for the last 20+ years (apparently its firmware <a href="IMG_1564.jpeg">was built on my 19th birthday</a>). The last 10+ years, this has been as a networked printer, using AirPrint in its newest configuration. One thing I always felt was missing for this, was the nice printer icons I get when adding work printers. The icon in macOS looks nothing like the printer.</p>
+<h1 id="background">Background</h1>
+<p>AirPrint is Apple&rsquo;s implementation of <strong>IPP Everywhere</strong>, a standard that enables driverless printing. Instead of requiring vendor-specific drivers, IPP Everywhere printers advertise their capabilities over the network, and clients can print using standard protocols.</p>
+<p>The discovery mechanism relies on <strong>DNS-SD</strong> (DNS-Based Service Discovery), which you might know by its marketing names: <strong>Bonjour</strong> (Apple) or <strong>Zeroconf</strong>. When a printer supports IPP Everywhere, it broadcasts its presence on the local network along with metadata about its capabilities - including a URL to its icon.</p>
+<p>This icon URL is part of the <code>printer-icons</code> IPP attribute. When you add a printer on macOS or iOS, the system fetches this icon to display in the Print Center. Enterprise printers typically serve proper icons of themselves, but consumer printers and CUPS-shared printers often show a generic icon - or nothing at all.</p>
+<h1 id="how-this-works-in-cups">How this works in CUPS</h1>
+<p>Let&rsquo;s trace through the CUPS source code to understand how printer icons are advertised and served.</p>
+<h2 id="where-the-icon-url-is-generated">Where the icon URL is generated</h2>
+<p>In <a href="https://github.com/OpenPrinting/cups/blob/v2.4.16/scheduler/ipp.c#L4973-L4977"><code>scheduler/ipp.c:4973-4977</code></a>, CUPS constructs the <code>printer-icons</code> attribute URL:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="nf">httpAssembleURIf</span><span class="p">(</span><span class="n">HTTP_URI_CODING_ALL</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">uri</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">is_encrypted</span> <span class="o">?</span> <span class="s">&#34;https&#34;</span> <span class="o">:</span> <span class="s">&#34;http&#34;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">con</span><span class="o">-&gt;</span><span class="n">clientname</span><span class="p">,</span> <span class="n">con</span><span class="o">-&gt;</span><span class="n">clientport</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;/icons/%s.png&#34;</span><span class="p">,</span> <span class="n">printer</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nf">ippAddString</span><span class="p">(</span><span class="n">con</span><span class="o">-&gt;</span><span class="n">response</span><span class="p">,</span> <span class="n">IPP_TAG_PRINTER</span><span class="p">,</span> <span class="n">IPP_TAG_URI</span><span class="p">,</span> <span class="s">&#34;printer-icons&#34;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">uri</span><span class="p">);</span>
+</span></span></code></pre></div><p>This advertises URLs like: <code>http://hostname:631/icons/PRINTERNAME.png</code></p>
+<h2 id="where-the-icon-is-served-from">Where the icon is served from</h2>
+<p>In <a href="https://github.com/OpenPrinting/cups/blob/v2.4.16/scheduler/client.c#L1294-L1315"><code>scheduler/client.c:1294-1315</code></a>, the <code>get_file()</code> function handles requests for <code>/icons/</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">else</span> <span class="nf">if</span> <span class="p">((</span><span class="o">!</span><span class="nf">strncmp</span><span class="p">(</span><span class="n">con</span><span class="o">-&gt;</span><span class="n">uri</span><span class="p">,</span> <span class="s">&#34;/icons/&#34;</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span> <span class="o">||</span> <span class="o">!</span><span class="nf">strncmp</span><span class="p">(</span><span class="n">con</span><span class="o">-&gt;</span><span class="n">uri</span><span class="p">,</span> <span class="s">&#34;/printers/&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">||</span>
+</span></span><span class="line"><span class="cl">          <span class="o">!</span><span class="nf">strncmp</span><span class="p">(</span><span class="n">con</span><span class="o">-&gt;</span><span class="n">uri</span><span class="p">,</span> <span class="s">&#34;/classes/&#34;</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nf">strcmp</span><span class="p">(</span><span class="n">con</span><span class="o">-&gt;</span><span class="n">uri</span> <span class="o">+</span> <span class="nf">strlen</span><span class="p">(</span><span class="n">con</span><span class="o">-&gt;</span><span class="n">uri</span><span class="p">)</span> <span class="o">-</span> <span class="mi">4</span><span class="p">,</span> <span class="s">&#34;.png&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Extract printer name from URL
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">strlcpy</span><span class="p">(</span><span class="n">dest</span><span class="p">,</span> <span class="nf">strchr</span><span class="p">(</span><span class="n">con</span><span class="o">-&gt;</span><span class="n">uri</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="sc">&#39;/&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">dest</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dest</span><span class="p">[</span><span class="nf">strlen</span><span class="p">(</span><span class="n">dest</span><span class="p">)</span> <span class="o">-</span> <span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;\0&#39;</span><span class="p">;</span> <span class="cm">/* Strip .png */</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Look up the printer
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">((</span><span class="n">p</span> <span class="o">=</span> <span class="nf">cupsdFindDest</span><span class="p">(</span><span class="n">dest</span><span class="p">))</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// Printer not found - return 404
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">return</span> <span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Look for icon in CacheDir/images/
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">snprintf</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">len</span><span class="p">,</span> <span class="s">&#34;%s/images/%s.png&#34;</span><span class="p">,</span> <span class="n">CacheDir</span><span class="p">,</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Fallback to generic icon if printer-specific icon doesn&#39;t exist
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="nf">access</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">F_OK</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">snprintf</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">len</span><span class="p">,</span> <span class="s">&#34;%s/images/generic.png&#34;</span><span class="p">,</span> <span class="n">DocumentRoot</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>The key insight: for <code>/icons/PRINTERNAME.png</code>, CUPS first looks for the file at <code>CacheDir/images/PRINTERNAME.png</code>. If that doesn&rsquo;t exist, it falls back to <code>DocumentRoot/images/generic.png</code>.</p>
+<h2 id="testing-the-advertised-url">Testing the advertised URL</h2>
+<p>We can verify what CUPS advertises using <code>ipptool</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ ipptool -t -v ipp://Parklife.local:631/printers/Samsung_ML-1710P get-printer-attributes.test <span class="p">|</span> grep icon
+</span></span><span class="line"><span class="cl">        printer-icons <span class="o">(</span>uri<span class="o">)</span> <span class="o">=</span> http://Parklife.local:631/icons/Samsung_ML-1710P.png
+</span></span></code></pre></div><p>But when we try to access that URL:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ curl <span class="s2">&#34;http://parklife:631/icons/Samsung_ML-1710P.png&#34;</span>
+</span></span><span class="line"><span class="cl">&lt;!DOCTYPE HTML PUBLIC <span class="s2">&#34;-//W3C//DTD HTML 4.01 Transitional//EN&#34;</span> <span class="s2">&#34;http://www.w3.org/TR/html4/loose.dtd&#34;</span>&gt;
+</span></span><span class="line"><span class="cl">&lt;HTML&gt;
+</span></span><span class="line"><span class="cl">&lt;HEAD&gt;
+</span></span><span class="line"><span class="cl">    &lt;META HTTP-EQUIV<span class="o">=</span><span class="s2">&#34;Content-Type&#34;</span> <span class="nv">CONTENT</span><span class="o">=</span><span class="s2">&#34;text/html; charset=utf-8&#34;</span>&gt;
+</span></span><span class="line"><span class="cl">    &lt;TITLE&gt;Not Found - CUPS v2.4.16&lt;/TITLE&gt;
+</span></span><span class="line"><span class="cl">    &lt;LINK <span class="nv">REL</span><span class="o">=</span><span class="s2">&#34;STYLESHEET&#34;</span> <span class="nv">TYPE</span><span class="o">=</span><span class="s2">&#34;text/css&#34;</span> <span class="nv">HREF</span><span class="o">=</span><span class="s2">&#34;/cups.css&#34;</span>&gt;
+</span></span><span class="line"><span class="cl">&lt;/HEAD&gt;
+</span></span><span class="line"><span class="cl">&lt;BODY&gt;
+</span></span><span class="line"><span class="cl">&lt;H1&gt;Not Found&lt;/H1&gt;
+</span></span><span class="line"><span class="cl">&lt;P&gt;&lt;/P&gt;
+</span></span><span class="line"><span class="cl">&lt;/BODY&gt;
+</span></span><span class="line"><span class="cl">&lt;/HTML&gt;
+</span></span></code></pre></div><p>That&rsquo;s odd. It should show at least a generic fallback icon.</p>
+<h1 id="the-debian-packaging-issue">The Debian packaging issue</h1>
+<p>Since I run CUPS in Docker using the <a href="https://hub.docker.com/r/olbat/cupsd">olbat/cupsd</a> image (which is based on Debian stable), I needed to understand how Debian packages CUPS.</p>
+<p>The upstream CUPS code has a fallback mechanism. If no custom icon exists, it should serve <code>DocumentRoot/images/generic.png</code>. But on Debian, there&rsquo;s a mismatch:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Path</th>
+          <th>Upstream CUPS expects</th>
+          <th>Debian packages it as</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>DocumentRoot</td>
+          <td><code>/usr/share/cups/doc-root</code></td>
+          <td><code>/usr/share/doc/cups</code></td>
+      </tr>
+      <tr>
+          <td>CacheDir</td>
+          <td><code>/var/spool/cups/cache</code></td>
+          <td><code>/var/cache/cups</code></td>
+      </tr>
+  </tbody>
+</table>
+<p>On Debian (bookworm), when CUPS tries to serve <code>/icons/PRINTERNAME.png</code>:</p>
+<ol>
+<li>It first checks <code>CacheDir/images/PRINTERNAME.png</code> → <code>/var/cache/cups/images/PRINTERNAME.png</code> (doesn&rsquo;t exist)</li>
+<li>Falls back to <code>DocumentRoot/images/generic.png</code> → may not exist due to Debian&rsquo;s packaging differences</li>
+</ol>
+<p>This explains the 404 error - even the fallback path doesn&rsquo;t work correctly on Debian.</p>
+<p>We can verify this by manually creating the directory and copying an icon. The <code>cups-server-common</code> package includes <code>/usr/share/cups/doc-root/images/cups.png</code> which we can use:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo mkdir -p /var/cache/cups/images
+</span></span><span class="line"><span class="cl">sudo cp /usr/share/cups/doc-root/images/cups.png /var/cache/cups/images/Samsung_ML-1710P.png
+</span></span></code></pre></div><p>And it works! The icon now appears when accessing the URL.</p>
+<h1 id="the-solution">The solution</h1>
+<p>Now that we understand the issue, the fix is straightforward. We just need to mount the custom icon file at the path where CUPS expects it. Using Docker volumes, this is automatically handled on container start.</p>
+<p>Here&rsquo;s how to extend the <a href="https://hub.docker.com/r/olbat/cupsd">olbat/cupsd</a> setup with custom icons:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">services</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">cupsd</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">olbat/cupsd:latest</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="s2">&#34;631:631&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="c"># D-Bus for Avahi/AirPrint discovery</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">/var/run/dbus:/var/run/dbus</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="c"># USB printer support</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">/dev/bus/usb:/dev/bus/usb</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="c"># Custom printer icon</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">./icons/Samsung_ML-1710P.png:/var/cache/cups/images/Samsung_ML-1710P.png:ro</span><span class="w">
+</span></span></span></code></pre></div><p>This mounts the custom icon from my local <code>icons/</code> directory directly into the container at the exact path where CUPS looks for printer icons. The <code>:ro</code> suffix makes it read-only, which is good practice for static files.</p>
+<p>After restarting the container, the printer icon is now served correctly and appears in the macOS Print Center:</p>
+<p><img alt="Print Center showing the custom Samsung printer icon" loading="lazy" src="/posts/2026-01-printer-icon/print%20centre%20after.png"></p>
+<h1 id="appendix-creating-the-icon">Appendix: Creating the icon</h1>
+<p>Creating a custom printer icon turned out to be the fun part. I wanted something that actually looks like my Samsung ML-1710P.</p>
+<p>I started with this mess of reference photos:</p>
+<figure>
+    <img loading="lazy" src="/posts/2026-01-printer-icon/photos.png  "
+         alt="Google Image Search results for Samsung ML-1710P"/> <figcaption>
+            <p>Plenty of pictures online, but no high-quality product photography - not surprising for a 20+ year old printer.</p>
+        </figcaption>
+</figure>
+
+<p>I fed these to <em>Gemini Nano Banana Pro</em> and asked it to generate a clean, icon-style rendering of the printer. It produced a surprisingly good result - all I had to do was remove the background in GIMP using the fuzzy select tool.</p>
+<figure style="width: 50%; margin: 0 auto;">
+<img src="Samsung_ML-1710P.png" alt="Final Samsung ML-1710P printer icon">
+</figure>
+<p>The resulting icon is now displayed correctly in the Print Center, giving my 20-year-old printer a proper identity on the network.</p>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="next" href="/posts/2026-01-trmnl-setup/">
+    <span class="title"><span>January 10, 2026</span> | Next »</span>
+    <br>
+    <span>My Custom TRMNL Setup For Our Home</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="/">Christian Kündig</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<script src="/js/quicklink.umd.min.js" data-no-instant
+></script>
+<script data-no-instant>
+  
+window.addEventListener('load', () => {
+  quicklink.listen();
+});
+</script>
+
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+</body>
+
+</html>
