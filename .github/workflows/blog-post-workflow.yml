@@ -21,7 +21,7 @@ jobs:
           readme_path: ./README.md
           skip_commit: true
           enable_keepalive: false
-          max_post_count: 8
+          max_post_count: 10
           template: "$newline- $date: [$title](https://christian.kuendig.info$url)"
           date_format: mediumDate
       - name: "Upload updated README"
