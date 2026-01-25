@@ -9,16 +9,16 @@
 <meta name="keywords" content="Video Games, Reverse Engineering">
 <meta name="description" content="Trying to get Steam Remote Play working from my Linux home lab, I noticed that while Steam offers capturing the frame data with NvFBC, the setting doesn&rsquo;t seem have any impact. Why is that?">
 <meta name="author" content="">
-<link rel="canonical" href="/posts/2020-12-steam-nvfbc/">
+<link rel="canonical" href="https://christian.kuendig.info/posts/2020-12-steam-nvfbc/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.4b4ba94b836af7c5b90f9d1ab2afae9f8e5e904c2a158eff92031324dea547d4.css" integrity="sha256-S0upS4Nq98W5D50asq&#43;un45ekEwqFY7/kgMTJN6lR9Q=" rel="preload stylesheet" as="style">
-<link rel="icon" href="/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="mask-icon" href="/safari-pinned-tab.svg">
+<link rel="icon" href="https://christian.kuendig.info/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://christian.kuendig.info/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://christian.kuendig.info/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://christian.kuendig.info/apple-touch-icon.png">
+<link rel="mask-icon" href="https://christian.kuendig.info/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="/posts/2020-12-steam-nvfbc/">
+<link rel="alternate" hreflang="en" href="https://christian.kuendig.info/posts/2020-12-steam-nvfbc/">
 <noscript>
     <style>
         #theme-toggle,
@@ -86,7 +86,7 @@
           gtag('js', new Date());
           gtag('config', 'G-L4NRERPTCT');
         }
-      </script><meta property="og:url" content="/posts/2020-12-steam-nvfbc/">
+      </script><meta property="og:url" content="https://christian.kuendig.info/posts/2020-12-steam-nvfbc/">
   <meta property="og:site_name" content="Christian Kündig">
   <meta property="og:title" content="Does Steam Remote Play support NvFBC on Linux?">
   <meta property="og:description" content="Trying to get Steam Remote Play working from my Linux home lab, I noticed that while Steam offers capturing the frame data with NvFBC, the setting doesn’t seem have any impact. Why is that?">
@@ -97,11 +97,11 @@
     <meta property="article:modified_time" content="2020-12-11T11:52:50+01:00">
     <meta property="article:tag" content="Video Games">
     <meta property="article:tag" content="Reverse Engineering">
-      <meta property="og:image" content="/images/bg.jpg">
+      <meta property="og:image" content="https://christian.kuendig.info/images/bg.jpg">
         <meta property="fb:admins" content="about.me">
   <meta name="fediverse:creator" content="@chkuendig@ioc.exchange">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="/images/bg.jpg">
+<meta name="twitter:image" content="https://christian.kuendig.info/images/bg.jpg">
 <meta name="twitter:title" content="Does Steam Remote Play support NvFBC on Linux?">
 <meta name="twitter:description" content="Trying to get Steam Remote Play working from my Linux home lab, I noticed that while Steam offers capturing the frame data with NvFBC, the setting doesn&rsquo;t seem have any impact. Why is that?">
 
@@ -115,13 +115,13 @@
       "@type": "ListItem",
       "position":  1 ,
       "name": "Personal Projects",
-      "item": "/posts/"
-    }
+      "item": "https://christian.kuendig.info/posts/"
+    }, 
     {
       "@type": "ListItem",
-      "position":  1 ,
+      "position":  2 ,
       "name": "Does Steam Remote Play support NvFBC on Linux?",
-      "item": "/posts/2020-12-steam-nvfbc/"
+      "item": "https://christian.kuendig.info/posts/2020-12-steam-nvfbc/"
     }
   ]
 }
@@ -139,18 +139,18 @@
   "articleBody": "While trying to use my home lab as a game streaming host with Steam Remote Play (more on that another time), I noticed that Steam offers capturing the frame data with NvFBC:\nNvFBC allows the encoder to read from the framebuffer in the GPU directly without first copying it to main memory and then back to the GPU for encoding. This is intended to improve the streaming and should scrape a few more ms of latency off. It’s part of the Nvidia Capture SDK and unfortunately it’s not available officially for consumer-grade cards:\nCapture SDK can be only used on GRID, Tesla, or Quadro X2000+ (X = K/M/P/RTX) hardware products. Other configurations are not permitted under the end user license agreement terms and conditions.\nSo while my Quadro P400 does not support this, the good news is that according to Valve1, this restriction doesn’t apply for Steam and NvFBC is widely reported to be available and enabled on Windows Steam on all Nvidia cards (presumably thanks to a deal between Nvidia and Valve).\nUnfortunately this doesn’t work on my Ubuntu home server. The connection details never switched to NvFBC and always stayed on Game Vulkan RGB + libyuv or Desktop PipeWire DMABUF and I quickly found reports of others having the same issue: ).\nIn theory there are ways to enable NvFBC with patched drivers on Linux () for all apps and all cards. Unfortunately this is only available for the 64-bit drivers and steam is still a 32-bit app using the 32-bit drivers for nvidia. Understandably the nvidia-patch team doesn’t want to maintain the patch set for multiple platforms2 - there’s already a lot of different driver versions to maintain on 64-bit alone.\nTo debug this, I decided to dig further on my own.\nFirst, I downloaded the Nvidia Capture SDK and quickly managed to run the NvEnc samples (NvFBCToGLEnc specifically) with the patched driver from nvidia-patch. So I’m pretty sure my hardware setup is compatible with NvFBC.\nSecond, to be absolutely certain of of the setup - I also tested directly passing the magic values unlocking NvEnc both in 32bit and 64bit builds on the samples themselves (with an unpatched driver). This was a bit more difficult, but still easy. All I had to do was pass the magic numbers to the createHandleParams:\n/* * Create a session handle that is used to identify the client. * * Request that the GL context is externally managed. */ memset(\u0026createHandleParams, 0, sizeof(createHandleParams)); // https://github.com/keylase/nvidia-patch/blob/8b0d2238c1391e7fadfc3df2aaf8d4dd398ed18d/win/nvfbcwrp/nvfbcwrp_main.cpp#L23 int magic[] = { 0xAEF57AC5, 0x401D1A39, 0x1B856BBE, 0x9ED0CEBA }; createHandleParams.dwVersion = NVFBC_CREATE_HANDLE_PARAMS_VER; createHandleParams.bExternallyManagedContext = NVFBC_TRUE; createHandleParams.glxCtx = glxCtx; createHandleParams.glxFBConfig = glxFBConfig; createHandleParams.pPrivateData = \u0026magic; createHandleParams.dwPrivateDataSize = sizeof(magic); 💡 FYI: I only got the magic values extracted from GFE and the ones in nvidia-patch to work, the ones extracted from Windows Steam didn’t. Not sure if that means anything or is a red herring.\nAfter all of this, I’m pretty sure my setup is compatible with NvFBC. Now the question was figuring out why steam didn’t work. So I tried two things:\nChecked for any references in any of the steam binaries - there’s no references to libnvidia-fbc - only libnvidia-encode.\nLD_PRELOAD both 32bit and 64 binaries to catch any calls to nvFBCCreateInstance and nvFBCCreateHandle (to set the correct magic values).\nFor the LD_PRELOAD I had to build a small library to preload before steam which I shared on Github Gist: These calls never happen (and I also tested this against the unchanged NvFBCToGLEnc sample where preloading worked to inject the magic values ) - so my conclusion is that Steam on Linux probably doesn’t support NvFBC.\nCaveat: Since this feature always included some undocumented Nvidia APIs and magic values, it’s possible that this has been obfuscated enough to slip through my experiments… Please let me know if you notice anything I might have missed\nsee Steam Remote Play FAQ ↩︎\n↩︎\n",
   "wordCount" : "644",
   "inLanguage": "en",
-  "image": "/images/bg.jpg","datePublished": "2020-12-11T11:52:50+01:00",
+  "image": "https://christian.kuendig.info/images/bg.jpg","datePublished": "2020-12-11T11:52:50+01:00",
   "dateModified": "2020-12-11T11:52:50+01:00",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "/posts/2020-12-steam-nvfbc/"
+    "@id": "https://christian.kuendig.info/posts/2020-12-steam-nvfbc/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "Christian Kündig",
     "logo": {
       "@type": "ImageObject",
-      "url": "/favicon.ico"
+      "url": "https://christian.kuendig.info/favicon.ico"
     }
   }
 }
@@ -168,13 +168,13 @@
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="/" accesskey="h" title="Christian Kündig (Alt + H)">Christian Kündig</a>
+            <a href="https://christian.kuendig.info/" accesskey="h" title="Christian Kündig (Alt + H)">Christian Kündig</a>
             <div class="logo-switches">
             </div>
         </div>
         <ul id="menu">
             <li>
-                <a href="/posts/" title="Personal Projects">
+                <a href="https://christian.kuendig.info/posts/" title="Personal Projects">
                     <span>Personal Projects</span>
                 </a>
             </li>
@@ -260,16 +260,16 @@
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="/tags/video-games/">Video Games</a></li>
-      <li><a href="/tags/reverse-engineering/">Reverse Engineering</a></li>
+      <li><a href="https://christian.kuendig.info/tags/video-games/">Video Games</a></li>
+      <li><a href="https://christian.kuendig.info/tags/reverse-engineering/">Reverse Engineering</a></li>
     </ul>
 <nav class="paginav">
-  <a class="prev" href="/posts/2021-08-scummvm-wasm/">
+  <a class="prev" href="https://christian.kuendig.info/posts/2021-08-scummvm-wasm/">
     <span class="title">« Prev | <span>August 20, 2021</span></span>
     <br>
     <span>Porting ScummVM to Webassembly</span>
   </a>
-  <a class="next" href="/posts/2020-09-plex-subtitles-issue/">
+  <a class="next" href="https://christian.kuendig.info/posts/2020-09-plex-subtitles-issue/">
     <span class="title"><span>September 20, 2020</span> | Next »</span>
     <br>
     <span>Why WebVTT subtitles in Plex don&#39;t work</span>
@@ -281,7 +281,7 @@
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="/">Christian Kündig</a></span> · 
+        <span>&copy; 2026 <a href="https://christian.kuendig.info/">Christian Kündig</a></span> · 
 
     <span>
         Powered by

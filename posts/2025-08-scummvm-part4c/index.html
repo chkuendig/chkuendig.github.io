@@ -9,16 +9,16 @@
 <meta name="keywords" content="Video Games, ScummVM, Web Development">
 <meta name="description" content="Revisiting how files are loaded over the network and finally adding support for cloud storage (Dropbox, Google Drive etc)">
 <meta name="author" content="">
-<link rel="canonical" href="/posts/2025-08-scummvm-part4c/">
+<link rel="canonical" href="https://christian.kuendig.info/posts/2025-08-scummvm-part4c/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.4b4ba94b836af7c5b90f9d1ab2afae9f8e5e904c2a158eff92031324dea547d4.css" integrity="sha256-S0upS4Nq98W5D50asq&#43;un45ekEwqFY7/kgMTJN6lR9Q=" rel="preload stylesheet" as="style">
-<link rel="icon" href="/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="mask-icon" href="/safari-pinned-tab.svg">
+<link rel="icon" href="https://christian.kuendig.info/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://christian.kuendig.info/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://christian.kuendig.info/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://christian.kuendig.info/apple-touch-icon.png">
+<link rel="mask-icon" href="https://christian.kuendig.info/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="/posts/2025-08-scummvm-part4c/">
+<link rel="alternate" hreflang="en" href="https://christian.kuendig.info/posts/2025-08-scummvm-part4c/">
 <noscript>
     <style>
         #theme-toggle,
@@ -86,7 +86,7 @@
           gtag('js', new Date());
           gtag('config', 'G-L4NRERPTCT');
         }
-      </script><meta property="og:url" content="/posts/2025-08-scummvm-part4c/">
+      </script><meta property="og:url" content="https://christian.kuendig.info/posts/2025-08-scummvm-part4c/">
   <meta property="og:site_name" content="Christian Kündig">
   <meta property="og:title" content="Porting ScummVM to Webassembly, Part 4c - File Access">
   <meta property="og:description" content="Revisiting how files are loaded over the network and finally adding support for cloud storage (Dropbox, Google Drive etc)">
@@ -98,11 +98,11 @@
     <meta property="article:tag" content="Video Games">
     <meta property="article:tag" content="ScummVM">
     <meta property="article:tag" content="Web Development">
-      <meta property="og:image" content="/images/bg.jpg">
+      <meta property="og:image" content="https://christian.kuendig.info/images/bg.jpg">
         <meta property="fb:admins" content="about.me">
   <meta name="fediverse:creator" content="@chkuendig@ioc.exchange">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="/images/bg.jpg">
+<meta name="twitter:image" content="https://christian.kuendig.info/images/bg.jpg">
 <meta name="twitter:title" content="Porting ScummVM to Webassembly, Part 4c - File Access">
 <meta name="twitter:description" content="Revisiting how files are loaded over the network and finally adding support for cloud storage (Dropbox, Google Drive etc)">
 
@@ -116,13 +116,13 @@
       "@type": "ListItem",
       "position":  1 ,
       "name": "Personal Projects",
-      "item": "/posts/"
-    }
+      "item": "https://christian.kuendig.info/posts/"
+    }, 
     {
       "@type": "ListItem",
-      "position":  1 ,
+      "position":  2 ,
       "name": "Porting ScummVM to Webassembly, Part 4c - File Access",
-      "item": "/posts/2025-08-scummvm-part4c/"
+      "item": "https://christian.kuendig.info/posts/2025-08-scummvm-part4c/"
     }
   ]
 }
@@ -140,18 +140,18 @@
   "articleBody": "This is the third part of the Part 4 mini-series. Part 4a covered maintenance work (testbed, timers, shaders, SDL3), Part 4b dove into audio (FluidLite, Web MIDI, RetroWave, TTS), and this chapter focuses on moving ScummVM’s web build closer to seamless file access: cloud storage, a cleaner network stack, and a filesystem rewrite that sets up the next round of improvements.\nCloud Storage Integration - CLOUD: Add Support for Emscripten\nOne of the most exciting features I’ve added is support for cloud storage providers. This allows you to store your game files in Dropbox, Google Drive, OneDrive, or Box, and access them directly from the browser version of ScummVM. No more manual file uploads for each gaming session - just connect your cloud storage once and all your games are available!\nThis PR adds support for cloud storage providers (Dropbox, Google Drive, OneDrive, Box) for the Emscripten backend. It includes improvements to the cloud setup wizard, JSON parsing fixes, and OAuth flow handling.\nKey improvements:\n- CLOUD: Skip Mode Select in setup wizard if only manual mode is available (May 8) - CLOUD: Cleanup unused kOpenUrlStorageCmd (May 8) - CLOUD: Remember selected storage and pass it on to kCloudConnectionWizardOpenUrlStorageCmd in setup wizard (May 8) - CLOUD: Avoid overloading runModal (May 18) - COMMON: Fix JSON parsing of unicode strings (May 7) Custom Network Stack Beyond cloud storage, I’m tightening how the browser build fetches data. Games and assets can now be loaded directly from web servers via HTTP/HTTPS, which makes hosting demos or providing pre-configured libraries much simpler. This network stack work lays the groundwork for a cleaner separation between local data (IDBFS) and remote sources (HTTP/HTTPS), which I’ll hook up more fully in the next iteration.\nFilesystem Rewrite Since the first commit, I used BrowserFS for filesystem abstraction. However, it has been deprecated:\nBrowserFS seems abandoned and never did a stable 2.0.0 release. Maybe there’s a better way to handle Storage?\nAt some point I vendored it in (2022: - DISTS: Updated Webassembly / Emscripten Port), but it never was fully the right tool (although development has resumed). I thought it might eventually help making cloud storage available more easily, but it turned out that the existing ScummVM code works very well for that already, and my goal is to keep as much as possible within the existing C++ infrastructure of the project - if only to ensure other people can maintain my code (or god willing, another Emscripten maintainer materializes.)\nSo I have finally removed it. For the local storage, I now use IDBFS directly in C++. For fetching assets over HTTPS, I built a small abstraction in C++ to use the browser’s Fetch API.\nBenefits of this change:\nSmaller bundle size: Removing the BrowserFS dependency reduces the initial download size Better maintainability: Using native Emscripten APIs means the code is easier for other contributors to understand and maintain More control: Direct access to IDBFS and Fetch API gives us more flexibility for future optimizations Keeps code in C++: Maintaining consistency with the rest of ScummVM’s codebase I don’t think this is necessarily the end-all best state. Ideally we would move to WASMFS, so we could use OPFS (Origin Private File System) for better performance and use FETCH_FS for the assets, but that will require enabling threads, which we currently don’t support yet due to complications with dynamic module loading.\n- EMSCRIPTEN: FS: Implement filesystems in C++ and remove BrowserFS dependency (August 1)\n",
   "wordCount" : "575",
   "inLanguage": "en",
-  "image": "/images/bg.jpg","datePublished": "2025-08-04T12:25:46+01:00",
+  "image": "https://christian.kuendig.info/images/bg.jpg","datePublished": "2025-08-04T12:25:46+01:00",
   "dateModified": "2025-08-04T12:25:46+01:00",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "/posts/2025-08-scummvm-part4c/"
+    "@id": "https://christian.kuendig.info/posts/2025-08-scummvm-part4c/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "Christian Kündig",
     "logo": {
       "@type": "ImageObject",
-      "url": "/favicon.ico"
+      "url": "https://christian.kuendig.info/favicon.ico"
     }
   }
 }
@@ -169,13 +169,13 @@
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="/" accesskey="h" title="Christian Kündig (Alt + H)">Christian Kündig</a>
+            <a href="https://christian.kuendig.info/" accesskey="h" title="Christian Kündig (Alt + H)">Christian Kündig</a>
             <div class="logo-switches">
             </div>
         </div>
         <ul id="menu">
             <li>
-                <a href="/posts/" title="Personal Projects">
+                <a href="https://christian.kuendig.info/posts/" title="Personal Projects">
                     <span>Personal Projects</span>
                 </a>
             </li>
@@ -229,17 +229,17 @@
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="/tags/video-games/">Video Games</a></li>
-      <li><a href="/tags/scummvm/">ScummVM</a></li>
-      <li><a href="/tags/web-development/">Web Development</a></li>
+      <li><a href="https://christian.kuendig.info/tags/video-games/">Video Games</a></li>
+      <li><a href="https://christian.kuendig.info/tags/scummvm/">ScummVM</a></li>
+      <li><a href="https://christian.kuendig.info/tags/web-development/">Web Development</a></li>
     </ul>
 <nav class="paginav">
-  <a class="prev" href="/posts/2026-01-trmnl-setup/">
+  <a class="prev" href="https://christian.kuendig.info/posts/2026-01-trmnl-setup/">
     <span class="title">« Prev | <span>January 10, 2026</span></span>
     <br>
     <span>My Custom TRMNL Setup For Our Home</span>
   </a>
-  <a class="next" href="/posts/2025-08-scummvm-part4b/">
+  <a class="next" href="https://christian.kuendig.info/posts/2025-08-scummvm-part4b/">
     <span class="title"><span>August 3, 2025</span> | Next »</span>
     <br>
     <span>Porting ScummVM to Webassembly, Part 4b - Sound Improvements</span>
@@ -251,7 +251,7 @@
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="/">Christian Kündig</a></span> · 
+        <span>&copy; 2026 <a href="https://christian.kuendig.info/">Christian Kündig</a></span> · 
 
     <span>
         Powered by

@@ -2,129 +2,129 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Personal Projects on Christian Kündig</title>
-    <link>/posts/</link>
+    <link>https://christian.kuendig.info/posts/</link>
     <description>Recent content in Personal Projects on Christian Kündig</description>
     <image>
       <title>Christian Kündig</title>
-      <url>/images/bg.jpg</url>
-      <link>/images/bg.jpg</link>
+      <url>https://christian.kuendig.info/images/bg.jpg</url>
+      <link>https://christian.kuendig.info/images/bg.jpg</link>
     </image>
     <generator>Hugo -- 0.145.0</generator>
     <language>en</language>
     <lastBuildDate>Sun, 25 Jan 2026 20:00:00 +0100</lastBuildDate>
-    <atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://christian.kuendig.info/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Custom Icon for Airprint Printer with Cups</title>
-      <link>/posts/2026-01-printer-icon/</link>
+      <link>https://christian.kuendig.info/posts/2026-01-printer-icon/</link>
       <pubDate>Sun, 25 Jan 2026 20:00:00 +0100</pubDate>
-      <guid>/posts/2026-01-printer-icon/</guid>
+      <guid>https://christian.kuendig.info/posts/2026-01-printer-icon/</guid>
       <description>My 20-year-old Samsung printer deserved better than a generic icon. Here&amp;rsquo;s how I dug through CUPS source code to figure out why printer icons don&amp;rsquo;t work and the simple Docker volume mount that fixed it.</description>
     </item>
     <item>
       <title>My Custom TRMNL Setup For Our Home</title>
-      <link>/posts/2026-01-trmnl-setup/</link>
+      <link>https://christian.kuendig.info/posts/2026-01-trmnl-setup/</link>
       <pubDate>Sat, 10 Jan 2026 00:00:00 +0100</pubDate>
-      <guid>/posts/2026-01-trmnl-setup/</guid>
+      <guid>https://christian.kuendig.info/posts/2026-01-trmnl-setup/</guid>
       <description>Setting up a TRMNL display at home and building three custom plugins for local weather, the SBB station board, and a simplified family calendar.</description>
     </item>
     <item>
       <title>Porting ScummVM to Webassembly, Part 4c - File Access</title>
-      <link>/posts/2025-08-scummvm-part4c/</link>
+      <link>https://christian.kuendig.info/posts/2025-08-scummvm-part4c/</link>
       <pubDate>Mon, 04 Aug 2025 12:25:46 +0100</pubDate>
-      <guid>/posts/2025-08-scummvm-part4c/</guid>
+      <guid>https://christian.kuendig.info/posts/2025-08-scummvm-part4c/</guid>
       <description>Revisiting how files are loaded over the network and finally adding support for cloud storage (Dropbox, Google Drive etc)</description>
     </item>
     <item>
       <title>Porting ScummVM to Webassembly, Part 4b - Sound Improvements</title>
-      <link>/posts/2025-08-scummvm-part4b/</link>
+      <link>https://christian.kuendig.info/posts/2025-08-scummvm-part4b/</link>
       <pubDate>Sun, 03 Aug 2025 12:25:46 +0100</pubDate>
-      <guid>/posts/2025-08-scummvm-part4b/</guid>
+      <guid>https://christian.kuendig.info/posts/2025-08-scummvm-part4b/</guid>
       <description>Diving deep into the different audio options ScummVM provides and making sure they work in the browser.</description>
     </item>
     <item>
       <title>Porting ScummVM to Webassembly, Part 4a - Maintenance</title>
-      <link>/posts/2025-08-scummvm-part4a/</link>
+      <link>https://christian.kuendig.info/posts/2025-08-scummvm-part4a/</link>
       <pubDate>Sat, 02 Aug 2025 02:25:46 +0100</pubDate>
-      <guid>/posts/2025-08-scummvm-part4a/</guid>
+      <guid>https://christian.kuendig.info/posts/2025-08-scummvm-part4a/</guid>
       <description>Cleaning up some loose ends to get ready for future improvements</description>
     </item>
     <item>
       <title>RetroWave OPL3 Express via Web Serial API</title>
-      <link>/posts/2025-04-retrowave/</link>
+      <link>https://christian.kuendig.info/posts/2025-04-retrowave/</link>
       <pubDate>Thu, 10 Apr 2025 12:25:46 +0100</pubDate>
-      <guid>/posts/2025-04-retrowave/</guid>
+      <guid>https://christian.kuendig.info/posts/2025-04-retrowave/</guid>
       <description>Authentic sounds from vintage sound chips - using the Yamaha OPL chip (AdLib, Soundblaster etc) in the Chromium.</description>
     </item>
     <item>
       <title>Our Wedding Website, 5 Years Later</title>
-      <link>/posts/2019-12-wedding/</link>
+      <link>https://christian.kuendig.info/posts/2019-12-wedding/</link>
       <pubDate>Sat, 09 Nov 2024 11:36:51 +0100</pubDate>
-      <guid>/posts/2019-12-wedding/</guid>
+      <guid>https://christian.kuendig.info/posts/2019-12-wedding/</guid>
       <description>Reflecting on the custom wedding website I built in 2019, and how it evolved over the years.</description>
     </item>
     <item>
       <title>Fixing Play Suisse in yt-dlp</title>
-      <link>/posts/2024-01-playsuisse/</link>
+      <link>https://christian.kuendig.info/posts/2024-01-playsuisse/</link>
       <pubDate>Fri, 26 Jan 2024 22:42:54 +0000</pubDate>
-      <guid>/posts/2024-01-playsuisse/</guid>
+      <guid>https://christian.kuendig.info/posts/2024-01-playsuisse/</guid>
       <description>yt-dlp support for Play Suisse has been broken since the platform enforced a user login to access any video streams  in August 2023. Let&amp;rsquo;s fix that.</description>
     </item>
     <item>
       <title>Porting ScummVM to Webassembly, Part 3</title>
-      <link>/posts/2024-01-scummvm-part3/</link>
+      <link>https://christian.kuendig.info/posts/2024-01-scummvm-part3/</link>
       <pubDate>Fri, 05 Jan 2024 00:00:24 +0100</pubDate>
-      <guid>/posts/2024-01-scummvm-part3/</guid>
+      <guid>https://christian.kuendig.info/posts/2024-01-scummvm-part3/</guid>
       <description>I finally found some time over the holidays to wrap up some improvements I was working on for ScummVM last year.</description>
     </item>
     <item>
       <title>HDHomerun Server Emulation in Tvheadend</title>
-      <link>/posts/2023-11-tvheadend-hdhomerun/</link>
+      <link>https://christian.kuendig.info/posts/2023-11-tvheadend-hdhomerun/</link>
       <pubDate>Sun, 26 Nov 2023 23:15:29 +0100</pubDate>
-      <guid>/posts/2023-11-tvheadend-hdhomerun/</guid>
+      <guid>https://christian.kuendig.info/posts/2023-11-tvheadend-hdhomerun/</guid>
       <description>Time to retire tvhProxy by adding HDHomerun emulation to Tvheadend.</description>
     </item>
     <item>
       <title>Github Shortcodes for the Hugo Static Page Generator</title>
-      <link>/posts/2023-11-github-shortcode/</link>
+      <link>https://christian.kuendig.info/posts/2023-11-github-shortcode/</link>
       <pubDate>Thu, 02 Nov 2023 00:00:35 +0100</pubDate>
-      <guid>/posts/2023-11-github-shortcode/</guid>
+      <guid>https://christian.kuendig.info/posts/2023-11-github-shortcode/</guid>
       <description>I link a lot to various GitHub items, so I built some Hugo shortcodes for it.</description>
     </item>
     <item>
       <title>Reverse Engineering the 1995 FMV Game Silent Steel</title>
-      <link>/posts/2023-03-silentsteel/</link>
+      <link>https://christian.kuendig.info/posts/2023-03-silentsteel/</link>
       <pubDate>Tue, 14 Mar 2023 11:41:01 +0100</pubDate>
-      <guid>/posts/2023-03-silentsteel/</guid>
+      <guid>https://christian.kuendig.info/posts/2023-03-silentsteel/</guid>
       <description>Silent Steel is a submarine-themed FMV  game released in 1995. This is the summary of it&amp;rsquo;s file formats, including a prototype re-implementation.</description>
     </item>
     <item>
       <title>How to Add the Amphiro Hand Shower to Home Assistant</title>
-      <link>/posts/2023-01-hass-amphiro/</link>
+      <link>https://christian.kuendig.info/posts/2023-01-hass-amphiro/</link>
       <pubDate>Sat, 14 Jan 2023 11:45:13 +0100</pubDate>
-      <guid>/posts/2023-01-hass-amphiro/</guid>
+      <guid>https://christian.kuendig.info/posts/2023-01-hass-amphiro/</guid>
       <description>Looking into how to reverse engineer a funky christmas present and building out a new Home Assistant integration for it.</description>
     </item>
     <item>
       <title>Forwarding Bluetooth with the April Brother BLE Gateway</title>
-      <link>/posts/2022-12-hass-ab_ble/</link>
+      <link>https://christian.kuendig.info/posts/2022-12-hass-ab_ble/</link>
       <pubDate>Fri, 09 Dec 2022 11:46:04 +0100</pubDate>
-      <guid>/posts/2022-12-hass-ab_ble/</guid>
+      <guid>https://christian.kuendig.info/posts/2022-12-hass-ab_ble/</guid>
       <description>We recently moved and I decided to buy a BLE-&amp;gt;IP gateway off AliExpress to increase coverage in the bigger place. Turns out this needed some hacking to get it to work with Home Assistant.</description>
     </item>
     <item>
       <title>Porting ScummVM to Webassembly, Part 2</title>
-      <link>/posts/2022-05-scummvm-part2/</link>
+      <link>https://christian.kuendig.info/posts/2022-05-scummvm-part2/</link>
       <pubDate>Mon, 21 Mar 2022 11:39:21 +0100</pubDate>
-      <guid>/posts/2022-05-scummvm-part2/</guid>
+      <guid>https://christian.kuendig.info/posts/2022-05-scummvm-part2/</guid>
       <description>Since merging the initial Webassembly port of ScummVM, I have added a few critical improvements</description>
     </item>
     <item>
       <title>HP iLO Integration for Home Assistant</title>
-      <link>/posts/2022-03-hass-hpilo/</link>
+      <link>https://christian.kuendig.info/posts/2022-03-hass-hpilo/</link>
       <pubDate>Tue, 08 Feb 2022 11:42:13 +0100</pubDate>
-      <guid>/posts/2022-03-hass-hpilo/</guid>
+      <guid>https://christian.kuendig.info/posts/2022-03-hass-hpilo/</guid>
       <description>&lt;figure class=&#34;float-right&#34;&gt;
-    &lt;img loading=&#34;lazy&#34; src=&#34;/posts/2022-03-hass-hpilo/microserver-gen8.png  &#34;
+    &lt;img loading=&#34;lazy&#34; src=&#34;https://christian.kuendig.info/posts/2022-03-hass-hpilo/microserver-gen8.png  &#34;
          alt=&#34;HPE ProLiant MicroServer Gen8&#34;/&gt; 
 &lt;/figure&gt;
 
@@ -134,72 +134,72 @@
 &lt;li&gt;Support for as many sensor types automatically out of the box.&lt;/li&gt;
 &lt;li&gt;Updating &lt;a href=&#34;https://pypi.org/project/python-hpilo/&#34;&gt;python-hpilo&lt;/a&gt;.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/chkuendig/hass-hp_ilo-beta&#34; class=&#34;github-card&#34;&gt;&lt;img src=&#34;/posts/2022-03-hass-hpilo/hass-hp_ilo-beta_11496865343647443782.png&#34; alt=&#34;🚥 Updated HP Integrated Lights Out (iLO) component for Home Assistant &#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;a href=&#34;https://github.com/chkuendig/hass-hp_ilo-beta&#34; class=&#34;github-card&#34;&gt;&lt;img src=&#34;https://christian.kuendig.info/posts/2022-03-hass-hpilo/hass-hp_ilo-beta_11496865343647443782.png&#34; alt=&#34;🚥 Updated HP Integrated Lights Out (iLO) component for Home Assistant &#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>Sensirion SCD4x CO₂ Home Assistant Integration</title>
-      <link>/posts/2022-02-sensirion-co2/</link>
+      <link>https://christian.kuendig.info/posts/2022-02-sensirion-co2/</link>
       <pubDate>Wed, 02 Feb 2022 11:48:32 +0100</pubDate>
-      <guid>/posts/2022-02-sensirion-co2/</guid>
+      <guid>https://christian.kuendig.info/posts/2022-02-sensirion-co2/</guid>
       <description>I recently added support support for the Sensirion SCD4x CO₂ Gadget to the Passive BLE Monitor integration for Home Assistant.</description>
     </item>
     <item>
       <title>Porting ScummVM to Webassembly</title>
-      <link>/posts/2021-08-scummvm-wasm/</link>
+      <link>https://christian.kuendig.info/posts/2021-08-scummvm-wasm/</link>
       <pubDate>Fri, 20 Aug 2021 11:38:45 +0100</pubDate>
-      <guid>/posts/2021-08-scummvm-wasm/</guid>
+      <guid>https://christian.kuendig.info/posts/2021-08-scummvm-wasm/</guid>
       <description>Making old adventure (and other) games available on the web.</description>
     </item>
     <item>
       <title>Does Steam Remote Play support NvFBC on Linux?</title>
-      <link>/posts/2020-12-steam-nvfbc/</link>
+      <link>https://christian.kuendig.info/posts/2020-12-steam-nvfbc/</link>
       <pubDate>Fri, 11 Dec 2020 11:52:50 +0100</pubDate>
-      <guid>/posts/2020-12-steam-nvfbc/</guid>
+      <guid>https://christian.kuendig.info/posts/2020-12-steam-nvfbc/</guid>
       <description>Trying to get Steam Remote Play working from my Linux home lab, I noticed that while Steam offers capturing the frame data with NvFBC, the setting doesn&amp;rsquo;t seem have any impact. Why is that?</description>
     </item>
     <item>
       <title>Why WebVTT subtitles in Plex don&#39;t work</title>
-      <link>/posts/2020-09-plex-subtitles-issue/</link>
+      <link>https://christian.kuendig.info/posts/2020-09-plex-subtitles-issue/</link>
       <pubDate>Sun, 20 Sep 2020 22:41:33 +0200</pubDate>
-      <guid>/posts/2020-09-plex-subtitles-issue/</guid>
+      <guid>https://christian.kuendig.info/posts/2020-09-plex-subtitles-issue/</guid>
       <description>For some reason video files downloaded from the web won&amp;rsquo;t play in Plex if they have subtitles.</description>
     </item>
     <item>
       <title>tvhProxy: Streaming TVHeadend into Plex DVR</title>
-      <link>/posts/2020-02-tvhproxy/</link>
+      <link>https://christian.kuendig.info/posts/2020-02-tvhproxy/</link>
       <pubDate>Thu, 20 Feb 2020 11:38:19 +0100</pubDate>
-      <guid>/posts/2020-02-tvhproxy/</guid>
+      <guid>https://christian.kuendig.info/posts/2020-02-tvhproxy/</guid>
       <description>Plex launched it&amp;rsquo;s DVR feature in 2016. Unfortunately, it only supports either DVR tuners connected to the server directly or HDHomeRun devices. tvhProxy fixes that.</description>
     </item>
     <item>
       <title>Extracting EPG data from the TV7 IPTV service</title>
-      <link>/posts/2020-02-tv7-epg/</link>
+      <link>https://christian.kuendig.info/posts/2020-02-tv7-epg/</link>
       <pubDate>Thu, 06 Feb 2020 11:37:54 +0100</pubDate>
-      <guid>/posts/2020-02-tv7-epg/</guid>
+      <guid>https://christian.kuendig.info/posts/2020-02-tv7-epg/</guid>
       <description>Init7, my FTTH provider has a great IPTV offering called TV7 Unfortunately there&amp;rsquo;s no way to fetch the EPG data.</description>
     </item>
     <item>
       <title>Simulating barcode scanning on the web</title>
-      <link>/posts/2019-12-scandit3d/</link>
+      <link>https://christian.kuendig.info/posts/2019-12-scandit3d/</link>
       <pubDate>Wed, 18 Dec 2019 11:37:11 +0100</pubDate>
-      <guid>/posts/2019-12-scandit3d/</guid>
+      <guid>https://christian.kuendig.info/posts/2019-12-scandit3d/</guid>
       <description>&lt;p&gt;The yearly hackathon at work is always a great time to pursue new ideas or play around in fun ways with existing technology. My entry in 2019 was a humorous take on using simulations when developing computer vision software. I long wondered to see if we could use modern game engines or other simulation technology to augment some of our real world testing at scale.&lt;/p&gt;
 &lt;p&gt;For the hackathon, I decided to apply my (as you will see quite limited) skills and implement a prototype of such a system.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Compiling Zork from Scratch</title>
-      <link>/posts/2019-04-zork/</link>
+      <link>https://christian.kuendig.info/posts/2019-04-zork/</link>
       <pubDate>Wed, 17 Apr 2019 11:41:01 +0100</pubDate>
-      <guid>/posts/2019-04-zork/</guid>
+      <guid>https://christian.kuendig.info/posts/2019-04-zork/</guid>
       <description>Today, the source code of many old Infocom Text Adventures has been uploaded to Github. Let&amp;rsquo;s see if we can compile Zork.</description>
     </item>
     <item>
       <title>Product Management Night</title>
-      <link>/posts/2017-11-pm-night/</link>
+      <link>https://christian.kuendig.info/posts/2017-11-pm-night/</link>
       <pubDate>Fri, 03 Nov 2017 11:42:13 +0100</pubDate>
-      <guid>/posts/2017-11-pm-night/</guid>
+      <guid>https://christian.kuendig.info/posts/2017-11-pm-night/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://web.archive.org/web/20210228094901/https://productmanagementfestival.com/pm-nights/pm-night-zurich-3-nzz-03-11/&#34;&gt;&lt;figure class=&#34;float-right&#34;&gt;
-    &lt;img loading=&#34;lazy&#34; src=&#34;/posts/2017-11-pm-night/2017-pm-night.png  &#34;
+    &lt;img loading=&#34;lazy&#34; src=&#34;https://christian.kuendig.info/posts/2017-11-pm-night/2017-pm-night.png  &#34;
          alt=&#34;Product Management Night Logo (c) Product Management Festival&#34;/&gt; 
 &lt;/figure&gt;
 &lt;/a&gt;&lt;/p&gt;
@@ -209,90 +209,90 @@
     </item>
     <item>
       <title>BrowsePass fork with Dropbox support</title>
-      <link>/posts/2014-11-browsepass-dropbox/</link>
+      <link>https://christian.kuendig.info/posts/2014-11-browsepass-dropbox/</link>
       <pubDate>Sat, 22 Nov 2014 11:36:12 +0100</pubDate>
-      <guid>/posts/2014-11-browsepass-dropbox/</guid>
+      <guid>https://christian.kuendig.info/posts/2014-11-browsepass-dropbox/</guid>
       <description>&lt;p&gt;Living and traveling overseas for more than a year, I want a way to access some of my more secure credentials in case of device loss.&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://bitbucket.org/namn/browsepass&#34;&gt;BrowsePass&lt;/a&gt; is a static web application to read KDBX files as produced by KeePass. This allows me to securely access my passwords and logins from everywhere - all I need is a computer with a web browser.&lt;/p&gt;
-&lt;a href=&#34;https://github.com/chkuendig/browsepass&#34; class=&#34;github-card&#34;&gt;&lt;img src=&#34;/posts/2014-11-browsepass-dropbox/browsepass_11742387053526056463.png&#34; alt=&#34;Browsepass fork (see https://bitbucket.org/namn/browsepass ) with Dropbox support &#34;&gt;&lt;/a&gt;
+&lt;a href=&#34;https://github.com/chkuendig/browsepass&#34; class=&#34;github-card&#34;&gt;&lt;img src=&#34;https://christian.kuendig.info/posts/2014-11-browsepass-dropbox/browsepass_11742387053526056463.png&#34; alt=&#34;Browsepass fork (see https://bitbucket.org/namn/browsepass ) with Dropbox support &#34;&gt;&lt;/a&gt;
 
 &lt;p&gt;As Google isn&amp;rsquo;t available in all the countries I&amp;rsquo;m traveling to (👋🇨🇳), I added support for Dropbox to it. The integration is completely client-side and uses Dropbox&amp;rsquo; Oauth/Rest Client API.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Zürcher Journalistenpreis 2010</title>
-      <link>/posts/2010-05-zjp/</link>
+      <link>https://christian.kuendig.info/posts/2010-05-zjp/</link>
       <pubDate>Fri, 28 May 2010 11:34:07 +0100</pubDate>
-      <guid>/posts/2010-05-zjp/</guid>
+      <guid>https://christian.kuendig.info/posts/2010-05-zjp/</guid>
       <description>Im Mai 2010 gewannen Lukas Messmer und ich den Zürcher Journalistenpreis für unsere Reportage &amp;ldquo;&lt;a href=&#34;2009-10-die-endstation.md&#34;&gt;Die Endstation&lt;/a&gt;&amp;rdquo; in der Zürcher Studierendenzeitung (ZS).</description>
     </item>
     <item>
       <title>Master Thesis: Building an adapting Poker Agent</title>
-      <link>/posts/2010-03-master-thesis/</link>
+      <link>https://christian.kuendig.info/posts/2010-03-master-thesis/</link>
       <pubDate>Sun, 14 Mar 2010 11:34:58 +0100</pubDate>
-      <guid>/posts/2010-03-master-thesis/</guid>
+      <guid>https://christian.kuendig.info/posts/2010-03-master-thesis/</guid>
       <description>I wrote a learning poker bot for my master thesis. This was just at the cusp of the deep learning breakthroughs to come soon after.</description>
     </item>
     <item>
       <title>Die Endstation</title>
-      <link>/posts/2009-10-die-endstation/</link>
+      <link>https://christian.kuendig.info/posts/2009-10-die-endstation/</link>
       <pubDate>Wed, 25 Nov 2009 21:41:32 +0100</pubDate>
-      <guid>/posts/2009-10-die-endstation/</guid>
+      <guid>https://christian.kuendig.info/posts/2009-10-die-endstation/</guid>
       <description>Manch lange Nacht endet in der Gräbli-Bar. Für viele ist die Bar eine Art Zuhause. Auch für uns, zumindest für 24 Stunden.</description>
     </item>
     <item>
       <title>Gesellschaftsspiel: Dominion</title>
-      <link>/posts/2009-09-dominion/</link>
+      <link>https://christian.kuendig.info/posts/2009-09-dominion/</link>
       <pubDate>Mon, 14 Sep 2009 21:49:46 +0100</pubDate>
-      <guid>/posts/2009-09-dominion/</guid>
+      <guid>https://christian.kuendig.info/posts/2009-09-dominion/</guid>
       <description>Auch als adliger Grundherr fängt die Karriere hier ganz unten an. Bei Dominion beginnt jeder trotz Titel mit läppischen sieben Kupfermünzen und drei Schrebergärten, genannt «Anwesen». Das Spiel erinnert an Magic, welches uns aus den Jugendjahren noch bekannt sein dürfte.</description>
     </item>
     <item>
       <title>Mit karibischen Beats durch den Schnee</title>
-      <link>/posts/2009-03-alaska/</link>
+      <link>https://christian.kuendig.info/posts/2009-03-alaska/</link>
       <pubDate>Wed, 25 Mar 2009 21:50:11 +0100</pubDate>
-      <guid>/posts/2009-03-alaska/</guid>
+      <guid>https://christian.kuendig.info/posts/2009-03-alaska/</guid>
       <description>Newcastle, das Pub rappelvoll mit alternden Skinheads, auf der Bühne hats kaum Platz für das Schlagzeug, geschweige denn die ganze Band. Alaska, das sind neun Jungs, grösstenteils Studenten, aus dem Zürcher Oberland und Umgebung. Gestartet 2004, sind sie von der Maturarbeit des Schlagzeugers zu einer der erfolgreichsten Schweizer Skaband gewachsen und haben diesen Januar ihr drittes Album getauft.</description>
     </item>
     <item>
       <title>Wirtschaft: Seitensprünge</title>
-      <link>/posts/2008-11-seitenspruenge/</link>
+      <link>https://christian.kuendig.info/posts/2008-11-seitenspruenge/</link>
       <pubDate>Mon, 24 Nov 2008 21:50:38 +0100</pubDate>
-      <guid>/posts/2008-11-seitenspruenge/</guid>
+      <guid>https://christian.kuendig.info/posts/2008-11-seitenspruenge/</guid>
       <description>Wie immer an ungeraden Montagen nach einer Vollmondnacht war ich gestern wieder einmal in einer Vorlesung. Da der Stoff seit Semesterbeginn leider weder einfacher noch interessanter geworden ist, entwickelte sich Zeitunglesen erneut zur Hauptbeschäftigung.</description>
     </item>
     <item>
       <title>Wirtschaft: Kondome</title>
-      <link>/posts/2008-10-kondome/</link>
+      <link>https://christian.kuendig.info/posts/2008-10-kondome/</link>
       <pubDate>Mon, 27 Oct 2008 21:46:58 +0100</pubDate>
-      <guid>/posts/2008-10-kondome/</guid>
+      <guid>https://christian.kuendig.info/posts/2008-10-kondome/</guid>
       <description>Leider habe ich im EM- und Sommerferien-Trubel mein in den letzten Semestern von exzessivem Wertverlust geplagtes Investmentgame-Spielkonto komplett aus den Augen verloren – wahrscheinlich wäre ich aber sowieso unterdessen ein Rettungsfall.</description>
     </item>
     <item>
       <title>Erfolglose Abwartetaktik</title>
-      <link>/posts/2008-04-erfolglose-abwartetaktik/</link>
+      <link>https://christian.kuendig.info/posts/2008-04-erfolglose-abwartetaktik/</link>
       <pubDate>Thu, 10 Apr 2008 21:51:12 +0100</pubDate>
-      <guid>/posts/2008-04-erfolglose-abwartetaktik/</guid>
+      <guid>https://christian.kuendig.info/posts/2008-04-erfolglose-abwartetaktik/</guid>
       <description>Nach den Verlusten mit den UBS-Papieren sind auch die Dollars unseres Wirtschaftskolumnisten nichts mehr wert. Er setzt nun auf den Frühling</description>
     </item>
     <item>
       <title>Danke, Marcel!</title>
-      <link>/posts/2008-02-danke-marcel/</link>
+      <link>https://christian.kuendig.info/posts/2008-02-danke-marcel/</link>
       <pubDate>Fri, 22 Feb 2008 21:47:28 +0100</pubDate>
-      <guid>/posts/2008-02-danke-marcel/</guid>
+      <guid>https://christian.kuendig.info/posts/2008-02-danke-marcel/</guid>
       <description>In der Hoffnung, mit der UBS ein Schnäppchen zu machen, verbrennt sich unser Wirtschaftskolumnist wiedermal die Finger. Im Börsenspiel belegt er nun Rang 2262.</description>
     </item>
     <item>
       <title>Profitieren vom Leid der Bauarbeiter</title>
-      <link>/posts/2007-12-profitieren/</link>
+      <link>https://christian.kuendig.info/posts/2007-12-profitieren/</link>
       <pubDate>Fri, 07 Dec 2007 21:39:19 +0100</pubDate>
-      <guid>/posts/2007-12-profitieren/</guid>
+      <guid>https://christian.kuendig.info/posts/2007-12-profitieren/</guid>
       <description>Abrupter Kurswechsel: Unser Autor spekuliert ab sofort auf Verluste statt auf Gewinne. Das Opfer: Die Bauindustrie. Doch er hat die Rechnung ohne den Dollar gemacht.</description>
     </item>
     <item>
       <title>Investment Banking im Selbstversuch</title>
-      <link>/posts/2007-11-investment-banking-selbstversuch/</link>
+      <link>https://christian.kuendig.info/posts/2007-11-investment-banking-selbstversuch/</link>
       <pubDate>Fri, 02 Nov 2007 22:06:30 +0100</pubDate>
-      <guid>/posts/2007-11-investment-banking-selbstversuch/</guid>
+      <guid>https://christian.kuendig.info/posts/2007-11-investment-banking-selbstversuch/</guid>
       <description>Der Tages-Anzeiger zahlt dem Sieger ihres Investment-Wettbewerbs 50’000 Franken. Für die «ZS» berichtet ein Wirtschaftsinformatik-Student regelmässig über seine Performance.</description>
     </item>
   </channel>

@@ -10,16 +10,16 @@
 <meta name="description" content="The yearly hackathon at work is always a great time to pursue new ideas or play around in fun ways with existing technology. My entry in 2019 was a humorous take on using simulations when developing computer vision software. I long wondered to see if we could use modern game engines or other simulation technology to augment some of our real world testing at scale.
 For the hackathon, I decided to apply my (as you will see quite limited) skills and implement a prototype of such a system.">
 <meta name="author" content="">
-<link rel="canonical" href="/posts/2019-12-scandit3d/">
+<link rel="canonical" href="https://christian.kuendig.info/posts/2019-12-scandit3d/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.4b4ba94b836af7c5b90f9d1ab2afae9f8e5e904c2a158eff92031324dea547d4.css" integrity="sha256-S0upS4Nq98W5D50asq&#43;un45ekEwqFY7/kgMTJN6lR9Q=" rel="preload stylesheet" as="style">
-<link rel="icon" href="/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="mask-icon" href="/safari-pinned-tab.svg">
+<link rel="icon" href="https://christian.kuendig.info/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://christian.kuendig.info/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://christian.kuendig.info/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://christian.kuendig.info/apple-touch-icon.png">
+<link rel="mask-icon" href="https://christian.kuendig.info/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="/posts/2019-12-scandit3d/">
+<link rel="alternate" hreflang="en" href="https://christian.kuendig.info/posts/2019-12-scandit3d/">
 <noscript>
     <style>
         #theme-toggle,
@@ -87,7 +87,7 @@ For the hackathon, I decided to apply my (as you will see quite limited) skills 
           gtag('js', new Date());
           gtag('config', 'G-L4NRERPTCT');
         }
-      </script><meta property="og:url" content="/posts/2019-12-scandit3d/">
+      </script><meta property="og:url" content="https://christian.kuendig.info/posts/2019-12-scandit3d/">
   <meta property="og:site_name" content="Christian Kündig">
   <meta property="og:title" content="Simulating barcode scanning on the web">
   <meta property="og:description" content="The yearly hackathon at work is always a great time to pursue new ideas or play around in fun ways with existing technology. My entry in 2019 was a humorous take on using simulations when developing computer vision software. I long wondered to see if we could use modern game engines or other simulation technology to augment some of our real world testing at scale.
@@ -98,11 +98,11 @@ For the hackathon, I decided to apply my (as you will see quite limited) skills 
     <meta property="article:published_time" content="2019-12-18T11:37:11+01:00">
     <meta property="article:modified_time" content="2019-12-18T11:37:11+01:00">
     <meta property="article:tag" content="Web Development">
-      <meta property="og:image" content="/images/bg.jpg">
+      <meta property="og:image" content="https://christian.kuendig.info/images/bg.jpg">
         <meta property="fb:admins" content="about.me">
   <meta name="fediverse:creator" content="@chkuendig@ioc.exchange">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="/images/bg.jpg">
+<meta name="twitter:image" content="https://christian.kuendig.info/images/bg.jpg">
 <meta name="twitter:title" content="Simulating barcode scanning on the web">
 <meta name="twitter:description" content="The yearly hackathon at work is always a great time to pursue new ideas or play around in fun ways with existing technology. My entry in 2019 was a humorous take on using simulations when developing computer vision software. I long wondered to see if we could use modern game engines or other simulation technology to augment some of our real world testing at scale.
 For the hackathon, I decided to apply my (as you will see quite limited) skills and implement a prototype of such a system.">
@@ -117,13 +117,13 @@ For the hackathon, I decided to apply my (as you will see quite limited) skills 
       "@type": "ListItem",
       "position":  1 ,
       "name": "Personal Projects",
-      "item": "/posts/"
-    }
+      "item": "https://christian.kuendig.info/posts/"
+    }, 
     {
       "@type": "ListItem",
-      "position":  1 ,
+      "position":  2 ,
       "name": "Simulating barcode scanning on the web",
-      "item": "/posts/2019-12-scandit3d/"
+      "item": "https://christian.kuendig.info/posts/2019-12-scandit3d/"
     }
   ]
 }
@@ -141,18 +141,18 @@ For the hackathon, I decided to apply my (as you will see quite limited) skills 
   "articleBody": "The yearly hackathon at work is always a great time to pursue new ideas or play around in fun ways with existing technology. My entry in 2019 was a humorous take on using simulations when developing computer vision software. I long wondered to see if we could use modern game engines or other simulation technology to augment some of our real world testing at scale.\nFor the hackathon, I decided to apply my (as you will see quite limited) skills and implement a prototype of such a system.\nScandit3D The result was Scandit3D, it’s a pseudo-3D environment full of barcode textures and a camera which automatically scans any barcodes it sees.\nTry it out You can try it out at https://scandit3d.kuendig.io/ or click on the image below to run it on this site.\nClick once in the main area to start it (click a second time to go into fullscreen). Once the game runs, you can add barcodes via the barcode generator. Selecting a new symbology or pressing enter automatically regenerates the barcode Bugs \u0026 Improvements There were a few things I didn’t get to implement in the 36 hours available:\nGraphics Full screen 🐞no message on lauch (“click to start”) start screen / animation blood animation / overlay take screenshots (ctrl/cmd+c) Add screensaver mode (autostart with rotating barcodes) Sound effects 🐞 gun sound doesn’t play (commented out) Background Music 3D Maze better textures (not from Win95) default enable lightening (only on space currently) automatically loop barcodes (press 1-9 to set scans per symbology, 0 to disable) Status bar 🐞aspect ratio of status bar (Doom used non-square pixels) 🐞using AmazDooMLeft for whole logo (instead of just left side) Source Quality code cleanup use npm / web bundler to build References Being a single dev and having barely more than a workday, I had to stich together what I could. So no, this isn’t using Unreal Engine with custom bindings for the barcode scanner. Instead:\nThe barcode scanner is the amazing Scandit Barcode Scanner for the Web.\nThe barcode generator used is which is a translation to native JavaScript of .\nThe 3D maze is based on the WebGL-port of the 3D Maze screensaver from Windows 95 available at .\nThe matrix libraries it uses are from (deeplink) Thee maze generator can be found at (Tutorial). The status bar uses the UI elements from and the font is Press Start 2P. The background is a modified version of STBAR from the DOOM1.WAD.\nThe Scandit3D logo uses the AmazDooM font.\nThe gun sound is SPISTOL from the DOOM1.WAD.\n",
   "wordCount" : "426",
   "inLanguage": "en",
-  "image": "/images/bg.jpg","datePublished": "2019-12-18T11:37:11+01:00",
+  "image": "https://christian.kuendig.info/images/bg.jpg","datePublished": "2019-12-18T11:37:11+01:00",
   "dateModified": "2019-12-18T11:37:11+01:00",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "/posts/2019-12-scandit3d/"
+    "@id": "https://christian.kuendig.info/posts/2019-12-scandit3d/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "Christian Kündig",
     "logo": {
       "@type": "ImageObject",
-      "url": "/favicon.ico"
+      "url": "https://christian.kuendig.info/favicon.ico"
     }
   }
 }
@@ -170,13 +170,13 @@ For the hackathon, I decided to apply my (as you will see quite limited) skills 
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="/" accesskey="h" title="Christian Kündig (Alt + H)">Christian Kündig</a>
+            <a href="https://christian.kuendig.info/" accesskey="h" title="Christian Kündig (Alt + H)">Christian Kündig</a>
             <div class="logo-switches">
             </div>
         </div>
         <ul id="menu">
             <li>
-                <a href="/posts/" title="Personal Projects">
+                <a href="https://christian.kuendig.info/posts/" title="Personal Projects">
                     <span>Personal Projects</span>
                 </a>
             </li>
@@ -329,15 +329,15 @@ function load_iframe(imgDiv) {
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="/tags/web-development/">Web Development</a></li>
+      <li><a href="https://christian.kuendig.info/tags/web-development/">Web Development</a></li>
     </ul>
 <nav class="paginav">
-  <a class="prev" href="/posts/2020-02-tv7-epg/">
+  <a class="prev" href="https://christian.kuendig.info/posts/2020-02-tv7-epg/">
     <span class="title">« Prev | <span>February 6, 2020</span></span>
     <br>
     <span>Extracting EPG data from the TV7 IPTV service</span>
   </a>
-  <a class="next" href="/posts/2019-04-zork/">
+  <a class="next" href="https://christian.kuendig.info/posts/2019-04-zork/">
     <span class="title"><span>April 17, 2019</span> | Next »</span>
     <br>
     <span>Compiling Zork from Scratch</span>
@@ -349,7 +349,7 @@ function load_iframe(imgDiv) {
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="/">Christian Kündig</a></span> · 
+        <span>&copy; 2026 <a href="https://christian.kuendig.info/">Christian Kündig</a></span> · 
 
     <span>
         Powered by

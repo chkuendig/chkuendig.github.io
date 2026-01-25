@@ -2,43 +2,43 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Personal Media Server on Christian Kündig</title>
-    <link>/tags/personal-media-server/</link>
+    <link>https://christian.kuendig.info/tags/personal-media-server/</link>
     <description>Recent content in Personal Media Server on Christian Kündig</description>
     <image>
       <title>Christian Kündig</title>
-      <url>/images/bg.jpg</url>
-      <link>/images/bg.jpg</link>
+      <url>https://christian.kuendig.info/images/bg.jpg</url>
+      <link>https://christian.kuendig.info/images/bg.jpg</link>
     </image>
     <generator>Hugo -- 0.145.0</generator>
     <language>en</language>
     <lastBuildDate>Sun, 26 Nov 2023 23:15:29 +0100</lastBuildDate>
-    <atom:link href="/tags/personal-media-server/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://christian.kuendig.info/tags/personal-media-server/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>HDHomerun Server Emulation in Tvheadend</title>
-      <link>/posts/2023-11-tvheadend-hdhomerun/</link>
+      <link>https://christian.kuendig.info/posts/2023-11-tvheadend-hdhomerun/</link>
       <pubDate>Sun, 26 Nov 2023 23:15:29 +0100</pubDate>
-      <guid>/posts/2023-11-tvheadend-hdhomerun/</guid>
+      <guid>https://christian.kuendig.info/posts/2023-11-tvheadend-hdhomerun/</guid>
       <description>Time to retire tvhProxy by adding HDHomerun emulation to Tvheadend.</description>
     </item>
     <item>
       <title>Why WebVTT subtitles in Plex don&#39;t work</title>
-      <link>/posts/2020-09-plex-subtitles-issue/</link>
+      <link>https://christian.kuendig.info/posts/2020-09-plex-subtitles-issue/</link>
       <pubDate>Sun, 20 Sep 2020 22:41:33 +0200</pubDate>
-      <guid>/posts/2020-09-plex-subtitles-issue/</guid>
+      <guid>https://christian.kuendig.info/posts/2020-09-plex-subtitles-issue/</guid>
       <description>For some reason video files downloaded from the web won&amp;rsquo;t play in Plex if they have subtitles.</description>
     </item>
     <item>
       <title>tvhProxy: Streaming TVHeadend into Plex DVR</title>
-      <link>/posts/2020-02-tvhproxy/</link>
+      <link>https://christian.kuendig.info/posts/2020-02-tvhproxy/</link>
       <pubDate>Thu, 20 Feb 2020 11:38:19 +0100</pubDate>
-      <guid>/posts/2020-02-tvhproxy/</guid>
+      <guid>https://christian.kuendig.info/posts/2020-02-tvhproxy/</guid>
       <description>Plex launched it&amp;rsquo;s DVR feature in 2016. Unfortunately, it only supports either DVR tuners connected to the server directly or HDHomeRun devices. tvhProxy fixes that.</description>
     </item>
     <item>
       <title>Extracting EPG data from the TV7 IPTV service</title>
-      <link>/posts/2020-02-tv7-epg/</link>
+      <link>https://christian.kuendig.info/posts/2020-02-tv7-epg/</link>
       <pubDate>Thu, 06 Feb 2020 11:37:54 +0100</pubDate>
-      <guid>/posts/2020-02-tv7-epg/</guid>
+      <guid>https://christian.kuendig.info/posts/2020-02-tv7-epg/</guid>
       <description>Init7, my FTTH provider has a great IPTV offering called TV7 Unfortunately there&amp;rsquo;s no way to fetch the EPG data.</description>
     </item>
   </channel>

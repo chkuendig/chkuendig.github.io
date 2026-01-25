@@ -9,16 +9,16 @@
 <meta name="keywords" content="Reverse Engineering, Home Automation">
 <meta name="description" content="Looking into how to reverse engineer a funky christmas present and building out a new Home Assistant integration for it.">
 <meta name="author" content="">
-<link rel="canonical" href="/posts/2023-01-hass-amphiro/">
+<link rel="canonical" href="https://christian.kuendig.info/posts/2023-01-hass-amphiro/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.4b4ba94b836af7c5b90f9d1ab2afae9f8e5e904c2a158eff92031324dea547d4.css" integrity="sha256-S0upS4Nq98W5D50asq&#43;un45ekEwqFY7/kgMTJN6lR9Q=" rel="preload stylesheet" as="style">
-<link rel="icon" href="/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="mask-icon" href="/safari-pinned-tab.svg">
+<link rel="icon" href="https://christian.kuendig.info/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://christian.kuendig.info/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://christian.kuendig.info/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://christian.kuendig.info/apple-touch-icon.png">
+<link rel="mask-icon" href="https://christian.kuendig.info/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="/posts/2023-01-hass-amphiro/">
+<link rel="alternate" hreflang="en" href="https://christian.kuendig.info/posts/2023-01-hass-amphiro/">
 <noscript>
     <style>
         #theme-toggle,
@@ -86,7 +86,7 @@
           gtag('js', new Date());
           gtag('config', 'G-L4NRERPTCT');
         }
-      </script><meta property="og:url" content="/posts/2023-01-hass-amphiro/">
+      </script><meta property="og:url" content="https://christian.kuendig.info/posts/2023-01-hass-amphiro/">
   <meta property="og:site_name" content="Christian Kündig">
   <meta property="og:title" content="How to Add the Amphiro Hand Shower to Home Assistant">
   <meta property="og:description" content="Looking into how to reverse engineer a funky christmas present and building out a new Home Assistant integration for it.">
@@ -97,11 +97,11 @@
     <meta property="article:modified_time" content="2023-01-14T11:45:13+01:00">
     <meta property="article:tag" content="Reverse Engineering">
     <meta property="article:tag" content="Home Automation">
-      <meta property="og:image" content="/images/bg.jpg">
+      <meta property="og:image" content="https://christian.kuendig.info/images/bg.jpg">
         <meta property="fb:admins" content="about.me">
   <meta name="fediverse:creator" content="@chkuendig@ioc.exchange">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="/images/bg.jpg">
+<meta name="twitter:image" content="https://christian.kuendig.info/images/bg.jpg">
 <meta name="twitter:title" content="How to Add the Amphiro Hand Shower to Home Assistant">
 <meta name="twitter:description" content="Looking into how to reverse engineer a funky christmas present and building out a new Home Assistant integration for it.">
 
@@ -115,13 +115,13 @@
       "@type": "ListItem",
       "position":  1 ,
       "name": "Personal Projects",
-      "item": "/posts/"
-    }
+      "item": "https://christian.kuendig.info/posts/"
+    }, 
     {
       "@type": "ListItem",
-      "position":  1 ,
+      "position":  2 ,
       "name": "How to Add the Amphiro Hand Shower to Home Assistant",
-      "item": "/posts/2023-01-hass-amphiro/"
+      "item": "https://christian.kuendig.info/posts/2023-01-hass-amphiro/"
     }
   ]
 }
@@ -139,18 +139,18 @@
   "articleBody": " I got this funky shower head as a christmas present last year. Turns out it doesn’t just display your water and energy usage, but also transmits the data via Bluetooth. Obviously this is something which is interesting to track over time, so I’ve decided to build a small integration for Home Assistant for it.\nProtocol Figuring out the protocol wasn’t too difficult since there’s already a bit of information on the protocol available. The Amphiro implements three types of BLE connections:\npassive connection: This is what my component uses, the shower head by default transmits the following vendor specific service UUID: 0000180a-0000-1000-8000-00805f9b34fb, 7f402200-504f-4c41-5261-6d706869726f and 00004132-504f-4c41-5261-6d706869726fevery time it is running. The payload has the same format as the status event in the next bullet connected: this mode transmits a bit more data, but requires an active connection. There’s already an MQTT bridge available if you want to use this: Amphiro_Oras_bluetooth_shower_hub. I decided against this as active/connected connections are more complicated to implement and doesn’t add more value here. paired: The official app requires manual pairing with a pin displayed from the app. As the app also provides provides historic data I suspect in this mode one could also send queries to the device. From what I can tell, this is completely undocumented so far. Home Assistant Component This component supports reading sensor data from Amphiro Digital Hand Shower with the new bluetooth component released in Home Assistant 2022.8.\nLet me know if you use this in the Home Assistant Forums, or open an issue on the GitHub repo should you run into any trouble: I’ll also try to get this included in the Home Assistant Community Store (HACS) eventually1.\n💡 Update Feb 11, 2025: This Homeassistant component finally landed in HACS: ↩︎\n",
   "wordCount" : "291",
   "inLanguage": "en",
-  "image": "/images/bg.jpg","datePublished": "2023-01-14T11:45:13+01:00",
+  "image": "https://christian.kuendig.info/images/bg.jpg","datePublished": "2023-01-14T11:45:13+01:00",
   "dateModified": "2023-01-14T11:45:13+01:00",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "/posts/2023-01-hass-amphiro/"
+    "@id": "https://christian.kuendig.info/posts/2023-01-hass-amphiro/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "Christian Kündig",
     "logo": {
       "@type": "ImageObject",
-      "url": "/favicon.ico"
+      "url": "https://christian.kuendig.info/favicon.ico"
     }
   }
 }
@@ -168,13 +168,13 @@
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="/" accesskey="h" title="Christian Kündig (Alt + H)">Christian Kündig</a>
+            <a href="https://christian.kuendig.info/" accesskey="h" title="Christian Kündig (Alt + H)">Christian Kündig</a>
             <div class="logo-switches">
             </div>
         </div>
         <ul id="menu">
             <li>
-                <a href="/posts/" title="Personal Projects">
+                <a href="https://christian.kuendig.info/posts/" title="Personal Projects">
                     <span>Personal Projects</span>
                 </a>
             </li>
@@ -231,16 +231,16 @@ alt="Home Assistant Community Store (HACS)"/></p>
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="/tags/reverse-engineering/">Reverse Engineering</a></li>
-      <li><a href="/tags/home-automation/">Home Automation</a></li>
+      <li><a href="https://christian.kuendig.info/tags/reverse-engineering/">Reverse Engineering</a></li>
+      <li><a href="https://christian.kuendig.info/tags/home-automation/">Home Automation</a></li>
     </ul>
 <nav class="paginav">
-  <a class="prev" href="/posts/2023-03-silentsteel/">
+  <a class="prev" href="https://christian.kuendig.info/posts/2023-03-silentsteel/">
     <span class="title">« Prev | <span>March 14, 2023</span></span>
     <br>
     <span>Reverse Engineering the 1995 FMV Game Silent Steel</span>
   </a>
-  <a class="next" href="/posts/2022-12-hass-ab_ble/">
+  <a class="next" href="https://christian.kuendig.info/posts/2022-12-hass-ab_ble/">
     <span class="title"><span>December 9, 2022</span> | Next »</span>
     <br>
     <span>Forwarding Bluetooth with the April Brother BLE Gateway</span>
@@ -252,7 +252,7 @@ alt="Home Assistant Community Store (HACS)"/></p>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="/">Christian Kündig</a></span> · 
+        <span>&copy; 2026 <a href="https://christian.kuendig.info/">Christian Kündig</a></span> · 
 
     <span>
         Powered by

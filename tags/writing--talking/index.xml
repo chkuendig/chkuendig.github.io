@@ -2,24 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Writing &amp; Talking on Christian Kündig</title>
-    <link>/tags/writing--talking/</link>
+    <link>https://christian.kuendig.info/tags/writing--talking/</link>
     <description>Recent content in Writing &amp; Talking on Christian Kündig</description>
     <image>
       <title>Christian Kündig</title>
-      <url>/images/bg.jpg</url>
-      <link>/images/bg.jpg</link>
+      <url>https://christian.kuendig.info/images/bg.jpg</url>
+      <link>https://christian.kuendig.info/images/bg.jpg</link>
     </image>
     <generator>Hugo -- 0.145.0</generator>
     <language>en</language>
     <lastBuildDate>Fri, 03 Nov 2017 11:42:13 +0100</lastBuildDate>
-    <atom:link href="/tags/writing--talking/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://christian.kuendig.info/tags/writing--talking/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Product Management Night</title>
-      <link>/posts/2017-11-pm-night/</link>
+      <link>https://christian.kuendig.info/posts/2017-11-pm-night/</link>
       <pubDate>Fri, 03 Nov 2017 11:42:13 +0100</pubDate>
-      <guid>/posts/2017-11-pm-night/</guid>
+      <guid>https://christian.kuendig.info/posts/2017-11-pm-night/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://web.archive.org/web/20210228094901/https://productmanagementfestival.com/pm-nights/pm-night-zurich-3-nzz-03-11/&#34;&gt;&lt;figure class=&#34;float-right&#34;&gt;
-    &lt;img loading=&#34;lazy&#34; src=&#34;/posts/2017-11-pm-night/2017-pm-night.png  &#34;
+    &lt;img loading=&#34;lazy&#34; src=&#34;https://christian.kuendig.info/posts/2017-11-pm-night/2017-pm-night.png  &#34;
          alt=&#34;Product Management Night Logo (c) Product Management Festival&#34;/&gt; 
 &lt;/figure&gt;
 &lt;/a&gt;&lt;/p&gt;
@@ -29,16 +29,16 @@
     </item>
     <item>
       <title>Zürcher Journalistenpreis 2010</title>
-      <link>/posts/2010-05-zjp/</link>
+      <link>https://christian.kuendig.info/posts/2010-05-zjp/</link>
       <pubDate>Fri, 28 May 2010 11:34:07 +0100</pubDate>
-      <guid>/posts/2010-05-zjp/</guid>
+      <guid>https://christian.kuendig.info/posts/2010-05-zjp/</guid>
       <description>Im Mai 2010 gewannen Lukas Messmer und ich den Zürcher Journalistenpreis für unsere Reportage &amp;ldquo;&lt;a href=&#34;2009-10-die-endstation.md&#34;&gt;Die Endstation&lt;/a&gt;&amp;rdquo; in der Zürcher Studierendenzeitung (ZS).</description>
     </item>
     <item>
       <title>Master Thesis: Building an adapting Poker Agent</title>
-      <link>/posts/2010-03-master-thesis/</link>
+      <link>https://christian.kuendig.info/posts/2010-03-master-thesis/</link>
       <pubDate>Sun, 14 Mar 2010 11:34:58 +0100</pubDate>
-      <guid>/posts/2010-03-master-thesis/</guid>
+      <guid>https://christian.kuendig.info/posts/2010-03-master-thesis/</guid>
       <description>I wrote a learning poker bot for my master thesis. This was just at the cusp of the deep learning breakthroughs to come soon after.</description>
     </item>
   </channel>

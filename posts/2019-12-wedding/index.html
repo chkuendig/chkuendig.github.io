@@ -9,16 +9,16 @@
 <meta name="keywords" content="Web Development, Personal Projects">
 <meta name="description" content="Reflecting on the custom wedding website I built in 2019, and how it evolved over the years.">
 <meta name="author" content="">
-<link rel="canonical" href="/posts/2019-12-wedding/">
+<link rel="canonical" href="https://christian.kuendig.info/posts/2019-12-wedding/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.4b4ba94b836af7c5b90f9d1ab2afae9f8e5e904c2a158eff92031324dea547d4.css" integrity="sha256-S0upS4Nq98W5D50asq&#43;un45ekEwqFY7/kgMTJN6lR9Q=" rel="preload stylesheet" as="style">
-<link rel="icon" href="/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="mask-icon" href="/safari-pinned-tab.svg">
+<link rel="icon" href="https://christian.kuendig.info/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://christian.kuendig.info/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://christian.kuendig.info/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://christian.kuendig.info/apple-touch-icon.png">
+<link rel="mask-icon" href="https://christian.kuendig.info/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="/posts/2019-12-wedding/">
+<link rel="alternate" hreflang="en" href="https://christian.kuendig.info/posts/2019-12-wedding/">
 <noscript>
     <style>
         #theme-toggle,
@@ -86,7 +86,7 @@
           gtag('js', new Date());
           gtag('config', 'G-L4NRERPTCT');
         }
-      </script><meta property="og:url" content="/posts/2019-12-wedding/">
+      </script><meta property="og:url" content="https://christian.kuendig.info/posts/2019-12-wedding/">
   <meta property="og:site_name" content="Christian Kündig">
   <meta property="og:title" content="Our Wedding Website, 5 Years Later">
   <meta property="og:description" content="Reflecting on the custom wedding website I built in 2019, and how it evolved over the years.">
@@ -97,11 +97,11 @@
     <meta property="article:modified_time" content="2024-11-09T11:36:51+01:00">
     <meta property="article:tag" content="Web Development">
     <meta property="article:tag" content="Personal Projects">
-      <meta property="og:image" content="/images/bg.jpg">
+      <meta property="og:image" content="https://christian.kuendig.info/images/bg.jpg">
         <meta property="fb:admins" content="about.me">
   <meta name="fediverse:creator" content="@chkuendig@ioc.exchange">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="/images/bg.jpg">
+<meta name="twitter:image" content="https://christian.kuendig.info/images/bg.jpg">
 <meta name="twitter:title" content="Our Wedding Website, 5 Years Later">
 <meta name="twitter:description" content="Reflecting on the custom wedding website I built in 2019, and how it evolved over the years.">
 
@@ -115,13 +115,13 @@
       "@type": "ListItem",
       "position":  1 ,
       "name": "Personal Projects",
-      "item": "/posts/"
-    }
+      "item": "https://christian.kuendig.info/posts/"
+    }, 
     {
       "@type": "ListItem",
-      "position":  1 ,
+      "position":  2 ,
       "name": "Our Wedding Website, 5 Years Later",
-      "item": "/posts/2019-12-wedding/"
+      "item": "https://christian.kuendig.info/posts/2019-12-wedding/"
     }
   ]
 }
@@ -139,18 +139,18 @@
   "articleBody": "Building Our Wedding Website When we started planning our wedding back in 2019, I had a vision: I wanted to create something unique, something that reflected us. Instead of using a generic wedding website template, I decided to build our own interactive RSVP site. But it wasn’t just about RSVPs—it was about telling our story. I wanted the site to capture how we met, the adventures we shared, and the journey that led us to say, “I do.”\nWhy Build a Custom Wedding Website? There are plenty of website builders out there—Wix, WordPress, Squarespace—and even specialized wedding platforms like The Knot and Riley \u0026 Grey. I tried them all, but they felt too generic. None offered the flexibility to tell our story the way I envisioned. I wanted something personal, interactive, and memorable—plus, I was eager to dive back into web development after nearly a decade away.\nSince we’re both passionate travelers, I decided to frame our story as a journey, combining two quintessential travel media: Google Earth and Instagram.\nImplementation Challenges To bring this vision to life, I decided I wanted to focus on three key components I had to get right:\nAn animation library for smooth scroll-based interactions (without the annoying “scroll-jacking” many sites use). It should feel like Snow Fall from the New York Times. A 3D globe library for Google Earth-style visualizations, complete with map tiles and elevation data. Design elements to create an Instagram-inspired aesthetic to round off the whole aesthetic. Challenge 1: The 3D Globe The centerpiece was a 3D globe showcasing our travels. I needed something lightweight and “headless” (no built-in UI) that I could integrate with custom animations. After exploring several options, I evaluated:\n: While overall having great support for tiles, at the time in 2019, this was soley focused on providing good embeds for maps. It didn’t not yet provide a “Globe” view. : A JavaScript library for creating 3D globes and maps in web applications. It’s often used for geospatial data visualization and as such seemed very heavy to use and came with a lot of UI elements which were hard to remove. : What it is: A popular open-source JavaScript library for 3D geospatial visualization. It’s widely used in industries like aerospace, defense, and urban planning. Same drawbacks as OpenGlobus. : A lightweight JavaScript library for creating interactive 2D and 3D globes. Unfortunately it is not very matured and I couldn’t find good ways to animate it and show high resolution tiles that have that nice “Google Earth” look. : A JavaScript library for rendering 3D globes using WebGL. While it provided simple interactive globe functionality with satellite imagery and map tiles, it lacked the advanced features I needed for complex animations. After learning more about GIS (Geographic Information Systems—the technology that powers mapping applications like Google Maps and GPS navigation) than one should probably do while planning a wedding, I eventually settled on WebWorldWind. It supported KML tracks and high-resolution satellite tilesets, giving me that coveted Google Earth aesthetic. However, it came with significant challenges:\nChallenge 1: NASA WorldWind Project Suspension: Just as I was finalizing invites (9 months before the wedding), NASA announced the library’s discontinuation. A cryptic notice warned that tile and elevation servers would disappear. Fortunately, this decision was later reversed.\nChallenge 2: Manual Animation Integration: I had to rewrite the library’s GoToAnimator.js to sync globe movements with scroll position instead of automatically timed animations. I had to re-learn quite a bit of trigonometry to figure out the “curves” the camera is supposed to “fly” on, but while time consuming, this was actually a lot of fun.\nChallenge 3: Tile Performance Issues: Landsat tiles were too slow, and offline packs didn’t provided by landscap didn’t cover all our travel destinations. I switched to Bing Maps for better coverage and performance.\nChallenge 4: Animation Library Inspired by Snow Fall (2012), I wanted scroll-based storytelling animations. After evaluating several options including terwanerik/ScrollTrigger and alvarotrigo/fullPage.js, I chose ScrollMagic with GSAP for its seamless integration and smooth animation curves.\nVisual Design The visual design proved surprisingly straightforward:\nInstagram-Inspired Styling: I manually reconstructed styles from Instagram’s calculated CSS to give the site a modern, polished look. There were plenty of off the shell templates, but for some reasons in the end it was easier to do from scratch (mostly because my page anyway was more “instagram inspired” than a perfect copy).\nVisual Elements: I incorporated oriental watercolor patterns from Riley \u0026 Grey templates to complement our travel theme.\nRSVP System Rather than building a full-stack application for a single-use case, I integrated with Riley \u0026 Grey’s platform. They offered custom domain support (rsvp.dkandck.com) and email-only authentication, eliminating unnecessary account creation for guests. I manually sent personalized RSVP emails with unique links to ensure a flawless experience. Every invite contained the recipients email-address as part of the anchor link which the landing page forwarded to the RSVP-login.\n2024 Update: 5 Years Later Five years later, with two kids and the website slowly decaying to bitrot, I revisited the site to address several technical debt issues:\nTile Service Migration Bing Maps has been deprecated (shutting down June 2025).\nGiven that WebWorldWind also seems to be dead (no activity since 2023), I did not expect a migration to the replacement Azure Maps services . Rather than building such a tile layer myself, I implemented a caching layer to be able to store the tiles on my own storage ( and ).\nThe hydrate the cache, I temporarily redirected all requests to a local proxy server and then loaded the website on a variety of screen sizes and scrolled back and forth a while. Not ideal, but it worked.\nAnimation Fixes I finally resolved a long-standing bug where reverse scrolling animations didn’t work properly. When scrolling upwards on the page, the globe never animated correctly (it jump) - not surprising as I hacked this together based on the automated animation that obviously would only play back forward in the ubstream library. So back into figuring out camera paths it was: RSVP Replacement With Riley \u0026 Grey’s service discontinued (we didn’t pay for more than a year), I migrated to static hosting (based on a backup I did at some point of the page) with an somewhat creative security approach for protecting a static website:\nWhen deploying the page, the actual RSVP page is moved to a random hash as part of the URL. For each guest that is allowed to access the page, two hashes are calculated: One based on the even characters of their email address, and one with the odd. A dictionary is generated with an entry for each guest: hash of the even characters as a lookup key, the difference between the hash of the odd characters and the random hash that is hidibng the rsvp as the “access code” value When a guest enters their email address, this process is run in reverse to redirect the browser to the actual rvsp page. This was quite fun to develop, and I think is sufficiently secure to avoid leaking all guests email addresses without significant effort in cracking these hashes. It would actually be completely impossible without knowing the secret path of the RSVP page as only half the letters of the email would even be accessible.\nInfrastructure Modernization Build System: Migrated to esbuild to bundle all third party libraries at build instead of deploying handwritten JS and loading the libraries from various CDNs. Deployment: Implemented GitHub Actions for automated deployment Open Source: Made the original repository public for others to learn from Reflecting on the Journey Looking back, building this site was a meaningful project that captured an important moment in our lives. It served its purpose well—telling our story in a way that felt authentic to us. Five years later, it still functions as intended, though I’ve had to make some updates to keep everything working.\nWould I do it again? Absolutely. There’s something special about creating something so personal, even if it means late nights debugging trigonometry-based animations or manually sending out hundreds of emails. It was a lot of work, but the end result is something truly unique.\n",
   "wordCount" : "1361",
   "inLanguage": "en",
-  "image": "/images/bg.jpg","datePublished": "2024-11-09T11:36:51+01:00",
+  "image": "https://christian.kuendig.info/images/bg.jpg","datePublished": "2024-11-09T11:36:51+01:00",
   "dateModified": "2024-11-09T11:36:51+01:00",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "/posts/2019-12-wedding/"
+    "@id": "https://christian.kuendig.info/posts/2019-12-wedding/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "Christian Kündig",
     "logo": {
       "@type": "ImageObject",
-      "url": "/favicon.ico"
+      "url": "https://christian.kuendig.info/favicon.ico"
     }
   }
 }
@@ -168,13 +168,13 @@
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="/" accesskey="h" title="Christian Kündig (Alt + H)">Christian Kündig</a>
+            <a href="https://christian.kuendig.info/" accesskey="h" title="Christian Kündig (Alt + H)">Christian Kündig</a>
             <div class="logo-switches">
             </div>
         </div>
         <ul id="menu">
             <li>
-                <a href="/posts/" title="Personal Projects">
+                <a href="https://christian.kuendig.info/posts/" title="Personal Projects">
                     <span>Personal Projects</span>
                 </a>
             </li>
@@ -269,16 +269,16 @@ Fixed by pre-calculating the maxAltitudeReachedTime.'></a></p>
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="/tags/web-development/">Web Development</a></li>
-      <li><a href="/tags/personal-projects/">Personal Projects</a></li>
+      <li><a href="https://christian.kuendig.info/tags/web-development/">Web Development</a></li>
+      <li><a href="https://christian.kuendig.info/tags/personal-projects/">Personal Projects</a></li>
     </ul>
 <nav class="paginav">
-  <a class="prev" href="/posts/2025-04-retrowave/">
+  <a class="prev" href="https://christian.kuendig.info/posts/2025-04-retrowave/">
     <span class="title">« Prev | <span>April 10, 2025</span></span>
     <br>
     <span>RetroWave OPL3 Express via Web Serial API</span>
   </a>
-  <a class="next" href="/posts/2024-01-playsuisse/">
+  <a class="next" href="https://christian.kuendig.info/posts/2024-01-playsuisse/">
     <span class="title"><span>January 26, 2024</span> | Next »</span>
     <br>
     <span>Fixing Play Suisse in yt-dlp</span>
@@ -290,7 +290,7 @@ Fixed by pre-calculating the maxAltitudeReachedTime.'></a></p>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="/">Christian Kündig</a></span> · 
+        <span>&copy; 2026 <a href="https://christian.kuendig.info/">Christian Kündig</a></span> · 
 
     <span>
         Powered by

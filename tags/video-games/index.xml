@@ -2,78 +2,78 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Video Games on Christian Kündig</title>
-    <link>/tags/video-games/</link>
+    <link>https://christian.kuendig.info/tags/video-games/</link>
     <description>Recent content in Video Games on Christian Kündig</description>
     <image>
       <title>Christian Kündig</title>
-      <url>/images/bg.jpg</url>
-      <link>/images/bg.jpg</link>
+      <url>https://christian.kuendig.info/images/bg.jpg</url>
+      <link>https://christian.kuendig.info/images/bg.jpg</link>
     </image>
     <generator>Hugo -- 0.145.0</generator>
     <language>en</language>
     <lastBuildDate>Mon, 04 Aug 2025 12:25:46 +0100</lastBuildDate>
-    <atom:link href="/tags/video-games/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://christian.kuendig.info/tags/video-games/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Porting ScummVM to Webassembly, Part 4c - File Access</title>
-      <link>/posts/2025-08-scummvm-part4c/</link>
+      <link>https://christian.kuendig.info/posts/2025-08-scummvm-part4c/</link>
       <pubDate>Mon, 04 Aug 2025 12:25:46 +0100</pubDate>
-      <guid>/posts/2025-08-scummvm-part4c/</guid>
+      <guid>https://christian.kuendig.info/posts/2025-08-scummvm-part4c/</guid>
       <description>Revisiting how files are loaded over the network and finally adding support for cloud storage (Dropbox, Google Drive etc)</description>
     </item>
     <item>
       <title>Porting ScummVM to Webassembly, Part 4b - Sound Improvements</title>
-      <link>/posts/2025-08-scummvm-part4b/</link>
+      <link>https://christian.kuendig.info/posts/2025-08-scummvm-part4b/</link>
       <pubDate>Sun, 03 Aug 2025 12:25:46 +0100</pubDate>
-      <guid>/posts/2025-08-scummvm-part4b/</guid>
+      <guid>https://christian.kuendig.info/posts/2025-08-scummvm-part4b/</guid>
       <description>Diving deep into the different audio options ScummVM provides and making sure they work in the browser.</description>
     </item>
     <item>
       <title>Porting ScummVM to Webassembly, Part 4a - Maintenance</title>
-      <link>/posts/2025-08-scummvm-part4a/</link>
+      <link>https://christian.kuendig.info/posts/2025-08-scummvm-part4a/</link>
       <pubDate>Sat, 02 Aug 2025 02:25:46 +0100</pubDate>
-      <guid>/posts/2025-08-scummvm-part4a/</guid>
+      <guid>https://christian.kuendig.info/posts/2025-08-scummvm-part4a/</guid>
       <description>Cleaning up some loose ends to get ready for future improvements</description>
     </item>
     <item>
       <title>Porting ScummVM to Webassembly, Part 3</title>
-      <link>/posts/2024-01-scummvm-part3/</link>
+      <link>https://christian.kuendig.info/posts/2024-01-scummvm-part3/</link>
       <pubDate>Fri, 05 Jan 2024 00:00:24 +0100</pubDate>
-      <guid>/posts/2024-01-scummvm-part3/</guid>
+      <guid>https://christian.kuendig.info/posts/2024-01-scummvm-part3/</guid>
       <description>I finally found some time over the holidays to wrap up some improvements I was working on for ScummVM last year.</description>
     </item>
     <item>
       <title>Reverse Engineering the 1995 FMV Game Silent Steel</title>
-      <link>/posts/2023-03-silentsteel/</link>
+      <link>https://christian.kuendig.info/posts/2023-03-silentsteel/</link>
       <pubDate>Tue, 14 Mar 2023 11:41:01 +0100</pubDate>
-      <guid>/posts/2023-03-silentsteel/</guid>
+      <guid>https://christian.kuendig.info/posts/2023-03-silentsteel/</guid>
       <description>Silent Steel is a submarine-themed FMV  game released in 1995. This is the summary of it&amp;rsquo;s file formats, including a prototype re-implementation.</description>
     </item>
     <item>
       <title>Porting ScummVM to Webassembly, Part 2</title>
-      <link>/posts/2022-05-scummvm-part2/</link>
+      <link>https://christian.kuendig.info/posts/2022-05-scummvm-part2/</link>
       <pubDate>Mon, 21 Mar 2022 11:39:21 +0100</pubDate>
-      <guid>/posts/2022-05-scummvm-part2/</guid>
+      <guid>https://christian.kuendig.info/posts/2022-05-scummvm-part2/</guid>
       <description>Since merging the initial Webassembly port of ScummVM, I have added a few critical improvements</description>
     </item>
     <item>
       <title>Porting ScummVM to Webassembly</title>
-      <link>/posts/2021-08-scummvm-wasm/</link>
+      <link>https://christian.kuendig.info/posts/2021-08-scummvm-wasm/</link>
       <pubDate>Fri, 20 Aug 2021 11:38:45 +0100</pubDate>
-      <guid>/posts/2021-08-scummvm-wasm/</guid>
+      <guid>https://christian.kuendig.info/posts/2021-08-scummvm-wasm/</guid>
       <description>Making old adventure (and other) games available on the web.</description>
     </item>
     <item>
       <title>Does Steam Remote Play support NvFBC on Linux?</title>
-      <link>/posts/2020-12-steam-nvfbc/</link>
+      <link>https://christian.kuendig.info/posts/2020-12-steam-nvfbc/</link>
       <pubDate>Fri, 11 Dec 2020 11:52:50 +0100</pubDate>
-      <guid>/posts/2020-12-steam-nvfbc/</guid>
+      <guid>https://christian.kuendig.info/posts/2020-12-steam-nvfbc/</guid>
       <description>Trying to get Steam Remote Play working from my Linux home lab, I noticed that while Steam offers capturing the frame data with NvFBC, the setting doesn&amp;rsquo;t seem have any impact. Why is that?</description>
     </item>
     <item>
       <title>Compiling Zork from Scratch</title>
-      <link>/posts/2019-04-zork/</link>
+      <link>https://christian.kuendig.info/posts/2019-04-zork/</link>
       <pubDate>Wed, 17 Apr 2019 11:41:01 +0100</pubDate>
-      <guid>/posts/2019-04-zork/</guid>
+      <guid>https://christian.kuendig.info/posts/2019-04-zork/</guid>
       <description>Today, the source code of many old Infocom Text Adventures has been uploaded to Github. Let&amp;rsquo;s see if we can compile Zork.</description>
     </item>
   </channel>

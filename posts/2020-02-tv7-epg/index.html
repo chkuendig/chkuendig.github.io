@@ -9,16 +9,16 @@
 <meta name="keywords" content="Personal Media Server, Reverse Engineering">
 <meta name="description" content="Init7, my FTTH provider has a great IPTV offering called TV7 Unfortunately there&rsquo;s no way to fetch the EPG data.">
 <meta name="author" content="">
-<link rel="canonical" href="/posts/2020-02-tv7-epg/">
+<link rel="canonical" href="https://christian.kuendig.info/posts/2020-02-tv7-epg/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.4b4ba94b836af7c5b90f9d1ab2afae9f8e5e904c2a158eff92031324dea547d4.css" integrity="sha256-S0upS4Nq98W5D50asq&#43;un45ekEwqFY7/kgMTJN6lR9Q=" rel="preload stylesheet" as="style">
-<link rel="icon" href="/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="mask-icon" href="/safari-pinned-tab.svg">
+<link rel="icon" href="https://christian.kuendig.info/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://christian.kuendig.info/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://christian.kuendig.info/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://christian.kuendig.info/apple-touch-icon.png">
+<link rel="mask-icon" href="https://christian.kuendig.info/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="/posts/2020-02-tv7-epg/">
+<link rel="alternate" hreflang="en" href="https://christian.kuendig.info/posts/2020-02-tv7-epg/">
 <noscript>
     <style>
         #theme-toggle,
@@ -83,7 +83,7 @@
           gtag('js', new Date());
           gtag('config', 'G-L4NRERPTCT');
         }
-      </script><meta property="og:url" content="/posts/2020-02-tv7-epg/">
+      </script><meta property="og:url" content="https://christian.kuendig.info/posts/2020-02-tv7-epg/">
   <meta property="og:site_name" content="Christian Kündig">
   <meta property="og:title" content="Extracting EPG data from the TV7 IPTV service">
   <meta property="og:description" content="Init7, my FTTH provider has a great IPTV offering called TV7 Unfortunately there’s no way to fetch the EPG data.">
@@ -94,11 +94,11 @@
     <meta property="article:modified_time" content="2020-02-06T11:37:54+01:00">
     <meta property="article:tag" content="Personal Media Server">
     <meta property="article:tag" content="Reverse Engineering">
-      <meta property="og:image" content="/images/bg.jpg">
+      <meta property="og:image" content="https://christian.kuendig.info/images/bg.jpg">
         <meta property="fb:admins" content="about.me">
   <meta name="fediverse:creator" content="@chkuendig@ioc.exchange">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="/images/bg.jpg">
+<meta name="twitter:image" content="https://christian.kuendig.info/images/bg.jpg">
 <meta name="twitter:title" content="Extracting EPG data from the TV7 IPTV service">
 <meta name="twitter:description" content="Init7, my FTTH provider has a great IPTV offering called TV7 Unfortunately there&rsquo;s no way to fetch the EPG data.">
 
@@ -112,13 +112,13 @@
       "@type": "ListItem",
       "position":  1 ,
       "name": "Personal Projects",
-      "item": "/posts/"
-    }
+      "item": "https://christian.kuendig.info/posts/"
+    }, 
     {
       "@type": "ListItem",
-      "position":  1 ,
+      "position":  2 ,
       "name": "Extracting EPG data from the TV7 IPTV service",
-      "item": "/posts/2020-02-tv7-epg/"
+      "item": "https://christian.kuendig.info/posts/2020-02-tv7-epg/"
     }
   ]
 }
@@ -136,18 +136,18 @@
   "articleBody": " Init7 - my FTTH provider - has a great IPTV offering called TV7 included for free. TV7 is based on UDP multicast, which means the TV signal will arrive with no delay, whilst conventional IPTV transmissions using HLS often limp in with a delay of a seconds or even half a minute.\nAnother bonus is that TV7 does not compress the TV signal between the source and the viewer: the signal from the TV Station (typically the same you’d get via DVB-C or DVB-S) is forwarded as is without any re-encoding or encryption.\nℹ️ Side Note: If like me you have a Unifi Network setup, you might want to look at the following great post on how to setup your network for Multicast TV7: IGMP Proxy auf UniFi Security Gateway (USG) konfigurieren für TV7 (Init7. I found it super helpful and regularly revisit it to troubleshoot issues.\nEPG in the Event Information Table Usually (e.g. with DVB) the EPG data is transmitted on the regular data stream. It’s part of the EIT (Event Information Table) that is broadcast with digital television signals. EIT provides program data for the current show and future shows which can be then used to view on-screen program information, such as title, length, description and more.\nUnfortunately, for what seems to be licensing issues, init7 strips the EPG Data which would be transmitted via the EIT table and don’t make it available outside of their own app:\nThis means I won’t have any EPG data in TVHeadend or PlexDVR 😢.\nTV7 EPG Backend Service While Init7 doesn’t provide EPG data via the EIT or as a separate XMLTV file, they do provide EPG in their own app. So let’s see how/if we can access that data source.\nI don’t have access to an Android App (and decompiling iOS code is much more difficult), but it’s easy enough to get the APK from apkpure and decompile it. The URLs are very easy to find in the decompiled files:\nBase URL: The app implements a factory pattern to initialize the client-side interface for the app. In core/api/TvApiFactory.java we find the URL which hosts all other endpoints of this service:\nBASE_URL=\"https://tv7api2.tv.init7.net/api/\" Channel List: Next, we will need to get a list of channels - like all the other data access methods this is now of the client-side interface implemented in core/api/TvApi.java:\n@GET(\"tvchannel/\") Call\u003cTvChannelListResponse\u003e tvChannelList(); This gets us a list of all channels and the UUIDs needed to further fetch detailed EPG data.\nEPG Data: To get an overview of all currently running programs, the method getCurrentEPG in core/api/TvApi.java calls the endpoint /epg in various configurations:\n@GET(\"epg/?now__lte=true\u0026now__gte=true\") Call\u003cEPGListResponse# getCurrentEPG(@Query(\"channel\") String paramString); @GET(\"epg/\") Call\u003cEPGListResponse# getEPG(@Query(\"channel\") String paramString); @GET(\"epg/\") Call\u003cEPGListResponse# getEPG(@Query(\"channel\") String paramString1, @Query(\"limit\") int paramInt1, @Query(\"offset\") int paramInt2, @Header(\"If-None-Match\") String paramString2); @GET(\"epg/\") Call\u003cEPGListResponse# getEPG(@Query(\"channel\") String paramString, @Query(\"limit\") int paramInt, @Query(\"now__lte\") boolean paramBoolean1, @Query(\"now__gte\") boolean paramBoolean2); @GET(\"epg/\") Call\u003cEPGListResponse# getEPG(@Query(\"channel\") String paramString); There’s two more endpoints which look interesting - allowed/ and replay/ - but for EPG purposes we don’t need them.\nTesting it out with curl and jq Having extracted the above data, it’s now time to play around with the endpoints we have found\nAccessing the channel list:\nFirst - Downloading the channel list\nBASE_URL=\"https://tv7api2.tv.init7.net/api/\" curl \"${BASE_URL}tvchannel/\" \u003e tvChannelList.json Let’s see the full channel list by order number (presumably this is the channel number)\njq '.results[] | \"(.ordernum) (.name)\"' tvChannelList.json | sort show full channel list by last change date\njq '.results[] | \"(.changed) (.name)\"' tvChannelList.json | sort Downloading EPG Data\nFirst - get all epg titles for currently running BASE_URL=\"https://tv7api2.tv.init7.net/api/\" curl \"${BASE_URL}/epg/?now__lte=true\u0026now__gte=true\" \u003e getCurrentEPG.json Let’s see the title for all the running programs jq \".results[].title\" getCurrentEPG.json download channel specific EPG BASE_URL=\"https://tv7api2.tv.init7.net/api/\" curl \"${BASE_URL}epg/?channel=4c8a7d39-009d-4835-b6f9-69c7268fd9d4\" \u003e getEPG-channel.json cat getEPG-channel.json | jq \".results[]\" Checking out allowed/\nFrom what I can tell this just checks if the IP is part of Init7’s subnet BASE_URL=\"https://tv7api2.tv.init7.net/api/\" curl \"${BASE_URL}allowed/\" | jq \".\" TV7 EPG Parser 💡 Update Nov 26, 2023: I updated this for docker and to directly feed it to the socket without piping it to socat. See docker-compose.yml for an example setup.\nTo integrate this with my existing setup, I wrote an small python app which prints out the EPG as an XMLTV string and can be called by a cron job to dump the info into TVHeadends via it’s xmltv.sock epg grabber. This also includes some very basic caching to avoid hammering the backend unnecessarily.\nTo regularly update the EPG, just feed the result to socat in a cron job:\n0 * * * * \u003c...\u003e/tv7-epg-parser/tv7-epg-parser.sh | socat - UNIX-CONNECT:/srv/home/hts/.hts/tvheadend/epggrab/xmltv.sock ",
   "wordCount" : "756",
   "inLanguage": "en",
-  "image": "/images/bg.jpg","datePublished": "2020-02-06T11:37:54+01:00",
+  "image": "https://christian.kuendig.info/images/bg.jpg","datePublished": "2020-02-06T11:37:54+01:00",
   "dateModified": "2020-02-06T11:37:54+01:00",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "/posts/2020-02-tv7-epg/"
+    "@id": "https://christian.kuendig.info/posts/2020-02-tv7-epg/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "Christian Kündig",
     "logo": {
       "@type": "ImageObject",
-      "url": "/favicon.ico"
+      "url": "https://christian.kuendig.info/favicon.ico"
     }
   }
 }
@@ -165,13 +165,13 @@
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="/" accesskey="h" title="Christian Kündig (Alt + H)">Christian Kündig</a>
+            <a href="https://christian.kuendig.info/" accesskey="h" title="Christian Kündig (Alt + H)">Christian Kündig</a>
             <div class="logo-switches">
             </div>
         </div>
         <ul id="menu">
             <li>
-                <a href="/posts/" title="Personal Projects">
+                <a href="https://christian.kuendig.info/posts/" title="Personal Projects">
                     <span>Personal Projects</span>
                 </a>
             </li>
@@ -211,7 +211,7 @@ EIT (Event Information Table) that is broadcast with digital television signals.
   <source srcset="init7_status_1005102014571958274-dark.png"  media="(prefers-color-scheme: dark)"/>
   <img src="init7_status_1005102014571958274.png" alt='@fiber7_ch (8 Jun 2018): Lieferant hat uns mitgeteilt, dass man EIT "aus rechtlichen Gründen" ausfiltern müsse. #keineAhnugObDasStimmt'/>
 </picture></a>
-<p>This means I won&rsquo;t have any EPG data in <a href="/posts/2020-02-tvhproxy/">TVHeadend or PlexDVR</a> 😢.</p>
+<p>This means I won&rsquo;t have any EPG data in <a href="https://christian.kuendig.info/posts/2020-02-tvhproxy/">TVHeadend or PlexDVR</a> 😢.</p>
 <h3 id="tv7-epg-backend-service">TV7 EPG Backend Service</h3>
 <p>While Init7 doesn&rsquo;t provide EPG data via the EIT or as a separate XMLTV file, they do provide EPG in their own app. So let&rsquo;s see how/if we can access that data source.</p>
 <p>I don&rsquo;t have access to an Android App (and decompiling iOS code is much more difficult), but it&rsquo;s easy enough to get the APK from apkpure and <a href="https://calebfenton.github.io/2016/02/28/decompiling-xapk-files/">decompile it</a>. The URLs are very easy to find in the decompiled files:</p>
@@ -287,16 +287,16 @@ EIT (Event Information Table) that is broadcast with digital television signals.
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="/tags/personal-media-server/">Personal Media Server</a></li>
-      <li><a href="/tags/reverse-engineering/">Reverse Engineering</a></li>
+      <li><a href="https://christian.kuendig.info/tags/personal-media-server/">Personal Media Server</a></li>
+      <li><a href="https://christian.kuendig.info/tags/reverse-engineering/">Reverse Engineering</a></li>
     </ul>
 <nav class="paginav">
-  <a class="prev" href="/posts/2020-02-tvhproxy/">
+  <a class="prev" href="https://christian.kuendig.info/posts/2020-02-tvhproxy/">
     <span class="title">« Prev | <span>February 20, 2020</span></span>
     <br>
     <span>tvhProxy: Streaming TVHeadend into Plex DVR</span>
   </a>
-  <a class="next" href="/posts/2019-12-scandit3d/">
+  <a class="next" href="https://christian.kuendig.info/posts/2019-12-scandit3d/">
     <span class="title"><span>December 18, 2019</span> | Next »</span>
     <br>
     <span>Simulating barcode scanning on the web</span>
@@ -308,7 +308,7 @@ EIT (Event Information Table) that is broadcast with digital television signals.
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="/">Christian Kündig</a></span> · 
+        <span>&copy; 2026 <a href="https://christian.kuendig.info/">Christian Kündig</a></span> · 
 
     <span>
         Powered by

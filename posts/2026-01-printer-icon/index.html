@@ -9,16 +9,16 @@
 <meta name="keywords" content="">
 <meta name="description" content="My 20-year-old Samsung printer deserved better than a generic icon. Here&rsquo;s how I dug through CUPS source code to figure out why printer icons don&rsquo;t work and the simple Docker volume mount that fixed it.">
 <meta name="author" content="">
-<link rel="canonical" href="/posts/2026-01-printer-icon/">
+<link rel="canonical" href="https://christian.kuendig.info/posts/2026-01-printer-icon/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.4b4ba94b836af7c5b90f9d1ab2afae9f8e5e904c2a158eff92031324dea547d4.css" integrity="sha256-S0upS4Nq98W5D50asq&#43;un45ekEwqFY7/kgMTJN6lR9Q=" rel="preload stylesheet" as="style">
-<link rel="icon" href="/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="mask-icon" href="/safari-pinned-tab.svg">
+<link rel="icon" href="https://christian.kuendig.info/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://christian.kuendig.info/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://christian.kuendig.info/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://christian.kuendig.info/apple-touch-icon.png">
+<link rel="mask-icon" href="https://christian.kuendig.info/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="/posts/2026-01-printer-icon/">
+<link rel="alternate" hreflang="en" href="https://christian.kuendig.info/posts/2026-01-printer-icon/">
 <noscript>
     <style>
         #theme-toggle,
@@ -83,7 +83,7 @@
           gtag('js', new Date());
           gtag('config', 'G-L4NRERPTCT');
         }
-      </script><meta property="og:url" content="/posts/2026-01-printer-icon/">
+      </script><meta property="og:url" content="https://christian.kuendig.info/posts/2026-01-printer-icon/">
   <meta property="og:site_name" content="Christian Kündig">
   <meta property="og:title" content="Custom Icon for Airprint Printer with Cups">
   <meta property="og:description" content="My 20-year-old Samsung printer deserved better than a generic icon. Here’s how I dug through CUPS source code to figure out why printer icons don’t work and the simple Docker volume mount that fixed it.">
@@ -92,11 +92,11 @@
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2026-01-25T20:00:00+01:00">
     <meta property="article:modified_time" content="2026-01-25T20:00:00+01:00">
-      <meta property="og:image" content="/images/bg.jpg">
+      <meta property="og:image" content="https://christian.kuendig.info/images/bg.jpg">
         <meta property="fb:admins" content="about.me">
   <meta name="fediverse:creator" content="@chkuendig@ioc.exchange">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="/images/bg.jpg">
+<meta name="twitter:image" content="https://christian.kuendig.info/images/bg.jpg">
 <meta name="twitter:title" content="Custom Icon for Airprint Printer with Cups">
 <meta name="twitter:description" content="My 20-year-old Samsung printer deserved better than a generic icon. Here&rsquo;s how I dug through CUPS source code to figure out why printer icons don&rsquo;t work and the simple Docker volume mount that fixed it.">
 
@@ -110,13 +110,13 @@
       "@type": "ListItem",
       "position":  1 ,
       "name": "Personal Projects",
-      "item": "/posts/"
-    }
+      "item": "https://christian.kuendig.info/posts/"
+    }, 
     {
       "@type": "ListItem",
-      "position":  1 ,
+      "position":  2 ,
       "name": "Custom Icon for Airprint Printer with Cups",
-      "item": "/posts/2026-01-printer-icon/"
+      "item": "https://christian.kuendig.info/posts/2026-01-printer-icon/"
     }
   ]
 }
@@ -134,18 +134,18 @@
   "articleBody": " I’ve been using the same printer for the last 20+ years (apparently its firmware was built on my 19th birthday). The last 10+ years, this has been as a networked printer, using AirPrint in its newest configuration. One thing I always felt was missing for this, was the nice printer icons I get when adding work printers. The icon in macOS looks nothing like the printer.\nBackground AirPrint is Apple’s implementation of IPP Everywhere, a standard that enables driverless printing. Instead of requiring vendor-specific drivers, IPP Everywhere printers advertise their capabilities over the network, and clients can print using standard protocols.\nThe discovery mechanism relies on DNS-SD (DNS-Based Service Discovery), which you might know by its marketing names: Bonjour (Apple) or Zeroconf. When a printer supports IPP Everywhere, it broadcasts its presence on the local network along with metadata about its capabilities - including a URL to its icon.\nThis icon URL is part of the printer-icons IPP attribute. When you add a printer on macOS or iOS, the system fetches this icon to display in the Print Center. Enterprise printers typically serve proper icons of themselves, but consumer printers and CUPS-shared printers often show a generic icon - or nothing at all.\nHow this works in CUPS Let’s trace through the CUPS source code to understand how printer icons are advertised and served.\nWhere the icon URL is generated In scheduler/ipp.c:4973-4977, CUPS constructs the printer-icons attribute URL:\nhttpAssembleURIf(HTTP_URI_CODING_ALL, uri, sizeof(uri), is_encrypted ? \"https\" : \"http\", NULL, con-\u003eclientname, con-\u003eclientport, \"/icons/%s.png\", printer-\u003ename); ippAddString(con-\u003eresponse, IPP_TAG_PRINTER, IPP_TAG_URI, \"printer-icons\", NULL, uri); This advertises URLs like: http://hostname:631/icons/PRINTERNAME.png\nWhere the icon is served from In scheduler/client.c:1294-1315, the get_file() function handles requests for /icons/:\nelse if ((!strncmp(con-\u003euri, \"/icons/\", 7) || !strncmp(con-\u003euri, \"/printers/\", 10) || !strncmp(con-\u003euri, \"/classes/\", 9)) \u0026\u0026 !strcmp(con-\u003euri + strlen(con-\u003euri) - 4, \".png\")) { // Extract printer name from URL strlcpy(dest, strchr(con-\u003euri + 1, '/') + 1, sizeof(dest)); dest[strlen(dest) - 4] = '\\0'; /* Strip .png */ // Look up the printer if ((p = cupsdFindDest(dest)) == NULL) { // Printer not found - return 404 return (NULL); } // Look for icon in CacheDir/images/ snprintf(filename, len, \"%s/images/%s.png\", CacheDir, p-\u003ename); // Fallback to generic icon if printer-specific icon doesn't exist if (access(filename, F_OK) \u003c 0) snprintf(filename, len, \"%s/images/generic.png\", DocumentRoot); } The key insight: for /icons/PRINTERNAME.png, CUPS first looks for the file at CacheDir/images/PRINTERNAME.png. If that doesn’t exist, it falls back to DocumentRoot/images/generic.png.\nTesting the advertised URL We can verify what CUPS advertises using ipptool:\n$ ipptool -t -v ipp://Parklife.local:631/printers/Samsung_ML-1710P get-printer-attributes.test | grep icon printer-icons (uri) = http://Parklife.local:631/icons/Samsung_ML-1710P.png But when we try to access that URL:\n$ curl \"http://parklife:631/icons/Samsung_ML-1710P.png\" \u003c!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\"\u003e ",
   "wordCount" : "870",
   "inLanguage": "en",
-  "image": "/images/bg.jpg","datePublished": "2026-01-25T20:00:00+01:00",
+  "image": "https://christian.kuendig.info/images/bg.jpg","datePublished": "2026-01-25T20:00:00+01:00",
   "dateModified": "2026-01-25T20:00:00+01:00",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "/posts/2026-01-printer-icon/"
+    "@id": "https://christian.kuendig.info/posts/2026-01-printer-icon/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "Christian Kündig",
     "logo": {
       "@type": "ImageObject",
-      "url": "/favicon.ico"
+      "url": "https://christian.kuendig.info/favicon.ico"
     }
   }
 }
@@ -163,13 +163,13 @@
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="/" accesskey="h" title="Christian Kündig (Alt + H)">Christian Kündig</a>
+            <a href="https://christian.kuendig.info/" accesskey="h" title="Christian Kündig (Alt + H)">Christian Kündig</a>
             <div class="logo-switches">
             </div>
         </div>
         <ul id="menu">
             <li>
-                <a href="/posts/" title="Personal Projects">
+                <a href="https://christian.kuendig.info/posts/" title="Personal Projects">
                     <span>Personal Projects</span>
                 </a>
             </li>
@@ -327,7 +327,7 @@
     <ul class="post-tags">
     </ul>
 <nav class="paginav">
-  <a class="next" href="/posts/2026-01-trmnl-setup/">
+  <a class="next" href="https://christian.kuendig.info/posts/2026-01-trmnl-setup/">
     <span class="title"><span>January 10, 2026</span> | Next »</span>
     <br>
     <span>My Custom TRMNL Setup For Our Home</span>
@@ -339,7 +339,7 @@
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="/">Christian Kündig</a></span> · 
+        <span>&copy; 2026 <a href="https://christian.kuendig.info/">Christian Kündig</a></span> · 
 
     <span>
         Powered by
