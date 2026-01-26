@@ -22,7 +22,7 @@ jobs:
           skip_commit: true
           enable_keepalive: false
           max_post_count: 10
-          template: "$newline- $date: [$title](https://christian.kuendig.info$url)"
+          template: "$newline- $date: [$title]($url)"
           date_format: mediumDate
       - name: "Upload updated README"
         uses: stefanzweifel/git-auto-commit-action@v5.0.0
