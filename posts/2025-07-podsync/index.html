@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>How to avoid dynamically inserted podcast ads (via Youtube) | Christian Kündig</title>
+<meta name="keywords" content="Self-Hosted">
+<meta name="description" content="Dynamic ad insertion in podcasts is annoying. Here&rsquo;s how I use Podsync to get ad-free podcast feeds from YouTube instead.">
+<meta name="author" content="">
+<link rel="canonical" href="https://christian.kuendig.info/posts/2025-07-podsync/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4b4ba94b836af7c5b90f9d1ab2afae9f8e5e904c2a158eff92031324dea547d4.css" integrity="sha256-S0upS4Nq98W5D50asq&#43;un45ekEwqFY7/kgMTJN6lR9Q=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://christian.kuendig.info/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://christian.kuendig.info/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://christian.kuendig.info/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://christian.kuendig.info/apple-touch-icon.png">
+<link rel="mask-icon" href="https://christian.kuendig.info/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://christian.kuendig.info/posts/2025-07-podsync/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
+<link href='//fonts.googleapis.com/css?family=Mulish' rel='stylesheet' type='text/css'>
+
+<script src="/js/github-buttons.min.js" data-no-instant
+></script>
+
+<script>
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  });
+</script>
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4NRERPTCT"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-L4NRERPTCT');
+        }
+      </script><meta property="og:url" content="https://christian.kuendig.info/posts/2025-07-podsync/">
+  <meta property="og:site_name" content="Christian Kündig">
+  <meta property="og:title" content="How to avoid dynamically inserted podcast ads (via Youtube)">
+  <meta property="og:description" content="Dynamic ad insertion in podcasts is annoying. Here’s how I use Podsync to get ad-free podcast feeds from YouTube instead.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-07-21T22:57:55+01:00">
+    <meta property="article:modified_time" content="2025-07-21T22:57:55+01:00">
+    <meta property="article:tag" content="Self-Hosted">
+      <meta property="og:image" content="https://christian.kuendig.info/images/bg.jpg">
+        <meta property="fb:admins" content="about.me">
+  <meta name="fediverse:creator" content="@chkuendig@ioc.exchange">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://christian.kuendig.info/images/bg.jpg">
+<meta name="twitter:title" content="How to avoid dynamically inserted podcast ads (via Youtube)">
+<meta name="twitter:description" content="Dynamic ad insertion in podcasts is annoying. Here&rsquo;s how I use Podsync to get ad-free podcast feeds from YouTube instead.">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Personal Projects",
+      "item": "https://christian.kuendig.info/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "How to avoid dynamically inserted podcast ads (via Youtube)",
+      "item": "https://christian.kuendig.info/posts/2025-07-podsync/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "How to avoid dynamically inserted podcast ads (via Youtube)",
+  "name": "How to avoid dynamically inserted podcast ads (via Youtube)",
+  "description": "Dynamic ad insertion in podcasts is annoying. Here\u0026rsquo;s how I use Podsync to get ad-free podcast feeds from YouTube instead.",
+  "keywords": [
+    "Self-Hosted"
+  ],
+  "articleBody": " I listen to a lot of podcasts, and dynamically inserted ads have become increasingly annoying. Unlike the old days where ad reads were baked into episodes, modern podcast platforms now insert ads on-the-fly based on location, listening history, and other targeting criteria. This means I might hear the same ads over and over again on different episodes (or even the same episode!), the ads are often poorly spliced into the audio, and worst of all - ad blockers can’t help since the ads come from the same source as the content.\nThe YouTube workaround Many of the podcasts I follow also publish their episodes on YouTube, and here’s the key insight: YouTube’s ad system is completely separate from the podcast’s dynamic ad insertion. While YouTube does show ads, these are not part of the video when downloading it via . The podcast content itself remains untouched.\nAs a bonus, yt-dlp also supports integration, which can automatically skip sponsor segments that are baked into videos. This isn’t relevant for my use case since the podcasts I follow don’t have embedded sponsor reads in their YouTube versions, but it’s a nice option to have.\nSo all you need is a system to automatically download the audio of new videos of my podcasts, store them and add them to a rss feed my podcast player understands. This is where Podsync comes in.\nPodsync: YouTube to RSS Podsync is a self-hosted tool that converts YouTube channels and playlists into standard podcast RSS feeds. It uses yt-dlp under the hood to download the audio from videos and serves them through a web interface that any podcast player can subscribe to.\nThe basic setup was straightforward:\nConfigure feeds in a TOML file pointing to YouTube playlists Run Podsync (ideally via Docker) Subscribe to the generated RSS feed in the podcast player Podsync periodically checks for new videos, downloads them, and updates the RSS feed automatically.\nMy improvements While setting up Podsync, I noticed a few rough edges that I decided to fix. Here are three PRs I submitted to improve the experience:\nBetter playlist metadata This PR addresses and improves how Podsync handles YouTube playlist metadata:\nYouTube playlist with dedicated thumbnail and proper metadata\nCorrect author and title: Previously, the feed would use incorrect metadata. Now it properly extracts the playlist title and channel name. Playlist thumbnails: Instead of using the thumbnail of the first video (which changes as new episodes are added), Podsync now fetches the actual playlist thumbnail via yt-dlp. Smarter date handling: Some publishers upload episodes as private videos before publishing them. This caused new episodes to appear with dates in the past, making them not show up at the top in podcast players. The fix ensures the most recent date is used. A simple web UI Podsync generates XML feeds that work great with podcast players, but sometimes I just want to quickly check what’s available or debug why an episode is missing from my podcast player. I mostly use this to verify whether an episode hasn’t synced yet or if there’s an issue on the player side. It’s also nice to just check what’s available without having to dig through the XML files.\nThis PR adds a minimal web frontend that lists all episodes across all feeds, sorted by date (see screenshot at the top of this article). It’s a single HTML file that loads Bootstrap from a CDN - no backend changes required. Feeds that aren’t configured to be added to the OPML are hidden from the list.\nDocker documentation fix A small but important fix: the Docker instructions didn’t mention mapping the database directory outside the container. This caused issues with data persistence and also when trying to run the container as a non-root user (since /app isn’t writable by non-root users).\nSecurity note If you’re exposing Podsync on the web (to sync podcasts when away from home), you’ll want to put a reverse proxy in front of it since Podsync doesn’t have built-in authentication. Make sure to use an authentication method compatible with your podcast player - basic auth works fine for me.\n",
+  "wordCount" : "685",
+  "inLanguage": "en",
+  "image": "https://christian.kuendig.info/images/bg.jpg","datePublished": "2025-07-21T22:57:55+01:00",
+  "dateModified": "2025-07-21T22:57:55+01:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://christian.kuendig.info/posts/2025-07-podsync/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Christian Kündig",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://christian.kuendig.info/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://christian.kuendig.info/" accesskey="h" title="Christian Kündig (Alt + H)">Christian Kündig</a>
+            <div class="logo-switches">
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://christian.kuendig.info/posts/" title="Personal Projects">
+                    <span>Personal Projects</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      How to avoid dynamically inserted podcast ads (via Youtube)
+    </h1>
+    <div class="post-meta"><span title='2025-07-21 22:57:55 +0100 +0100'>July 21, 2025</span>
+
+</div>
+  </header> 
+  <div class="post-content"><figure class="float-right">
+    <img loading="lazy" src="/posts/2025-07-podsync/webui.png  "
+         alt="Podsync Web UI showing a list of podcast episodes sorted by date"/> 
+</figure>
+
+<p>I listen to a lot of podcasts, and dynamically inserted ads have become increasingly annoying. Unlike the old days where ad reads were baked into episodes, modern podcast platforms now insert ads on-the-fly based on location, listening history, and other targeting criteria. This means I might hear the same ads over and over again on different episodes (or even the same episode!), the ads are often poorly spliced into the audio, and worst of all - ad blockers can&rsquo;t help since the ads come from the same source as the content.</p>
+<h2 id="the-youtube-workaround">The YouTube workaround</h2>
+<p>Many of the podcasts I follow also publish their episodes on YouTube, and here&rsquo;s the key insight: YouTube&rsquo;s ad system is completely separate from the podcast&rsquo;s dynamic ad insertion. While YouTube does show ads, these are not part of the video when downloading it via <a class="github-button" data-color-scheme="" href="https://github.com/yt-dlp/yt-dlp" data-icon="octicon-repo" data-size="small" data-text='<b>yt-dlp/yt-dlp</b>'></a>. The podcast content itself remains untouched.</p>
+<p>As a bonus, yt-dlp also supports <a class="github-button" data-color-scheme="" href="https://github.com/ajayyy/SponsorBlock" data-icon="octicon-repo" data-size="small" data-text='<b>ajayyy/SponsorBlock</b>'></a> integration, which can automatically skip sponsor segments that are baked into videos. This isn&rsquo;t relevant for my use case since the podcasts I follow don&rsquo;t have embedded sponsor reads in their YouTube versions, but it&rsquo;s a nice option to have.</p>
+<p>So all you need is a system to automatically download the audio of new videos of my podcasts, store them and add them to a rss feed my podcast player understands.  This is where Podsync comes in.</p>
+<h2 id="podsync-youtube-to-rss">Podsync: YouTube to RSS</h2>
+<a href="https://github.com/mxpv/podsync" class="github-card"><img src="/posts/2025-07-podsync/podsync_10023718933583096891.png" alt="Turn YouTube or Vimeo channels, users, or playlists into podcast feeds"></a>
+
+<p>Podsync is a self-hosted tool that converts YouTube channels and playlists into standard podcast RSS feeds. It uses yt-dlp under the hood to download the audio from videos and serves them through a web interface that any podcast player can subscribe to.</p>
+<p>The basic setup was straightforward:</p>
+<ol>
+<li>Configure feeds in a TOML file pointing to YouTube playlists</li>
+<li>Run Podsync (ideally via Docker)</li>
+<li>Subscribe to the generated RSS feed in the podcast player</li>
+</ol>
+<p>Podsync periodically checks for new videos, downloads them, and updates the RSS feed automatically.</p>
+<h2 id="my-improvements">My improvements</h2>
+<p>While setting up Podsync, I noticed a few rough edges that I decided to fix. Here are three PRs I submitted to improve the experience:</p>
+<h3 id="better-playlist-metadata">Better playlist metadata</h3>
+<a class="github-button" data-color-scheme="" href="https://github.com/mxpv/podsync/pull/711" data-icon="octicon-git-merge" data-size="small" data-text='<b>podsync#711:</b>&nbsp;Improve Metadata for Feeds based on YT playlists'></a>
+<p>This PR addresses <a class="github-button" data-color-scheme="" href="https://github.com/mxpv/podsync/issues/710" data-icon="octicon-issue-closed" data-size="small" data-text='<b>podsync#710:</b>&nbsp;Automatically use playlist thumbnail for feed instead of first item thumbnail.'></a> and improves how Podsync handles YouTube playlist metadata:</p>
+<figure class="centered">
+    <img loading="lazy" src="/posts/2025-07-podsync/youtube-playlist.png  "
+         alt="YouTube playlist page showing Money Stuff podcast with custom thumbnail"/> <figcaption>
+            <p>YouTube playlist with dedicated thumbnail and proper metadata</p>
+        </figcaption>
+</figure>
+
+<ul>
+<li><strong>Correct author and title</strong>: Previously, the feed would use incorrect metadata. Now it properly extracts the playlist title and channel name.</li>
+<li><strong>Playlist thumbnails</strong>: Instead of using the thumbnail of the first video (which changes as new episodes are added), Podsync now fetches the actual playlist thumbnail via yt-dlp.</li>
+<li><strong>Smarter date handling</strong>: Some publishers upload episodes as private videos before publishing them. This caused new episodes to appear with dates in the past, making them not show up at the top in podcast players. The fix ensures the most recent date is used.</li>
+</ul>
+<h3 id="a-simple-web-ui">A simple web UI</h3>
+<a class="github-button" data-color-scheme="" href="https://github.com/mxpv/podsync/pull/713" data-icon="octicon-git-merge" data-size="small" data-text='<b>podsync#713:</b>&nbsp;Add simple WebUI'></a>
+<p>Podsync generates XML feeds that work great with podcast players, but sometimes I just want to quickly check what&rsquo;s available or debug why an episode is missing from my podcast player. I mostly use this to verify whether an episode hasn&rsquo;t synced yet or if there&rsquo;s an issue on the player side. It&rsquo;s also nice to just check what&rsquo;s available without having to dig through the XML files.</p>
+<p>This PR adds a minimal web frontend that lists all episodes across all feeds, sorted by date (see screenshot at the top of this article). It&rsquo;s a single HTML file that loads Bootstrap from a CDN - no backend changes required. Feeds that aren&rsquo;t configured to be added to the OPML are hidden from the list.</p>
+<h3 id="docker-documentation-fix">Docker documentation fix</h3>
+<a class="github-button" data-color-scheme="" href="https://github.com/mxpv/podsync/pull/714" data-icon="octicon-git-merge" data-size="small" data-text='<b>podsync#714:</b>&nbsp;Include database directory in docker instructions'></a>
+<p>A small but important fix: the Docker instructions didn&rsquo;t mention mapping the database directory outside the container. This caused issues with data persistence and also when trying to run the container as a non-root user (since <code>/app</code> isn&rsquo;t writable by non-root users).</p>
+<h2 id="security-note">Security note</h2>
+<p>If you&rsquo;re exposing Podsync on the web (to sync podcasts when away from home), you&rsquo;ll want to put a reverse proxy in front of it since Podsync doesn&rsquo;t have built-in authentication. Make sure to use an authentication method compatible with your podcast player - basic auth  works fine for me.</p>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://christian.kuendig.info/tags/self-hosted/">Self-Hosted</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://christian.kuendig.info/posts/2025-08-scummvm-part4a/">
+    <span class="title">« Prev | <span>August 2, 2025</span></span>
+    <br>
+    <span>Porting ScummVM to Webassembly, Part 4a - Maintenance</span>
+  </a>
+  <a class="next" href="https://christian.kuendig.info/posts/2025-04-retrowave/">
+    <span class="title"><span>April 10, 2025</span> | Next »</span>
+    <br>
+    <span>RetroWave OPL3 Express via Web Serial API</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://christian.kuendig.info/">Christian Kündig</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<script src="/js/quicklink.umd.min.js" data-no-instant
+></script>
+<script data-no-instant>
+  
+window.addEventListener('load', () => {
+  quicklink.listen();
+});
+</script>
+
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+</body>
+
+</html>

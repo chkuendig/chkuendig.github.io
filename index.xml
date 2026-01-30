@@ -49,6 +49,13 @@
       <description>Cleaning up some loose ends to get ready for future improvements</description>
     </item>
     <item>
+      <title>How to avoid dynamically inserted podcast ads (via Youtube)</title>
+      <link>https://christian.kuendig.info/posts/2025-07-podsync/</link>
+      <pubDate>Mon, 21 Jul 2025 22:57:55 +0100</pubDate>
+      <guid>https://christian.kuendig.info/posts/2025-07-podsync/</guid>
+      <description>Dynamic ad insertion in podcasts is annoying. Here&amp;rsquo;s how I use Podsync to get ad-free podcast feeds from YouTube instead.</description>
+    </item>
+    <item>
       <title>RetroWave OPL3 Express via Web Serial API</title>
       <link>https://christian.kuendig.info/posts/2025-04-retrowave/</link>
       <pubDate>Thu, 10 Apr 2025 12:25:46 +0100</pubDate>

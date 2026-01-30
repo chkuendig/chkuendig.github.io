@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Self-Hosted on Christian Kündig</title>
+    <link>https://christian.kuendig.info/tags/self-hosted/</link>
+    <description>Recent content in Self-Hosted on Christian Kündig</description>
+    <image>
+      <title>Christian Kündig</title>
+      <url>https://christian.kuendig.info/images/bg.jpg</url>
+      <link>https://christian.kuendig.info/images/bg.jpg</link>
+    </image>
+    <generator>Hugo -- 0.145.0</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 21 Jul 2025 22:57:55 +0100</lastBuildDate>
+    <atom:link href="https://christian.kuendig.info/tags/self-hosted/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to avoid dynamically inserted podcast ads (via Youtube)</title>
+      <link>https://christian.kuendig.info/posts/2025-07-podsync/</link>
+      <pubDate>Mon, 21 Jul 2025 22:57:55 +0100</pubDate>
+      <guid>https://christian.kuendig.info/posts/2025-07-podsync/</guid>
+      <description>Dynamic ad insertion in podcasts is annoying. Here&amp;rsquo;s how I use Podsync to get ad-free podcast feeds from YouTube instead.</description>
+    </item>
+  </channel>
+</rss>
