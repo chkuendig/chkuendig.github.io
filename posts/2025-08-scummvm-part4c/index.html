@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>Porting ScummVM to Webassembly, Part 4c - File Access | Christian Kündig</title>
-<meta name="keywords" content="Video Games, ScummVM, Web Development">
+<meta name="keywords" content="Video Games, ScummVM, Web Development, Open Source Contribution">
 <meta name="description" content="Revisiting how files are loaded over the network and finally adding support for cloud storage (Dropbox, Google Drive etc)">
 <meta name="author" content="">
 <link rel="canonical" href="https://christian.kuendig.info/posts/2025-08-scummvm-part4c/">
@@ -98,6 +98,7 @@
     <meta property="article:tag" content="Video Games">
     <meta property="article:tag" content="ScummVM">
     <meta property="article:tag" content="Web Development">
+    <meta property="article:tag" content="Open Source Contribution">
       <meta property="og:image" content="https://christian.kuendig.info/images/bg.jpg">
         <meta property="fb:admins" content="about.me">
   <meta name="fediverse:creator" content="@chkuendig@ioc.exchange">
@@ -135,7 +136,7 @@
   "name": "Porting ScummVM to Webassembly, Part 4c - File Access",
   "description": "Revisiting how files are loaded over the network and finally adding support for cloud storage (Dropbox, Google Drive etc)",
   "keywords": [
-    "Video Games", "ScummVM", "Web Development"
+    "Video Games", "ScummVM", "Web Development", "Open Source Contribution"
   ],
   "articleBody": "This is the third part of the Part 4 mini-series. Part 4a covered maintenance work (testbed, timers, shaders, SDL3), Part 4b dove into audio (FluidLite, Web MIDI, RetroWave, TTS), and this chapter focuses on moving ScummVM’s web build closer to seamless file access: cloud storage, a cleaner network stack, and a filesystem rewrite that sets up the next round of improvements.\nCloud Storage Integration - CLOUD: Add Support for Emscripten\nOne of the most exciting features I’ve added is support for cloud storage providers. This allows you to store your game files in Dropbox, Google Drive, OneDrive, or Box, and access them directly from the browser version of ScummVM. No more manual file uploads for each gaming session - just connect your cloud storage once and all your games are available!\nThis PR adds support for cloud storage providers (Dropbox, Google Drive, OneDrive, Box) for the Emscripten backend. It includes improvements to the cloud setup wizard, JSON parsing fixes, and OAuth flow handling.\nKey improvements:\n- CLOUD: Skip Mode Select in setup wizard if only manual mode is available (May 8) - CLOUD: Cleanup unused kOpenUrlStorageCmd (May 8) - CLOUD: Remember selected storage and pass it on to kCloudConnectionWizardOpenUrlStorageCmd in setup wizard (May 8) - CLOUD: Avoid overloading runModal (May 18) - COMMON: Fix JSON parsing of unicode strings (May 7) Custom Network Stack Beyond cloud storage, I’m tightening how the browser build fetches data. Games and assets can now be loaded directly from web servers via HTTP/HTTPS, which makes hosting demos or providing pre-configured libraries much simpler. This network stack work lays the groundwork for a cleaner separation between local data (IDBFS) and remote sources (HTTP/HTTPS), which I’ll hook up more fully in the next iteration.\nFilesystem Rewrite Since the first commit, I used BrowserFS for filesystem abstraction. However, it has been deprecated:\nBrowserFS seems abandoned and never did a stable 2.0.0 release. Maybe there’s a better way to handle Storage?\nAt some point I vendored it in (2022: - DISTS: Updated Webassembly / Emscripten Port), but it never was fully the right tool (although development has resumed). I thought it might eventually help making cloud storage available more easily, but it turned out that the existing ScummVM code works very well for that already, and my goal is to keep as much as possible within the existing C++ infrastructure of the project - if only to ensure other people can maintain my code (or god willing, another Emscripten maintainer materializes.)\nSo I have finally removed it. For the local storage, I now use IDBFS directly in C++. For fetching assets over HTTPS, I built a small abstraction in C++ to use the browser’s Fetch API.\nBenefits of this change:\nSmaller bundle size: Removing the BrowserFS dependency reduces the initial download size Better maintainability: Using native Emscripten APIs means the code is easier for other contributors to understand and maintain More control: Direct access to IDBFS and Fetch API gives us more flexibility for future optimizations Keeps code in C++: Maintaining consistency with the rest of ScummVM’s codebase I don’t think this is necessarily the end-all best state. Ideally we would move to WASMFS, so we could use OPFS (Origin Private File System) for better performance and use FETCH_FS for the assets, but that will require enabling threads, which we currently don’t support yet due to complications with dynamic module loading.\n- EMSCRIPTEN: FS: Implement filesystems in C++ and remove BrowserFS dependency (August 1)\n",
   "wordCount" : "575",
@@ -232,6 +233,7 @@
       <li><a href="https://christian.kuendig.info/tags/video-games/">Video Games</a></li>
       <li><a href="https://christian.kuendig.info/tags/scummvm/">ScummVM</a></li>
       <li><a href="https://christian.kuendig.info/tags/web-development/">Web Development</a></li>
+      <li><a href="https://christian.kuendig.info/tags/open-source-contribution/">Open Source Contribution</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://christian.kuendig.info/posts/2026-01-trmnl-setup/">

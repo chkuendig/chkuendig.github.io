@@ -302,5 +302,12 @@
       <guid>https://christian.kuendig.info/posts/2007-11-investment-banking-selbstversuch/</guid>
       <description>Der Tages-Anzeiger zahlt dem Sieger ihres Investment-Wettbewerbs 50’000 Franken. Für die «ZS» berichtet ein Wirtschaftsinformatik-Student regelmässig über seine Performance.</description>
     </item>
+    <item>
+      <title>MeD&#39;s Movie Manager for OS X</title>
+      <link>https://christian.kuendig.info/posts/2007-07-xmm-for-os-x/</link>
+      <pubDate>Tue, 24 Jul 2007 00:00:00 +0000</pubDate>
+      <guid>https://christian.kuendig.info/posts/2007-07-xmm-for-os-x/</guid>
+      <description>My first open source contribution: porting a DVD collection manager to Mac OS X</description>
+    </item>
   </channel>
 </rss>
