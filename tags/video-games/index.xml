@@ -11,8 +11,15 @@
     </image>
     <generator>Hugo -- 0.145.0</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 04 Aug 2025 12:25:46 +0100</lastBuildDate>
+    <lastBuildDate>Mon, 09 Feb 2026 00:00:00 +0100</lastBuildDate>
     <atom:link href="https://christian.kuendig.info/tags/video-games/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Extracting Credit Information from Delisted Mobile Games</title>
+      <link>https://christian.kuendig.info/posts/2026-02-extracting-game-credits/</link>
+      <pubDate>Mon, 09 Feb 2026 00:00:00 +0100</pubDate>
+      <guid>https://christian.kuendig.info/posts/2026-02-extracting-game-credits/</guid>
+      <description>I discovered my MobyGames profile was missing credits from games I worked on. Since the games are delisted and can&amp;rsquo;t be launched anymore, I had to reverse engineer the asset formats to extract the credits.</description>
+    </item>
     <item>
       <title>Porting ScummVM to Webassembly, Part 4c - File Access</title>
       <link>https://christian.kuendig.info/posts/2025-08-scummvm-part4c/</link>

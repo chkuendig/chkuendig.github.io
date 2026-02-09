@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Extracting Credit Information from Delisted Mobile Games | Christian Kündig</title>
+<meta name="keywords" content="Reverse Engineering, Video Games">
+<meta name="description" content="I discovered my MobyGames profile was missing credits from games I worked on. Since the games are delisted and can&rsquo;t be launched anymore, I had to reverse engineer the asset formats to extract the credits.">
+<meta name="author" content="">
+<link rel="canonical" href="https://christian.kuendig.info/posts/2026-02-extracting-game-credits/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4b4ba94b836af7c5b90f9d1ab2afae9f8e5e904c2a158eff92031324dea547d4.css" integrity="sha256-S0upS4Nq98W5D50asq&#43;un45ekEwqFY7/kgMTJN6lR9Q=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://christian.kuendig.info/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://christian.kuendig.info/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://christian.kuendig.info/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://christian.kuendig.info/apple-touch-icon.png">
+<link rel="mask-icon" href="https://christian.kuendig.info/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://christian.kuendig.info/posts/2026-02-extracting-game-credits/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
+<link href='//fonts.googleapis.com/css?family=Mulish' rel='stylesheet' type='text/css'>
+
+<script src="/js/github-buttons.min.js" data-no-instant
+></script>
+
+<script>
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  });
+</script>
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4NRERPTCT"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-L4NRERPTCT');
+        }
+      </script><meta property="og:url" content="https://christian.kuendig.info/posts/2026-02-extracting-game-credits/">
+  <meta property="og:site_name" content="Christian Kündig">
+  <meta property="og:title" content="Extracting Credit Information from Delisted Mobile Games">
+  <meta property="og:description" content="I discovered my MobyGames profile was missing credits from games I worked on. Since the games are delisted and can’t be launched anymore, I had to reverse engineer the asset formats to extract the credits.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-02-09T00:00:00+01:00">
+    <meta property="article:modified_time" content="2026-02-09T00:00:00+01:00">
+    <meta property="article:tag" content="Reverse Engineering">
+    <meta property="article:tag" content="Video Games">
+      <meta property="og:image" content="https://christian.kuendig.info/images/bg.jpg">
+        <meta property="fb:admins" content="about.me">
+  <meta name="fediverse:creator" content="@chkuendig@ioc.exchange">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://christian.kuendig.info/images/bg.jpg">
+<meta name="twitter:title" content="Extracting Credit Information from Delisted Mobile Games">
+<meta name="twitter:description" content="I discovered my MobyGames profile was missing credits from games I worked on. Since the games are delisted and can&rsquo;t be launched anymore, I had to reverse engineer the asset formats to extract the credits.">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Personal Projects",
+      "item": "https://christian.kuendig.info/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Extracting Credit Information from Delisted Mobile Games",
+      "item": "https://christian.kuendig.info/posts/2026-02-extracting-game-credits/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Extracting Credit Information from Delisted Mobile Games",
+  "name": "Extracting Credit Information from Delisted Mobile Games",
+  "description": "I discovered my MobyGames profile was missing credits from games I worked on. Since the games are delisted and can\u0026rsquo;t be launched anymore, I had to reverse engineer the asset formats to extract the credits.",
+  "keywords": [
+    "Reverse Engineering", "Video Games"
+  ],
+  "articleBody": "I recently discovered that I had a MobyGames profile. Unfortunately, it was only listing 2 of the 3 games I worked on. It turned out that the credits for Ice Age Adventures on Windows were never added.\nI could have just added myself, but that a) would have looked weird, b) might not be approved by MobyGames and c) would not be fair to the whole team – I also don’t remember my specific credits. So I went to research the credits properly. Unfortunately the games have been discontinued long ago (Ice Age Adventures in 2018), so I couldn’t just start it and take a screenshot - I also wouldn’t have the Windows Phone needed to launch it.\nLaunching them is nigh impossible – they all require a backend server, login, and an initial DLC download plus various configuration/IAP files to run. I did however find ways to reverse engineer the old asset formats to directly dump the credits.\nIce Age Adventures About the Game Ice Age Adventures (trailer) is an adventure mobile game based on the Ice Age franchise, announced by Gameloft in 2014. I was tasked to manage the porting to the Windows Phone store and Windows UWP (Windows 8). There was a big push at the time – Microsoft was paying studios to support their platform, and mobile games were a huge deal. So we got to porting Ice Age Adventures to Windows and shipped the first update for it.\nFinding a Binary This was the harder of the two games to find. I knew there might be some issues: these games can’t be launched, and they all included a system to download an initial set of data. This was done to a) keep the download size below 100MB (the limit for apps to be downloaded over mobile networks at the time) and b) allow for custom/dynamic configuration of some game dynamics (mostly IAP, achievements, and specific strength or RNG factors). I was fairly optimistic that credits being small and non-changing wouldn’t be affected, but I couldn’t really know.\nI found a few ways to get to the binary:\nThe official Microsoft CDN: Even with games delisted, Microsoft doesn’t automatically remove the assets from the server (as with most app stores – once a game is uploaded, it remains available forever to people who bought/downloaded it). Since it’s delisted, this does require a few workarounds: store.rg-adguard.net can show you all binaries if you know the game ID (ProductId 9wzdncrfj126 or A278AB0D.IceAgeAdventures_h6adky7gbf63m PackageFamilyName for the Windows APPX), and appx4fun had a decent index of what used to be in the app store (WP8 version, UWP version). Unfortunately this didn’t work for two reasons: only the most recent version is available (where the credits were changed to when I worked on it), and the XAP files downloaded this way are useless as they can’t be decrypted anymore since Microsoft stopped the key service.\nUnofficial dumps: Neither archive.org nor Google could help me find any Windows dumps of Ice Age (but a lot of movie trailers and APK/IPA dumps for Android and iOS). I did eventually find an unencrypted XAP in the W8Mobile Telegram Repsitory on mega.nz, but it turned out that this had exactly the same assets as the latest Windows release – too new for my purposes.\nThe Russian forum: I was almost about to give up, when somebody pointed me at the Russian mobile forum 4pda.to. It did take me some time, but after solving a Cyrillic captcha to use the search feature and a lot of Firefox Translate, I did find the impossible: somebody uploaded a binary of Ice Age Adventures v1.3.0.10 to the Ice Age Village thread (its more successful sibling and predecessor):\nThe 4PDA forum post from 2015 – mislabeled in the Ice Age Village thread\nSolving the captcha was quite a trip in itself – I had to use Claude to decipher handwritten Cyrillic numerals:\nUsing Claude to solve a handwritten Cyrillic numeral captcha on 4PDA\nThe binary is now preserved on archive.org: ice_age_adventures_v1.3.0.10.xap\nExtracting the Credits Unpacking the XAP was easy (since I found unencrypted dump). But a quick check through the unpacked files didn’t show anything even remotely useful. One thing stuck out though: 0000_iaadata_dx.ark, a ~79MB file. This turns out to be a Gameloft ARK archive (v1.6 of the format I think), a proprietary format used by Gameloft across various games.\nThere are existing projects that work with variants of this format – for My Little Pony, for similar Gameloft games, and several threads on ZenHax discussing the format (including mentions of Ice Age Adventures specifically) with QuickBMS. Unfortunately none of these tools worked directly with this version’s encryption, so it was time to decompile.\n💡 Much of what follows was done with Claude Code Opus 4.5 and . I can’t recommend this enough. I would never have been able to perform this level of research on my own.\nThe ARK file table is encrypted with XXTEA (a 128-bit block cipher). The ZenHax threads confirmed the use of XXTEA, and since the algorithm always uses a fixed delta constant 0x9E3779B9 (derived from the golden ratio), I could search for it directly in the binary – a standard RE technique. The encryption key was found in the main IceAgeAdventure.exe using Ghidra:\nSearched for the XXTEA delta constant 0x9E3779B9 in the binary Traced back to the decryption routines Found the 16-byte key at virtual address 0x00c649a8 With the key, I could decrypt the file table and extract all 7,039 files from the archive. The credits turned out to be stored across two files:\noptions/credits.json – a JSON structure defining roles and name slots using localization keys (STR_*) english.loc – a binary localization file (UTF-16LE) mapping those keys to actual text credits.json – roles and names are stored as STR_ localization keys that reference the .loc file\nenglish.loc – a binary format with ASCII keys interspersed with UTF-16LE encoded values\nThe extraction script merges these two files to produce the full credit listing.\nFor full technical details on the ARK format, XXTEA decompilation, and .loc parser, see the IceAgeAdventures README in the repo.\nShark Dash About the Game Shark Dash is a physics-based puzzle game (think Angry Birds with sharks in a bathtub), also published by Gameloft. I was already on MobyGames for this one, but not for the iOS version. This doesn’t sound like a huge thing, but Hanoi was almost exclusively a porting studio with the iOS originals being produced somewhere else. This was one of the few games that ended up being done for both platforms in Hanoi.\nFinding a Binary So I had to find an iOS dump. Being a less obscure platform, this was pretty straightforward. The IPA is available on archive.org: Shark_Dash_1.1.1_ios_6.0.ipa.\nExtracting the Credits Unlike Ice Age Adventures, Shark Dash stores its localization as plain text .lang files directly in the app bundle – no archive encryption needed. The format uses #$# as a delimiter between key-value pairs, with embedded font codes (#F23 for headers, #F10 for regular text, #n for newlines).\nOne complication was that this game got relaunched when I worked on it. For some reason the engineers didn’t remove the original credits functionality, but left it in there as dead code alongside the new credits (which included both teams). I had to ensure I extracted the version that included both the original and the relaunch team.\nThe binary analysis (done with Ghidra on the Mach-O ARM executable) confirmed how this works:\nTwo credit sets exist: STR_ABOUT_* (Barcelona, original) and STR_ABOUT_HAN_* (Hanoi, relaunch) They’re alternatives in a state machine (state 3 vs state 5 in the credit display function) The Hanoi version is a superset – it includes all Barcelona names plus the entire Hanoi Studio section The string lookup uses a boost::unordered hash table with a toupper() * 37 hash function For full technical details on the .lang format, binary analysis, and credit system, see the SharkDash README in the repo.\nConclusion In the end, I had the credits I wanted. Both sets of credits have been submitted to MobyGames and the extraction tools are available in the glft-credits-dump repo so the process can be reproduced and verified.\nThis whole exercise is a reminder of how easily game credits (and games themselves) get lost when titles are delisted. If you happen to have copies of other Gameloft games with similar asset formats, these tools might help extract their credits too – the ARK format and .lang format appear to be used across many Gameloft titles.\n",
+  "wordCount" : "1422",
+  "inLanguage": "en",
+  "image": "https://christian.kuendig.info/images/bg.jpg","datePublished": "2026-02-09T00:00:00+01:00",
+  "dateModified": "2026-02-09T00:00:00+01:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://christian.kuendig.info/posts/2026-02-extracting-game-credits/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Christian Kündig",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://christian.kuendig.info/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://christian.kuendig.info/" accesskey="h" title="Christian Kündig (Alt + H)">Christian Kündig</a>
+            <div class="logo-switches">
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://christian.kuendig.info/posts/" title="Personal Projects">
+                    <span>Personal Projects</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Extracting Credit Information from Delisted Mobile Games
+    </h1>
+    <div class="post-meta"><span title='2026-02-09 00:00:00 +0100 +0100'>February 9, 2026</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>I recently discovered that I had a <a href="https://www.mobygames.com/person/714265/christian-kuendig/">MobyGames profile</a>. Unfortunately, it was only listing 2 of the 3 games I worked on. It turned out that the credits for Ice Age Adventures on Windows were never added.</p>
+<p>I could have just added myself, but that a) would have looked weird, b) might not be approved by MobyGames and c) would not be fair to the whole team &ndash; I also don&rsquo;t remember my specific credits. So I went to research the credits properly. Unfortunately the games have been discontinued  long ago (Ice Age Adventures in 2018), so I couldn&rsquo;t just start it and take a screenshot - I also wouldn&rsquo;t have the Windows Phone needed to launch it.</p>
+<p>Launching them is nigh impossible &ndash; they all require a backend server, login, and an initial DLC download plus various configuration/IAP files to run. I did however find ways to reverse engineer the old asset formats to directly dump the credits.</p>
+<h2 id="ice-age-adventures">Ice Age Adventures</h2>
+<h3 id="about-the-game">About the Game</h3>
+<p>Ice Age Adventures (<a href="https://www.youtube.com/watch?v=wwfZlqB5I7s">trailer</a>) is an adventure mobile game based on the Ice Age franchise, <a href="https://web.archive.org/web/20141218165953/http://blog.gameloft.com/index.php/2014/08/09/beat-the-heat-with-ice-age-adventures">announced by Gameloft</a> in 2014. I was tasked to manage the porting to the <a href="https://web.archive.org/web/20140814071555/http://www.windowsphone.com/en-us/store/app/ice-age-adventures/87fa21a0-4c6a-4901-b28f-3f5322b7913a">Windows Phone store</a> and Windows UWP (Windows 8). There was a big push at the time &ndash; Microsoft was paying studios to support their platform, and mobile games were a huge deal. So we got to porting Ice Age Adventures to Windows and shipped the first update for it.</p>
+<h3 id="finding-a-binary">Finding a Binary</h3>
+<p>This was the harder of the two games to find. I knew there might be some issues: these games can&rsquo;t be launched, and they all included a system to download an initial set of data. This was done to a) keep the download size below 100MB (the limit for apps to be downloaded over mobile networks at the time) and b) allow for custom/dynamic configuration of some game dynamics (mostly IAP, achievements, and specific strength or RNG factors). I was fairly optimistic that credits being small and non-changing wouldn&rsquo;t be affected, but I couldn&rsquo;t really know.</p>
+<p>I found a few ways to get to the binary:</p>
+<p><strong>The official Microsoft CDN:</strong> Even with games delisted, Microsoft doesn&rsquo;t automatically remove the assets from the server (as with most app stores &ndash; once a game is uploaded, it remains available forever to people who bought/downloaded it). Since it&rsquo;s delisted, this does require a few workarounds: <a href="https://store.rg-adguard.net/">store.rg-adguard.net</a> can show you all binaries if you know the game ID (<code>ProductId 9wzdncrfj126</code> or <code>A278AB0D.IceAgeAdventures_h6adky7gbf63m</code> PackageFamilyName for the Windows APPX), and <a href="https://web.archive.org/web/20150826033156/http://www.appx4fun.com/games/3520/">appx4fun</a> had a decent index of what used to be in the app store (<a href="https://www.appx4fun.com/xap/8874/">WP8 version</a>, <a href="https://www.appx4fun.com/xap/55562/">UWP version</a>). Unfortunately this didn&rsquo;t work for two reasons: only the most recent version is available (where the credits were changed to when I worked on it), and the XAP files downloaded this way are useless as they can&rsquo;t be decrypted anymore since Microsoft stopped the key service.</p>
+<p><strong>Unofficial dumps:</strong> Neither archive.org nor Google could help me find any Windows dumps of Ice Age (but a lot of movie trailers and APK/IPA dumps for Android and iOS). I did eventually find an unencrypted XAP in the <a href="https://t.me/W8Mobile">W8Mobile Telegram Repsitory</a> on <a href="https://mega.nz/folder/83QxkCzT#pnyBji6wTC0wY1Yfdq3Jfw">mega.nz</a>, but it turned out that this had exactly the same assets as the latest Windows release &ndash; too new for my purposes.</p>
+<p><strong>The Russian forum:</strong> I was almost about to give up, when somebody pointed me at the Russian mobile forum <a href="https://4pda.to/forum/">4pda.to</a>. It did take me some time, but after solving a Cyrillic captcha to use the search feature and a lot of Firefox Translate, I did find the impossible: somebody uploaded a binary of Ice Age Adventures v1.3.0.10 to the <a href="https://4pda.to/forum/index.php?showtopic=456086&amp;view=findpost&amp;p=39886186"><em>Ice Age Village</em> thread</a> (its more successful sibling and predecessor):</p>
+<figure>
+    <img loading="lazy" src="/posts/2026-02-extracting-game-credits/4pda-forum-post.png  "
+         alt="4PDA forum post showing user GishValve posting ice_age_adventures_v1.3.0.10.xap (104.88 MB) in the Ice Age Village thread"/> <figcaption>
+            <p>The 4PDA forum post from 2015 &ndash; mislabeled in the Ice Age Village thread</p>
+        </figcaption>
+</figure>
+
+<p>Solving the captcha was quite a trip in itself &ndash; I had to use Claude to decipher handwritten Cyrillic numerals:</p>
+<figure>
+    <img loading="lazy" src="/posts/2026-02-extracting-game-credits/captcha-claude.png  "
+         alt="Claude conversation showing a Cyrillic captcha being translated as one thousand five hundred forty-eight (1548)"/> <figcaption>
+            <p>Using Claude to solve a handwritten Cyrillic numeral captcha on 4PDA</p>
+        </figcaption>
+</figure>
+
+<figure>
+    <img loading="lazy" src="/posts/2026-02-extracting-game-credits/captcha.webp  "
+         alt="Handwritten Cyrillic captcha showing тысяча пятьсот сорок восемь"/> 
+</figure>
+
+<p>The binary is now preserved on archive.org: <a href="https://archive.org/details/ice_age_adventures_v1.3.0.10">ice_age_adventures_v1.3.0.10.xap</a></p>
+<h3 id="extracting-the-credits">Extracting the Credits</h3>
+<p>Unpacking the XAP was easy (since I found unencrypted dump). But a quick check through the unpacked files didn&rsquo;t show anything even remotely useful. One thing stuck out though: <code>0000_iaadata_dx.ark</code>, a ~79MB file. This turns out to be a Gameloft ARK archive (v1.6 of the format I think), a proprietary format used by Gameloft across various games.</p>
+<p>There are existing projects that work with variants of this format &ndash; <a class="github-button" data-color-scheme="" href="https://github.com/Arzaroth/Pon3Ark" data-icon="octicon-repo" data-size="small" data-text='<b>Arzaroth/Pon3Ark</b>'></a> for My Little Pony, <a class="github-button" data-color-scheme="" href="https://github.com/ego-lay-atman-bay/luna-kit" data-icon="octicon-repo" data-size="small" data-text='<b>ego-lay-atman-bay/luna-kit</b>'></a> for similar Gameloft games, and several threads on <a href="http://zenhax.com/viewtopic.php@t=9173&amp;start=20.html">ZenHax</a> discussing the format (including mentions of Ice Age Adventures specifically) with <a href="http://quickbms.aluigi.org">QuickBMS</a>. Unfortunately none of these tools worked directly with this version&rsquo;s encryption, so it was time to decompile.</p>
+<aside>
+    <span>💡</span>
+    <p>Much of what follows was done with Claude Code Opus 4.5 and <a class="github-button" data-color-scheme="" href="https://github.com/clearbluejar/pyghidra-mcp" data-icon="octicon-repo" data-size="small" data-text='<b>clearbluejar/pyghidra-mcp</b>'></a>. I can&rsquo;t recommend this enough. I would never have been able to perform this level of research on my own.</p>
+</aside>
+<p>The ARK file table is encrypted with XXTEA (a 128-bit block cipher). The ZenHax threads confirmed the use of XXTEA, and since the algorithm always uses a <a href="https://en.wikipedia.org/wiki/XXTEA">fixed delta constant</a> <code>0x9E3779B9</code> (derived from the golden ratio), I could search for it directly in the binary &ndash; a standard RE technique. The encryption key was found in the main <code>IceAgeAdventure.exe</code> using <a href="https://ghidra-sre.org/">Ghidra</a>:</p>
+<ul>
+<li>Searched for the XXTEA delta constant <code>0x9E3779B9</code> in the binary</li>
+<li>Traced back to the decryption routines</li>
+<li>Found the 16-byte key at virtual address <code>0x00c649a8</code></li>
+</ul>
+<p>With the key, I could decrypt the file table and extract all 7,039 files from the archive. The credits turned out to be stored across two files:</p>
+<ol>
+<li><strong><code>options/credits.json</code></strong> &ndash; a JSON structure defining roles and name slots using localization keys (<code>STR_*</code>)</li>
+<li><strong><code>english.loc</code></strong> &ndash; a binary localization file (UTF-16LE) mapping those keys to actual text</li>
+</ol>
+<figure>
+    <img loading="lazy" src="/posts/2026-02-extracting-game-credits/credits-json-structure.png  "
+         alt="credits.json showing the JSON structure with STR_ localization keys for roles and names"/> <figcaption>
+            <p>credits.json &ndash; roles and names are stored as STR_ localization keys that reference the .loc file</p>
+        </figcaption>
+</figure>
+
+<figure>
+    <img loading="lazy" src="/posts/2026-02-extracting-game-credits/english-loc-credits.webp  "
+         alt="english.loc showing STR_ keys mixed with binary data"/> <figcaption>
+            <p>english.loc &ndash; a binary format with ASCII keys interspersed with UTF-16LE encoded values</p>
+        </figcaption>
+</figure>
+
+<p>The extraction script merges these two files to produce the full credit listing.</p>
+<p>For full technical details on the ARK format, XXTEA decompilation, and .loc parser, see the <a href="https://github.com/chkuendig/glft-credits-dump/tree/main/IceAgeAdventures">IceAgeAdventures README</a> in the repo.</p>
+<h2 id="shark-dash">Shark Dash</h2>
+<h3 id="about-the-game-1">About the Game</h3>
+<p>Shark Dash is a physics-based puzzle game (think Angry Birds with sharks in a bathtub), also published by Gameloft. I was already on MobyGames for this one, but not for the iOS version. This doesn&rsquo;t sound like a huge thing, but Hanoi was almost exclusively a porting studio with the iOS originals being produced somewhere else. This was one of the few games that ended up being done for both platforms in Hanoi.</p>
+<h3 id="finding-a-binary-1">Finding a Binary</h3>
+<p>So I had to find an iOS dump. Being a less obscure platform, this was pretty straightforward. The IPA is available on archive.org: <a href="https://archive.org/details/Shark_Dash_1.1.1_ios_6.0">Shark_Dash_1.1.1_ios_6.0.ipa</a>.</p>
+<h3 id="extracting-the-credits-1">Extracting the Credits</h3>
+<p>Unlike Ice Age Adventures, Shark Dash stores its localization as plain text <code>.lang</code> files directly in the app bundle &ndash; no archive encryption needed. The format uses <code>#$#</code> as a delimiter between key-value pairs, with embedded font codes (<code>#F23</code> for headers, <code>#F10</code> for regular text, <code>#n</code> for newlines).</p>
+<p>One complication was that this game got relaunched when I worked on it. For some reason the engineers didn&rsquo;t remove the original credits functionality, but left it in there as dead code alongside the new credits (which included both teams). I had to ensure I extracted the version that included both the original and the relaunch team.</p>
+<p>The binary analysis (done with Ghidra on the Mach-O ARM executable) confirmed how this works:</p>
+<ul>
+<li>Two credit sets exist: <code>STR_ABOUT_*</code> (Barcelona, original) and <code>STR_ABOUT_HAN_*</code> (Hanoi, relaunch)</li>
+<li>They&rsquo;re alternatives in a state machine (state 3 vs state 5 in the credit display function)</li>
+<li>The Hanoi version is a superset &ndash; it includes all Barcelona names plus the entire Hanoi Studio section</li>
+<li>The string lookup uses a boost::unordered hash table with a <code>toupper() * 37</code> hash function</li>
+</ul>
+<p>For full technical details on the .lang format, binary analysis, and credit system, see the <a href="https://github.com/chkuendig/glft-credits-dump/tree/main/SharkDash">SharkDash README</a> in the repo.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>In the end, I had the credits I wanted. Both sets of credits have been submitted to MobyGames and the extraction tools are available in the <a href="https://github.com/chkuendig/glft-credits-dump">glft-credits-dump repo</a> so the process can be reproduced and verified.</p>
+<p><a href="https://github.com/chkuendig/glft-credits-dump" class="github-card"><img src="/posts/2026-02-extracting-game-credits/glft-credits-dump_3141265100783289939.png" alt="Gameloft Credits Extractor"></a></p>
+<p>This whole exercise is a reminder of how easily game credits (and games themselves) get lost when titles are delisted. If you happen to have copies of other Gameloft games with similar asset formats, these tools might help extract their credits too &ndash; the ARK format and <code>.lang</code> format appear to be used across many Gameloft titles.</p>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://christian.kuendig.info/tags/reverse-engineering/">Reverse Engineering</a></li>
+      <li><a href="https://christian.kuendig.info/tags/video-games/">Video Games</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://christian.kuendig.info/posts/2026-01-printer-icon/">
+    <span class="title"><span>January 25, 2026</span> | Next »</span>
+    <br>
+    <span>Custom AirPrint Icons with CUPS</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://christian.kuendig.info/">Christian Kündig</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<script src="/js/quicklink.umd.min.js" data-no-instant
+></script>
+<script data-no-instant>
+  
+window.addEventListener('load', () => {
+  quicklink.listen();
+});
+</script>
+
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+</body>
+
+</html>
