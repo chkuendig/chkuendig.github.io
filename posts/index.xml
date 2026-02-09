@@ -18,7 +18,7 @@
       <link>https://christian.kuendig.info/posts/2026-02-extracting-game-credits/</link>
       <pubDate>Mon, 09 Feb 2026 00:00:00 +0100</pubDate>
       <guid>https://christian.kuendig.info/posts/2026-02-extracting-game-credits/</guid>
-      <description>I discovered my MobyGames profile was missing credits from games I worked on. Since the games are delisted and can&amp;rsquo;t be launched anymore, I had to reverse engineer the asset formats to extract the credits.</description>
+      <description>I discovered my MobyGames profile was missing credits from games I worked on. As the games are delisted and can&amp;rsquo;t be launched anymore, I reverse engineered the asset formats.</description>
     </item>
     <item>
       <title>Custom AirPrint Icons with CUPS</title>
